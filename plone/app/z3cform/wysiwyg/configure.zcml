@@ -1,0 +1,20 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    i18n_domain="plone.z3cform">
+
+  <class class=".widget.WysiwygWidget">
+    <require
+        permission="zope.Public"
+        interface=".widget.IWysiwygWidget"
+        />
+  </class>
+
+  <z3c:widgetTemplate
+      mode="input"
+      widget=".widget.IWysiwygWidget"
+      layer="z3c.form.interfaces.IFormLayer"
+      template="wysiwyg_input.pt"
+      />
+
+</configure>

@@ -6,7 +6,6 @@
 
   <include package="plone.z3cform" />
 
-  <!-- include package=".queryselect" / -->
   <include package=".wysiwyg" />
 
   <!--i18n:registerTranslations directory="locales"/-->

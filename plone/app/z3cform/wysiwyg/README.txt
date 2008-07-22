@@ -12,7 +12,7 @@ displayed with the WYSIWYG widget:
   >>> from zope import interface, schema
   >>> from z3c.form import form, field
   >>> from z3c.form.interfaces import INPUT_MODE
-  >>> from plone.z3cform.wysiwyg.widget import WysiwygFieldWidget
+  >>> from plone.app.z3cform.wysiwyg.widget import WysiwygFieldWidget
 
   >>> class IProfile(interface.Interface):
   ...     name = schema.TextLine(title=u"Name")

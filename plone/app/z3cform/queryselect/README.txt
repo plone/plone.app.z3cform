@@ -12,7 +12,7 @@ The default implementation will simply search using the
 This is how your form schema could look like:
 
   >>> from zope import interface, schema
-  >>> from plone.z3cform.queryselect import ArchetypesContentSourceBinder
+  >>> from plone.app.z3cform.queryselect import ArchetypesContentSourceBinder
   
   >>> class ISelection(interface.Interface):
   ...     items = schema.Set(
@@ -24,7 +24,7 @@ This is how your form schema could look like:
 Optionally, instead of storing Archetypes UIDs, you can choose to use
 ``persistent.wref``, i.e. weak references, instead of UIDs:
 
-  >>> from plone.z3cform.queryselect import uid2wref
+  >>> from plone.app.z3cform.queryselect import uid2wref
   >>> factory = uid2wref(ISelection['items'])
 
 To store weak references instead of UIDs you would register such a

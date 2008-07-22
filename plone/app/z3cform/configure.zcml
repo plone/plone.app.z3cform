@@ -5,8 +5,9 @@
     i18n_domain="plone.app.z3cform">
 
   <include package="plone.z3cform" />
-
   <include package=".wysiwyg" />
+
+  <includeOverrides file="overrides.zcml" />
 
   <!--i18n:registerTranslations directory="locales"/-->
 

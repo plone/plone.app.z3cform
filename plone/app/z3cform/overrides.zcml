@@ -1,0 +1,16 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser">
+
+
+  <!-- This should arguably use a browser layer instead of
+       overrides.zcml -->
+
+  <browser:page
+      name="ploneform-macros"
+      for="*"
+      class="plone.z3cform.templates.Macros"
+      template="macros.pt"
+      allowed_interface="zope.interface.common.mapping.IItemMapping"
+      permission="zope.Public" />
+
+</configure>

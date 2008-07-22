@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.1'
+version = '0.3'
 
 def description():
     join = lambda *paths: os.path.join('plone', 'app', 'z3cform', *paths)
@@ -36,7 +36,7 @@ setup(name='plone.app.z3cform',
       # feature of plone.recipe.zope2install.
       install_requires=[
           'setuptools',
-          'plone.z3cform', # >=0.3?
+          'plone.z3cform>=0.3dev',
           'z3c.formwidget.query',
       ],
       )

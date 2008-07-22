@@ -7,7 +7,13 @@
   <include package="plone.z3cform" />
   <include package=".wysiwyg" />
 
-  <includeOverrides file="overrides.zcml" />
+  <browser:page
+      name="ploneform-macros"
+      for="zope.publisher.interfaces.browser.IDefaultBrowserLayer"
+      class="plone.z3cform.templates.Macros"
+      template="macros.pt"
+      allowed_interface="zope.interface.common.mapping.IItemMapping"
+      permission="zope.Public" />
 
   <!--i18n:registerTranslations directory="locales"/-->
 

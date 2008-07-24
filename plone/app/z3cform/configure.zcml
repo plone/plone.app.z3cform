@@ -9,9 +9,9 @@
 
   <browser:page
       name="ploneform-macros"
-      for="zope.publisher.interfaces.browser.IDefaultBrowserLayer"
-      class="plone.z3cform.templates.Macros"
-      template="macros.pt"
+      class=".templates.Macros"
+      for="*"
+      layer="Products.CMFDefault.interfaces.ICMFDefaultSkin"
       allowed_interface="zope.interface.common.mapping.IItemMapping"
       permission="zope.Public" />
 

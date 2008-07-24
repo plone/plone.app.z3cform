@@ -4,6 +4,9 @@ Changelog
 0.4 - Unreleased
 ----------------
 
+* Fixed a bug where we would use the form macros defined in
+  plone.z3cform instead of our own.
+
 0.3 - 2008-07-24
 ----------------
 

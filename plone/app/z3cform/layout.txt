@@ -35,8 +35,13 @@ Let's try to render it:
 Hardly a surprise that there's no way to get to 'main_template' from
 None.  Let's try something more realistic:
 
-  >>> print MyWrappedForm(portal, portal.REQUEST).__of__(portal)()
-  ... # doctest: +ELLIPSIS
+  >>> view = MyWrappedForm(portal, portal.REQUEST).__of__(portal)
+  >>> html = view()
+  >>> print html # doctest: +ELLIPSIS
   <...You are here:...Enter your age...>
 
+Let's make sure that we're rendering the Plone macros here.  Only
+these have a CSS class "horizontal":
 
+  >>> 'class="horizontal"' in html
+  True

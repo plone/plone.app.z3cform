@@ -8,12 +8,13 @@
   <include package=".wysiwyg" />
   <include package=".kss" />
 
-  <include package=".tests" file="testing.zcml" />
+  <include file="profiles.zcml" />
 
   <browser:page
       name="ploneform-macros"
       for="*"
       class=".templates.Macros"
+      layer="Products.CMFDefault.interfaces.ICMFDefaultSkin"
       allowed_interface="zope.interface.common.mapping.IItemMapping"
       permission="zope.Public" />
 

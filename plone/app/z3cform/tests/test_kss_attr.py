@@ -27,17 +27,31 @@ class TestKSSAttributes(ptc.FunctionalTestCase):
         self.browser.handleErrors = False
 
 
-def test_notLogged():
+def test_form():
     r"""
-
-    We create a simple z3c form.
 
         >>> self.browser.addHeader(
         ...    'Authorization', 'Basic %s:%s' % (self.user, self.password))
         >>> self.browser.open(self.folder.absolute_url() + '/test-form')
-        >>> soup = self.BeautifulSoup(self.browser.contents)
-        >>> print soup.find('div', 'form').prettify()
 
+    Let's see if the kss-attr formname is actually on the form:
+
+        >>> soup = self.BeautifulSoup(self.browser.contents)
+        >>> div = soup.find('div', 'form')
+        >>> form = div.form
+        >>> 'kssattr-formname-test-form' in form['class']
+        True
+
+    Let's see if the name of a field is on its id:
+
+        >>> soup.find('div', id='formfield-form-widgets-age') is not None
+        True
+
+    let's see if widget have the right class:
+
+        >>> soup = self.BeautifulSoup(self.browser.contents)
+        >>> soup.find('div',{'class':'widget z3cformInlineValidation horizontal'}) is not None
+        True
     """
 
 

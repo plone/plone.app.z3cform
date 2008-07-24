@@ -13,15 +13,18 @@ import plone.app.z3cform
 import kss.core.tests
 import z3c.form
 import Products.Five
+import Products.GenericSetup
 
 
 def kssTestSetUp(test):
+    zcml.load_config('meta.zcml', Products.GenericSetup)
     zcml.load_config('configure.zcml', Products.Five)
     zcml.load_config('meta.zcml', kss.core)
     zcml.load_config('configure.zcml', kss.core)
     zcml.load_config('configure-unittest.zcml', kss.core.tests)
     zcml.load_config('configure.zcml', plone.app.form)
     zcml.load_config('configure.zcml', plone.app.z3cform)
+    zcml.load_config('testing.zcml', plone.app.z3cform.tests)
     zcml.load_config('configure.zcml', plone.app.kss)
     zcml.load_config('meta.zcml', z3c.form)
     zcml.load_config('configure.zcml', z3c.form)

@@ -57,8 +57,7 @@
                           has_groups python:bool(groups);
                           show_default_label python:has_groups and default_fieldset_label or form_name;"
               tal:attributes="action request/getURL; enctype view/enctype;
-                              class python: has_groups and 'rowlike enableUnloadProtection enableFormTabbing' or 'rowlike enableUnloadProtection kssattr-formname-%s' % form_name;
-                              ">
+                              class python: has_groups and 'rowlike enableUnloadProtection enableFormTabbing' or 'rowlike enableUnloadProtection kssattr-formname-%s' % view.__name__;">
           <input type="hidden"
                name="fieldset.current"
                tal:condition="has_groups"
@@ -82,8 +81,12 @@
 
                         <metal:field define-macro="field">
                           <div class="field"
-                               tal:define="error widget/error"
-                               tal:attributes="class python:'field' + (error and ' error' or '')">
+                               tal:define="error widget/error;
+                                   normalized_name python:widget.name.replace('.', '-');
+                                   error_class python:error and ' error' or ' ';
+                                   fieldname_class string:kssattr-fieldname-${widget/name};"
+                               tal:attributes="class string:field ${fieldname_class}${error_class};
+                                       id string:formfield-${normalized_name}">
 
                             <label for="" class="horizontal"
                                    tal:attributes="for widget/id"
@@ -106,12 +109,12 @@
                                  tal:condition="python:description and not hidden"
                                  >field description</div>
 
-                            <div tal:condition="error"
-                                 tal:content="error/message">
-                              Error
-                            </div>
+                    <div class="fieldErrorBox"
+                         tal:content="structure error/render|nothing">
+                      Error
+                    </div>
 
-                            <div class="widget horizontal">
+                            <div class="widget z3cformInlineValidation horizontal">
                               <input type="text" tal:replace="structure widget/render" />
                             </div>
                           </div>

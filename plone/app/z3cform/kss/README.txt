@@ -1,6 +1,6 @@
-======================
-collective.z3cform.kss
-======================
+=====================
+KSS inline validation
+=====================
 
 First, let's set up KSS debug mode:
 
@@ -52,8 +52,11 @@ Let's verify that worked:
     >>> from zope.component import getMultiAdapter
     >>> context = object()
     >>> request = make_request()
-    >>> getMultiAdapter((context, request), name=u"test-form")
+    >>> formWrapper = getMultiAdapter((context, request), name=u"test-form")
+    >>> formWrapper
     <Products.Five.metaclass.MyFormWrapper object ...>
+    >>> formWrapper.form
+    <class 'plone.app.z3cform.tests.example.MyForm'>
 
     >>> del context, request
 

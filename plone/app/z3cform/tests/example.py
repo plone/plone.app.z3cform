@@ -18,14 +18,13 @@ class MySchema(interface.Interface):
 
 class MyForm(form.Form):
     fields = field.Fields(MySchema)
+    label = u"Please enter your age"
     ignoreContext = True # don't use context to get widget data
 
     @button.buttonAndHandler(u'Apply')
     def handleApply(self, action):
         data, errors = self.extractData()
-        print data['age'] #     or do stuff
 
 
 class MyFormWrapper(FormWrapper):
     form = MyForm
-    label = u"Please enter your age"

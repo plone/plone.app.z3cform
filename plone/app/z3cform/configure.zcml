@@ -6,12 +6,14 @@
 
   <include package="plone.z3cform" />
   <include package=".wysiwyg" />
+  <include package=".kss" />
+
+  <include package=".tests" file="testing.zcml" />
 
   <browser:page
       name="ploneform-macros"
-      for="zope.publisher.interfaces.browser.IDefaultBrowserLayer"
-      class="plone.z3cform.templates.Macros"
-      template="macros.pt"
+      for="*"
+      class=".templates.Macros"
       allowed_interface="zope.interface.common.mapping.IItemMapping"
       permission="zope.Public" />
 

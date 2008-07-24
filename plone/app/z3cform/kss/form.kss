@@ -1,0 +1,58 @@
+/*
+ * Inline validation
+ */
+
+.z3cformInlineValidation input[type="text"]:blur {
+    action-server: kss_z3cform_inline_validation;
+
+    kss_z3cform_inline_validation-formname:    kssAttr('formname', true);
+    kss_z3cform_inline_validation-fieldname:   kssAttr('fieldname', true);
+    kss_z3cform_inline_validation-value:       currentFormVar();
+    kss_z3cform_inline_validation-kssSubmitForm: currentForm();
+}
+
+.z3cformInlineValidation input[type="password"]:blur {
+    action-server: kss_z3cform_inline_validation;
+
+    kss_z3cform_inline_validation-formname:    kssAttr('formname', true);
+    kss_z3cform_inline_validation-fieldname:   kssAttr('fieldname', true);
+    kss_z3cform_inline_validation-value:       currentFormVar();
+    kss_z3cform_inline_validation-kssSubmitForm: currentForm();
+}
+
+.z3cformInlineValidation input[type="checkbox"]:blur {
+    action-server: kss_z3cform_inline_validation;
+
+    kss_z3cform_inline_validation-formname:    kssAttr('formname', true);
+    kss_z3cform_inline_validation-fieldname:   kssAttr('fieldname', true);
+    kss_z3cform_inline_validation-value:       currentFormVar();
+    kss_z3cform_inline_validation-kssSubmitForm: currentForm();
+}
+
+.z3cformInlineValidation input[type="radio"]:blur {
+    action-server: kss_z3cform_inline_validation;
+
+    kss_z3cform_inline_validation-formname:    kssAttr('formname', true);
+    kss_z3cform_inline_validation-fieldname:   kssAttr('fieldname', true);
+    kss_z3cform_inline_validation-value:       currentFormVar();
+    kss_z3cform_inline_validation-kssSubmitForm: currentForm();
+}
+
+.z3cformInlineValidation select:blur {
+    action-server: kss_z3cform_inline_validation;
+
+    kss_z3cform_inline_validation-formname:    kssAttr('formname', true);
+    kss_z3cform_inline_validation-fieldname:   kssAttr('fieldname', true);
+    kss_z3cform_inline_validation-value:       currentFormVar();
+    kss_z3cform_inline_validation-kssSubmitForm: currentForm();
+}
+
+.z3cformInlineValidation textarea:blur {
+    action-server: kss_z3cform_inline_validation;
+
+    kss_z3cform_inline_validation-formname:    kssAttr('formname', true);
+    kss_z3cform_inline_validation-fieldname:   kssAttr('fieldname', true);
+    kss_z3cform_inline_validation-value:       currentFormVar();
+    kss_z3cform_inline_validation-kssSubmitForm: currentForm();
+}
+

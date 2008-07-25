@@ -66,9 +66,12 @@
 
           <!-- Default fieldset -->
 
-          <metal:define define-macro="fields">
+          <metal:define define-macro="fields"
+                        tal:define="show_default_label show_default_label|nothing;
+                                    has_groups has_groups|nothing">
             
-            <fieldset id="fieldset-default" tal:omit-tag="not:show_default_label">
+            <fieldset id="fieldset-default"
+                      tal:omit-tag="not:show_default_label">
                 
                 <legend tal:condition="show_default_label"
                         tal:attributes="id string:fieldsetlegend-default"

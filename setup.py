@@ -12,8 +12,8 @@ def description():
 
 setup(name='plone.app.z3cform',
       version=version,
-      description="A collection of widgets and templates, and other components "
-      "for with z3c.form in Plone",
+      description="A collection of widgets, templates and other components "
+      "for use with z3c.form and Plone",
       long_description=description(),
       classifiers=[
         "Framework :: Plone",

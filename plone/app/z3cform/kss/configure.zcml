@@ -1,0 +1,24 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:kss="http://namespaces.zope.org/kss">
+
+    <!-- KSS bindings -->
+    <browser:resource
+      file="form.kss"
+      name="plone.app.z3cform"
+      />
+
+    <!-- Inline validation -->
+    <browser:pages
+        for="*"
+        class=".validation.Z3CFormValidation"
+        permission="zope2.View">
+
+      <browser:page
+        name="kss_z3cform_inline_validation"
+        attribute="validate_input" />
+
+    </browser:pages>
+
+</configure>

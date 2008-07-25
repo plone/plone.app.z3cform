@@ -4,6 +4,8 @@ Changelog
 0.4 - Unreleased
 ----------------
 
+* Add inline validation support with KSS
+
 0.3.2 - 2008-07-25
 ------------------
 

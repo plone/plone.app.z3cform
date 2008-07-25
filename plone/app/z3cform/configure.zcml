@@ -6,11 +6,14 @@
 
   <include package="plone.z3cform" />
   <include package=".wysiwyg" />
+  <include package=".kss" />
+
+  <include file="profiles.zcml" />
 
   <browser:page
       name="ploneform-macros"
-      class=".templates.Macros"
       for="*"
+      class=".templates.Macros"
       layer="Products.CMFDefault.interfaces.ICMFDefaultSkin"
       allowed_interface="zope.interface.common.mapping.IItemMapping"
       permission="zope.Public" />

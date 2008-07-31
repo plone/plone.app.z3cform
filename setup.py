@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.4'
+version = '0.4.1'
 
 def description():
     join = lambda *paths: os.path.join('plone', 'app', 'z3cform', *paths)
@@ -41,5 +41,6 @@ setup(name='plone.app.z3cform',
           'kss.core',
           'plone.app.kss',
           'z3c.formwidget.query',
+          'zope.component<=3.4.0',
       ],
       )

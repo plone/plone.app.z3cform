@@ -50,7 +50,11 @@ Then we create a simple z3c form
 Let's verify that worked:
 
     >>> from zope.component import getMultiAdapter
-    >>> context = object()
+    >>> from zope.interface import Interface, implements
+    >>> from Acquisition import Implicit
+    >>> class Bar(Implicit):
+    ...     implements(Interface)
+    >>> context = Bar()
     >>> request = make_request()
     >>> formWrapper = getMultiAdapter((context, request), name=u"test-form")
     >>> formWrapper
@@ -65,9 +69,6 @@ Inline validation
 
 Inline validation is invoked via the @@kss_z3cform_inline_validation view.
 
-    >>> from zope.interface import Interface, implements
-    >>> class Bar(object):
-    ...     implements(Interface)
     >>> context = Bar()
     >>> request = make_request(form={'form.widgets.age': 'Title'})
     >>> view = getMultiAdapter((context, request), name=u"kss_z3cform_inline_validation")

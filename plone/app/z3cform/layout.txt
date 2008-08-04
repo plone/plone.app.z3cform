@@ -25,15 +25,7 @@ into a Plone layout and register it:
   >>> MyWrappedForm = wrap_form(MyForm)
 
 ``MyWrappedForm`` is the class that you can register as your view.
-
-Let's try to render it:
-
-  >>> print MyWrappedForm(None, None)()
-  Traceback (most recent call last):
-  TraversalError: (None, 'main_template')
-
-Hardly a surprise that there's no way to get to 'main_template' from
-None.  Let's try something more realistic:
+We render it:
 
   >>> view = MyWrappedForm(portal, portal.REQUEST).__of__(portal)
   >>> html = view()

@@ -8,6 +8,9 @@ from Acquisition import aq_inner
 
 from plone.z3cform import z2
 
+from zope.i18nmessageid import Message
+from Products.Five.i18n import FiveTranslationService
+
 
 class Z3CFormValidation(PloneKSSView):
     """KSS actions for z3c form inline validation
@@ -46,6 +49,12 @@ class Z3CFormValidation(PloneKSSView):
                 validationError = error.message
                 break
 
+        if isinstance(validationError, Message):
+             ts = FiveTranslationService()
+             validationError = ts.translate(domain=validationError.domain,
+                                            msgid=validationError,
+                                            context = self.request)
+        
         # Attempt to convert the value - this will trigge validation
         ksscore = self.getCommandSet('core')
         kssplone = self.getCommandSet('plone')

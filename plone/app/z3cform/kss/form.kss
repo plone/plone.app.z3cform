@@ -7,6 +7,7 @@
 
     kss_z3cform_inline_validation-formname:    kssAttr('formname', true);
     kss_z3cform_inline_validation-fieldname:   kssAttr('fieldname', true);
+    kss_z3cform_inline_validation-fieldset:   kssAttr('fieldset', true);
     kss_z3cform_inline_validation-value:       currentFormVar();
     kss_z3cform_inline_validation-kssSubmitForm: currentForm();
 }
@@ -16,6 +17,7 @@
 
     kss_z3cform_inline_validation-formname:    kssAttr('formname', true);
     kss_z3cform_inline_validation-fieldname:   kssAttr('fieldname', true);
+    kss_z3cform_inline_validation-fieldset:   kssAttr('fieldset', true);
     kss_z3cform_inline_validation-value:       currentFormVar();
     kss_z3cform_inline_validation-kssSubmitForm: currentForm();
 }
@@ -25,6 +27,7 @@
 
     kss_z3cform_inline_validation-formname:    kssAttr('formname', true);
     kss_z3cform_inline_validation-fieldname:   kssAttr('fieldname', true);
+    kss_z3cform_inline_validation-fieldset:   kssAttr('fieldset', true);
     kss_z3cform_inline_validation-value:       currentFormVar();
     kss_z3cform_inline_validation-kssSubmitForm: currentForm();
 }
@@ -34,6 +37,7 @@
 
     kss_z3cform_inline_validation-formname:    kssAttr('formname', true);
     kss_z3cform_inline_validation-fieldname:   kssAttr('fieldname', true);
+    kss_z3cform_inline_validation-fieldset:   kssAttr('fieldset', true);
     kss_z3cform_inline_validation-value:       currentFormVar();
     kss_z3cform_inline_validation-kssSubmitForm: currentForm();
 }
@@ -43,6 +47,7 @@
 
     kss_z3cform_inline_validation-formname:    kssAttr('formname', true);
     kss_z3cform_inline_validation-fieldname:   kssAttr('fieldname', true);
+    kss_z3cform_inline_validation-fieldset:   kssAttr('fieldset', true);
     kss_z3cform_inline_validation-value:       currentFormVar();
     kss_z3cform_inline_validation-kssSubmitForm: currentForm();
 }
@@ -52,6 +57,7 @@
 
     kss_z3cform_inline_validation-formname:    kssAttr('formname', true);
     kss_z3cform_inline_validation-fieldname:   kssAttr('fieldname', true);
+    kss_z3cform_inline_validation-fieldset:   kssAttr('fieldset', true);
     kss_z3cform_inline_validation-value:       currentFormVar();
     kss_z3cform_inline_validation-kssSubmitForm: currentForm();
 }

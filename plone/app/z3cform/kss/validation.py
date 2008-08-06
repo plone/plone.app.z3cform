@@ -17,7 +17,7 @@ class Z3CFormValidation(PloneKSSView):
     """
 
     @kssaction
-    def validate_input(self, formname, fieldname, value=None):
+    def validate_input(self, formname, fieldname, fieldset='default', value=None):
         """Given a form (view) name, a field name and the submitted
         value, validate the given field.
         """
@@ -35,14 +35,20 @@ class Z3CFormValidation(PloneKSSView):
         # Find the form, the field and the widget
         formWrapper = getMultiAdapter((context, request), name=formname)
         form = formWrapper.form(context, request)
+
         if not hasattr(request, 'locale'): # we might already have a
                                            # zope.publisher request
             z2.switch_on(form, request_layer=formWrapper.request_layer)
 
-        raw_fieldname = fieldname[len(form.prefix)+len('widgets.'):]
-
         form.update()
         data, errors = form.extractData()
+        
+        #if we validate a field in a group we operate on the group 
+        if fieldset != 'default':
+            fieldset = int(fieldset)
+            form = form.groups[fieldset]
+
+        raw_fieldname = fieldname[len(form.prefix)+len('widgets.'):]
         validationError = None
         for error in errors:
             if error.widget == form.widgets[raw_fieldname]:
@@ -50,23 +56,25 @@ class Z3CFormValidation(PloneKSSView):
                 break
 
         if isinstance(validationError, Message):
-            validationError = translate(validationError, context=self.request)
-        
+             validationError = translate(validationError, context=self.request)
+
         # Attempt to convert the value - this will trigge validation
         ksscore = self.getCommandSet('core')
         kssplone = self.getCommandSet('plone')
-        validate_and_issue_message(ksscore, validationError, fieldname,
+        validate_and_issue_message(ksscore, validationError, fieldname, fieldset,
                                    kssplone)
 
 
-def validate_and_issue_message(ksscore, error, fieldname, kssplone=None):
+def validate_and_issue_message(ksscore, error, fieldname, fieldset, kssplone=None):
     """A helper method also used by the inline editing view
     """
 
-    field_div = ksscore.getHtmlIdSelector('formfield-%s' % \
-                                          fieldname.replace('.', '-'))
-    error_box = ksscore.getCssSelector('#formfield-%s div.fieldErrorBox' % \
-                                       fieldname.replace('.', '-'))
+    field_div = ksscore.getCssSelector('#fieldset-%s #formfield-%s' % \
+                                          (str(fieldset),
+                                           fieldname.replace('.', '-')))
+    error_box = ksscore.getCssSelector('#fieldset-%s #formfield-%s div.fieldErrorBox' % \
+                                       (str(fieldset),
+                                        fieldname.replace('.', '-')))
 
     if error:
         ksscore.replaceInnerHTML(error_box, error)

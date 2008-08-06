@@ -5,11 +5,20 @@
            xmlns:plone="http://namespaces.plone.org/plone"
            i18n_domain="plone.app.z3cform">
 
+  <include package="zope.annotation" />
+
   <browser:page
       name="test-form"
       for="*"
       class=".example.MyFormWrapper"
       permission="zope.Public" />
+
+  <browser:page
+      name="test-group-form"
+      for="*"
+      class=".example.MyGroupFormWrapper"
+      permission="zope.Public" />
+
 
 </configure>
 

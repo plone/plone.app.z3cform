@@ -55,9 +55,10 @@
                           form_name view/form_name | nothing;
                           default_fieldset_label view/default_fieldset_label | form_name;
                           has_groups python:bool(groups);
+                          form_tabbing  python:has_groups and 'enableFormTabbing' or '';
                           show_default_label python:has_groups and default_fieldset_label or form_name;"
               tal:attributes="action request/getURL; enctype view/enctype;
-                              class python: has_groups and 'rowlike enableUnloadProtection enableFormTabbing' or 'rowlike enableUnloadProtection kssattr-formname-%s' % view.__name__;">
+                              class python:'rowlike enableUnloadProtection %s kssattr-formname-%s' % (form_tabbing, view.__name__);">
           <input type="hidden"
                name="fieldset.current"
                tal:condition="has_groups"
@@ -132,9 +133,11 @@
             <!-- Secondary fieldsets -->
 
             <fieldset
+                class="kssattr-fieldset-0"
                 tal:condition="has_groups"
                 tal:repeat="group groups"
-                tal:attributes="id string:fieldset-${repeat/group/index}">
+                tal:attributes="id string:fieldset-${repeat/group/index};
+                                class string:kssattr-fieldset-${repeat/group/index}">
 
                     <legend tal:define="form_name group/label"
                             tal:condition="form_name"

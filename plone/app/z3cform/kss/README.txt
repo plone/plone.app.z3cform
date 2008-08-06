@@ -9,8 +9,8 @@ First, let's set up KSS debug mode:
     >>> from zope.publisher.browser import TestRequest
     >>> from zope.annotation.interfaces import IAttributeAnnotatable
 
-    >>> def make_request(form={}):
-    ...     request = TestRequest()
+    >>> def make_request(form={}, lang='en'):
+    ...     request = TestRequest(HTTP_ACCEPT_LANGUAGE=lang)
     ...     request.form.update(form)
     ...     alsoProvides(request, IDebugRequest)
     ...     alsoProvides(request, IAttributeAnnotatable)
@@ -130,3 +130,25 @@ The validation view takes an Attribute fieldset with the index of the group.
      {'selectorType': 'htmlid', 'params': {'name': u'class', 'value': u'portalMessage info'},
       'name': 'setAttribute', 'selector': 'kssPortalMessage'},
      {'selectorType': 'htmlid', 'params': {'name': u'display', 'value': u'none'}, 'name': 'setStyle', 'selector': 'kssPortalMessage'}]
+
+
+Inline-Validation and Translation of ErrorSnippets 
+--------------------------------------------------
+
+We use plone.app.z3cform.tests.example.MyGroupFormWrapper and validate the 
+field 'name' that's part of a group. Inline validation is invoked via the 
+@@kss_z3cform_inline_validation view.
+
+    >>> request = make_request(form={'form.widgets.name': ''}, lang='de',)
+    >>> view = getMultiAdapter((context, request), name=u"kss_z3cform_inline_validation")
+
+The validation view takes an Attribute fieldset with the index of the group.
+
+    >>> view.validate_input(formname=u'test-group-form', fieldname=u'form.widgets.name', fieldset="0", value='')
+    [{'selectorType': 'css', 'params': {'html': u'<![CDATA[Erforderliche Eingabe fehlt.]]>', 'withKssSetup': u'True'},
+      'name': 'replaceInnerHTML',
+      'selector': u'#fieldset-0 #formfield-form-widgets-name div.fieldErrorBox'},
+     {'selectorType': 'css',
+      'params': {'value': u'error'},
+      'name': 'addClass',
+      'selector': u'#fieldset-0 #formfield-form-widgets-name'}]

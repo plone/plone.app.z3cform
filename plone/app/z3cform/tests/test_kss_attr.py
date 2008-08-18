@@ -37,7 +37,7 @@ def test_form():
     Let's see if the kss-attr formname is actually on the form:
 
         >>> soup = self.BeautifulSoup(self.browser.contents)
-        >>> div = soup.find('div', 'form')
+        >>> div = soup.find('div', id="skel-contents")
         >>> form = div.form
         >>> 'kssattr-formname-test-form' in form['class']
         True
@@ -63,7 +63,7 @@ def test_group_form():
     Let's see if the kss-attr formname is actually on the form:
 
         >>> soup = self.BeautifulSoup(self.browser.contents)
-        >>> div = soup.find('div', 'form')
+        >>> div = soup.find('div', id="skel-contents")
         >>> form = div.form
         >>> 'kssattr-formname-test-group-form' in form['class']
         True

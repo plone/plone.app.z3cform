@@ -39,7 +39,6 @@ def setUp():
     zcml.load_config('configure.zcml', plone.app.z3cform)
     zcml.load_config('configure-unittest.zcml', kss.core.tests)
     fiveconfigure.debug_mode = False
-    ztc.installPackage('plone.app.z3cform')
 
 setUp()
 ptc.setupPloneSite()

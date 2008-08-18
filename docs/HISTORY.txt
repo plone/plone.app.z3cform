@@ -4,6 +4,10 @@ Changelog
 0.4.1 - Unreleased
 ------------------
 
+* Make use of new polne.z3cform support for looking up the layout template by
+  adapter. This means that forms now no longer need to depend on
+  plone.app.z3cform unless they want to use Plone-specific widgets.
+
 0.4.0 - 2008-07-31
 ------------------
 

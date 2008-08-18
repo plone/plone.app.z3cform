@@ -17,6 +17,8 @@
       layer="Products.CMFDefault.interfaces.ICMFDefaultSkin"
       allowed_interface="zope.interface.common.mapping.IItemMapping"
       permission="zope.Public" />
+      
+  <adapter factory=".templates.layout_factory" />
 
   <!--i18n:registerTranslations directory="locales"/-->
 

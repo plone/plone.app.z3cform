@@ -17,7 +17,8 @@ class Z3CFormValidation(PloneKSSView):
     """
 
     @kssaction
-    def validate_input(self, formname, fieldname, fieldset='default', value=None):
+    def validate_input(self, formname, fieldname, fieldset=None,
+                       value=None):
         """Given a form (view) name, a field name and the submitted
         value, validate the given field.
         """
@@ -42,9 +43,9 @@ class Z3CFormValidation(PloneKSSView):
 
         form.update()
         data, errors = form.extractData()
-        
-        #if we validate a field in a group we operate on the group 
-        if fieldset != 'default':
+
+        #if we validate a field in a group we operate on the group
+        if fieldset is not None:
             fieldset = int(fieldset)
             form = form.groups[fieldset]
 
@@ -56,25 +57,31 @@ class Z3CFormValidation(PloneKSSView):
                 break
 
         if isinstance(validationError, Message):
-             validationError = translate(validationError, context=self.request)
+            validationError = translate(validationError, context=self.request)
 
         # Attempt to convert the value - this will trigge validation
         ksscore = self.getCommandSet('core')
         kssplone = self.getCommandSet('plone')
-        validate_and_issue_message(ksscore, validationError, fieldname, fieldset,
-                                   kssplone)
+        validate_and_issue_message(ksscore, validationError, fieldname,
+                                   fieldset, kssplone)
 
 
-def validate_and_issue_message(ksscore, error, fieldname, fieldset, kssplone=None):
+def validate_and_issue_message(ksscore, error, fieldname, fieldset,
+                               kssplone=None):
     """A helper method also used by the inline editing view
     """
-
-    field_div = ksscore.getCssSelector('#fieldset-%s #formfield-%s' % \
-                                          (str(fieldset),
-                                           fieldname.replace('.', '-')))
-    error_box = ksscore.getCssSelector('#fieldset-%s #formfield-%s div.fieldErrorBox' % \
-                                       (str(fieldset),
-                                        fieldname.replace('.', '-')))
+    if fieldset is not None:
+        fieldId = '#fieldset-%s #formfield-%s' % (str(fieldset),
+                                                  fieldname.replace('.', '-'))
+        errorId = '#fieldset-%s #formfield-%s div.fieldErrorBox' % \
+                                                 (str(fieldset),
+                                                  fieldname.replace('.', '-'))
+    else:
+        fieldId = '#formfield-%s' % fieldname.replace('.', '-')
+        errorId = '#formfield-%s div.fieldErrorBox' % fieldname.replace('.',
+                                                                        '-')
+    field_div = ksscore.getCssSelector(fieldId)
+    error_box = ksscore.getCssSelector(errorId)
 
     if error:
         ksscore.replaceInnerHTML(error_box, error)

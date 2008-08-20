@@ -79,17 +79,17 @@ validation enabled, it will be called with the following parameters:
     >>> view.validate_input(formname=u'test-form', fieldname=u'form.widgets.age', value='Title')
     [{'selectorType': 'css', 'params': {'html': u'<![CDATA[The entered value is not a valid integer literal.]]>', 'withKssSetup': u'True'},
       'name': 'replaceInnerHTML',
-      'selector': u'#fieldset-default #formfield-form-widgets-age div.fieldErrorBox'},
+      'selector': u'#formfield-form-widgets-age div.fieldErrorBox'},
      {'selectorType': 'css',
       'params': {'value': u'error'},
       'name': 'addClass',
-      'selector': u'#fieldset-default #formfield-form-widgets-age'}]
+      'selector': u'#formfield-form-widgets-age'}]
 
     >>> request = make_request(form={'form.widgets.age': '20'})
     >>> view = getMultiAdapter((context, request), name=u"kss_z3cform_inline_validation")
     >>> view.validate_input(formname=u'test-form', fieldname=u'form.widgets.age', value='20')
-    [{'selectorType': 'css', 'params': {}, 'name': 'clearChildNodes', 'selector': u'#fieldset-default #formfield-form-widgets-age div.fieldErrorBox'},
-     {'selectorType': 'css', 'params': {'value': u'error'}, 'name': 'removeClass', 'selector': u'#fieldset-default #formfield-form-widgets-age'},
+    [{'selectorType': 'css', 'params': {}, 'name': 'clearChildNodes', 'selector': u'#formfield-form-widgets-age div.fieldErrorBox'},
+     {'selectorType': 'css', 'params': {'value': u'error'}, 'name': 'removeClass', 'selector': u'#formfield-form-widgets-age'},
      {'selectorType': 'css', 'params': {'name': u'display', 'value': u'none'}, 'name': 'setStyle', 'selector': '.portalMessage'},
      {'selectorType': 'htmlid', 'params': {'html': u'<![CDATA[<dt>Info</dt><dd></dd>]]>', 'withKssSetup': u'True'},
       'name': 'replaceInnerHTML', 'selector': 'kssPortalMessage'},

@@ -20,6 +20,4 @@
       
   <adapter factory=".templates.layout_factory" />
 
-  <!--i18n:registerTranslations directory="locales"/-->
-
 </configure>

@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.4.1 - Unreleased
+0.4.1 - 2008-08-21
 ------------------
 
 * Removed maximum version dependency on zope.component. This should be left

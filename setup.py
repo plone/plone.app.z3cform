@@ -41,6 +41,6 @@ setup(name='plone.app.z3cform',
           'kss.core',
           'plone.app.kss',
           'z3c.formwidget.query',
-          'zope.component<=3.4.0',
+          'zope.component',
       ],
       )

@@ -4,7 +4,11 @@ Changelog
 0.4.1 - Unreleased
 ------------------
 
-* Make use of new polne.z3cform support for looking up the layout template by
+* Removed maximum version dependency on zope.component. This should be left
+  to indexes, known good sets or explicit version requirements in buildouts.
+  [hannosch]
+
+* Make use of new plone.z3cform support for looking up the layout template by
   adapter. This means that forms now no longer need to depend on
   plone.app.z3cform unless they want to use Plone-specific widgets.
 

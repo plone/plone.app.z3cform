@@ -6,6 +6,7 @@ Changelog
 
 * Removed maximum version dependency on zope.component. This should be left
   to indexes, known good sets or explicit version requirements in buildouts.
+  If you work with zope.component >= 3.5 you will also need five.lsm >= 0.4.
   [hannosch]
 
 * Make use of new plone.z3cform support for looking up the layout template by

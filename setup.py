@@ -37,7 +37,7 @@ setup(name='plone.app.z3cform',
       # feature of plone.recipe.zope2install.
       install_requires=[
           'setuptools',
-          'plone.z3cform>=0.3dev',
+          'plone.z3cform>=0.3',
           'kss.core',
           'plone.app.kss',
           'z3c.formwidget.query',

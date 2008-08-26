@@ -32,7 +32,7 @@ class ArchetypesContentSource(object):
         brain = self.catalog(UID=uid)[0]
         return self._term_for_brain(brain)
 
-    def getTermByValue(self, value):
+    def getTerm(self, value):
         uid = value
         brain = self.catalog(UID=uid)[0]
         return self._term_for_brain(brain)

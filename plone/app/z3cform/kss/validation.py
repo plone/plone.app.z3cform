@@ -37,8 +37,7 @@ class Z3CFormValidation(PloneKSSView):
         formWrapper = getMultiAdapter((context, request), name=formname)
         form = formWrapper.form(context, request)
 
-        if not hasattr(request, 'locale'): # we might already have a
-                                           # zope.publisher request
+        if not z2.IFixedUpRequest.providedBy(request):
             z2.switch_on(form, request_layer=formWrapper.request_layer)
 
         form.update()

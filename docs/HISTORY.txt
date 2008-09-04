@@ -1,7 +1,10 @@
 Changelog
 =========
 
-0.4.2 - unreleased
+0.4.3 - unreleased
+------------------
+
+0.4.2 - 2008-09-04
 ------------------
 
 * Make the WYSIWYG widget work also in for non-Acquisition wrapped

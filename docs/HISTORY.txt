@@ -4,6 +4,8 @@ Changelog
 0.4.2 - unreleased
 ------------------
 
+* Make the WYSIWYG widget work also in for non-Acquisition wrapped
+  contexts.
 
 0.4.1 - 2008-08-21
 ------------------

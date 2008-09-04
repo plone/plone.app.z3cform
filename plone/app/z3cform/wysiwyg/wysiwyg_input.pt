@@ -11,7 +11,7 @@
                          portal_url         nocall:context/portal_url;
                          inputname          view/name;
                          inputvalue         view/value;
-                         here_url           context/absolute_url;
+                         here_url           request/getURL;
                          member             context/portal_membership/getAuthenticatedMember;
                          editor             python: member.getProperty('wysiwyg_editor','').lower();
                          support            python: path('nocall:here/%s_wysiwyg_support|here/%s/wysiwyg_support|here/portal_skins/plone_wysiwyg/wysiwyg_support' % (editor, editor));

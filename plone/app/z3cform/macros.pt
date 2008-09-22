@@ -86,11 +86,10 @@
                         <metal:field define-macro="field">
                           <div class="field"
                                tal:define="error widget/error;
-                                   normalized_name python:widget.name.replace('.', '-');
                                    error_class python:error and ' error' or ' ';
                                    fieldname_class string:kssattr-fieldname-${widget/name};"
                                tal:attributes="class string:field ${fieldname_class}${error_class};
-                                       id string:formfield-${normalized_name}">
+                                       id string:formfield-${widget/id};">
 
                             <label for="" class="horizontal"
                                    tal:attributes="for widget/id"

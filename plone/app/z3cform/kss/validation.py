@@ -1,15 +1,18 @@
-from zope.component import getMultiAdapter
-
-from kss.core import kssaction
-from plone.app.kss.plonekssview import PloneKSSView
-from zope.interface import alsoProvides
-from z3c.form.interfaces import IFormLayer
 from Acquisition import aq_inner
 
-from plone.z3cform import z2
+from zope.component import getMultiAdapter
+from zope.interface import alsoProvides
 
 from zope.i18nmessageid import Message
 from zope.i18n import translate
+
+from z3c.form.interfaces import IFormLayer
+
+from plone.z3cform import z2
+
+from plone.app.kss.plonekssview import PloneKSSView
+
+from kss.core import kssaction
 
 
 class Z3CFormValidation(PloneKSSView):
@@ -48,7 +51,9 @@ class Z3CFormValidation(PloneKSSView):
             fieldset = int(fieldset)
             form = form.groups[fieldset]
 
-        raw_fieldname = fieldname[len(form.prefix)+len('widgets.'):]
+        marker = form.widgets.prefix
+        index = fieldname.find(marker) + len(marker)
+        raw_fieldname = fieldname[index:]
         validationError = None
         for error in errors:
             if error.widget == form.widgets[raw_fieldname]:

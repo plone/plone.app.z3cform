@@ -51,8 +51,7 @@ class Z3CFormValidation(PloneKSSView):
             fieldset = int(fieldset)
             form = form.groups[fieldset]
 
-        marker = form.widgets.prefix
-        index = fieldname.find(marker) + len(marker)
+        index = len(form.prefix) + len(form.widgets.prefix)
         raw_fieldname = fieldname[index:]
         validationError = None
         for error in errors:

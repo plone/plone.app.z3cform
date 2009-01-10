@@ -4,6 +4,9 @@ Changelog
 0.4.3 - unreleased
 ------------------
 
+* Provide 'portal' variable in wysiwyg template, as its used by some editors.
+  [davisagli]
+
 0.4.2 - 2008-09-04
 ------------------
 

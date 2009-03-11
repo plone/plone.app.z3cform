@@ -34,15 +34,14 @@
             </dl>
         </tal:status>
 
-        <tal:comment condition="nothing">
-          <ul tal:define="errors view/widgets/errors"
-              tal:condition="errors">
-            <li tal:repeat="error errors">
-              <tal:block replace="error/widget/label"/>:
-              <tal:block replace="structure error/render" />
-            </li>
-          </ul>
-        </tal:comment>
+        <div tal:define="errors view/widgets/errors" tal:condition="errors">
+            <div tal:repeat="error errors">
+                <tal:block
+                    condition="not:nocall:error/widget"
+                    replace="structure error/render"
+                    />
+            </div>
+        </div>
 
         <p  class="discreet"
             tal:define="description view/description | nothing"

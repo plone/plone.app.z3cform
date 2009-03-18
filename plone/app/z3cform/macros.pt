@@ -60,8 +60,9 @@
                               class python:'rowlike enableUnloadProtection %s kssattr-formname-%s' % (form_tabbing, view.__name__);">
           <input type="hidden"
                name="fieldset.current"
-               tal:condition="has_groups"
-               tal:attributes="value request/fieldset.current | string:" />
+               tal:define="current_fieldset request/fieldset.current | string:"
+               tal:condition="python:has_groups and current_fieldset"
+               tal:attributes="value string:#fieldsetlegend-${current_fieldset}" />
 
           <!-- Default fieldset -->
 
@@ -130,32 +131,32 @@
 
             <!-- Secondary fieldsets -->
 
-            <fieldset
-                class="kssattr-fieldset-0"
-                tal:condition="has_groups"
-                tal:repeat="group groups"
-                tal:attributes="id string:fieldset-${repeat/group/index};
-                                class string:kssattr-fieldset-${repeat/group/index}">
+            <tal:block tal:repeat="group groups" condition="has_groups">
+                <fieldset
+                    tal:define="fieldset_name repeat/group/index"
+                    tal:attributes="id string:fieldset-${fieldset_name};
+                                    class string:kssattr-fieldset-${fieldset_name}">
 
-                    <legend tal:define="form_name group/label"
-                            tal:condition="form_name"
-                            tal:attributes="id string:fieldsetlegend-${repeat/group/index}"
-                            tal:content="form_name">Form name</legend>
+                        <legend tal:define="form_name group/label"
+                                tal:condition="form_name"
+                                tal:attributes="id string:fieldsetlegend-${repeat/group/index}"
+                                tal:content="form_name">Form name</legend>
 
-                    <p i18n:translate=""
-                       tal:define="group_description group/description|nothing"
-                       tal:condition="group_description"
-                       tal:content="group_description">
-                        Description
-                    </p>
+                        <p i18n:translate=""
+                           tal:define="group_description group/description|nothing"
+                           tal:condition="group_description"
+                           tal:content="group_description">
+                            Description
+                        </p>
 
-                    <tal:block define="view nocall:group">
-                        <metal:block use-macro="context/@@ploneform-macros/widget_rendering" />
-                    </tal:block>
+                        <tal:block define="view nocall:group">
+                            <metal:block use-macro="context/@@ploneform-macros/widget_rendering" />
+                        </tal:block>
 
-            </fieldset>
+                </fieldset>
+            </tal:block>
           </metal:define>
-
+          
           <metal:define define-macro="actions">
 
             <div class="formFields" tal:condition="view/actions/values|nothing">
@@ -165,7 +166,7 @@
                 </tal:block>
             </div>
           </metal:define>
-
+                    
         </form>
       </metal:define>
       </div>

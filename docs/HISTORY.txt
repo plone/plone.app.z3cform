@@ -4,6 +4,9 @@ Changelog
 0.4.3 - unreleased
 ------------------
 
+* Hide the 'default' fieldset if there's nothing to show there.
+  [optilude]
+
 * Provide 'portal' variable in wysiwyg template, as its used by some editors.
   [davisagli]
 

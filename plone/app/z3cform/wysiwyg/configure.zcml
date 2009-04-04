@@ -17,4 +17,12 @@
       template="wysiwyg_input.pt"
       />
 
+  <z3c:widgetTemplate
+      mode="display"
+      widget=".widget.IWysiwygWidget"
+      layer="z3c.form.interfaces.IFormLayer"
+      template="wysiwyg_display.pt"
+      />
+
+
 </configure>

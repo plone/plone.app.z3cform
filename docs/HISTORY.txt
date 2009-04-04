@@ -4,6 +4,9 @@ Changelog
 0.4.3 - unreleased
 ------------------
 
+* Added a display template for the WYSIWYG widget.
+  [optilude]
+
 * Make the ?fieldset.current query string variable work. Set it to the id
   of a fieldset other than default to pre-select a different fieldset, e.g.
   .../@@formview?fieldset.current=3

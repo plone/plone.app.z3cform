@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.4.3 - unreleased
+0.4.3 - 2009-04-17
 ------------------
 
 * Added a display template for the WYSIWYG widget.

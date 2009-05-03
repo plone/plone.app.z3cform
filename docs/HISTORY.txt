@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.4.4 - 
+0.4.4 - 2009-05-03
 ------------------
 
 * Made the KSS validator use traversal instead of getMultiAdapter() to find

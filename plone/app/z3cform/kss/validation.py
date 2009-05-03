@@ -1,6 +1,5 @@
 from Acquisition import aq_inner
 
-from zope.component import getMultiAdapter
 from zope.interface import alsoProvides
 
 from zope.i18nmessageid import Message
@@ -37,8 +36,12 @@ class Z3CFormValidation(PloneKSSView):
         alsoProvides(request, IFormLayer)
 
         # Find the form, the field and the widget
-        formWrapper = getMultiAdapter((context, request), name=formname)
-        form = formWrapper.form(context, request)
+        if not formname.startswith('@@') and not formname.startswith('++'):
+            formname = '@@' + formname
+
+        # Find the form, the field and the widget
+        formWrapper = context.restrictedTraverse(formname)
+        form = formWrapper.form_instance
 
         if not z2.IFixedUpRequest.providedBy(request):
             z2.switch_on(form, request_layer=formWrapper.request_layer)

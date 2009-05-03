@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.4.4 - 
+------------------
+
+* Made the KSS validator use traversal instead of getMultiAdapter() to find
+  the form. This makes it work on add forms.
+  See http://code.google.com/p/dexterity/issues/detail?id=27
+  [optilude]
+
 0.4.3 - 2009-04-17
 ------------------
 

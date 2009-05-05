@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.4.5 - unreleased
+------------------
+
+* Use the date/time picker from collective.z3cform.datepicker as the default
+  widget for Datetime fields.
+  [davisagli]
+
 0.4.4 - 2009-05-03
 ------------------
 

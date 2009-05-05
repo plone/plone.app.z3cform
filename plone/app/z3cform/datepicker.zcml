@@ -1,0 +1,12 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope">
+
+  <!-- use the date/time picker from collective.z3cform.datepicker as the
+       default widget for Datetime fields -->
+  <include package="collective.z3cform.datepicker"/>
+  <adapter
+      for="zope.schema.interfaces.IDatetime z3c.form.interfaces.IFormLayer"
+      factory="collective.z3cform.datepicker.widget.DateTimePickerFieldWidget"
+      />
+
+</configure>

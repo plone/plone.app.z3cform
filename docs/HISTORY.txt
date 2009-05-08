@@ -4,6 +4,10 @@ Changelog
 0.4.5 - unreleased
 ------------------
 
+* Made the KSS form support conditional on both kss.core and Archetypes being
+  installled.
+  [hannosch]
+
 * Use the date/time picker from collective.z3cform.datepicker as the default
   widget for Datetime fields.
   [davisagli]

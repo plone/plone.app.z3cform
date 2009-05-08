@@ -2,12 +2,17 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="plone.app.z3cform">
 
   <include package="plone.z3cform" />
   <include package=".wysiwyg" />
   <includeOverrides file="datepicker.zcml" />
-  <include package=".kss" />
+
+  <configure zcml:condition="installed kss.core">
+  <include zcml:condition="installed Products.Archetypes"
+    package=".kss" />
+  </configure>
 
   <include file="profiles.zcml" />
 

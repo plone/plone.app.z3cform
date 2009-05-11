@@ -8,8 +8,8 @@ Changelog
   installled.
   [hannosch]
 
-* Use the date/time picker from collective.z3cform.datepicker as the default
-  widget for Datetime fields.
+* Use the date/time widgets from collective.z3cform.datetimewidget as the default
+  widget for Date and Datetime fields.
   [davisagli]
 
 0.4.4 - 2009-05-03

@@ -42,6 +42,6 @@ setup(name='plone.app.z3cform',
           'plone.app.kss',
           'z3c.formwidget.query',
           'zope.component',
-          'collective.z3cform.datepicker',
+          'collective.z3cform.datetimewidget',
       ],
       )

@@ -7,7 +7,7 @@
 
   <include package="plone.z3cform" />
   <include package=".wysiwyg" />
-  <includeOverrides file="datepicker.zcml" />
+  <includeOverrides package="collective.z3cform.datetimewidget" />
 
   <configure zcml:condition="installed kss.core">
   <include zcml:condition="installed Products.Archetypes"

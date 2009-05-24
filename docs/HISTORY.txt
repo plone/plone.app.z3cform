@@ -63,8 +63,9 @@ Changelog
 * Require zope.component <= 3.4.0 to prevent compatibility issues with
   five.localsitemanager, of which a buggy version (0.3) is pinned by
   plone.recipe.plone 3.1.4.  Upgrade to this version if you're seeing::
+    
     ...
-      Module five.localsitemanager.registry, line 176, in registeredUtilities
+    Module five.localsitemanager.registry, line 176, in registeredUtilities
     ValueError: too many values to unpack
 
 0.3.2 - 2008-07-25

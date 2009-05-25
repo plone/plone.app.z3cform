@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.4.5'
+version = '0.4.6'
 
 def description():
     join = lambda *paths: os.path.join('plone', 'app', 'z3cform', *paths)

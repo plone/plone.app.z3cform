@@ -1,8 +1,9 @@
+=========
 Changelog
 =========
 
 0.4.5 - unreleased
-------------------
+==================
 
 * Made the KSS form support conditional on both kss.core and Archetypes being
   installled.
@@ -13,7 +14,7 @@ Changelog
   [davisagli]
 
 0.4.4 - 2009-05-03
-------------------
+==================
 
 * Made the KSS validator use traversal instead of getMultiAdapter() to find
   the form. This makes it work on add forms.
@@ -21,7 +22,7 @@ Changelog
   [optilude]
 
 0.4.3 - 2009-04-17
-------------------
+==================
 
 * Added a display template for the WYSIWYG widget.
   [optilude]
@@ -38,13 +39,13 @@ Changelog
   [davisagli]
 
 0.4.2 - 2008-09-04
-------------------
+==================
 
 * Make the WYSIWYG widget work also for non-Acquisition wrapped
   content.
 
 0.4.1 - 2008-08-21
-------------------
+==================
 
 * Removed maximum version dependency on zope.component. This should be left
   to indexes, known good sets or explicit version requirements in buildouts.
@@ -56,7 +57,7 @@ Changelog
   plone.app.z3cform unless they want to use Plone-specific widgets.
 
 0.4.0 - 2008-07-31
-------------------
+==================
 
 * Add inline validation support with KSS
 
@@ -69,20 +70,20 @@ Changelog
     ValueError: too many values to unpack
 
 0.3.2 - 2008-07-25
-------------------
+==================
 
 * Fixed a bug in macros.pt where 'has_groups' and 'show_default_label'
   for fieldsets were set in the 'form' macro, rendering the 'field'
   macro unusable by itself.
 
 0.3.1 - 2008-07-24
-------------------
+==================
 
 * Fixed a bug where we would use the form macros defined in
   plone.z3cform instead of our own.
 
 0.3 - 2008-07-24
-----------------
+================
 
 * Create this package from Plone-specific bits that have been factored
   out of plone.z3cform.

@@ -2,7 +2,14 @@
 Changelog
 =========
 
-0.4.5 - unreleased
+0.4.6 - unreleased
+==================
+
+* Updated to collective.z3cform.datetimewidget>=0.1a2 to fix a ZCML conflict
+  with z3c.form.
+  [davisagli]
+
+0.4.5 - 2009-05-25
 ==================
 
 * Made the KSS form support conditional on both kss.core and Archetypes being

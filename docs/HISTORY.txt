@@ -2,8 +2,11 @@
 Changelog
 =========
 
-0.4.6 - unreleased
+0.4.6 - 2009-07-26
 ==================
+
+* Include plone.z3cform's overrides.zcml from our own overrides.zcml.
+  [optilude]
 
 * Updated to collective.z3cform.datetimewidget>=0.1a2 to fix a ZCML conflict
   with z3c.form.

@@ -1,0 +1,5 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <includeOverrides package="plone.z3cform" file="overrides.zcml" />
+
+</configure>

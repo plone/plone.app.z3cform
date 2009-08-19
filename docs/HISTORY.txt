@@ -2,6 +2,12 @@
 Changelog
 =========
 
+0.4.7 - unreleased
+==================
+
+* Set plone i18n domain for "Info" and "Error" messages in macros.pt so they are translated.
+  [vincentfretin]
+
 0.4.6 - 2009-07-26
 ==================
 

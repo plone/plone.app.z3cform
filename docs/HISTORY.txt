@@ -1,15 +1,15 @@
-=========
 Changelog
 =========
 
-0.4.7 - unreleased
-==================
+0.4.7 - 2009-09-25
+------------------
 
 * Set plone i18n domain for "Info" and "Error" messages in macros.pt so they are translated.
   [vincentfretin]
 
+
 0.4.6 - 2009-07-26
-==================
+------------------
 
 * Include plone.z3cform's overrides.zcml from our own overrides.zcml.
   [optilude]
@@ -18,8 +18,9 @@ Changelog
   with z3c.form.
   [davisagli]
 
+
 0.4.5 - 2009-05-25
-==================
+------------------
 
 * Made the KSS form support conditional on both kss.core and Archetypes being
   installled.
@@ -29,16 +30,18 @@ Changelog
   widget for Date and Datetime fields.
   [davisagli]
 
+
 0.4.4 - 2009-05-03
-==================
+------------------
 
 * Made the KSS validator use traversal instead of getMultiAdapter() to find
   the form. This makes it work on add forms.
   See http://code.google.com/p/dexterity/issues/detail?id=27
   [optilude]
 
+
 0.4.3 - 2009-04-17
-==================
+------------------
 
 * Added a display template for the WYSIWYG widget.
   [optilude]
@@ -54,14 +57,16 @@ Changelog
 * Provide 'portal' variable in wysiwyg template, as its used by some editors.
   [davisagli]
 
+
 0.4.2 - 2008-09-04
-==================
+------------------
 
 * Make the WYSIWYG widget work also for non-Acquisition wrapped
   content.
 
+
 0.4.1 - 2008-08-21
-==================
+------------------
 
 * Removed maximum version dependency on zope.component. This should be left
   to indexes, known good sets or explicit version requirements in buildouts.
@@ -72,8 +77,9 @@ Changelog
   adapter. This means that forms now no longer need to depend on
   plone.app.z3cform unless they want to use Plone-specific widgets.
 
+
 0.4.0 - 2008-07-31
-==================
+------------------
 
 * Add inline validation support with KSS
 
@@ -85,21 +91,24 @@ Changelog
     Module five.localsitemanager.registry, line 176, in registeredUtilities
     ValueError: too many values to unpack
 
+
 0.3.2 - 2008-07-25
-==================
+------------------
 
 * Fixed a bug in macros.pt where 'has_groups' and 'show_default_label'
   for fieldsets were set in the 'form' macro, rendering the 'field'
   macro unusable by itself.
 
+
 0.3.1 - 2008-07-24
-==================
+------------------
 
 * Fixed a bug where we would use the form macros defined in
   plone.z3cform instead of our own.
 
+
 0.3 - 2008-07-24
-================
+----------------
 
 * Create this package from Plone-specific bits that have been factored
   out of plone.z3cform.

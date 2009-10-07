@@ -4,6 +4,9 @@ Changelog
 0.4.8 - unreleased
 ------------------
 
+* Added enable_form_tabbing option to not transform fieldsets into tabs.
+  [vincentfretin]
+
 * Added an id to the generated form.
   [vincentfretin]
 

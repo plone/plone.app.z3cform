@@ -62,8 +62,8 @@
                               class python:'rowlike enableUnloadProtection %s kssattr-formname-%s' % (form_tabbing, request.getURL().split('/')[-1]);">
           <input type="hidden"
                name="fieldset.current"
-               tal:define="current_fieldset request/fieldset.current | string:"
-               tal:condition="python:has_groups and current_fieldset"
+               tal:define="current_fieldset request/fieldset.current | string:0"
+               tal:condition="has_groups"
                tal:attributes="value string:#fieldsetlegend-${current_fieldset}" />
 
           <!-- Default fieldset -->

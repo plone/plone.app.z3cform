@@ -4,7 +4,8 @@ Changelog
 0.4.8 - unreleased
 ------------------
 
-* Nothing changed yet.
+* Fixed issue in macros.pt: fieldset.current hidden input was never generated.
+  [vincentfretin]
 
 
 0.4.7 - 2009-09-25

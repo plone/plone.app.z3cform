@@ -59,7 +59,8 @@
                           form_tabbing  python:has_groups and 'enableFormTabbing' or '';
                           show_default_label python:has_groups and default_fieldset_label and len(view.widgets);"
               tal:attributes="action request/getURL; enctype view/enctype;
-                              class python:'rowlike enableUnloadProtection %s kssattr-formname-%s' % (form_tabbing, request.getURL().split('/')[-1]);">
+                              class python:'rowlike enableUnloadProtection %s kssattr-formname-%s' % (form_tabbing, request.getURL().split('/')[-1]);
+                              id view/id">
           <input type="hidden"
                name="fieldset.current"
                tal:define="current_fieldset request/fieldset.current | string:0"

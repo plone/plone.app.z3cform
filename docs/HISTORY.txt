@@ -4,6 +4,9 @@ Changelog
 0.4.8 - unreleased
 ------------------
 
+* Added an id to the generated form.
+  [vincentfretin]
+
 * Fixed issue in macros.pt: fieldset.current hidden input was never generated.
   [vincentfretin]
 

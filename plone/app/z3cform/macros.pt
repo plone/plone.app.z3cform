@@ -64,9 +64,9 @@
                               id view/id">
           <input type="hidden"
                name="fieldset.current"
-               tal:define="current_fieldset request/fieldset.current | string:0"
+               tal:define="current_fieldset request/fieldset.current | string:#fieldsetlegend-0"
                tal:condition="python:has_groups and enable_form_tabbing"
-               tal:attributes="value string:#fieldsetlegend-${current_fieldset}" />
+               tal:attributes="value current_fieldset" />
 
           <!-- Default fieldset -->
 

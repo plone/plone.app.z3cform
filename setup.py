@@ -36,6 +36,7 @@ setup(name='plone.app.z3cform',
       # pulling incompatible dependencies, use the "fake zope eggs"
       # feature of plone.recipe.zope2install.
       install_requires=[
+          'Plone',
           'setuptools',
           'plone.z3cform>=0.5.1',
           'kss.core',

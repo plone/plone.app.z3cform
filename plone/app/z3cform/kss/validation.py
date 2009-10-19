@@ -35,9 +35,6 @@ class Z3CFormValidation(PloneKSSView):
         request = aq_inner(self.request)
         alsoProvides(request, IFormLayer)
 
-        if not formname.startswith('@@') and not formname.startswith('++'):
-            formname = '@@' + formname
-
         # Find the form, the field and the widget
         formWrapper = request.traverseName(context, formname)
         form = formWrapper.form_instance

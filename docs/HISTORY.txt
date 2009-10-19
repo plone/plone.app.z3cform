@@ -4,6 +4,11 @@ Changelog
 0.4.8 - unreleased
 ------------------
 
+* Made the KSS validator use publish traversal instead of OFS traversal to find
+  the form. This makes it usable with forms reached by custom IPublishTraverse
+  adapters.
+  [davisagli]
+
 * Added enable_form_tabbing option to not transform fieldsets into tabs.
   [vincentfretin]
 

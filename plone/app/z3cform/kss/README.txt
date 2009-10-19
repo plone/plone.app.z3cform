@@ -5,12 +5,14 @@ KSS inline validation
 First, let's set up KSS debug mode:
 
     >>> from zope.interface import alsoProvides
+    >>> from Testing.ZopeTestCase import ZopeLite
+    >>> from Testing.makerequest import makerequest
     >>> from kss.core.tests.base import IDebugRequest
-    >>> from zope.publisher.browser import TestRequest
     >>> from zope.annotation.interfaces import IAttributeAnnotatable
 
+    >>> app = ZopeLite.app()
     >>> def make_request(form={}, lang='en'):
-    ...     request = TestRequest(HTTP_ACCEPT_LANGUAGE=lang)
+    ...     request = makerequest(app, environ = {'HTTP_ACCEPT_LANGUAGE': lang}).REQUEST
     ...     request.form.update(form)
     ...     alsoProvides(request, IDebugRequest)
     ...     alsoProvides(request, IAttributeAnnotatable)

@@ -41,7 +41,7 @@ Changelog
 ------------------
 
 * Made the KSS form support conditional on both kss.core and Archetypes being
-  installled.
+  installed.
   [hannosch]
 
 * Use the date/time widgets from collective.z3cform.datetimewidget as the default

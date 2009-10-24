@@ -15,8 +15,6 @@
                          inputvalue         view/value;
                          here_url           request/getURL;
                          member             context/portal_membership/getAuthenticatedMember;
-                         editor             python: member.getProperty('wysiwyg_editor','').lower();
-                         support            python: path('nocall:here/%s_wysiwyg_support|here/%s/wysiwyg_support|here/portal_skins/plone_wysiwyg/wysiwyg_support' % (editor, editor));
                          tabindex           nothing">
         <div metal:use-macro="context/wysiwyg_support/macros/wysiwygEditorBox">
             The WYSIWYG code

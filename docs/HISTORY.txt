@@ -4,7 +4,9 @@ Changelog
 0.4.9 - unreleased
 ------------------
 
-- Nothing changed yet.
+* Remove unused (and broken on Plone 4) lookup of the current user's WYSIWYG
+  editor preference.  The wysiwyg_support template does this for us.
+  [davisagli]
 
 
 0.4.8 - 2009-10-23

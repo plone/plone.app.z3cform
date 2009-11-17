@@ -30,7 +30,7 @@ We render it:
   >>> view = MyWrappedForm(portal, portal.REQUEST).__of__(portal)
   >>> html = view()
   >>> print html # doctest: +ELLIPSIS
-  <...You are here:...Enter your age...>
+  <...Enter your age...>
 
 Let's make sure that we're rendering the Plone macros here.  Only
 these have a CSS class "horizontal":

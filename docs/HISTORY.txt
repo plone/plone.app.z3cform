@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.4.9 - unreleased
+0.4.9 - 2010-01-08
 ------------------
 
 * Remove unused (and broken on Plone 4) lookup of the current user's WYSIWYG

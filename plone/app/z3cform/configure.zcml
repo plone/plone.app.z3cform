@@ -10,8 +10,7 @@
   <include package="collective.z3cform.datetimewidget" />
 
   <configure zcml:condition="installed kss.core">
-  <include zcml:condition="installed Products.Archetypes"
-    package=".kss" />
+      <include zcml:condition="installed Products.Archetypes" package=".kss" />
   </configure>
 
   <include file="profiles.zcml" />
@@ -25,5 +24,53 @@
       permission="zope.Public" />
       
   <adapter factory=".templates.layout_factory" />
+  
+  <!-- Make the default widget for sequence-of-text-lines a textlines
+       widget; the default is too confusing
+    -->
 
+  <adapter
+      factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
+      provides="z3c.form.interfaces.IFieldWidget"
+      for="zope.schema.interfaces.IList
+           zope.schema.interfaces.ITextLine
+           z3c.form.interfaces.IFormLayer"
+      />
+  <adapter
+      factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
+      provides="z3c.form.interfaces.IFieldWidget"
+      for="zope.schema.interfaces.ITuple
+           zope.schema.interfaces.ITextLine
+           z3c.form.interfaces.IFormLayer"
+      />
+  <adapter
+      factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
+      provides="z3c.form.interfaces.IFieldWidget"
+      for="zope.schema.interfaces.IAbstractSet
+           zope.schema.interfaces.ITextLine
+           z3c.form.interfaces.IFormLayer"
+      />
+  
+  <adapter
+      factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
+      provides="z3c.form.interfaces.IFieldWidget"
+      for="zope.schema.interfaces.IList
+           zope.schema.interfaces.IASCIILine
+           z3c.form.interfaces.IFormLayer"
+      />
+  <adapter
+      factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
+      provides="z3c.form.interfaces.IFieldWidget"
+      for="zope.schema.interfaces.ITuple
+           zope.schema.interfaces.IASCIILine
+           z3c.form.interfaces.IFormLayer"
+      />
+  <adapter
+      factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
+      provides="z3c.form.interfaces.IFieldWidget"
+      for="zope.schema.interfaces.IAbstractSet
+           zope.schema.interfaces.IASCIILine
+           z3c.form.interfaces.IFormLayer"
+      />
+  
 </configure>

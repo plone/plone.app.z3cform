@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.4.19 - unreleased
+------------------
+
+* Made the textlines widget the default for sequence types with text/ascii
+  line value types. The default widget from z3c.form is too confusing.
+  [optilude]
+
 0.4.9 - 2010-01-08
 ------------------
 

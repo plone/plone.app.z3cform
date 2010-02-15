@@ -54,7 +54,7 @@ class Z3CFormValidation(PloneKSSView):
         raw_fieldname = fieldname[index:]
         validationError = None
         for error in errors:
-            if error.widget == form.widgets[raw_fieldname]:
+            if error.widget == form.widgets.get(raw_fieldname, None):
                 validationError = error.message
                 break
 

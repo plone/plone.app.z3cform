@@ -10,15 +10,12 @@
       />
 
     <!-- Inline validation -->
-    <browser:pages
+    <browser:page
+        name="kss_z3cform_inline_validation"
         for="*"
         class=".validation.Z3CFormValidation"
-        permission="zope2.View">
-
-      <browser:page
-        name="kss_z3cform_inline_validation"
-        attribute="validate_input" />
-
-    </browser:pages>
+        attribute="validate_input"
+        permission="zope2.View"
+        />
 
 </configure>

@@ -1,12 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-plone.app.z3cform
-
-Licensed under the GPL license, see LICENCE.txt for more details.
-Copyright by Affinitic sprl
-
-$Id$
-"""
 from zope import interface, schema
 from z3c.form import form, field, button, group
 from plone.app.z3cform.layout import FormWrapper

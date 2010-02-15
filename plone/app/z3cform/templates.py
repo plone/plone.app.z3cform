@@ -1,33 +1,26 @@
-# -*- coding: utf-8 -*-
-"""
-plone.app.z3cform
-
-Licensed under the GPL license, see LICENCE.txt for more details.
-Copyright by Affinitic sprl
-
-$Id$
-"""
-
 import os.path
+
+import z3c.form.interfaces
 
 import plone.z3cform.interfaces
 import plone.z3cform.templates
 
-import zope.app.pagetemplate.viewpagetemplatefile
-
-from Products.CMFDefault.interfaces import ICMFDefaultSkin
-
 import plone.app.z3cform
-path = lambda p: os.path.join(os.path.dirname(plone.app.z3cform.__file__), p)
+import plone.app.z3cform.interfaces
+
+path = lambda p: os.path.join(os.path.dirname(plone.app.z3cform.__file__), 'templates', p)
+
+# Override the layout wrapper view default template with a more Plone-looking
+# one
 
 layout_factory = plone.z3cform.templates.ZopeTwoFormTemplateFactory(
     path('layout.pt'),
     form=plone.z3cform.interfaces.IFormWrapper,
-    request=ICMFDefaultSkin)
+    request=plone.app.z3cform.interfaces.IPloneFormLayer)
 
-class Macros(plone.z3cform.templates.Macros):
-    template = zope.app.pagetemplate.viewpagetemplatefile.ViewPageTemplateFile(
-        'macros.pt')
+# Override the form for the standard full-page form rendering
 
-    def __getitem__(self, key):
-        return self.template.macros[key]
+form_factory = plone.z3cform.templates.ZopeTwoFormTemplateFactory(
+    path('form.pt'),
+    form=z3c.form.interfaces.IForm,
+    request=plone.app.z3cform.interfaces.IPloneFormLayer)

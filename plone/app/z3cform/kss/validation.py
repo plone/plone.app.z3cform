@@ -7,6 +7,7 @@ from zope.i18n import translate
 
 from z3c.form.interfaces import IFormLayer
 
+from plone.z3cform.interfaces import IFormWrapper
 from plone.z3cform import z2
 
 from plone.app.kss.plonekssview import PloneKSSView
@@ -19,8 +20,7 @@ class Z3CFormValidation(PloneKSSView):
     """
 
     @kssaction
-    def validate_input(self, formname, fieldname, fieldset=None,
-                       value=None):
+    def validate_input(self, formname, fieldname, fieldset=None, value=None):
         """Given a form (view) name, a field name and the submitted
         value, validate the given field.
         """
@@ -36,11 +36,13 @@ class Z3CFormValidation(PloneKSSView):
         alsoProvides(request, IFormLayer)
 
         # Find the form, the field and the widget
-        formWrapper = request.traverseName(context, formname)
-        form = formWrapper.form_instance
-
-        if not z2.IFixedUpRequest.providedBy(request):
-            z2.switch_on(form, request_layer=formWrapper.request_layer)
+        
+        form = request.traverseName(context, formname)
+        if IFormWrapper.providedBy(form):
+            formWrapper = form
+            form = form.form_instance
+            if not z2.IFixedUpRequest.providedBy(request):
+                z2.switch_on(form, request_layer=formWrapper.request_layer)
 
         form.update()
         data, errors = form.extractData()

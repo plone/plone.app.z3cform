@@ -50,7 +50,7 @@ def test_form():
     let's see if widget have the right class:
 
         >>> soup = self.BeautifulSoup(self.browser.contents)
-        >>> soup.find('div',{'class':'widget z3cformInlineValidation horizontal'}) is not None
+        >>> soup.find('div',{'class':'field z3cformInlineValidation kssattr-fieldname-form.widgets.age'}) is not None
         True
     """
 
@@ -103,7 +103,7 @@ def test_group_form():
     let's see if widget have the right class:
 
         >>> soup = self.BeautifulSoup(self.browser.contents)
-        >>> soup.find('div',{'class':'widget z3cformInlineValidation horizontal'}) is not None
+        >>> soup.find('div',{'class':'field z3cformInlineValidation kssattr-fieldname-form.widgets.name'}) is not None
         True
     """
 

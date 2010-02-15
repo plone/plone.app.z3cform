@@ -16,7 +16,7 @@ Using schemas is one way of defining the fields in a form:
   >>> class MyForm(form.Form):
   ...     ignoreContext = True
   ...     fields = field.Fields(MySchema)
-
+  
 Note that no Plone chickens were harmed in the implementation of the
 form.  The only Plone specific part comes now, where we wrap the form
 into a Plone layout and register it:
@@ -26,6 +26,10 @@ into a Plone layout and register it:
 
 ``MyWrappedForm`` is the class that you can register as your view.
 We render it:
+
+  >>> from zope.interface import alsoProvides
+  >>> from plone.app.z3cform.interfaces import IPloneFormLayer
+  >>> alsoProvides(portal.REQUEST, IPloneFormLayer) # normally done during traversal
 
   >>> view = MyWrappedForm(portal, portal.REQUEST).__of__(portal)
   >>> html = view()

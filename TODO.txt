@@ -8,7 +8,10 @@ plone.z3cform
         - added monkey patch to apply processInputs()
         - moved IFormLayer application to browserlayer.xml in plone.app.z3cform
     
-    [ ] Clean up templates/macros
+    [x] Clean up templates/macros
+        - is the Form/Widget PageTemplateFactory monkey patch necessary?
+        - removed explicit template from crud.AddForm
+        - test WYSIWYG widget in plone.app.z3cform + plone.app.textfield
     
     [x] Make ++widget++ traversal adapter work with unwrapped forms
         - test properly
@@ -20,7 +23,8 @@ plone.z3cform
     [ ] Update README
         - common use cases and base classes
         - use of wrapper view
-        - custom form template
+        - custom form templates
+        - form template factories
         - ++widget++ traversal namespace
         - caveat about widget security
         - caveat about overriding update() (need to call z2.processInputs())
@@ -38,13 +42,22 @@ plone.z3cform
 plone.app.z3cform
 --------------
 
-    [ ] Make KSS inline validation work with unwrapped forms
+    [x] Make KSS inline validation work with unwrapped forms
 
-    [ ] Clean up templates/macros
+    [x] Clean up templates/macros
     
     [x] Install IFormLayer via browserlayer.xml
     
+    [ ] Improve tests
+        - Inline validation for non-wrapped form
+        - Default macros
+    
     [ ] Update README
+
+plone.autoform
+--------------
+    
+    [ ] Fix tests
 
 plone.directives.form
 ---------------------
@@ -53,6 +66,8 @@ plone.directives.form
         - we need a way to signal if we should keep the wrapped forms
     
     [ ] Update README
+        - custom template
+        - more complete examples
 
 plone.formwidget.autocomplete
 ------------------------------

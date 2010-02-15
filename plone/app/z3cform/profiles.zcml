@@ -8,7 +8,7 @@
   <genericsetup:registerProfile
       name="default"
       title="Plone z3c.form support"
-      description="Adds support for inline validation with plone.app.z3cform"
+      description="Adds support for rendering z3c.form forms in Plone"
       directory="profiles/default"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"

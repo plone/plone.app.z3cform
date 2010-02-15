@@ -41,8 +41,7 @@ def setUp():
     fiveconfigure.debug_mode = False
 
 setUp()
-ptc.setupPloneSite()
-
+ptc.setupPloneSite(extension_profiles=('plone.app.z3cform:default',))
 
 def test_suite():
     return unittest.TestSuite([

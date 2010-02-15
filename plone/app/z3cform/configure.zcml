@@ -12,23 +12,30 @@
   <configure zcml:condition="installed kss.core">
       <include zcml:condition="installed Products.Archetypes" package=".kss" />
   </configure>
-
+  
+  <!-- Configuration installation profile -->
+  
   <include file="profiles.zcml" />
 
+  <!-- Set up default templates -->
+  
   <browser:page
       name="ploneform-macros"
       for="*"
-      class=".templates.Macros"
-      layer="Products.CMFDefault.interfaces.ICMFDefaultSkin"
+      layer=".interfaces.IPloneFormLayer"
+      class="plone.z3cform.templates.Macros"
+      template="templates/macros.pt"
       allowed_interface="zope.interface.common.mapping.IItemMapping"
-      permission="zope.Public" />
-      
+      permission="zope.Public"
+      />
+  
   <adapter factory=".templates.layout_factory" />
+  <adapter factory=".templates.form_factory" />
   
   <!-- Make the default widget for sequence-of-text-lines a textlines
        widget; the default is too confusing
     -->
-
+  
   <adapter
       factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
       provides="z3c.form.interfaces.IFieldWidget"
@@ -72,4 +79,5 @@
            zope.schema.interfaces.IASCIILine
            z3c.form.interfaces.IFormLayer"
       />
+
 </configure>

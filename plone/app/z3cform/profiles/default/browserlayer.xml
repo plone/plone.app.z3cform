@@ -1,0 +1,3 @@
+<layers>
+    <layer name="plone.app.z3cform" interface="plone.app.z3cform.interfaces.IPloneFormLayer" />
+</layers>

@@ -1,0 +1,53 @@
+Form cleanup
+============
+
+plone.z3cform
+--------------
+
+    [ ] Make wrapper optional
+        - added monkey patch to apply processInputs()
+        - moved IFormLayer application to browserlayer.xml in plone.app.z3cform
+    
+    [ ] Clean up templates/macros
+    
+    [ ] Make ++widget++ traversal adapter work with unwrapped forms
+    
+    [x] Make overrides.zcml unnecessary
+        - made FileUploadDataConverter a more specific adapter instead of
+          an override
+    
+    [ ] Update README
+    
+    [ ] Improve tests
+    
+    [ ] Clean up package
+        - Make the purpose and use of the ``layout`` module more obvious
+        - Make SingleCheckBoxFieldWidget an alias for the z3c.form version
+        - Move this + the textlines widget to the BBB package
+
+
+plone.app.z3cform
+--------------
+
+    [ ] Make KSS inline validation work with unwrapped forms
+
+    [ ] Clean up templates/macros
+    
+    [x] Install IFormLayer via browserlayer.xml
+    
+    [ ] Update README
+
+plone.directives.form
+---------------------
+    
+    [ ] Make grokker produce unwrapped forms
+
+    [ ] Update README
+
+plone.autoform
+--------------
+    
+    [ ] Make plone.supermodel dependency an optional extra
+    
+    [ ] Update README
+

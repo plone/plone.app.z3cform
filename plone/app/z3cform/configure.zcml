@@ -72,5 +72,4 @@
            zope.schema.interfaces.IASCIILine
            z3c.form.interfaces.IFormLayer"
       />
-  
 </configure>

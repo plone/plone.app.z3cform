@@ -7,18 +7,12 @@
       i18n:domain="plone.z3cform">
 <body>
 
-  <metal:main fill-slot="main">
-    <tal:main-macro metal:define-macro="main">
-
-      <h1 class="documentFirstHeading" tal:content="view/label">Title</h1>
-
-      <div id="skel-contents">
-        <span tal:replace="structure view/contents" />
-      </div>
-
-    </tal:main-macro>
-</metal:main>
+    <metal:main fill-slot="main">
+        <metal:main-macro define-macro="main">
+            <h1 class="documentFirstHeading" tal:content="view/label">Title</h1>
+            <div id="content-core" tal:content="structure view/contents" />
+        </metal:main-macro>
+    </metal:main>
 
 </body>
 </html>
-

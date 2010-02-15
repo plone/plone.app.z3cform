@@ -1,8 +1,21 @@
 Changelog
 =========
 
-0.4.19 - unreleased
-------------------
+0.5 - unreleased
+----------------
+
+* Cleaned up templates to match Plone 4 conventions.
+  [optilude]
+
+* Made templates and inline validation work with standalone forms as supported
+  by plone.z3cform 0.6 and later.
+  [optilude]
+
+* Installed a browser layer IPloneFormLayer with this package's extension
+  profile. This inherits from z3c.form's IFormLayer, allowing the default
+  widgets to work. You should always install this package in
+  portal_quickinstaller before using z3c.form forms in Plone.
+  [optilude]
 
 * Made the textlines widget the default for sequence types with text/ascii
   line value types. The default widget from z3c.form is too confusing.

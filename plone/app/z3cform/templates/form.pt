@@ -8,7 +8,10 @@
     <metal:block fill-slot="main">
         
         <h1 class="documentFirstHeading" tal:content="view/label | nothing" />
-        <metal:block use-macro="context/@@ploneform-macros/titlelessform" />
+        
+        <div id="content-core">
+            <metal:block use-macro="context/@@ploneform-macros/titlelessform" />
+        </div>
         
     </metal:block>
     

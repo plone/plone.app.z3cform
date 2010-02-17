@@ -8,7 +8,6 @@ def description():
     return (open('README.txt').read() + '\n' +
             open(join('wysiwyg', 'README.txt')).read() + '\n' +
             open(join('queryselect', 'README.txt')).read() + '\n' +
-            open(join('kss', 'README.txt')).read() + '\n' +
             open(os.path.join('docs', 'HISTORY.txt')).read() + '\n')
 
 setup(name='plone.app.z3cform',
@@ -38,11 +37,14 @@ setup(name='plone.app.z3cform',
       install_requires=[
           'Plone',
           'setuptools',
-          'plone.z3cform>=0.5.1',
+          'plone.z3cform>=0.5.11dev',
           'kss.core',
           'plone.app.kss',
           'z3c.formwidget.query',
           'zope.component',
           'collective.z3cform.datetimewidget>=0.1a2',
       ],
+      extras_require = {
+        'tests': ['collective.testcaselayer',]
+      },      
       )

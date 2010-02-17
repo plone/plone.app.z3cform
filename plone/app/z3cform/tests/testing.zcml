@@ -3,28 +3,28 @@
            xmlns:five="http://namespaces.zope.org/five"
            xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
            xmlns:plone="http://namespaces.plone.org/plone"
-	   xmlns:i18n="http://namespaces.zope.org/i18n"
+           xmlns:i18n="http://namespaces.zope.org/i18n"
            i18n_domain="plone.app.z3cform">
+    
+    <include package="zope.annotation" />
+    <include package="plone.app.z3cform" />
 
-  <include package="zope.annotation" />
+    <browser:page
+        name="test-form"
+        for="*"
+        class=".example.MyFormWrapper"
+        permission="zope.Public" />
 
-  <browser:page
-      name="test-form"
-      for="*"
-      class=".example.MyFormWrapper"
-      permission="zope.Public" />
+    <browser:page
+        name="test-group-form"
+        for="*"
+        class=".example.MyGroupFormWrapper"
+        permission="zope.Public" />
 
-  <browser:page
-      name="test-group-form"
-      for="*"
-      class=".example.MyGroupFormWrapper"
-      permission="zope.Public" />
-
-  <!-- zope locales are not registered by Five anymore in Zope 2.12 --> 
-  <configure package="zope.app.locales">
-    <i18n:registerTranslations directory="."/>
-  </configure>
-
+    <!-- zope locales are not registered by Five anymore in Zope 2.12 --> 
+    <configure package="zope.app.locales">
+        <i18n:registerTranslations directory="."/>
+    </configure>
 
 </configure>
 

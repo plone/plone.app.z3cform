@@ -1,8 +1,8 @@
 WYSIWYG widget
 ==============
 
-The ``wysiwyg`` package provides an implementation of the Plone
-WYSIWYG widget compatible with ``z3c.form``.  This will allow you to
+The ``plone.app.z3cform.wysiwyg`` package provides an implementation of the
+Plone WYSIWYG widget compatible with ``z3c.form``.  This will allow you to
 use Kupu, FCKeditor and other editors compatible with the Plone
 WYSIWYG interface in your ``z3c.form`` forms.
 

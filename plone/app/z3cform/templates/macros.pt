@@ -11,7 +11,7 @@
             <h3 tal:condition="view/label | nothing" tal:content="view/label" />
 
             <metal:define define-macro="titlelessform">
-
+            
                 <tal:status define="status view/status" condition="status">
                     <dl class="portalMessage error" tal:condition="view/widgets/errors">
                         <dt i18n:domain="plone" i18n:translate="">
@@ -54,7 +54,9 @@
                       tal:attributes="action request/getURL; enctype view/enctype;
                                       class python:'rowlike enableUnloadProtection %s kssattr-formname-%s' % (form_tabbing, request.getURL().split('/')[-1]);
                                       id view/id">
-            
+                    
+                    <metal:block define-slot="formtop" />
+                    
                     <input type="hidden"
                         name="fieldset.current"
                         tal:define="current_fieldset request/fieldset.current | string:#fieldsetlegend-0"
@@ -144,7 +146,9 @@
                         </tal:block>
                     
                     </metal:define>
-          
+                    
+                    <metal:block define-slot="beforeactions" />
+                    
                     <metal:define define-macro="actions">
                         <div class="formControls" tal:condition="view/actions/values|nothing">
                             <tal:block repeat="action view/actions/values">
@@ -152,6 +156,9 @@
                             </tal:block>
                         </div>
                     </metal:define>
+                    
+                    <metal:block define-slot="formbottom" />
+                    
                 </form>
             </metal:define>
         </div>

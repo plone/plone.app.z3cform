@@ -4,6 +4,9 @@ Changelog
 0.5 - unreleased
 ----------------
 
+* Add @@ploneform-render-widget view, so that the widget chrome can be
+  customized for particular widget types.
+
 * Added slots to the ``titlelessform`` macro. See ``README.txt`` in
   ``plone.z3cform`` for details.
   [optilude]

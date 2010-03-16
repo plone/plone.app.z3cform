@@ -26,6 +26,13 @@
       allowed_interface="zope.interface.common.mapping.IItemMapping"
       permission="zope.Public"
       />
+  <browser:page
+      name="ploneform-render-widget"
+      for="z3c.form.interfaces.IWidget"
+      layer=".interfaces.IPloneFormLayer"
+      template="templates/widget.pt"
+      permission="zope.Public"
+      />
   
   <adapter factory=".templates.layout_factory" />
   <adapter factory=".templates.form_factory" />

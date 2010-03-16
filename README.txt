@@ -56,6 +56,11 @@ you can use the ``widget_rendering`` macro to render all the default widgets,
 but none of the fieldsets (groups) or the fieldset headers (which would be
 rendered with the ``fields`` macro).
 
+Each widget is rendered using the ``@@ploneform-render-widget`` view, which by
+default includes the widget's label, required indicator, description, errors,
+and the result of ``widget.render()``.  This view may be overridden for
+particular widget types in order to customize this widget chrome.
+
 Inline form validation
 ======================
 

@@ -1,5 +1,6 @@
 import os.path
 
+from Products.Five.browser.metaconfigure import ViewMixinForTemplates
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 
 import z3c.form.interfaces
@@ -37,7 +38,7 @@ class Macros(BrowserView):
         return self.index.macros[key]
 
 # The widget rendering templates need to be Zope 3 templates
-class RenderWidget(BrowserView):
+class RenderWidget(ViewMixinForTemplates, BrowserView):
     index = ViewPageTemplateFile('templates/widget.pt')
-class RenderSingleCheckboxWidget(BrowserView):
+class RenderSingleCheckboxWidget(ViewMixinForTemplates, BrowserView):
     index = ViewPageTemplateFile('templates/singlecheckbox.pt')

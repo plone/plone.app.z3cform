@@ -14,7 +14,7 @@ Changelog
 
 * Added slots to the ``titlelessform`` macro. See ``README.txt`` in
   ``plone.z3cform`` for details.
-  [optilude]
+  [optilude, davisagli]
 
 * Cleaned up templates to match Plone 4 conventions.
   [optilude]

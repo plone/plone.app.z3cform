@@ -79,7 +79,9 @@
                             <metal:define define-macro="widget_rendering">
                                 <tal:widgets repeat="widget view/widgets/values">
                                     <metal:field define-macro="field">
+                                        <metal:field-slot define-slot="fieldtop" />
                                         <tal:widget tal:replace="structure widget/@@ploneform-render-widget"/>
+                                        <metal:field-slot define-slot="fieldbottom" />
                                     </metal:field>
                                 </tal:widgets>
                             </metal:define>

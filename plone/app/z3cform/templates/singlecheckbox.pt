@@ -1,0 +1,24 @@
+<div
+   tal:define="widget context;
+               hidden python:widget.mode == 'hidden';
+               error widget/error;
+               error_class python:error and ' error' or '';
+               fieldname_class string:kssattr-fieldname-${widget/name};"
+   tal:attributes="class string:field z3cformInlineValidation ${fieldname_class}${error_class};
+                   id string:formfield-${widget/id};">
+
+    <input type="text" tal:replace="structure widget/render" />
+
+    <div class="formHelp"
+        tal:define="description widget/field/description"
+        i18n:translate=""
+        tal:content="description"
+        tal:condition="python:description and not hidden"
+        >field description</div>
+
+    <div class="fieldErrorBox"
+        tal:content="structure error/render|nothing">
+        Error
+    </div>
+
+</div>

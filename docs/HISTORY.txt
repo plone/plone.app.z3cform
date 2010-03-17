@@ -4,8 +4,13 @@ Changelog
 0.5 - unreleased
 ----------------
 
+* Replaced the existing radiobutton-based boolean widget with the standard
+  single checkbox Plone version.
+  [limi]
+
 * Add @@ploneform-render-widget view, so that the widget chrome can be
   customized for particular widget types.
+  [davisagli]
 
 * Added slots to the ``titlelessform`` macro. See ``README.txt`` in
   ``plone.z3cform`` for details.

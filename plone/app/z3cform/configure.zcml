@@ -33,6 +33,13 @@
       template="templates/widget.pt"
       permission="zope.Public"
       />
+  <browser:page
+      name="ploneform-render-widget"
+      for="z3c.form.interfaces.ISingleCheckBoxWidget"
+      layer=".interfaces.IPloneFormLayer"
+      template="templates/singlecheckbox.pt"
+      permission="zope.Public"
+      />
   
   <adapter factory=".templates.layout_factory" />
   <adapter factory=".templates.form_factory" />
@@ -83,6 +90,12 @@
       for="zope.schema.interfaces.IAbstractSet
            zope.schema.interfaces.IASCIILine
            z3c.form.interfaces.IFormLayer"
+      />
+
+  <adapter
+      factory="z3c.form.browser.checkbox.SingleCheckBoxFieldWidget"
+      for="zope.schema.interfaces.IBool
+           plone.app.z3cform.interfaces.IPloneFormLayer"
       />
 
 </configure>

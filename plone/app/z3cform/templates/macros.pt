@@ -78,11 +78,11 @@
 
                             <metal:define define-macro="widget_rendering">
                                 <tal:widgets repeat="widget view/widgets/values">
-                                    <metal:field define-macro="field">
-                                        <metal:field-slot define-slot="fieldtop" />
-                                        <tal:widget tal:replace="structure widget/@@ploneform-render-widget"/>
-                                        <metal:field-slot define-slot="fieldbottom" />
-                                    </metal:field>
+                                    <metal:field-slot define-slot="field">
+                                        <metal:field define-macro="field">
+                                            <tal:widget tal:replace="structure widget/@@ploneform-render-widget"/>
+                                        </metal:field>
+                                    </metal:field-slot>
                                 </tal:widgets>
                             </metal:define>
                         </fieldset>

@@ -1,5 +1,7 @@
 import os.path
 
+from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+
 import z3c.form.interfaces
 
 import plone.z3cform.interfaces
@@ -33,3 +35,9 @@ class Macros(BrowserView):
     
     def __getitem__(self, key):
         return self.index.macros[key]
+
+# The widget rendering templates need to be Zope 3 templates
+class RenderWidget(BrowserView):
+    index = ViewPageTemplateFile('templates/widget.pt')
+class RenderSingleCheckboxWidget(BrowserView):
+    index = ViewPageTemplateFile('templates/singlecheckbox.pt')

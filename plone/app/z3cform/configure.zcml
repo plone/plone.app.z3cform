@@ -30,14 +30,14 @@
       name="ploneform-render-widget"
       for="z3c.form.interfaces.IWidget"
       layer=".interfaces.IPloneFormLayer"
-      template="templates/widget.pt"
+      class=".templates.RenderWidget"
       permission="zope.Public"
       />
   <browser:page
       name="ploneform-render-widget"
       for="z3c.form.interfaces.ISingleCheckBoxWidget"
       layer=".interfaces.IPloneFormLayer"
-      template="templates/singlecheckbox.pt"
+      class=".templates.RenderSingleCheckboxWidget"
       permission="zope.Public"
       />
   

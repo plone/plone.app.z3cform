@@ -1,5 +1,5 @@
 <div
-   tal:define="widget context;
+   tal:define="widget nocall:context;
                hidden python:widget.mode == 'hidden';
                error widget/error;
                error_class python:error and ' error' or '';

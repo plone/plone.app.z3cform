@@ -13,11 +13,11 @@
         <span i18n:translate="" tal:replace="widget/label">label</span>
     </label>
 
-    <span class="fieldRequired horizontal" title="Required"
+    <span class="required horizontal" title="Required"
+          style="color: red"
           tal:condition="python:widget.required and not hidden"
-          i18n:translate="label_required"
           i18n:attributes="title title_required;">
-      (Required)
+      &#x25a0;
     </span>
 
     <div class="formHelp"

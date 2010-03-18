@@ -4,6 +4,11 @@ Changelog
 0.5 - unreleased
 ----------------
 
+* Replace the required field indicator image with a unicode box, refs
+  http://dev.plone.org/plone/ticket/10352
+  [davisagli, limi]
+
+
 * Replaced the existing radiobutton-based boolean widget with the standard
   single checkbox Plone version.
   [limi]

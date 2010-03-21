@@ -8,7 +8,9 @@
 
         <div class="form" metal:define-macro="form">
 
-            <h3 tal:condition="view/label | nothing" tal:content="view/label" />
+            <metal:title-slot define-slot="title">
+              <h3 tal:condition="view/label | nothing" tal:content="view/label" />
+            </metal:title-slot>
 
             <metal:define define-macro="titlelessform">
             
@@ -36,12 +38,14 @@
                     </div>
                 </div>
 
-                <p  class="discreet"
-                    tal:define="description view/description | nothing"
-                    tal:condition="description"
-                    tal:content="description">
-                        Description
-                </p>
+                <metal:description-slot define-slot="description">
+                  <p  class="discreet"
+                      tal:define="description view/description | nothing"
+                      tal:condition="description"
+                      tal:content="description">
+                          Description
+                  </p>
+                </metal:description-slot>
                 
                 <form class="rowlike enableUnloadProtection" action="." method="post"
                       tal:define="groups view/groups | nothing;
@@ -57,73 +61,75 @@
                     
                     <metal:block define-slot="formtop" />
                     
-                    <input type="hidden"
-                        name="fieldset.current"
-                        tal:define="current_fieldset request/fieldset.current | string:#fieldsetlegend-0"
-                        tal:condition="python:has_groups and enable_form_tabbing"
-                        tal:attributes="value current_fieldset"
-                        />
+                    <metal:fields-slot define-slot="fields">
+                      <input type="hidden"
+                          name="fieldset.current"
+                          tal:define="current_fieldset request/fieldset.current | string:#fieldsetlegend-0"
+                          tal:condition="python:has_groups and enable_form_tabbing"
+                          tal:attributes="value current_fieldset"
+                          />
 
-                    <!-- Default fieldset -->
-                    <metal:define
-                        define-macro="fields"
-                        tal:define="show_default_label show_default_label|nothing;
-                                    has_groups has_groups|nothing">
+                      <!-- Default fieldset -->
+                      <metal:define
+                          define-macro="fields"
+                          tal:define="show_default_label show_default_label|nothing;
+                                      has_groups has_groups|nothing">
 
-                        <fieldset id="fieldset-default" tal:omit-tag="not:show_default_label">
+                          <fieldset id="fieldset-default" tal:omit-tag="not:show_default_label">
 
-                            <legend tal:condition="show_default_label"
-                                    tal:attributes="id string:fieldsetlegend-default"
-                                    tal:content="default_fieldset_label">Form name</legend>
+                              <legend tal:condition="show_default_label"
+                                      tal:attributes="id string:fieldsetlegend-default"
+                                      tal:content="default_fieldset_label">Form name</legend>
 
-                            <metal:define define-macro="widget_rendering">
-                                <tal:widgets repeat="widget view/widgets/values">
-                                    <metal:field-slot define-slot="field">
-                                        <metal:field define-macro="field">
-                                            <tal:widget tal:replace="structure widget/@@ploneform-render-widget"/>
-                                        </metal:field>
-                                    </metal:field-slot>
-                                </tal:widgets>
-                            </metal:define>
-                        </fieldset>
+                              <metal:define define-macro="widget_rendering">
+                                  <tal:widgets repeat="widget view/widgets/values">
+                                      <metal:field-slot define-slot="field">
+                                          <metal:field define-macro="field">
+                                              <tal:widget tal:replace="structure widget/@@ploneform-render-widget"/>
+                                          </metal:field>
+                                      </metal:field-slot>
+                                  </tal:widgets>
+                              </metal:define>
+                          </fieldset>
 
-                        <!-- Secondary fieldsets -->
-                        <tal:block tal:repeat="group groups" condition="has_groups">
-                            <fieldset
-                                tal:define="fieldset_name repeat/group/index"
-                                tal:attributes="id string:fieldset-${fieldset_name};
-                                                class string:kssattr-fieldset-${fieldset_name}">
+                          <!-- Secondary fieldsets -->
+                          <tal:block tal:repeat="group groups" condition="has_groups">
+                              <fieldset
+                                  tal:define="fieldset_name repeat/group/index"
+                                  tal:attributes="id string:fieldset-${fieldset_name};
+                                                  class string:kssattr-fieldset-${fieldset_name}">
 
-                                    <legend tal:define="form_name group/label"
-                                            tal:condition="form_name"
-                                            tal:attributes="id string:fieldsetlegend-${repeat/group/index}"
-                                            tal:content="form_name">Form name</legend>
+                                      <legend tal:define="form_name group/label"
+                                              tal:condition="form_name"
+                                              tal:attributes="id string:fieldsetlegend-${repeat/group/index}"
+                                              tal:content="form_name">Form name</legend>
 
-                                    <p i18n:translate=""
-                                       tal:define="group_description group/description|nothing"
-                                       tal:condition="group_description"
-                                       tal:content="group_description">
-                                        Description
-                                    </p>
+                                      <p i18n:translate=""
+                                         tal:define="group_description group/description|nothing"
+                                         tal:condition="group_description"
+                                         tal:content="group_description">
+                                          Description
+                                      </p>
 
-                                    <tal:block define="view nocall:group">
-                                        <metal:block use-macro="context/@@ploneform-macros/widget_rendering" />
-                                    </tal:block>
+                                      <tal:block define="view nocall:group">
+                                          <metal:block use-macro="context/@@ploneform-macros/widget_rendering" />
+                                      </tal:block>
 
-                            </fieldset>
-                        </tal:block>
+                              </fieldset>
+                          </tal:block>
                     
-                    </metal:define>
+                      </metal:define>
+                    </metal:fields-slot>
                     
-                    <metal:block define-slot="beforeactions" />
-                    
-                    <metal:define define-macro="actions">
-                        <div class="formControls" tal:condition="view/actions/values|nothing">
-                            <tal:block repeat="action view/actions/values">
-                                <input type="submit" tal:replace="structure action/render" />
-                            </tal:block>
-                        </div>
-                    </metal:define>
+                    <metal:actions-slot define-slot="actions">
+                        <metal:define define-macro="actions">
+                            <div class="formControls" tal:condition="view/actions/values|nothing">
+                                <tal:block repeat="action view/actions/values">
+                                    <input type="submit" tal:replace="structure action/render" />
+                                </tal:block>
+                            </div>
+                        </metal:define>
+                    </metal:actions-slot>
                     
                     <metal:block define-slot="formbottom" />
                     

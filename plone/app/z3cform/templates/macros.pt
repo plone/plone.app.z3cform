@@ -64,7 +64,7 @@
                     <metal:fields-slot define-slot="fields">
                       <input type="hidden"
                           name="fieldset.current"
-                          tal:define="current_fieldset request/fieldset.current | string:#fieldsetlegend-0"
+                          tal:define="current_fieldset request/fieldset.current | string:#fieldsetlegend-default"
                           tal:condition="python:has_groups and enable_form_tabbing"
                           tal:attributes="value current_fieldset"
                           />

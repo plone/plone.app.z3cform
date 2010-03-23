@@ -4,10 +4,13 @@ Changelog
 0.5 - unreleased
 ----------------
 
+* Default to showing the default fieldset, rather than the first non-default
+  fieldset.
+  [davisagli]
+
 * Replace the required field indicator image with a unicode box, refs
   http://dev.plone.org/plone/ticket/10352
   [davisagli, limi]
-
 
 * Replaced the existing radiobutton-based boolean widget with the standard
   single checkbox Plone version.

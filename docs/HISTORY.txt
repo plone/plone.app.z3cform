@@ -4,6 +4,10 @@ Changelog
 0.5 - unreleased
 ----------------
 
+* Render errors from group form widget manager validators.  Fixes
+  http://code.google.com/p/dexterity/issues/detail?id=96
+  [davisagli]
+
 * Default to showing the default fieldset, rather than the first non-default
   fieldset.
   [davisagli]

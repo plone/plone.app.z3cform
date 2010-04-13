@@ -44,6 +44,9 @@ Changelog
 * Made the textlines widget the default for sequence types with text/ascii
   line value types. The default widget from z3c.form is too confusing.
   [optilude]
+  
+* Use form method defined in form class. This allows HTTP GET forms.
+  Before method was hardcoded to "post" in the template. [miohtama]
 
 0.4.9 - 2010-01-08
 ------------------

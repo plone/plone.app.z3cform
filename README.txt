@@ -81,6 +81,64 @@ following "kassattr" variables:
 This also assumes the standard Plone form markup is used. See
 ``templaes/macros.pt`` for details.
 
+Template enhancements
+========================
+
+The following apply in plone.app.z3cform templates which are defined in 
+``plone.app.z3cform/plone/app/z3cform/templates/macros.pt``.
+They allow you to customize the behavior of z3c.form package to play 
+nicely with your application.
+
+plone.app.z3cform add-on must be installed through the add on installer
+on your site, or plone.app.z3cform form macros are not activated.
+Running the installer adds a custom browser layer where macros.pt 
+is hooked as ``ploneform-macros`` view.   
+
+Form method
+-------------
+
+If your form instance defines a property called ``method`` it allows
+you to set whether form is HTTP POST or HTTP GET. The default is POST.
+This translates to ``<form method="post">`` attribute.
+
+Example::
+
+    class HolidayServiceSearchForm(form.Form):
+            """ Example search form of which results can be bookmarked.
+            
+            Bookmarking is possible because we use HTTP GET method. 
+            """
+            
+            method = "get"
+            
+Form action
+------------
+
+Form ``action`` property defines HTTP target where the form is posted. The default is 
+the same page where the form was rendered, ``request.getURL()``.
+
+Example::
+
+        class HolidayServiceSearchForm(form.Form):
+
+            def action(self):
+                """ Redefine <form action=''> attribute.
+                
+                We use URL fragment to define the <a> anchor
+                were we directly scroll at the results when the form is posted,
+                skipping unnecessary form fields part. The user can scroll
+                back there if he/she wants modify the parameters. 
+                """
+                
+                # Context item URL + form view name + link fragment.
+                # This works for HTTP GET forms only.
+                # Note that we cannot use request.getURL() as it might contain
+                # 1) prior fragment 2) GET query parameters messing up the UrL
+                return self.context.absolute_url() + "/holidayservice_view" + "#searched"
+
+            
+    
+
 .. _z3c.form: http://pypi.python.org/pypi/z3c.form
 .. _Plone: http://plone.org
 .. _plone.z3cform: http://pypi.python.org/pypi/plone.z3cform

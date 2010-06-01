@@ -158,7 +158,7 @@ ComponentLookupError in updateWidgets()
           Module zope.component._api, line 103, in getMultiAdapter
         ComponentLookupError: ((<getpaid.expercash.browser.views.CheckoutForm object at 0xdb052ac>, <HTTPRequest, URL=http://localhost:8080/test/@@getpaid-checkout-wizard>, <PloneSite at /test>), <InterfaceClass z3c.form.interfaces.IWidgets>, u'')
 
-plone.app.z3cform layers are not in place (configuration ZCML is read). You probably forgot to include plone.app.z3cform in your 
+plone.app.z3cform layers are not in place (configuration ZCML is not read). You probably forgot to include plone.app.z3cform in your 
 product's configuration.zcml. See *Installation* above.
 
      

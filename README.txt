@@ -137,7 +137,31 @@ Example::
                 return self.context.absolute_url() + "/holidayservice_view" + "#searched"
 
             
-    
+Troubleshooting
+================
+
+Here are some common errors you might encounter with plone.app.z3cform.
+
+ComponentLookupError in updateWidgets()
+-----------------------------------------
+
+        Traceback (innermost last):
+          Module ZPublisher.Publish, line 119, in publish
+          Module ZPublisher.mapply, line 88, in mapply
+          Module ZPublisher.Publish, line 42, in call_object
+          Module plone.z3cform.layout, line 64, in __call__
+          Module plone.z3cform.layout, line 54, in update
+          Module getpaid.expercash.browser.views, line 63, in update
+          Module z3c.form.form, line 208, in update
+          Module z3c.form.form, line 149, in update
+          Module z3c.form.form, line 128, in updateWidgets
+          Module zope.component._api, line 103, in getMultiAdapter
+        ComponentLookupError: ((<getpaid.expercash.browser.views.CheckoutForm object at 0xdb052ac>, <HTTPRequest, URL=http://localhost:8080/test/@@getpaid-checkout-wizard>, <PloneSite at /test>), <InterfaceClass z3c.form.interfaces.IWidgets>, u'')
+
+plone.app.z3cform layers are not in place (configuration ZCML is read). You probably forgot to include plone.app.z3cform in your 
+product's configuration.zcml. See *Installation* above.
+
+     
 
 .. _z3c.form: http://pypi.python.org/pypi/z3c.form
 .. _Plone: http://plone.org

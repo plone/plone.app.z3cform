@@ -4,6 +4,9 @@ Changelog
 0.5.1 - unreleased
 ------------------
 
+* This package now uses the plone i18n domain.
+  [vincentfretin]
+
 * Added option to override <form action=""> [miohtama]
 
 * Updated README regarding form action  and method [miohtama] 

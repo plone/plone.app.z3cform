@@ -2,7 +2,7 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-      i18n:domain="plone.app.z3cform">
+      i18n:domain="plone">
 
     <body>
 
@@ -16,13 +16,13 @@
             
                 <tal:status define="status view/status" condition="status">
                     <dl class="portalMessage error" tal:condition="view/widgets/errors">
-                        <dt i18n:domain="plone" i18n:translate="">
+                        <dt i18n:translate="">
                             Error
                         </dt>
                         <dd tal:content="status" />
                     </dl>
                     <dl class="portalMessage info" tal:condition="not: view/widgets/errors">
-                        <dt i18n:domain="plone" i18n:translate="">
+                        <dt i18n:translate="">
                             Info
                         </dt>
                         <dd tal:content="status" />

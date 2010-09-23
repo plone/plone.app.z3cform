@@ -4,12 +4,19 @@ Changelog
 0.5.1 - unreleased
 ------------------
 
+* Make sure form.extractData() does not raise an AttributeError if the method is
+  called before the form is available (first page load).
+  [timo]
+
 * This package now uses the plone i18n domain.
   [vincentfretin]
 
-* Added option to override <form action=""> [miohtama]
+* Added option to override <form action=""> 
+  [miohtama]
 
-* Updated README regarding form action  and method [miohtama] 
+* Updated README regarding form action  and method 
+  [miohtama] 
+
 
 0.5.0 - 2010-04-20
 ------------------
@@ -57,6 +64,7 @@ Changelog
   
 * Use form method defined in form class. This allows HTTP GET forms.
   Before method was hardcoded to "post" in the template. [miohtama]
+
 
 0.4.9 - 2010-01-08
 ------------------

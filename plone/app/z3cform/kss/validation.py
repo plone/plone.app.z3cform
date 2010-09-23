@@ -45,7 +45,8 @@ class Z3CFormValidation(PloneKSSView):
                 z2.switch_on(form, request_layer=formWrapper.request_layer)
 
         form.update()
-        data, errors = form.extractData()
+        if getattr(form, extractData, None):
+            data, errors = form.extractData()
 
         #if we validate a field in a group we operate on the group
         if fieldset is not None:

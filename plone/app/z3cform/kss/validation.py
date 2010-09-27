@@ -45,8 +45,11 @@ class Z3CFormValidation(PloneKSSView):
                 z2.switch_on(form, request_layer=formWrapper.request_layer)
 
         form.update()
-        if getattr(form, extractData, None):
+        
+        if getattr(form, "extractData", None):
             data, errors = form.extractData()
+        else:
+            return
 
         #if we validate a field in a group we operate on the group
         if fieldset is not None:
@@ -64,7 +67,7 @@ class Z3CFormValidation(PloneKSSView):
         if isinstance(validationError, Message):
             validationError = translate(validationError, context=self.request)
 
-        # Attempt to convert the value - this will trigge validation
+        # Attempt to convert the value - this will trigger validation
         ksscore = self.getCommandSet('core')
         kssplone = self.getCommandSet('plone')
         validate_and_issue_message(ksscore, validationError, fieldname,

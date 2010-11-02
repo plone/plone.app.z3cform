@@ -143,7 +143,9 @@ Troubleshooting
 Here are some common errors you might encounter with plone.app.z3cform.
 
 ComponentLookupError in updateWidgets()
------------------------------------------
+----------------------------------------
+
+::
 
         Traceback (innermost last):
           Module ZPublisher.Publish, line 119, in publish

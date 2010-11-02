@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.5.1dev'
+version = '0.5.1'
 
 def description():
     join = lambda *paths: os.path.join('plone', 'app', 'z3cform', *paths)
@@ -48,5 +48,5 @@ setup(name='plone.app.z3cform',
       ],
       extras_require = {
         'tests': ['collective.testcaselayer',]
-      },      
+      },
       )

@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.5.1 - unreleased
+0.5.1 - 2010-11-02
 ------------------
 
 * Make sure form.extractData() does not raise an AttributeError if the method is
@@ -11,11 +11,11 @@ Changelog
 * This package now uses the plone i18n domain.
   [vincentfretin]
 
-* Added option to override <form action=""> 
+* Added option to override <form action="">.
   [miohtama]
 
-* Updated README regarding form action  and method 
-  [miohtama] 
+* Updated README regarding form action and method.
+  [miohtama]
 
 
 0.5.0 - 2010-04-20

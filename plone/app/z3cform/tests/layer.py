@@ -24,11 +24,13 @@ class KSSUnitTestLayer(collective.testcaselayer.layer.Layer):
         import z3c.form
         import Products.Five
         import Products.GenericSetup
+        import Products.CMFCore
         
         fiveconfigure.debug_mode = True
         
         zcml.load_config('meta.zcml', Products.GenericSetup)
         zcml.load_config('configure.zcml', Products.Five)
+        zcml.load_config('permissions.zcml', Products.CMFCore)
 
         zcml.load_config('meta.zcml', kss.core)
         zcml.load_config('configure.zcml', kss.core)

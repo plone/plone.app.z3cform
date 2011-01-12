@@ -4,11 +4,12 @@ from Products.Five.testbrowser import Browser
 
 from kss.core.BeautifulSoup import BeautifulSoup
 
-from plone.app.z3cform.tests.layer import IntegrationLayer
+from plone.app.z3cform.tests.tests import setup_zcml
+
+setup_zcml()
+ptc.setupPloneSite(extension_profiles=('plone.app.z3cform:default',))
 
 class TestKSSAttributes(ptc.FunctionalTestCase):
-    
-    layer = IntegrationLayer
     
     BeautifulSoup = BeautifulSoup
 

@@ -4,6 +4,10 @@ Changelog
 0.5.2 - unreleased
 ------------------
 
+* Don't use collective.testcaselayer based IntegrationTestLayer as it leads to
+  PicklingError on Plone 4.1.
+  [elro]
+
 * Change inline validation to match archetypes behavior - add a warning class and
   omit the error message.
   [elro]

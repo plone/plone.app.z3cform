@@ -5,15 +5,32 @@ import zope.testing.doctest
 from plone.browserlayer.layer import mark_layer
 from zope.app.publication.zopepublication import BeforeTraverseEvent
 
+from Products.Five import zcml
 from Products.PloneTestCase import ptc
+from Products.PloneTestCase.layer import onsetup
 from Products.CMFCore.utils import getToolByName
 
 from plone.app.z3cform.tests.layer import IntegrationLayer, KSSLayer
 
+@onsetup
+def setup_zcml():
+    from Products.Five import zcml
+    from Products.Five import fiveconfigure
+    import plone.app.z3cform.tests
+    fiveconfigure.debug_mode = True
+    zcml.load_config('testing.zcml', plone.app.z3cform.tests)
+    fiveconfigure.debug_mode = False
+
+setup_zcml()
+ptc.setupPloneSite(extension_profiles=('plone.app.z3cform:default',))
+
+
 class IntegrationTests(ptc.PloneTestCase):
-    layer = IntegrationLayer
     
     def afterSetUp(self):
+        import plone.app.z3cform.tests
+        zcml.load_config('testing.zcml', plone.app.z3cform.tests)
+        self.addProfile('plone.app.z3cform:default')
         event = BeforeTraverseEvent(self.portal, self.portal.REQUEST)
         mark_layer(self.portal, event)
     

@@ -20,7 +20,8 @@ class Z3CFormValidation(PloneKSSView):
     """
 
     @kssaction
-    def validate_input(self, formname, fieldname, fieldset=None, value=None):
+    def validate_input(self, formname, fieldname, fieldset=None, value=None,
+                       warning_only=True):
         """Given a form (view) name, a field name and the submitted
         value, validate the given field.
         """
@@ -71,11 +72,11 @@ class Z3CFormValidation(PloneKSSView):
         ksscore = self.getCommandSet('core')
         kssplone = self.getCommandSet('plone')
         validate_and_issue_message(ksscore, validationError, fieldname,
-                                   fieldset, kssplone)
+                                   fieldset, kssplone, warning_only)
 
 
 def validate_and_issue_message(ksscore, error, fieldname, fieldset,
-                               kssplone=None):
+                               kssplone=None, warning_only=True):
     """A helper method also used by the inline editing view
     """
     if fieldset is not None:
@@ -91,12 +92,16 @@ def validate_and_issue_message(ksscore, error, fieldname, fieldset,
     field_div = ksscore.getCssSelector(fieldId)
     error_box = ksscore.getCssSelector(errorId)
 
-    if error:
+    if error and not warning_only:
         ksscore.replaceInnerHTML(error_box, error)
         ksscore.addClass(field_div, 'error')
+    elif error:
+        ksscore.clearChildNodes(error_box)
+        ksscore.addClass(field_div, 'error warning')
     else:
         ksscore.clearChildNodes(error_box)
         ksscore.removeClass(field_div, 'error')
+        ksscore.removeClass(field_div, 'warning')
         if kssplone is not None:
             kssplone.issuePortalMessage('')
 

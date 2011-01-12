@@ -4,7 +4,9 @@ Changelog
 0.5.2 - unreleased
 ------------------
 
-
+* Change inline validation to match archetypes behavior - add a warning class and
+  omit the error message.
+  [elro]
 
 0.5.1 - 2010-11-02
 ------------------

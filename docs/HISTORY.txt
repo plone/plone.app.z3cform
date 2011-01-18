@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.5.2 - unreleased
+0.5.2 - 2011-01-18
 ------------------
 
 * Don't use collective.testcaselayer based IntegrationTestLayer as it leads to

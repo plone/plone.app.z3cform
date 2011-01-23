@@ -30,7 +30,7 @@ class KSSUnitTestLayer(collective.testcaselayer.layer.Layer):
         
         zcml.load_config('meta.zcml', Products.GenericSetup)
         zcml.load_config('configure.zcml', Products.Five)
-        zcml.load_config('permissions.zcml', Products.CMFCore)
+        zcml.load_config('configure.zcml', Products.CMFCore)
 
         zcml.load_config('meta.zcml', kss.core)
         zcml.load_config('configure.zcml', kss.core)

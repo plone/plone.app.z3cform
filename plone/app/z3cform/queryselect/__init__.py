@@ -29,13 +29,15 @@ class ArchetypesContentSource(object):
         
     def getTermByToken(self, token):
         uid = token
-        brain = self.catalog(UID=uid)[0]
-        return self._term_for_brain(brain)
+        brains = self.catalog(UID=uid)
+        if len(brains) > 0: return self._term_for_brain(brains[0])
+        raise LookupError(value)
 
     def getTerm(self, value):
         uid = value
-        brain = self.catalog(UID=uid)[0]
-        return self._term_for_brain(brain)
+        brains = self.catalog(UID=uid)
+        if len(brains) > 0: return self._term_for_brain(brains[0])
+        raise LookupError(value)
     
     def search(self, query_string, limit=20):
         brains = self.catalog(SearchableText=query_string)[:limit]

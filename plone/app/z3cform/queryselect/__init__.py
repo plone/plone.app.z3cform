@@ -31,7 +31,7 @@ class ArchetypesContentSource(object):
         uid = token
         brains = self.catalog(UID=uid)
         if len(brains) > 0: return self._term_for_brain(brains[0])
-        raise LookupError(value)
+        raise LookupError(token)
 
     def getTerm(self, value):
         uid = value

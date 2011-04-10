@@ -4,6 +4,9 @@ Changelog
 0.5.4 - unreleased
 ------------------
 
+* Add MANIFEST.in.
+  [WouterVH]
+
 * Raise LookupError when terms are not found (e.g. they are no longer visible due to security)
   [lentinj]
 

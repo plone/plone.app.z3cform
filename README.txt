@@ -2,6 +2,7 @@
 plone.app.z3cform
 =================
 
+
 A collection of widgets and templates, and other components for use
 with `z3c.form`_ in Plone_.  This extends `plone.z3cform`_, the library that
 enables Zope 2 applications to use z3c.form, with Plone-specific markup and
@@ -12,6 +13,8 @@ information about using z3c.form in Zope 2 in general. For the most part,
 that package contains the "active" parts that you need to know about, and
 this package provides "passive" overrides that make the forms integrate with
 Plone.
+
+.. contents:: Table of Contents
 
 Installation
 ============

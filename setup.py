@@ -1,20 +1,30 @@
-from setuptools import setup, find_packages
 import os
+from setuptools import setup, find_packages
+
+
+def read(*rnames):
+    return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
 version = '0.5.4'
 
-def description():
-    join = lambda *paths: os.path.join('plone', 'app', 'z3cform', *paths)
-    return (open('README.txt').read() + '\n' +
-            open(join('wysiwyg', 'README.txt')).read() + '\n' +
-            open(join('queryselect', 'README.txt')).read() + '\n' +
-            open(os.path.join('docs', 'HISTORY.txt')).read() + '\n')
+long_description = (
+    read('README.txt')
+    + '\n' +
+    read('plone', 'app', 'z3cform', 'wysiwyg', 'README.txt')
+    + '\n' +
+    read('plone', 'app', 'z3cform', 'queryselect', 'README.txt')
+    + '\n' +
+    read('plone', 'app', 'z3cform', 'kss', 'README.txt')
+    + '\n' +
+    read('CHANGES.txt')
+    + '\n'
+    )
 
 setup(name='plone.app.z3cform',
       version=version,
       description="A collection of widgets, templates and other components "
       "for use with z3c.form and Plone",
-      long_description=description(),
+      long_description=long_description,
       classifiers=[
         "Framework :: Plone",
         "Framework :: Zope2",

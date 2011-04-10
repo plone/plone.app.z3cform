@@ -1,101 +1,105 @@
 Changelog
 =========
 
+
 0.5.4 - unreleased
 ------------------
 
-* Add MANIFEST.in.
+- Add MANIFEST.in.
   [WouterVH]
 
-* Raise LookupError when terms are not found (e.g. they are no longer visible due to security)
+- Raise LookupError when terms are not found (e.g. they are no longer visible due to security)
   [lentinj]
+
 
 0.5.3 - 2011-01-22
 ------------------
 
-* Fix test setup in Zope 2.10.
+- Fix test setup in Zope 2.10.
   [davisagli]
+
 
 0.5.2 - 2011-01-18
 ------------------
 
-* Don't use collective.testcaselayer based IntegrationTestLayer as it leads to
+- Don't use collective.testcaselayer based IntegrationTestLayer as it leads to
   PicklingError on Plone 4.1.
   [elro]
 
-* Change inline validation to match archetypes behavior - add a warning class and
+- Change inline validation to match archetypes behavior - add a warning class and
   omit the error message.
   [elro]
+
 
 0.5.1 - 2010-11-02
 ------------------
 
-* Make sure form.extractData() does not raise an AttributeError if the method is
+- Make sure form.extractData() does not raise an AttributeError if the method is
   called before the form is available (first page load).
   [timo]
 
-* This package now uses the plone i18n domain.
+- This package now uses the plone i18n domain.
   [vincentfretin]
 
-* Added option to override <form action="">.
+- Added option to override <form action="">.
   [miohtama]
 
-* Updated README regarding form action and method.
+- Updated README regarding form action and method.
   [miohtama]
 
 
 0.5.0 - 2010-04-20
 ------------------
 
-* Render errors from group form widget manager validators.  Fixes
+- Render errors from group form widget manager validators.  Fixes
   http://code.google.com/p/dexterity/issues/detail?id=96
   [davisagli]
 
-* Default to showing the default fieldset, rather than the first non-default
+- Default to showing the default fieldset, rather than the first non-default
   fieldset.
   [davisagli]
 
-* Replace the required field indicator image with a unicode box, refs
+- Replace the required field indicator image with a unicode box, refs
   http://dev.plone.org/plone/ticket/10352
   [davisagli, limi]
 
-* Replaced the existing radiobutton-based boolean widget with the standard
+- Replaced the existing radiobutton-based boolean widget with the standard
   single checkbox Plone version.
   [limi]
 
-* Add @@ploneform-render-widget view, so that the widget chrome can be
+- Add @@ploneform-render-widget view, so that the widget chrome can be
   customized for particular widget types.
   [davisagli]
 
-* Added slots to the ``titlelessform`` macro. See ``README.txt`` in
+- Added slots to the ``titlelessform`` macro. See ``README.txt`` in
   ``plone.z3cform`` for details.
   [optilude, davisagli]
 
-* Cleaned up templates to match Plone 4 conventions.
+- Cleaned up templates to match Plone 4 conventions.
   [optilude]
 
-* Made templates and inline validation work with standalone forms as supported
+- Made templates and inline validation work with standalone forms as supported
   by plone.z3cform 0.6 and later.
   [optilude]
 
-* Installed a browser layer IPloneFormLayer with this package's extension
+- Installed a browser layer IPloneFormLayer with this package's extension
   profile. This inherits from z3c.form's IFormLayer, allowing the default
   widgets to work. You should always install this package in
   portal_quickinstaller before using z3c.form forms in Plone.
   [optilude]
 
-* Made the textlines widget the default for sequence types with text/ascii
+- Made the textlines widget the default for sequence types with text/ascii
   line value types. The default widget from z3c.form is too confusing.
   [optilude]
-  
-* Use form method defined in form class. This allows HTTP GET forms.
+
+- Use form method defined in form class. This allows HTTP GET forms.
   Before method was hardcoded to "post" in the template. [miohtama]
 
 
 0.4.9 - 2010-01-08
 ------------------
 
-* Remove unused (and broken on Plone 4) lookup of the current user's WYSIWYG
+- Remove unused (and broken on Plone 4) lookup of the current user's WYSIWYG
   editor preference.  The wysiwyg_support template does this for us.
   [davisagli]
 
@@ -103,35 +107,35 @@ Changelog
 0.4.8 - 2009-10-23
 ------------------
 
-* Made the KSS validator use publish traversal instead of OFS traversal to find
+- Made the KSS validator use publish traversal instead of OFS traversal to find
   the form. This makes it usable with forms reached by custom IPublishTraverse
   adapters.
   [davisagli]
 
-* Added enable_form_tabbing option to not transform fieldsets into tabs.
+- Added enable_form_tabbing option to not transform fieldsets into tabs.
   [vincentfretin]
 
-* Added an id to the generated form.
+- Added an id to the generated form.
   [vincentfretin]
 
-* Fixed issue in macros.pt: fieldset.current hidden input was never generated.
+- Fixed issue in macros.pt: fieldset.current hidden input was never generated.
   [vincentfretin]
 
 
 0.4.7 - 2009-09-25
 ------------------
 
-* Set plone i18n domain for "Info" and "Error" messages in macros.pt so they are translated.
+- Set plone i18n domain for "Info" and "Error" messages in macros.pt so they are translated.
   [vincentfretin]
 
 
 0.4.6 - 2009-07-26
 ------------------
 
-* Include plone.z3cform's overrides.zcml from our own overrides.zcml.
+- Include plone.z3cform's overrides.zcml from our own overrides.zcml.
   [optilude]
 
-* Updated to collective.z3cform.datetimewidget>=0.1a2 to fix a ZCML conflict
+- Updated to collective.z3cform.datetimewidget>=0.1a2 to fix a ZCML conflict
   with z3c.form.
   [davisagli]
 
@@ -139,11 +143,11 @@ Changelog
 0.4.5 - 2009-05-25
 ------------------
 
-* Made the KSS form support conditional on both kss.core and Archetypes being
+- Made the KSS form support conditional on both kss.core and Archetypes being
   installed.
   [hannosch]
 
-* Use the date/time widgets from collective.z3cform.datetimewidget as the default
+- Use the date/time widgets from collective.z3cform.datetimewidget as the default
   widget for Date and Datetime fields.
   [davisagli]
 
@@ -151,7 +155,7 @@ Changelog
 0.4.4 - 2009-05-03
 ------------------
 
-* Made the KSS validator use traversal instead of getMultiAdapter() to find
+- Made the KSS validator use traversal instead of getMultiAdapter() to find
   the form. This makes it work on add forms.
   See http://code.google.com/p/dexterity/issues/detail?id=27
   [optilude]
@@ -160,37 +164,37 @@ Changelog
 0.4.3 - 2009-04-17
 ------------------
 
-* Added a display template for the WYSIWYG widget.
+- Added a display template for the WYSIWYG widget.
   [optilude]
 
-* Make the ?fieldset.current query string variable work. Set it to the id
+- Make the ?fieldset.current query string variable work. Set it to the id
   of a fieldset other than default to pre-select a different fieldset, e.g.
   .../@@formview?fieldset.current=3
   [optilude]
 
-* Hide the 'default' fieldset if there's nothing to show there.
+- Hide the 'default' fieldset if there's nothing to show there.
   [optilude]
 
-* Provide 'portal' variable in wysiwyg template, as its used by some editors.
+- Provide 'portal' variable in wysiwyg template, as its used by some editors.
   [davisagli]
 
 
 0.4.2 - 2008-09-04
 ------------------
 
-* Make the WYSIWYG widget work also for non-Acquisition wrapped
+- Make the WYSIWYG widget work also for non-Acquisition wrapped
   content.
 
 
 0.4.1 - 2008-08-21
 ------------------
 
-* Removed maximum version dependency on zope.component. This should be left
+- Removed maximum version dependency on zope.component. This should be left
   to indexes, known good sets or explicit version requirements in buildouts.
   If you work with zope.component >= 3.5 you will also need five.lsm >= 0.4.
   [hannosch]
 
-* Make use of new plone.z3cform support for looking up the layout template by
+- Make use of new plone.z3cform support for looking up the layout template by
   adapter. This means that forms now no longer need to depend on
   plone.app.z3cform unless they want to use Plone-specific widgets.
 
@@ -198,12 +202,12 @@ Changelog
 0.4.0 - 2008-07-31
 ------------------
 
-* Add inline validation support with KSS
+- Add inline validation support with KSS
 
-* Require zope.component <= 3.4.0 to prevent compatibility issues with
+- Require zope.component <= 3.4.0 to prevent compatibility issues with
   five.localsitemanager, of which a buggy version (0.3) is pinned by
   plone.recipe.plone 3.1.4.  Upgrade to this version if you're seeing::
-    
+
     ...
     Module five.localsitemanager.registry, line 176, in registeredUtilities
     ValueError: too many values to unpack
@@ -212,7 +216,7 @@ Changelog
 0.3.2 - 2008-07-25
 ------------------
 
-* Fixed a bug in macros.pt where 'has_groups' and 'show_default_label'
+- Fixed a bug in macros.pt where 'has_groups' and 'show_default_label'
   for fieldsets were set in the 'form' macro, rendering the 'field'
   macro unusable by itself.
 
@@ -220,12 +224,12 @@ Changelog
 0.3.1 - 2008-07-24
 ------------------
 
-* Fixed a bug where we would use the form macros defined in
+- Fixed a bug where we would use the form macros defined in
   plone.z3cform instead of our own.
 
 
 0.3 - 2008-07-24
 ----------------
 
-* Create this package from Plone-specific bits that have been factored
+- Create this package from Plone-specific bits that have been factored
   out of plone.z3cform.

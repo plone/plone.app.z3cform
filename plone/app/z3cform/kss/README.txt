@@ -1,4 +1,3 @@
-=====================
 KSS inline validation
 =====================
 
@@ -75,7 +74,7 @@ Let's verify that worked:
     >>> del context, request
 
 Inline validation
-=================
+-----------------
 
 Inline validation is invoked via the @@kss_z3cform_inline_validation view.
 
@@ -109,7 +108,7 @@ validation enabled, it will be called with the following parameters:
      {'selectorType': 'htmlid', 'params': {'name': u'display', 'value': u'none'}, 'name': 'setStyle', 'selector': 'kssPortalMessage'}]
 
 Inline validation with groups
-=============================
+-----------------------------
 
 We use plone.app.z3cform.tests.example.MyGroupFormWrapper and validate the 
 field 'name' that's part of a group. Inline validation is invoked via the 
@@ -144,7 +143,7 @@ The validation view takes an Attribute fieldset with the index of the group.
 
 
 Inline-Validation and Translation of ErrorSnippets
-==================================================
+--------------------------------------------------
 
 We use plone.app.z3cform.tests.example.MyGroupFormWrapper and validate the 
 field 'name' that's part of a group. Inline validation is invoked via the 

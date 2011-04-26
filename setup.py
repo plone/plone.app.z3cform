@@ -47,7 +47,6 @@ setup(name='plone.app.z3cform',
       install_requires=[
           'Zope2',
           'zope.interface',
-          'zope.app.component',
           'setuptools',
           'plone.z3cform>=0.5.11dev',
           'kss.core',

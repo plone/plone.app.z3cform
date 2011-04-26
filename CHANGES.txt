@@ -5,6 +5,9 @@ Changelog
 0.5.4 - unreleased
 ------------------
 
+- Remove dependency on zope.app.component.
+  [davisagli]
+
 - Add MANIFEST.in.
   [WouterVH]
 

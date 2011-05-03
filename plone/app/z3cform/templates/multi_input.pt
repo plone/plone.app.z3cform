@@ -21,7 +21,7 @@
                 tal:attributes="for widget/id"
                 tal:condition="python:showLabel and not hidden">
                 <span i18n:translate="" tal:replace="widget/label">label</span>
-                <span tal:replace="repeat/widget/number">1</span>
+                <span class="multi-widget-number" tal:content="repeat/widget/number">1</span>
             </label>
 
             <span class="required horizontal" title="Required"

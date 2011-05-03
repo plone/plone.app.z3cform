@@ -3,19 +3,19 @@
         <div metal:define-macro="widget-row"
              tal:define="hidden python:widget.mode == 'hidden';
                          showLabel view/showLabel;
+                         checkbox_disabled python:not view.allowRemoving and 'disabled' or nothing;
                          error widget/error;
                          error_class python:error and ' error' or '';
                          fieldname_class string:kssattr-fieldname-${widget/name};"
              tal:attributes="class string:multi-widget-field field z3cformInlineValidation ${fieldname_class}${error_class};
                              id string:formfield-${widget/id};">
 
-            <span class="multi-widget-checkbox">
-              <input id="" name=""
-                     class="multi-widget-checkbox checkbox-widget"
-                     type="checkbox" value="1"
-                     tal:attributes="id string:${widget/id}-remove;
-                                     name string:${widget/name}.remove" />
-            </span>
+            <input id="" name=""
+                   class="multi-widget-checkbox checkbox-widget"
+                   type="checkbox" value="1"
+                   tal:attributes="id string:${widget/id}-remove;
+                                   name string:${widget/name}.remove;
+                                   disabled checkbox_disabled;"/>
 
             <label for="" class="horizontal"
                 tal:attributes="for widget/id"

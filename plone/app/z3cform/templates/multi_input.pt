@@ -35,7 +35,7 @@
                 tal:define="description widget/field/description"
                 i18n:translate=""
                 tal:content="description"
-                tal:condition="python:description and not hidden"
+                tal:condition="python:description and showLabel and not hidden"
                 >field description</div>
 
             <div class="fieldErrorBox"

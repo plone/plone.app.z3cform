@@ -46,10 +46,10 @@
             <input type="text" tal:replace="structure widget/render" />
         </div>
     </tal:block>
-    <div class="buttons">
-      <input tal:repeat="action view/actions/values"
-             tal:replace="structure action/render"
-             />
-     </div>
-     <input type="hidden" tal:replace="structure view/counterMarker" />
+    <div class="formControls multi-widget-buttons" tal:condition="view/actions/values|nothing">
+        <tal:block repeat="action view/actions/values">
+            <input type="submit" tal:replace="structure action/render" />
+        </tal:block>
+    </div>
+    <input type="hidden" tal:replace="structure view/counterMarker" />
 </div>

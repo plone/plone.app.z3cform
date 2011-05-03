@@ -5,6 +5,9 @@ Changelog
 0.5.4 - unreleased
 ------------------
 
+- Customize templates for multi and object widgets for more consistent styling.
+  [elro]
+
 - Remove dependency on zope.app.component.
   [davisagli]
 

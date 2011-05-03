@@ -3,6 +3,7 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:zcml="http://namespaces.zope.org/zcml"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
     i18n_domain="plone">
 
   <include package="plone.z3cform" />
@@ -115,4 +116,19 @@
         provides="z3c.form.interfaces.IFieldWidget"
         for=".widget.IDatetimeField
              z3c.form.interfaces.IFormLayer" />
+
+  <z3c:widgetTemplate
+      mode="input"
+      widget="z3c.form.interfaces.IMultiWidget"
+      layer=".interfaces.IPloneFormLayer"
+      template="templates/multi_input.pt"
+      />
+
+  <z3c:widgetTemplate
+      mode="input"
+      widget="z3c.form.interfaces.IObjectWidget"
+      layer=".interfaces.IPloneFormLayer"
+      template="templates/object_input.pt"
+      />
+
 </configure>

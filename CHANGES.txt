@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.5.4 - unreleased
+0.5.4 - 2011-05-04
 ------------------
 
 - Customize templates for multi and object widgets for more consistent styling.

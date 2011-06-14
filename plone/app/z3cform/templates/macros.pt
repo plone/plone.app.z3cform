@@ -42,7 +42,7 @@
                   <p  class="discreet"
                       tal:define="description view/description | nothing"
                       tal:condition="description"
-                      tal:content="description">
+                      tal:content="structure description">
                           Description
                   </p>
                 </metal:description-slot>

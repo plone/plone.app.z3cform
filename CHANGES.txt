@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.5.5 - unreleased
+------------------
+
+- Match plone.z3cform's template in including the form description as
+  structure.
+  [davisagli]
 
 0.5.4 - 2011-05-04
 ------------------

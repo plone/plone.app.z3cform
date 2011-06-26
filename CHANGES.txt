@@ -4,6 +4,10 @@ Changelog
 0.5.5 - unreleased
 ------------------
 
+- Make it possible to add a custom CSS class to a form by setting its
+  ``css_class`` attribute.
+  [davisagli]
+
 - Match plone.z3cform's template in including the form description as
   structure.
   [davisagli]

@@ -112,7 +112,7 @@
                                       <p i18n:translate=""
                                          tal:define="group_description group/description|nothing"
                                          tal:condition="group_description"
-                                         tal:content="group_description">
+                                         tal:content="structure group_description">
                                           Description
                                       </p>
 

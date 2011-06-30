@@ -116,14 +116,14 @@
                                           Description
                                       </p>
 
-                                      <div tal:define="errors group/widgets/errors" tal:condition="errors">
-                                          <div tal:repeat="error errors">
-                                              <tal:block
-                                                  condition="not:nocall:error/widget"
-                                                  replace="structure error/render"
-                                                  />
-                                          </div>
-                                      </div>
+                                      <tal:block tal:define="errors group/widgets/errors"
+                                                 tal:condition="errors"
+                                                 tal:repeat="error errors">
+                                          <div class="field error"
+                                              tal:condition="not:nocall:error/widget"
+                                              tal:content="structure error/render"
+                                              />
+                                      </tal:block>
 
                                       <tal:block define="view nocall:group">
                                           <metal:block use-macro="context/@@ploneform-macros/widget_rendering" />

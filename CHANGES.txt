@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.5.6 - unreleased
+0.5.6 - 2011-06-30
 ------------------
 
 - Make sure group errors get styled like field errors.

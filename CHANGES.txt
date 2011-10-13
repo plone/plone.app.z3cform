@@ -4,6 +4,10 @@ Changelog
 0.5.7 - unreleased
 ------------------
 
+- Added the ``i18n:domain`` attribute in the first ``div`` of ``widget.pt`` in order to make the 
+  "required" tooltip translatable. Fixes http://dev.plone.org/plone/ticket/12209
+  [rafaelbco]
+
 0.5.6 - 2011-06-30
 ------------------
 

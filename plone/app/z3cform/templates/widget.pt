@@ -1,4 +1,5 @@
 <div
+   i18n:domain="plone"
    tal:define="widget nocall:context;
                hidden python:widget.mode == 'hidden';
                error widget/error;

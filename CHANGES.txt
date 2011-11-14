@@ -4,6 +4,10 @@ Changelog
 0.5.7 - unreleased
 ------------------
 
+- Corrected formatting for errors on the FieldWidgets object (i.e. from
+  invariants). This closes http://code.google.com/p/dexterity/issues/detail?id=238
+  [davisagli]
+
 - Added the ``i18n:domain`` attribute in the first ``div`` of ``widget.pt`` in order to make the 
   "required" tooltip translatable. Fixes http://dev.plone.org/plone/ticket/12209
   [rafaelbco]

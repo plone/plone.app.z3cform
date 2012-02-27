@@ -6,6 +6,7 @@ from zope.i18nmessageid import Message
 from zope.i18n import translate
 
 from z3c.form.interfaces import IFormLayer
+from z3c.form.interfaces import IForm
 
 from plone.z3cform.interfaces import IFormWrapper
 from plone.z3cform import z2
@@ -37,13 +38,15 @@ class Z3CFormValidation(PloneKSSView):
         alsoProvides(request, IFormLayer)
 
         # Find the form, the field and the widget
-        
         form = request.traverseName(context, formname)
         if IFormWrapper.providedBy(form):
             formWrapper = form
             form = form.form_instance
             if not z2.IFixedUpRequest.providedBy(request):
                 z2.switch_on(form, request_layer=formWrapper.request_layer)
+
+        if not IForm.providedBy(form):
+            return
 
         form.update()
         

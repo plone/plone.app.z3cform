@@ -165,3 +165,44 @@ the behavior of archetypes.)
       'params': {'value': u'error'},
       'name': 'addClass',
       'selector': u'#fieldset-0 #formfield-form-widgets-name'}]
+
+
+Forms embedded inside normal views
+-----------------------------------
+
+It's possible to embed z3c.form Forms inside a normal BrowserView via viewlets,
+portlets or tiles.
+
+Currently the name of the form to be validated is gotten from the URL. For embedded
+forms this can't work since the URL only has the containing view's name.
+
+Until a lasting solution is found, we just make sure that validation
+doesn't raise an exception if it receives a normal browerview as the supposed
+form.
+
+    >>> from zope.publisher.browser import BrowserView
+    >>> class MyNormalView(BrowserView):
+    ...     """ """
+
+    >>> provideAdapter(adapts=(Interface, IBrowserRequest),
+    ...                provides=Interface,
+    ...                factory=MyNormalView,
+    ...                name=u"my-view")
+
+Let's verify that it gets called...
+
+    >>> context = Bar()
+    >>> request = make_request()
+    >>> view = getMultiAdapter((context, request), name=u"my-view")
+    >>> view
+    <MyNormalView object ...>
+
+Inline validation is invoked via the @@kss_z3cform_inline_validation view. But
+in this case no validation output should be returned.
+
+    >>> context = Bar()
+    >>> request = make_request(form={'form.widgets.age': 'Title'})
+    >>> view = getMultiAdapter((context, request), name=u"kss_z3cform_inline_validation")
+    >>> view.validate_input(formname=u'my-view', fieldname=u'form.widgets.age', value='Title')
+    []
+

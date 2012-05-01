@@ -29,15 +29,15 @@
                     </dl>
                 </tal:status>
 
-                <div tal:define="errors view/widgets/errors" tal:condition="errors">
-                    <div tal:repeat="error errors"
-                         class="field error">
-                        <tal:block
-                            condition="not:nocall:error/widget"
-                            replace="structure error/render"
-                            />
-                    </div>
-                </div>
+                <tal:errors define="errors view/widgets/errors" condition="errors">
+                    <tal:error repeat="error errors">
+                        <div class="field error"
+                             tal:condition="not:nocall:error/widget"
+                             tal:content="structure error/render">
+                             Error
+                        </div>
+                    </tal:error>
+                </tal:errors>
 
                 <metal:description-slot define-slot="description">
                   <p  class="discreet"

@@ -4,6 +4,10 @@ Changelog
 0.5.8 - unreleased
 ------------------
 
+- Prevent empty error divs from being generated if errors are already associated
+  with a field.
+  [davidjb]
+
 0.5.7 - 2011-11-26
 ------------------
 

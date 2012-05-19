@@ -1,7 +1,7 @@
 import os.path
 
 from Products.Five.browser.metaconfigure import ViewMixinForTemplates
-from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 
 import z3c.form.interfaces
 

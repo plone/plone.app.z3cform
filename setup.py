@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-version = '0.5.9.dev0'
+version = '0.6.0.dev0'
 
 long_description = (
     read('README.txt')
@@ -46,6 +46,7 @@ setup(name='plone.app.z3cform',
       # feature of plone.recipe.zope2install.
       install_requires=[
           'Zope2',
+          'zope.browserpage',
           'zope.interface',
           'setuptools',
           'plone.z3cform>=0.5.11dev',

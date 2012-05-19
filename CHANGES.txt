@@ -1,11 +1,11 @@
 Changelog
 =========
 
-0.5.9 (unreleased)
+0.6.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Use ViewPageTemplateFile from zope.browserpage.
+  [hannosch]
 
 0.5.8 (2012-05-07)
 ------------------

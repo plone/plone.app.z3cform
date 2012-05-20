@@ -3,7 +3,7 @@ import zope.component.testing
 import zope.testing.doctest
 
 from plone.browserlayer.layer import mark_layer
-from zope.app.publication.zopepublication import BeforeTraverseEvent
+from zope.traversing.interfaces import BeforeTraverseEvent
 
 from Products.Five import zcml
 from Products.PloneTestCase import ptc

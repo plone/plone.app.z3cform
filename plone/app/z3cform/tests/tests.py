@@ -10,11 +10,11 @@ from Products.PloneTestCase import ptc
 from Products.PloneTestCase.layer import onsetup
 from Products.CMFCore.utils import getToolByName
 
-from plone.app.z3cform.tests.layer import IntegrationLayer, KSSLayer
+from plone.app.z3cform.tests.layer import KSSLayer
+
 
 @onsetup
 def setup_zcml():
-    from Products.Five import zcml
     from Products.Five import fiveconfigure
     import plone.app.z3cform.tests
     fiveconfigure.debug_mode = True

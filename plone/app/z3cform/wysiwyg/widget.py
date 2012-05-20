@@ -1,11 +1,7 @@
 import Acquisition
 import zope.interface
 import zope.schema.interfaces
-
-try:
-    from zope.site.hooks import getSite
-except ImportError:
-    from zope.app.component.hooks import getSite
+from zope.component.hooks import getSite
 
 import z3c.form.interfaces
 import z3c.form.browser.textarea

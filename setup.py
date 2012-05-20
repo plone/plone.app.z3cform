@@ -29,7 +29,6 @@ setup(name='plone.app.z3cform',
         "Framework :: Plone",
         "Framework :: Zope2",
         "Programming Language :: Python",
-        "Topic :: Software Development :: Libraries :: Python Modules",
         ],
       keywords='zope plone form widget template',
       author='Plone Foundation',
@@ -40,23 +39,20 @@ setup(name='plone.app.z3cform',
       namespace_packages=['plone', 'plone.app'],
       include_package_data=True,
       zip_safe=False,
-
-      # If in Zope 2, z3c.form or another Zope 3 package starts
-      # pulling incompatible dependencies, use the "fake zope eggs"
-      # feature of plone.recipe.zope2install.
       install_requires=[
-          'Zope2',
-          'zope.browserpage',
-          'zope.interface',
           'setuptools',
-          'plone.z3cform>=0.5.11dev',
+          'collective.z3cform.datetimewidget>=0.1a2',
           'kss.core',
           'plone.app.kss',
+          'plone.z3cform>=0.5.11dev',
           'z3c.formwidget.query',
+          'Zope2',
+          'zope.browserpage',
           'zope.component',
-          'collective.z3cform.datetimewidget>=0.1a2',
+          'zope.interface',
+          'zope.traversing',
       ],
-      extras_require = {
-        'tests': ['collective.testcaselayer',]
+      extras_require={
+        'tests': ['collective.testcaselayer']
       },
       )

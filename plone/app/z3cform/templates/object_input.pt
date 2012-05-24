@@ -11,21 +11,22 @@
                 tal:attributes="for widget/id"
                 tal:condition="not:hidden">
                 <span i18n:translate="" tal:replace="widget/label">label</span>
+
+              <span class="required horizontal" title="Required"
+                    style="color: red"
+                    tal:condition="python:widget.required and not hidden"
+                    i18n:attributes="title title_required;">
+                &#x25a0;
+              </span>
+
+              <span class="formHelp"
+                  tal:define="description widget/field/description"
+                  i18n:translate=""
+                  tal:content="description"
+                  tal:condition="python:description and not hidden"
+                  >field description
+              </span>
             </label>
-
-            <span class="required horizontal" title="Required"
-                  style="color: red"
-                  tal:condition="python:widget.required and not hidden"
-                  i18n:attributes="title title_required;">
-              &#x25a0;
-            </span>
-
-            <div class="formHelp"
-                tal:define="description widget/field/description"
-                i18n:translate=""
-                tal:content="description"
-                tal:condition="python:description and not hidden"
-                >field description</div>
 
             <div class="fieldErrorBox"
                 tal:content="structure error/render|nothing">

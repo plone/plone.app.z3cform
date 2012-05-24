@@ -4,6 +4,10 @@ Changelog
 0.6.0 (unreleased)
 ------------------
 
+- Pull form help inside label tag and make it a span rather than a div. The
+  purpose is to improve accessibility by making the semantic connection between
+  label and help. Related to http://dev.plone.org/ticket/7212
+
 - Use ViewPageTemplateFile from zope.browserpage.
   [hannosch]
 

@@ -24,11 +24,8 @@
                 <span class="multi-widget-number" tal:content="repeat/widget/number">1</span>
 
                 <span class="required horizontal" title="Required"
-                      style="color: red"
                       tal:condition="python:widget.required and not hidden"
-                      i18n:attributes="title title_required;">
-                  &#x25a0;
-                </span>
+                      i18n:attributes="title title_required;">&nbsp;</span>
                 <span class="formHelp"
                     tal:define="description widget/field/description"
                     i18n:translate=""

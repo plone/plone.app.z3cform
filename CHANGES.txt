@@ -4,6 +4,10 @@ Changelog
 0.6.0 (unreleased)
 ------------------
 
+- Remove hard-coded &#x25a0; (box) markers from required labels to match
+  changes made in sunburst/public.css and archetypes. Fixes double required
+  markers in Plone 4.2rc1.
+
 - Pull form help inside label tag and make it a span rather than a div. The
   purpose is to improve accessibility by making the semantic connection between
   label and help. Related to http://dev.plone.org/ticket/7212

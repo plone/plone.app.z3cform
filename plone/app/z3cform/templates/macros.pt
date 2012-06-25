@@ -103,7 +103,8 @@
                               <fieldset
                                   tal:define="fieldset_name repeat/group/index"
                                   tal:attributes="id string:fieldset-${fieldset_name};
-                                                  class string:kssattr-fieldset-${fieldset_name}">
+                                                  class string:kssattr-fieldset-${fieldset_name};
+                                                  data-fieldset fieldset_name">
 
                                       <legend tal:define="form_name group/label"
                                               tal:condition="form_name"

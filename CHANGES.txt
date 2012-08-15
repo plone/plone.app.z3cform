@@ -4,7 +4,8 @@ Changelog
 0.6.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix the single checkbox widget to cope with widgets with a __call__ method.
+  [davisagli]
 
 
 0.6.0 (2012-05-25)

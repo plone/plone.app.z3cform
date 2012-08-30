@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.6.1 (unreleased)
+0.6.1 (2012-08-30)
 ------------------
 
 - Fix the single checkbox widget to cope with widgets with a __call__ method.

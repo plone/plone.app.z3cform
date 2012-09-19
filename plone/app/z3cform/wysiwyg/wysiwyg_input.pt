@@ -6,7 +6,7 @@
      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
      i18n:domain="plone">
 
-     <tal:editor define="context            nocall:view/context;
+     <tal:editor define="context            nocall:view/form/context;
                          here               nocall:context;
                          portal_url         nocall:context/portal_url;
                          portal             portal_url/getPortalObject;

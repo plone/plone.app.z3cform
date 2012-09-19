@@ -4,7 +4,8 @@ Changelog
 0.6.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix a case where the widget broke if its form's content was a dict.
+  [davisagli]
 
 
 0.6.1 (2012-08-30)

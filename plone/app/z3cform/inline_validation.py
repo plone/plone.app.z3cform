@@ -17,6 +17,8 @@ class InlineValidationView(BrowserView):
         form = self.context
         if hasattr(aq_base(form), 'form_instance'):
             form = form.form_instance
+        if not hasattr(form, 'update'):
+            return
         form.update()
         
         if getattr(form, "extractData", None):

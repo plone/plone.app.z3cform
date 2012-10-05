@@ -38,10 +38,6 @@ class IntegrationTests(ptc.PloneTestCase):
         from plone.app.z3cform.interfaces import IPloneFormLayer
         self.failUnless(IPloneFormLayer.providedBy(self.portal.REQUEST))
     
-    def test_kss_resource_installed(self):
-        pk = getToolByName(self.portal, 'portal_kss')
-        self.failUnless('++resource++plone.app.z3cform' in pk.getResourceIds())
-    
     def test_default_templates(self):
         form = self.portal.restrictedTraverse('test-form')
         rendered = form()
@@ -50,7 +46,7 @@ class IntegrationTests(ptc.PloneTestCase):
 
 def test_suite():
     
-    kssTests = zope.testing.doctest.DocFileSuite('kss/README.txt',
+    kssTests = zope.testing.doctest.DocFileSuite('inline_validation.txt',
             package='plone.app.z3cform',
             optionflags=(zope.testing.doctest.ELLIPSIS | zope.testing.doctest.NORMALIZE_WHITESPACE)
         )

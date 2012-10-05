@@ -1,8 +1,11 @@
 Changelog
 =========
 
-0.6.2 (unreleased)
+0.7.0 (unreleased)
 ------------------
+
+- Support inline validation without depending on KSS.
+  [davisagli]
 
 - Fix a case where the widget broke if its form's content was a dict.
   [davisagli]

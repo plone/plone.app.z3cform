@@ -18,9 +18,7 @@ class IntegrationTestLayer(collective.testcaselayer.ptc.BasePTCLayer):
 class KSSUnitTestLayer(collective.testcaselayer.layer.Layer):
     
     def setUp(self):
-        import plone.app.kss
         import plone.app.z3cform
-        import kss.core.tests
         import z3c.form
         import Products.Five
         import Products.GenericSetup
@@ -31,11 +29,6 @@ class KSSUnitTestLayer(collective.testcaselayer.layer.Layer):
         zcml.load_config('meta.zcml', Products.GenericSetup)
         zcml.load_config('configure.zcml', Products.Five)
         zcml.load_config('configure.zcml', Products.CMFCore)
-
-        zcml.load_config('meta.zcml', kss.core)
-        zcml.load_config('configure.zcml', kss.core)
-        zcml.load_config('configure-unittest.zcml', kss.core.tests)
-        zcml.load_config('configure.zcml', plone.app.kss)
 
         zcml.load_config('meta.zcml', z3c.form)
         zcml.load_config('configure.zcml', z3c.form)

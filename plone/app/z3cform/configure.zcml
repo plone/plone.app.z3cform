@@ -10,8 +10,6 @@
   <include package=".wysiwyg" />
   <include package="collective.z3cform.datetimewidget" />
 
-  <include zcml:condition="installed plone.app.kss" package=".kss" />
-  
   <!-- Configuration installation profile -->
   
   <include file="profiles.zcml" />
@@ -129,6 +127,13 @@
       widget="z3c.form.interfaces.IObjectWidget"
       layer=".interfaces.IPloneFormLayer"
       template="templates/object_input.pt"
+      />
+
+  <browser:page
+      name="z3cform_validate_field"
+      for="*"
+      class=".inline_validation.InlineValidationView"
+      permission="zope.Public"
       />
 
 </configure>

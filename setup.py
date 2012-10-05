@@ -14,7 +14,7 @@ long_description = (
     + '\n' +
     read('plone', 'app', 'z3cform', 'queryselect', 'README.txt')
     + '\n' +
-    read('plone', 'app', 'z3cform', 'kss', 'README.txt')
+    read('plone', 'app', 'z3cform', 'inline_validation.txt')
     + '\n' +
     read('CHANGES.txt')
     + '\n'
@@ -42,8 +42,6 @@ setup(name='plone.app.z3cform',
       install_requires=[
           'setuptools',
           'collective.z3cform.datetimewidget>=0.1a2',
-          'kss.core',
-          'plone.app.kss',
           'plone.z3cform>=0.5.11dev',
           'z3c.formwidget.query',
           'Zope2',

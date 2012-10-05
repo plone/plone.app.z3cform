@@ -84,7 +84,7 @@ Inline validation is invoked via the @@z3cform_validate_field view.
     >>> form = MyForm(context, request)
     >>> z3cform_validate_field = getMultiAdapter((form, request), name=u"z3cform_validate_field")
 
-This is wired up with KSS. When the user leaves a form control with inline
+This is wired up with jQuery. When the user leaves a form control with inline
 validation enabled, it will be called with the following parameters:
 
     >>> z3cform_validate_field(fname=u'form.widgets.age')

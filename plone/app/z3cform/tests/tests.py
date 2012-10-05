@@ -8,9 +8,8 @@ from zope.traversing.interfaces import BeforeTraverseEvent
 from Products.Five import zcml
 from Products.PloneTestCase import ptc
 from Products.PloneTestCase.layer import onsetup
-from Products.CMFCore.utils import getToolByName
 
-from plone.app.z3cform.tests.layer import KSSLayer
+from plone.app.z3cform.tests.layer import InlineValidationLayer
 
 
 @onsetup
@@ -46,11 +45,11 @@ class IntegrationTests(ptc.PloneTestCase):
 
 def test_suite():
     
-    kssTests = zope.testing.doctest.DocFileSuite('inline_validation.txt',
+    inlineValidationTests = zope.testing.doctest.DocFileSuite('inline_validation.txt',
             package='plone.app.z3cform',
             optionflags=(zope.testing.doctest.ELLIPSIS | zope.testing.doctest.NORMALIZE_WHITESPACE)
         )
-    kssTests.layer = KSSLayer
+    inlineValidationTests.layer = InlineValidationLayer
     
     return unittest.TestSuite([
         unittest.makeSuite(IntegrationTests),
@@ -67,6 +66,6 @@ def test_suite():
                 setUp=zope.component.testing.setUp, tearDown=zope.component.testing.tearDown,
             ),
          
-        kssTests,
+        inlineValidationTests,
           
         ])

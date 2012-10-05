@@ -15,7 +15,7 @@ class IntegrationTestLayer(collective.testcaselayer.ptc.BasePTCLayer):
         
         self.addProfile('plone.app.z3cform:default')
 
-class KSSUnitTestLayer(collective.testcaselayer.layer.Layer):
+class InlineValidationTestLayer(collective.testcaselayer.layer.Layer):
     
     def setUp(self):
         import plone.app.z3cform
@@ -42,4 +42,4 @@ class KSSUnitTestLayer(collective.testcaselayer.layer.Layer):
         zope.component.testing.tearDown()
     
 IntegrationLayer = IntegrationTestLayer([collective.testcaselayer.ptc.ptc_layer])
-KSSLayer = KSSUnitTestLayer()
+InlineValidationLayer = InlineValidationTestLayer()

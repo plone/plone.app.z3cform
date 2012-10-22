@@ -11,11 +11,11 @@
   <include package="collective.z3cform.datetimewidget" />
 
   <!-- Configuration installation profile -->
-  
+
   <include file="profiles.zcml" />
 
   <!-- Set up default templates -->
-  
+
   <browser:page
       name="ploneform-macros"
       for="*"
@@ -39,14 +39,14 @@
       class=".templates.RenderSingleCheckboxWidget"
       permission="zope.Public"
       />
-  
+
   <adapter factory=".templates.layout_factory" />
   <adapter factory=".templates.form_factory" />
-  
+
   <!-- Make the default widget for sequence-of-text-lines a textlines
        widget; the default is too confusing
     -->
-  
+
   <adapter
       factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
       provides="z3c.form.interfaces.IFieldWidget"
@@ -68,7 +68,7 @@
            zope.schema.interfaces.ITextLine
            z3c.form.interfaces.IFormLayer"
       />
-  
+
   <adapter
       factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
       provides="z3c.form.interfaces.IFieldWidget"
@@ -135,5 +135,16 @@
       class=".inline_validation.InlineValidationView"
       permission="zope.Public"
       />
+
+
+  <adapter
+      factory=".object.SubformAdapter"
+      for="zope.interface.Interface
+           plone.app.z3cform.interfaces.IPloneFormLayer
+           zope.interface.Interface
+           zope.interface.Interface
+           z3c.form.interfaces.IObjectWidget
+           zope.interface.Interface
+           zope.interface.Interface" />
 
 </configure>

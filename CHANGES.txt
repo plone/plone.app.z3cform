@@ -4,7 +4,9 @@ Changelog
 0.7.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Overrode ObjectSubForm for IObject field [gborelli]
+
+- Added utils.closest_content from plone.formwidget.contenttree.utils [gborelli]
 
 
 0.7.0 (2012-10-16)
@@ -52,7 +54,7 @@ Changelog
   invariants). This closes http://code.google.com/p/dexterity/issues/detail?id=238
   [davisagli]
 
-- Added the ``i18n:domain`` attribute in the first ``div`` of ``widget.pt`` in order to make the 
+- Added the ``i18n:domain`` attribute in the first ``div`` of ``widget.pt`` in order to make the
   "required" tooltip translatable. Fixes http://dev.plone.org/plone/ticket/12209
   [rafaelbco]
 

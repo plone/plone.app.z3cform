@@ -1,10 +1,10 @@
-from z3c.form.object import SubformAdapter as baseSubformAdapter
-from z3c.form.object import ObjectSubForm as baseObjectSubForm
+from z3c.form.object import SubformAdapter as BaseSubformAdapter
+from z3c.form.object import ObjectSubForm as BaseObjectSubForm
 
 from utils import closest_content
 
 
-class ObjectSubForm(baseObjectSubForm):
+class ObjectSubForm(BaseObjectSubForm):
 
     def get_closest_content(self):
         """Return the closest persistent context to this form.
@@ -14,7 +14,7 @@ class ObjectSubForm(baseObjectSubForm):
         return closest_content(self.context)
 
 
-class SubformAdapter(baseSubformAdapter):
+class SubformAdapter(BaseSubformAdapter):
     """Subform factory adapter used to override the subform factory
     """
 

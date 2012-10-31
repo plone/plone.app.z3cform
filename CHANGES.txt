@@ -4,6 +4,11 @@ Changelog
 0.6.2 (unreleased)
 ------------------
 
+- Rename the 'fieldset.current' hidden input to 'fieldset' for consistency
+  with Archetypes.
+  [davisagli]
+
+
 - Fix a case where the widget broke if its form's content was a dict.
   [davisagli]
 

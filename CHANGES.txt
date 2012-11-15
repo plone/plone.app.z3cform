@@ -4,6 +4,9 @@ Changelog
 0.7.1 (unreleased)
 ------------------
 
+- Primarily use form name for 'kssattr-formname' form attribute.
+  [vipod]
+
 - Rename the 'fieldset.current' hidden input to 'fieldset' for consistency
   with Archetypes.
   [davisagli]

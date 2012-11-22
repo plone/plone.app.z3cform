@@ -60,7 +60,7 @@
                                   "
                       tal:attributes="action view/action|request/getURL; 
                                       enctype view/enctype;
-                                      class python:'rowlike enableUnloadProtection %s %s kssattr-formname-%s' % (form_tabbing, form_class, request.getURL().split('/')[-1]);
+                                      class python:'rowlike enableUnloadProtection %s %s kssattr-formname-%s' % (form_tabbing, form_class, view.__name__ or request.getURL().split('/')[-1]);
                                       id view/id;
                                       method view/method|string:'post'
                                       ">
@@ -69,8 +69,8 @@
 
                     <metal:fields-slot define-slot="fields">
                       <input type="hidden"
-                          name="fieldset.current"
-                          tal:define="current_fieldset request/fieldset.current | string:#fieldsetlegend-default"
+                          name="fieldset"
+                          tal:define="current_fieldset request/fieldset | string:#fieldsetlegend-default"
                           tal:condition="python:has_groups and enable_form_tabbing"
                           tal:attributes="value current_fieldset"
                           />

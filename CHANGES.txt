@@ -4,9 +4,14 @@ Changelog
 0.7.1 (unreleased)
 ------------------
 
-- Overrode ObjectSubForm for IObject field [gborelli]
 
+- Overrode ObjectSubForm for IObject field [gborelli]
 - Added utils.closest_content from plone.formwidget.contenttree.utils [gborelli]
+- Primarily use form name for 'kssattr-formname' form attribute.
+  [vipod]
+- Rename the 'fieldset.current' hidden input to 'fieldset' for consistency
+  with Archetypes.
+  [davisagli]
 
 
 0.7.0 (2012-10-16)

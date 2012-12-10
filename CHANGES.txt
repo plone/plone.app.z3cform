@@ -4,6 +4,10 @@ Changelog
 0.7.1 (unreleased)
 ------------------
 
+- Add indicator of remaining characters to the textarea widget when
+  the field has a max_length.
+  [davisagli]
+
 - Primarily use form name for 'kssattr-formname' form attribute.
   [vipod]
 

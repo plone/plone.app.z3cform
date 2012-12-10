@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.6.2 (unreleased)
+0.6.2 (2012-12-09)
 ------------------
 
 - Rename the 'fieldset.current' hidden input to 'fieldset' for consistency

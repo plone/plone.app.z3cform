@@ -129,13 +129,6 @@
       template="templates/object_input.pt"
       />
 
-  <z3c:widgetTemplate
-      mode="input"
-      widget="z3c.form.interfaces.ITextAreaWidget"
-      layer=".interfaces.IPloneFormLayer"
-      template="templates/textarea_input.pt"
-      />
-
   <browser:page
       name="z3cform_validate_field"
       for="*"

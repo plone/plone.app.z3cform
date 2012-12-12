@@ -131,7 +131,7 @@
 
   <z3c:widgetTemplate
       mode="input"
-      widget="z3c.form.browser.textarea.TextAreaWidget"
+      widget="z3c.form.interfaces.ITextAreaWidget"
       layer=".interfaces.IPloneFormLayer"
       template="templates/textarea_input.pt"
       />

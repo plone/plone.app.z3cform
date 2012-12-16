@@ -1,7 +1,7 @@
 from z3c.form.object import SubformAdapter as BaseSubformAdapter
 from z3c.form.object import ObjectSubForm as BaseObjectSubForm
 
-from utils import closest_content
+from .utils import closest_content
 
 
 class ObjectSubForm(BaseObjectSubForm):

@@ -4,6 +4,14 @@ Changelog
 0.7.1 (unreleased)
 ------------------
 
+
+- Overrode ObjectSubForm for IObject field in order to provide get_closest_content
+  method. Now it is possible to guess the closest content from a Multiwidget subform.
+  [gborelli]
+
+- Added utils.closest_content from plone.formwidget.contenttree.utils
+  [gborelli]
+
 - Primarily use form name for 'kssattr-formname' form attribute.
   [vipod]
 
@@ -57,7 +65,7 @@ Changelog
   invariants). This closes http://code.google.com/p/dexterity/issues/detail?id=238
   [davisagli]
 
-- Added the ``i18n:domain`` attribute in the first ``div`` of ``widget.pt`` in order to make the 
+- Added the ``i18n:domain`` attribute in the first ``div`` of ``widget.pt`` in order to make the
   "required" tooltip translatable. Fixes http://dev.plone.org/plone/ticket/12209
   [rafaelbco]
 

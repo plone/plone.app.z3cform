@@ -147,6 +147,8 @@
                         </metal:define>
                     </metal:actions-slot>
 
+                    <tal:block tal:condition="view/enableCSRFProtection|nothing"
+                      tal:replace="structure context/@@authenticator/authenticator" />
                     <metal:block define-slot="formbottom" />
 
                 </form>

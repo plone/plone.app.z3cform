@@ -139,6 +139,26 @@ Example::
                 # 1) prior fragment 2) GET query parameters messing up the UrL
                 return self.context.absolute_url() + "/holidayservice_view" + "#searched"
 
+
+CSRF Protection
+===============
+
+A common vulnerability affecting web forms is cross-site request forgery (CSRF).
+This attack occurs when the user of your site visits a third-party site that
+uses Javascript to post to a URL on your site without the user's knowledge,
+taking advantage of the user's active session.
+
+plone.app.z3cform can protect against this type of attack by adding a unique
+token as a hidden input when rendering the form, and checking to make sure it
+is present as a request parameter when form actions are executed.
+
+To turn on this protection, enable the form's enableCSRFProtection attribute.
+Example::
+
+    class PasswordForm(form.Form):
+        """Form to set the user's password."""
+        enableCSRFProtection = True
+
             
 Troubleshooting
 ================

@@ -147,4 +147,7 @@
            zope.interface.Interface
            zope.interface.Interface" />
 
+  <!-- Use a custom actions manager that knows how to do CSRF token authentication. -->
+  <adapter factory=".csrf.AuthenticatedButtonActions" />
+
 </configure>

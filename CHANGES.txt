@@ -4,7 +4,8 @@ Changelog
 0.7.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Restored support for contents without acquisition chain
+  [keul]
 
 
 0.7.1 (2013-01-01)

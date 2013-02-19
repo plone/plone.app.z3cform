@@ -4,6 +4,11 @@ Changelog
 0.7.2 (unreleased)
 ------------------
 
+- Add a macro and slot to the @@ploneform-render-widget templates
+  so it's possible to override the widget rendering without
+  changing the markup surrounding it.
+  [davisagli]
+
 - Restored support for contents without acquisition chain
   [keul]
 

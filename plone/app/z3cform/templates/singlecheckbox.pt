@@ -1,4 +1,5 @@
 <div
+   metal:define-macro="widget-wrapper"
    tal:define="widget nocall:context;
                hidden python:widget.mode == 'hidden';
                error widget/error;
@@ -7,7 +8,8 @@
    tal:attributes="class string:field z3cformInlineValidation ${fieldname_class}${error_class};
                    id string:formfield-${widget/id};">
 
-    <input type="text" tal:replace="structure widget/render" />
+    <input type="text" tal:replace="structure widget/render"
+           metal:define-slot="widget" />
 
     <div class="formHelp"
         tal:define="description widget/field/description"

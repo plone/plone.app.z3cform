@@ -19,15 +19,14 @@ class WysiwygWidget(z3c.form.browser.textarea.TextAreaWidget):
     def update(self):
         super(z3c.form.browser.textarea.TextAreaWidget, self).update()
         z3c.form.browser.widget.addFieldClass(self)
-
         # We'll wrap context in the current site *if* it's not already
         # wrapped.  This allows the template to acquire tools with
         # ``context/portal_this`` if context is not wrapped already.
         # Any attempts to satisfy the Kupu template in a less idiotic
         # way failed:
-        if getattr(self.context, 'aq_inner', None) is None:
-            self.context = Acquisition.ImplicitAcquisitionWrapper(
-                self.context, getSite())
+        if getattr(self.form.context, 'aq_inner', None) is None:
+            self.form.context = Acquisition.ImplicitAcquisitionWrapper(
+                self.form.context, getSite())
 
 @zope.component.adapter(zope.schema.interfaces.IField,
                         z3c.form.interfaces.IFormLayer)

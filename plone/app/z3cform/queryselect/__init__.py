@@ -1,5 +1,4 @@
 from zope import interface
-from zope import schema
 
 import zope.schema.interfaces
 import zope.schema.vocabulary

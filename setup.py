@@ -8,7 +8,7 @@ def read(*rnames):
 version = '0.7.3.dev0'
 
 long_description = (
-    read('README.txt')
+    read('README.rst')
     + '\n' +
     read('plone', 'app', 'z3cform', 'wysiwyg', 'README.txt')
     + '\n' +

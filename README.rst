@@ -2,7 +2,6 @@
 plone.app.z3cform
 =================
 
-
 A collection of widgets and templates, and other components for use
 with `z3c.form`_ in Plone_.  This extends `plone.z3cform`_, the library that
 enables Zope 2 applications to use z3c.form, with Plone-specific markup and
@@ -87,15 +86,15 @@ This also assumes the standard Plone form markup is used. See
 Template enhancements
 ========================
 
-The following apply in plone.app.z3cform templates which are defined in 
+The following apply in plone.app.z3cform templates which are defined in
 ``plone.app.z3cform/plone/app/z3cform/templates/macros.pt``.
-They allow you to customize the behavior of z3c.form package to play 
+They allow you to customize the behavior of z3c.form package to play
 nicely with your application.
 
 plone.app.z3cform add-on must be installed through the add on installer
 on your site, or plone.app.z3cform form macros are not activated.
-Running the installer adds a custom browser layer where macros.pt 
-is hooked as ``ploneform-macros`` view.   
+Running the installer adds a custom browser layer where macros.pt
+is hooked as ``ploneform-macros`` view.
 
 Form method
 -------------
@@ -108,16 +107,16 @@ Example::
 
     class HolidayServiceSearchForm(form.Form):
             """ Example search form of which results can be bookmarked.
-            
-            Bookmarking is possible because we use HTTP GET method. 
+
+            Bookmarking is possible because we use HTTP GET method.
             """
-            
+
             method = "get"
-            
+
 Form action
 ------------
 
-Form ``action`` property defines HTTP target where the form is posted. The default is 
+Form ``action`` property defines HTTP target where the form is posted. The default is
 the same page where the form was rendered, ``request.getURL()``.
 
 Example::
@@ -126,13 +125,13 @@ Example::
 
             def action(self):
                 """ Redefine <form action=''> attribute.
-                
+
                 We use URL fragment to define the <a> anchor
                 were we directly scroll at the results when the form is posted,
                 skipping unnecessary form fields part. The user can scroll
-                back there if he/she wants modify the parameters. 
+                back there if he/she wants modify the parameters.
                 """
-                
+
                 # Context item URL + form view name + link fragment.
                 # This works for HTTP GET forms only.
                 # Note that we cannot use request.getURL() as it might contain
@@ -159,7 +158,58 @@ Example::
         """Form to set the user's password."""
         enableCSRFProtection = True
 
-            
+Widget frame override
+=============================
+
+You can override widget templates as instructed for ``z3c.form``.
+``plone.app.z3cform`` renders `a frame around each widget <https://github.com/plone/plone.app.z3cform/blob/master/plone/app/z3cform/templates/widget.pt>`_
+which usually consists of
+
+* Label
+
+* Required marker
+
+* Description
+
+You might want to customize this widget frame for your own form.
+Below is an example how to do it.
+
+* Copy `widget.pt <https://github.com/plone/plone.app.z3cform/blob/master/plone/app/z3cform/templates/widget.pt>`_ to your own package and customize it in way you wish
+
+* Add the following to ``configure.zcml``
+
+::
+
+    <browser:page
+        name="ploneform-render-widget"
+        for=".demo.IDemoWidget"
+        class="plone.app.z3cform.templates.RenderWidget"
+        permission="zope.Public"
+        template="demo-widget.pt"
+        />
+
+* Create a new marker interface in Python code
+
+::
+
+    from zope.interface import Interface
+
+    class IDemoWidget(Interface):
+        pass
+
+* Then apply this marker interface to all of your widgets in ``form.update()``
+
+::
+
+    from zope.interface import alsoProvides
+
+    class MyForm(...):
+        ...
+        def update(self):
+            super(MyForm, self).update()
+            for widget in form.widgets.values():
+                alsoProvides(widget, IDemoWidget)
+
 Troubleshooting
 ================
 
@@ -183,10 +233,10 @@ ComponentLookupError in updateWidgets()
           Module zope.component._api, line 103, in getMultiAdapter
         ComponentLookupError: ((<getpaid.expercash.browser.views.CheckoutForm object at 0xdb052ac>, <HTTPRequest, URL=http://localhost:8080/test/@@getpaid-checkout-wizard>, <PloneSite at /test>), <InterfaceClass z3c.form.interfaces.IWidgets>, u'')
 
-plone.app.z3cform layers are not in place (configuration ZCML is not read). You probably forgot to include plone.app.z3cform in your 
+plone.app.z3cform layers are not in place (configuration ZCML is not read). You probably forgot to include plone.app.z3cform in your
 product's configuration.zcml. See *Installation* above.
 
-     
+
 
 .. _z3c.form: http://pypi.python.org/pypi/z3c.form
 .. _Plone: http://plone.org

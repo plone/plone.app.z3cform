@@ -4,7 +4,7 @@ Changelog
 0.7.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Added possibility to use z3c.form's ContentProviders [gbastien, jfroche, gotcha] 
 
 
 0.7.2 (2013-03-05)

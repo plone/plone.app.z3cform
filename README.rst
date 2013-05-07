@@ -47,10 +47,18 @@ In fact, the browser layer installed with this product's extension profile is
 ``plone.app.z3cform.interfaces.IPloneFormLayer``, which in turn derives from
 ``z3c.form.interfaces.IFormLayer``.
 
-Default macros
-==============
+Out of the box form templates
+==================================
 
-This package overrides the ``@@ploneform-macros`` view from `plone.z3cform`_,
+The form and widget templates are applied in the following order
+
+* *plone.app.z3cform* specific
+
+* *plone.z3cform* specific
+
+* *z3c.form* specific
+
+*plone.app.z3cform* package overrides the ``@@ploneform-macros`` view from `plone.z3cform`_,
 using standard Plone markup for form fields, fieldsets, etc.
 
 All the macros described in `plone.z3cform`_ are still available. In addition,
@@ -63,18 +71,8 @@ default includes the widget's label, required indicator, description, errors,
 and the result of ``widget.render()``.  This view may be overridden for
 particular widget types in order to customize this widget chrome.
 
-Template enhancements
-========================
-
-The following apply in plone.app.z3cform templates which are defined in
-``plone.app.z3cform/plone/app/z3cform/templates/macros.pt``.
-They allow you to customize the behavior of z3c.form package to play
-nicely with your application.
-
-plone.app.z3cform add-on must be installed through the add on installer
-on your site, or plone.app.z3cform form macros are not activated.
-Running the installer adds a custom browser layer where macros.pt
-is hooked as ``ploneform-macros`` view.
+Customizing form behavior
+============================
 
 Form method
 -------------

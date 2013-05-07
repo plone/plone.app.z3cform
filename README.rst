@@ -2,18 +2,18 @@
 plone.app.z3cform
 =================
 
-A collection of widgets and templates, and other components for use
-with `z3c.form`_ in Plone_.  This extends `plone.z3cform`_, the library that
-enables Zope 2 applications to use z3c.form, with Plone-specific markup and
-functionality.
+A Plone specific integration and HTML mark-up for z3c.form.
+
+.. contents:: Table of Contents
+
+Introduction
+==============
 
 Please read the documentation for `z3c.form`_, which contains important
 information about using z3c.form in Zope 2 in general. For the most part,
 that package contains the "active" parts that you need to know about, and
 this package provides "passive" overrides that make the forms integrate with
 Plone.
-
-.. contents:: Table of Contents
 
 Installation
 ============
@@ -62,26 +62,6 @@ Each widget is rendered using the ``@@ploneform-render-widget`` view, which by
 default includes the widget's label, required indicator, description, errors,
 and the result of ``widget.render()``.  This view may be overridden for
 particular widget types in order to customize this widget chrome.
-
-Inline form validation
-======================
-
-This package installs AJAX handlers to perform inline field validation. On any
-form, the field will be validated when the user blurs a field.
-
-This relies on the KSS framework, and is only installed if ``plone.app.kss``
-is available. If you are using a custom form, note that you must define the
-following "kassattr" variables:
-
-* ``formname``, the name of the form view, defined on the ``<form />``
-  element.
-* ``fieldname``, the name of the current field (same as the widget name),
-  defined on an element wrapping the field.
-* ``fieldset``, defined for non-default fieldsets on the ``<fieldset />``
-  element.
-
-This also assumes the standard Plone form markup is used. See
-``templaes/macros.pt`` for details.
 
 Template enhancements
 ========================
@@ -146,6 +126,8 @@ A common vulnerability affecting web forms is cross-site request forgery (CSRF).
 This attack occurs when the user of your site visits a third-party site that
 uses Javascript to post to a URL on your site without the user's knowledge,
 taking advantage of the user's active session.
+
+
 
 plone.app.z3cform can protect against this type of attack by adding a unique
 token as a hidden input when rendering the form, and checking to make sure it
@@ -237,6 +219,29 @@ plone.app.z3cform layers are not in place (configuration ZCML is not read). You 
 product's configuration.zcml. See *Installation* above.
 
 
+KSS inline validation (deprecared)
+====================================
+
+.. note ::
+
+    Plone 4.3+ and later no longer includes KSS
+
+This package installs AJAX handlers to perform inline field validation. On any
+form, the field will be validated when the user blurs a field.
+
+This relies on the KSS framework, and is only installed if ``plone.app.kss``
+is available. If you are using a custom form, note that you must define the
+following "kassattr" variables:
+
+* ``formname``, the name of the form view, defined on the ``<form />``
+  element.
+* ``fieldname``, the name of the current field (same as the widget name),
+  defined on an element wrapping the field.
+* ``fieldset``, defined for non-default fieldsets on the ``<fieldset />``
+  element.
+
+This also assumes the standard Plone form markup is used. See
+``templaes/macros.pt`` for details.
 
 .. _z3c.form: http://pypi.python.org/pypi/z3c.form
 .. _Plone: http://plone.org

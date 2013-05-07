@@ -21,7 +21,7 @@ Plone.
 Installation
 ============
 
-Plone 4.3 and later include *plone.app.z3cform* in Plone core. Older versions need to install
+Plone 4.1 and later include *plone.app.z3cform* in Plone core. Older versions need to install
 the addon separately as your own add-on dependency.
 
 Features

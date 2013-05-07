@@ -130,6 +130,131 @@ Example::
         """Form to set the user's password."""
         enableCSRFProtection = True
 
+Form main template override
+=============================
+
+Forms are framed by *FormWrapper* views. It places rendered
+form inside Plone page frame. The default *FormWrapper* is supplied automatically,
+but you can override it.
+
+Below is a placeholder example with few `<select>` inputs.
+
+Example ``reporter.py``::
+
+    import zope.schema
+    import zope.interface
+    from zope.i18nmessageid import MessageFactory
+    from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile as FiveViewPageTemplateFile
+
+    from zope.schema.vocabulary import SimpleVocabulary
+    from zope.schema.vocabulary import SimpleTerm
+
+    import z3c.form
+
+    import plone.app.z3cform
+    import plone.z3cform.templates
+
+    _ = MessageFactory('your.addon')
+
+
+    def make_terms(items):
+        """ Create zope.schema terms for vocab from tuples """
+        terms = [SimpleTerm(value=pair[0], token=pair[0], title=pair[1]) for pair in items]
+        return terms
+
+
+    output_type_vocab = SimpleVocabulary(make_terms([("list", "Patient list"), ("summary", "Summary")]))
+
+
+    class IReportSchema(zope.interface.Interface):
+        """ Define reporter form fields """
+        outputType = zope.schema.Choice(
+            title=u"Output type",
+            description=u"How do you want the output",
+            source=output_type_vocab)
+
+        country = zope.schema.Choice(
+            title=u"Country",
+            required=False,
+            description=u"Which country to report",
+            vocabulary="allowed_countries")
+
+        hospital = zope.schema.Choice(
+            title=u"Hospital",
+            required=False,
+            description=u"Which hospital to report",
+            vocabulary="allowed_hospitals")
+
+
+    class ReportForm(z3c.form.form.Form):
+        """ A form to output a HTML report from chosen parameters """
+
+        fields = z3c.form.field.Fields(IReportSchema)
+
+        ignoreContext = True
+
+        output = None
+
+        @z3c.form.button.buttonAndHandler(_('Make Report'), name='report')
+        def report(self, action):
+            data, errors = self.extractData()
+            if errors:
+                self.status = "Please correct errors"
+                return
+
+            # Create sample item which we can consume in the page template
+            self.output = dict(country="foobar")
+
+            self.status = _(u"Report complete")
+
+
+    # IF you want to customize form frame you need to make a custom FormWrapper view around it
+    # (default plone.z3cform.layout.FormWrapper is supplied automatically with form.py templates)
+    report_form_frame = plone.z3cform.layout.wrap_form(ReportForm, index=FiveViewPageTemplateFile("templates/reporter.pt"))
+
+Example ``configure.zcml``::
+
+    <configure
+        xmlns="http://namespaces.zope.org/zope"
+        xmlns:browser="http://namespaces.zope.org/browser"
+        i18n_domain="your.addon">
+
+       <browser:page
+           for="*"
+           name="reporter"
+           class=".reporter.report_form_frame"
+           permission="zope2.View"
+           />
+
+    </configure>
+
+
+Example ``templates/reporter.html``::
+
+    <html metal:use-macro="context/main_template/macros/master"
+          i18n:domain="sits.reporttool">
+    <body>
+
+        <metal:block fill-slot="main">
+
+            <h1 class="documentFirstHeading" tal:content="view/label | nothing" />
+
+            <div id="content-core">
+
+                <div id="form-input">
+                    <span tal:replace="structure view/contents" />
+                </div>
+
+                <div id="form-output" tal:condition="view/form_instance/output">
+                    Chosen country: <b tal:content="view/form_instance/output/country" />
+                </div>
+            </div>
+
+        </metal:block>
+
+    </body>
+    </html>
+
 Widget frame override
 =============================
 

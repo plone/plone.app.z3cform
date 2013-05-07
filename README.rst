@@ -24,6 +24,21 @@ Installation
 Plone 4.3 and later include *plone.app.z3cform* in Plone core. Older versions need to install
 the addon separately as your own add-on dependency.
 
+Features
+============
+
+The following Plone and z3c.form integration is added
+
+* Plone *main_template.pt* integration
+
+* Plone specific widget frame
+
+* Date/time pickers
+
+* WYSIWYG widget (TinyMCE visual editor with Plone support)
+
+* CRUD forms
+
 Out of the box form templates
 ==================================
 

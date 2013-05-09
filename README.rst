@@ -307,6 +307,42 @@ Below is an example how to do it.
             for widget in form.widgets.values():
                 alsoProvides(widget, IDemoWidget)
 
+Testing
+===============
+
+To test ``plone.app.z3form`` it is recommended to use 
+`plone.app.testing <https://pypi.python.org/pypi/plone.app.testing/>`_ 
+function test layer which will do ``plone.app.z3cform`` setup for you.
+Read ``plone.app.z3cform`` manual for further instructions.
+
+If you still need to test forms on lower level in unit tests
+you need to enable ``plone.app.z3cform`` support manually.
+Below is an example::
+
+    import unittest2 as unittest
+
+    from zope.interface import alsoProvides
+    from zope.publisher.browser import setDefaultSkin
+
+    from z3c.form.interfaces import IFormLayer
+
+    class TestFilteringIntegration(unittest.TestCase):
+        """ Test that filtering options work on the form """
+
+        layer = MY_TEST_LAYER_WITH_PLONE
+
+        def setUp(self):
+            super(TestFilteringIntegration, self).setUp()
+            request = self.layer["request"]
+            setDefaultSkin(request)
+            alsoProvides(request, IFormLayer) #suitable for testing z3c.form views
+
+        def test_report_form_filtering(self):
+            reporter = ReportForm(self.layer["portal"], self.layer["request"])
+            reporter.update()
+
+
+
 Troubleshooting
 ================
 

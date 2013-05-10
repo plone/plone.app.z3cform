@@ -108,6 +108,21 @@ Example::
                 # 1) prior fragment 2) GET query parameters messing up the UrL
                 return self.context.absolute_url() + "/holidayservice_view" + "#searched"
 
+Fieldsets and tabs
+--------------------
+
+You can fieldsets to your form if you subclass the form from z3c.form.group.GroupForm.
+The default behavior of Plone is to turn these fieldsets to tabs (as seen on
+any *Edit* view of content item).
+
+You can disable this behavior for your form::
+
+
+
+    class ReportForm(z3c.form.group.GroupForm, z3c.form.form.Form):
+
+        # Disable turn fieldsets to tabs behavior
+        enable_form_tabbing  = False
 
 CSRF Protection
 ===============

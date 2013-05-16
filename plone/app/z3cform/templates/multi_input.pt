@@ -4,8 +4,10 @@
              tal:define="hidden python:widget.mode == 'hidden';
                          showLabel view/showLabel;
                          checkbox_disabled python:not view.allowRemoving and 'disabled' or nothing;
+                         key_widget python:view.key_widgets[repeat['widget'].index()];
                          error widget/error;
-                         error_class python:error and ' error' or '';
+                         key_error key_widget/error|nothing;
+                         error_class python:(error or key_error) and ' error' or '';
                          fieldname_class string:kssattr-fieldname-${widget/name};"
              tal:attributes="class string:multi-widget-field field z3cformInlineValidation ${fieldname_class}${error_class};
                              id string:formfield-${widget/id};">
@@ -16,6 +18,32 @@
                    tal:attributes="id string:${widget/id}-remove;
                                    name string:${widget/name}.remove;
                                    disabled checkbox_disabled;"/>
+
+            <label for="" class="horizontal"
+                tal:attributes="for key_widget/id"
+                tal:condition="python:key_widget is not None and showLabel and not hidden">
+                <span i18n:translate="" tal:replace="key_widget/label">label</span>
+                <span class="multi-widget-number" tal:content="repeat/widget/number">1</span>
+                <span class="required horizontal" title="Required"
+                      tal:condition="python:key_widget.required and not hidden"
+                      i18n:attributes="title title_required;">&nbsp;</span>
+                <span class="formHelp"
+                    tal:define="description key_widget/field/description"
+                    i18n:translate=""
+                    tal:content="description"
+                    tal:condition="python:description and showLabel and not hidden"
+                    >field description
+                </span>
+            </label>
+
+            <div class="fieldErrorBox"
+                tal:content="structure key_error/render|nothing">
+                Error
+            </div>
+
+            <input type="text" tal:condition="python:key_widget is not None" tal:replace="structure key_widget/render" />
+
+            <br/>
 
             <label for="" class="horizontal"
                 tal:attributes="for widget/id"

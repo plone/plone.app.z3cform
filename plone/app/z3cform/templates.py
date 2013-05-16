@@ -30,15 +30,21 @@ form_factory = plone.z3cform.templates.ZopeTwoFormTemplateFactory(
     form=z3c.form.interfaces.IForm,
     request=plone.app.z3cform.interfaces.IPloneFormLayer)
 
-# The ploneform-macros view
 
+# The ploneform-macros view
 class Macros(BrowserView):
-    
     def __getitem__(self, key):
         return self.index.macros[key]
+
 
 # The widget rendering templates need to be Zope 3 templates
 class RenderWidget(ViewMixinForTemplates, BrowserView):
     index = ViewPageTemplateFile('templates/widget.pt')
+
+
 class RenderSingleCheckboxWidget(ViewMixinForTemplates, BrowserView):
     index = ViewPageTemplateFile('templates/singlecheckbox.pt')
+
+
+class RenderContentProvider(ViewMixinForTemplates, BrowserView):
+    index = ViewPageTemplateFile('templates/contentprovider-widget.pt')

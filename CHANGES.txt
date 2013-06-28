@@ -4,6 +4,9 @@ Changelog
 0.7.4 (unreleased)
 ------------------
 
+- Do not display widget label in display mode if there is no value.
+  [cedricmessiant]
+
 - Display 'required' span only on input mode
   [cedricmessiant]
 

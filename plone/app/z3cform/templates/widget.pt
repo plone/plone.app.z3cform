@@ -3,6 +3,7 @@
    i18n:domain="plone"
    tal:define="widget nocall:context;
                hidden python:widget.mode == 'hidden';
+               display python:widget.mode == 'display';
                error widget/error;
                error_class python:error and ' error' or '';
                fieldname_class string:kssattr-fieldname-${widget/name};"
@@ -12,7 +13,8 @@
 
     <label for="" class="horizontal"
         tal:attributes="for widget/id"
-        tal:condition="not:hidden">
+        tal:condition="python: not hidden and not (display and not widget.value)">
+
         <span i18n:translate="" tal:replace="widget/label">label</span>
 
         <span class="required horizontal" title="Required"

@@ -322,6 +322,16 @@ Below is an example how to do it.
             for widget in form.widgets.values():
                 alsoProvides(widget, IDemoWidget)
 
+Hide fields that have no value
+==================================
+
+The ``.empty`` css class marks the fields that have no value. If you don't want
+to display these fields in view mode, add the following css in your theme::
+
+    .template-view .empty.field {
+       display: none;
+    }
+
 Testing
 ===============
 

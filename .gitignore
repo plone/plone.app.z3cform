@@ -3,3 +3,5 @@
 *.pyo
 build
 dist
+.project
+.pydevproject

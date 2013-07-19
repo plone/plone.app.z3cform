@@ -5,7 +5,8 @@
                hidden python:widget.mode == 'hidden';
                error widget/error;
                error_class python:error and ' error' or '';
-               empty_class python: not widget.value and ' empty' or '';
+               empty_values python: ('', [], ('', '', '', '00', '00', ''));
+               empty_class python: (widget.value in empty_values) and ' empty' or '';
                fieldname_class string:kssattr-fieldname-${widget/name};"
    tal:attributes="class string:field z3cformInlineValidation ${fieldname_class}${error_class}${empty_class};
                    data-fieldname widget/name;

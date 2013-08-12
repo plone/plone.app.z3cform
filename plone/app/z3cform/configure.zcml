@@ -169,7 +169,7 @@
       for="z3c.form.interfaces.IWidget"
       permission="zope.Public"
       class=".aria.AriaHelperView"
-      allowed_attributes="describedby required"
+      allowed_interface=".interfaces.IAriaHelperView"
       />
 
 </configure>

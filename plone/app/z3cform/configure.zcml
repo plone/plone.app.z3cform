@@ -136,6 +136,13 @@
       template="templates/object_input.pt"
       />
 
+  <z3c:widgetTemplate
+      mode="input"
+      widget="z3c.form.interfaces.ITextWidget"
+      layer=".interfaces.IPloneFormLayer"
+      template="templates/text_input.pt"
+      />
+
   <browser:page
       name="z3cform_validate_field"
       for="*"
@@ -156,5 +163,13 @@
 
   <!-- Use a custom actions manager that knows how to do CSRF token authentication. -->
   <adapter factory=".csrf.AuthenticatedButtonActions" />
+
+  <browser:page
+      name="z3cform_aria"
+      for="z3c.form.interfaces.IWidget"
+      permission="zope.Public"
+      class=".aria.AriaHelperView"
+      allowed_attributes="describedby required"
+      />
 
 </configure>

@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.7.4 (unreleased)
+0.7.4 (2013-08-13)
 ------------------
 
 - Display 'required' span only on input mode.

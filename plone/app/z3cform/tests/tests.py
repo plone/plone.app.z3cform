@@ -9,7 +9,11 @@ from Products.Five import zcml
 from Products.PloneTestCase import ptc
 from Products.PloneTestCase.layer import onsetup
 
-from plone.app.z3cform.tests.layer import InlineValidationLayer
+from plone.app.z3cform.tests.layer import InlineValidationLayer, FUCTIONAL_TESTS
+
+from plone.testing import layered
+import robotsuite
+
 
 
 @onsetup
@@ -49,29 +53,37 @@ class IntegrationTests(ptc.PloneTestCase):
         self.failUnless('My test content provider' in rendered)
 
 
+
+
 def test_suite():
 
     inlineValidationTests = zope.testing.doctest.DocFileSuite('inline_validation.txt',
             package='plone.app.z3cform',
             optionflags=(zope.testing.doctest.ELLIPSIS | zope.testing.doctest.NORMALIZE_WHITESPACE)
         )
+
     inlineValidationTests.layer = InlineValidationLayer
 
+    robotTests = layered(robotsuite.RobotTestSuite("test_multi.txt"),
+            layer=FUCTIONAL_TESTS)
+
+
     return unittest.TestSuite([
-        unittest.makeSuite(IntegrationTests),
+        # unittest.makeSuite(IntegrationTests),
+        #
+        # zope.testing.doctest.DocFileSuite('wysiwyg/README.txt', package='plone.app.z3cform',
+        #         setUp=zope.component.testing.setUp, tearDown=zope.component.testing.tearDown,
+        #     ),
+        #
+        # zope.testing.doctest.DocFileSuite('queryselect/README.txt', package='plone.app.z3cform',
+        #         setUp=zope.component.testing.setUp, tearDown=zope.component.testing.tearDown,
+        #     ),
+        #
+        # zope.testing.doctest.DocTestSuite('plone.app.z3cform.wysiwyg.widget', package='plone.app.z3cform',
+        #         setUp=zope.component.testing.setUp, tearDown=zope.component.testing.tearDown,
+        #     ),
+        #
+        # inlineValidationTests,
+        robotTests,
 
-        zope.testing.doctest.DocFileSuite('wysiwyg/README.txt', package='plone.app.z3cform',
-                setUp=zope.component.testing.setUp, tearDown=zope.component.testing.tearDown,
-            ),
-
-        zope.testing.doctest.DocFileSuite('queryselect/README.txt', package='plone.app.z3cform',
-                setUp=zope.component.testing.setUp, tearDown=zope.component.testing.tearDown,
-            ),
-
-        zope.testing.doctest.DocTestSuite('plone.app.z3cform.wysiwyg.widget', package='plone.app.z3cform',
-                setUp=zope.component.testing.setUp, tearDown=zope.component.testing.tearDown,
-            ),
-
-        inlineValidationTests,
-
-        ])
+  ])

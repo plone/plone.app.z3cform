@@ -4,7 +4,10 @@ Changelog
 0.7.5 (unreleased)
 ------------------
 
-- Support for IDict in the MultiWidget. Makes it compatible with z3c.form 3.0 (released 2013-06-24) [djay]
+- Support for IDict in the MultiWidget. Makes it compatible with z3c.form 3.0 (released 2013-06-24)
+  [djay]
+- Fixed chechbox inline validation.
+  [kroman0]
 
 
 0.7.4 (2013-08-13)

@@ -69,21 +69,21 @@ def test_suite():
 
 
     return unittest.TestSuite([
-        # unittest.makeSuite(IntegrationTests),
-        #
-        # zope.testing.doctest.DocFileSuite('wysiwyg/README.txt', package='plone.app.z3cform',
-        #         setUp=zope.component.testing.setUp, tearDown=zope.component.testing.tearDown,
-        #     ),
-        #
-        # zope.testing.doctest.DocFileSuite('queryselect/README.txt', package='plone.app.z3cform',
-        #         setUp=zope.component.testing.setUp, tearDown=zope.component.testing.tearDown,
-        #     ),
-        #
-        # zope.testing.doctest.DocTestSuite('plone.app.z3cform.wysiwyg.widget', package='plone.app.z3cform',
-        #         setUp=zope.component.testing.setUp, tearDown=zope.component.testing.tearDown,
-        #     ),
-        #
-        # inlineValidationTests,
+        unittest.makeSuite(IntegrationTests),
+
+        zope.testing.doctest.DocFileSuite('wysiwyg/README.txt', package='plone.app.z3cform',
+                setUp=zope.component.testing.setUp, tearDown=zope.component.testing.tearDown,
+            ),
+
+        zope.testing.doctest.DocFileSuite('queryselect/README.txt', package='plone.app.z3cform',
+                setUp=zope.component.testing.setUp, tearDown=zope.component.testing.tearDown,
+            ),
+
+        zope.testing.doctest.DocTestSuite('plone.app.z3cform.wysiwyg.widget', package='plone.app.z3cform',
+                setUp=zope.component.testing.setUp, tearDown=zope.component.testing.tearDown,
+            ),
+
+        inlineValidationTests,
         robotTests,
 
   ])

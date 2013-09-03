@@ -42,6 +42,7 @@ setup(name='plone.app.z3cform',
       install_requires=[
           'setuptools',
           'collective.z3cform.datetimewidget>=0.1a2',
+          'z3c.form >= 3.0',
           'plone.z3cform>=0.5.11dev',
           'plone.protect',
           'z3c.formwidget.query',

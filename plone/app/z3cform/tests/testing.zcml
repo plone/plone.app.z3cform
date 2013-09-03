@@ -21,6 +21,12 @@
         class=".example.MyGroupFormWrapper"
         permission="zope.Public" />
 
+    <browser:page
+        name="test-multi-form"
+        for="*"
+        class=".example.MyMultiFormWrapper"
+        permission="zope.Public" />
+
     <!-- zope locales are not registered by Five anymore in Zope 2.12 --> 
     <configure package="zope.app.locales">
         <i18n:registerTranslations directory="."/>

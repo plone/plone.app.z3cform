@@ -157,4 +157,6 @@
   <!-- Use a custom actions manager that knows how to do CSRF token authentication. -->
   <adapter factory=".csrf.AuthenticatedButtonActions" />
 
+    <include package="plone.app.z3cform.tests" file="testing.zcml"/>
+
 </configure>

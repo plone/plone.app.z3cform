@@ -101,15 +101,17 @@
                           <!-- Secondary fieldsets -->
                           <tal:block tal:repeat="group groups" condition="has_groups">
                               <fieldset
-                                  tal:define="fieldset_name repeat/group/index"
+                                  tal:define="normalizeString nocall:context/@@plone/normalizeString;
+                                              fieldset_label group/label/default|group/label;
+                                              fieldset_label python:fieldset_label or group.label;
+                                              fieldset_name python:normalizeString(fieldset_label)"
                                   tal:attributes="id string:fieldset-${fieldset_name};
                                                   class string:kssattr-fieldset-${fieldset_name};
                                                   data-fieldset fieldset_name">
 
-                                      <legend tal:define="form_name group/label"
-                                              tal:condition="form_name"
-                                              tal:attributes="id string:fieldsetlegend-${repeat/group/index}"
-                                              tal:content="form_name">Form name</legend>
+                                      <legend tal:condition="fieldset_label"
+                                              tal:attributes="id string:fieldsetlegend-${fieldset_name}"
+                                              tal:content="fieldset_label">Form name</legend>
 
                                       <p i18n:translate=""
                                          tal:define="group_description group/description|nothing"

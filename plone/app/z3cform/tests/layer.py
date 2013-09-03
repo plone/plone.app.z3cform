@@ -72,6 +72,6 @@ class FunctionalLayer(PloneSandboxLayer):
         pass
 
 TEST_FIXTURE = FunctionalLayer()
-FUCTIONAL_TESTS = FunctionalTesting(
+FUNCTIONAL_TESTS = FunctionalTesting(
     bases=(TEST_FIXTURE, z2.ZSERVER_FIXTURE),
     name="plone.app.z3cform:Acceptance")

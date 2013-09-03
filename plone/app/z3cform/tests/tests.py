@@ -9,7 +9,7 @@ from Products.Five import zcml
 from Products.PloneTestCase import ptc
 from Products.PloneTestCase.layer import onsetup
 
-from plone.app.z3cform.tests.layer import InlineValidationLayer, FUCTIONAL_TESTS
+from plone.app.z3cform.tests.layer import InlineValidationLayer, FUNCTIONAL_TESTS
 
 from plone.testing import layered
 import robotsuite
@@ -65,7 +65,7 @@ def test_suite():
     inlineValidationTests.layer = InlineValidationLayer
 
     robotTests = layered(robotsuite.RobotTestSuite("test_multi.txt"),
-            layer=FUCTIONAL_TESTS)
+            layer=FUNCTIONAL_TESTS)
 
 
     return unittest.TestSuite([

@@ -4,6 +4,10 @@ Changelog
 0.7.5 (unreleased)
 ------------------
 
+- Give fieldset legends ids based on their name, for compatibility with
+  Archetypes.
+  [davisagli]
+
 - Fixed chechbox inline validation.
   [kroman0]
 

@@ -1,0 +1,42 @@
+*** Settings ***
+Documentation   ...
+Library         String
+Library           Collections
+Library           Selenium2Library    timeout=20    implicit_wait=0.5    run_on_failure=Log Source
+Library  Screenshot
+Suite Setup     Start browser
+Suite Teardown  Close All Browsers
+
+*** Variables ***
+${empty}          \    # Empty string
+${browser}        firefox
+${plone_url}      http://localhost:55001/plone
+
+
+*** Test Cases ***
+
+Test a multi form
+    Open Browser   http://localhost:55001/plone/@@test-multi-form
+    Page should contain   Please enter the names and ages for each person
+    Click Button  Add
+    With the label  name 1  Input Text  Jane of the Jungle
+    With the label  age 1  Input Text  25
+    Click Button  Add
+    With the label  name 2  Input Text  Jane of the Jungle
+    With the label  age 2   Input Text  25
+    Click Button  Apply
+
+*** Keywords ***
+
+With the label
+    [arguments]     ${title}   ${extra_keyword}   @{list}
+    ${for}=  Get Element Attribute  xpath=//label[starts-with(translate(normalize-space(.)," &#9;&#10;&#13", "-"), translate(normalize-space("${title}")," &#9;&#10;&#13", "-"))]@for
+  #   ${for}  Execute Javascript   return $('label').filter(function(){return $(this).text().replace(/\s+/g,' ').trim()=='${title}'}).attr('for')[0]
+
+    Run Keyword     ${extra_keyword}  id=${for}   @{list}
+
+
+Start browser
+    Open Browser    http://localhost:55001/plone/    browser=${BROWSER}
+
+

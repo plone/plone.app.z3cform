@@ -4,10 +4,11 @@ Changelog
 0.7.5 (unreleased)
 ------------------
 
+- Support for IDict in the MultiWidget. Makes it compatible with z3c.form 3.0 (released 2013-06-24)
+  [djay]
 - Give fieldset legends ids based on their name, for compatibility with
   Archetypes.
   [davisagli]
-
 - Fixed chechbox inline validation.
   [kroman0]
 

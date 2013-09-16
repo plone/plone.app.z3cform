@@ -1,22 +1,16 @@
 *** Settings ***
 Documentation   ...
-Library         String
-Library           Collections
-Library           Selenium2Library    timeout=20    implicit_wait=0.5    run_on_failure=Log Source
-Library  Screenshot
-Suite Setup     Start browser
-Suite Teardown  Close All Browsers
+Resource  plone/app/robotframework/selenium.robot
+Test Setup  Open test browser
+Test Teardown  Close all browsers
 
 *** Variables ***
-${empty}          \    # Empty string
-${browser}        firefox
-${plone_url}      http://localhost:55001/plone
 
 
 *** Test Cases ***
 
 Test a multi form
-    Open Browser   http://localhost:55001/plone/@@test-multi-form
+    Go to   ${PLONE_URL}/@@test-multi-form
     Page should contain   Please enter the names and ages for each person
     Click Button  Add
     With the label  name 1  Input Text  Jane of the Jungle
@@ -35,8 +29,5 @@ With the label
 
     Run Keyword     ${extra_keyword}  id=${for}   @{list}
 
-
-Start browser
-    Open Browser    http://localhost:55001/plone/    browser=${BROWSER}
 
 

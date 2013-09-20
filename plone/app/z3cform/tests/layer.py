@@ -35,12 +35,14 @@ class InlineValidationTestLayer(collective.testcaselayer.layer.Layer):
         import Products.Five
         import Products.GenericSetup
         import Products.CMFCore
+        import plone.i18n
         
         fiveconfigure.debug_mode = True
         
         zcml.load_config('meta.zcml', Products.GenericSetup)
         zcml.load_config('configure.zcml', Products.Five)
         zcml.load_config('configure.zcml', Products.CMFCore)
+        zcml.load_config('configure.zcml', plone.i18n)
 
         zcml.load_config('meta.zcml', z3c.form)
         zcml.load_config('configure.zcml', z3c.form)

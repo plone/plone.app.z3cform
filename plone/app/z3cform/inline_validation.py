@@ -2,6 +2,7 @@ import json
 
 from Acquisition import aq_base
 from Products.Five import BrowserView
+from Products.CMFPlone.utils import normalizeString
 
 from zope.i18nmessageid import Message
 from zope.i18n import translate
@@ -36,8 +37,9 @@ class InlineValidationView(BrowserView):
                 form = form.groups[fset]
             except ValueError, TypeError:
                 # try to match fieldset on group name
+                _name = lambda g: getattr(g, '__name__', None) or g.label
                 group_match = filter(
-                    lambda group: group.__name__ == fset,
+                    lambda group: normalizeString(_name(group)) == fset,
                     form.groups,
                     )
                 if not group_match:

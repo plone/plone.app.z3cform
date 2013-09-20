@@ -31,8 +31,18 @@ class InlineValidationView(BrowserView):
 
         #if we validate a field in a group we operate on the group
         if fset is not None:
-            fset = int(fset)
-            form = form.groups[fset]
+            try:
+                fset = int(fset)  # integer-indexed fieldset names
+                form = form.groups[fset]
+            except ValueError, TypeError:
+                # try to match fieldset on group name
+                group_match = filter(
+                    lambda group: group.__name__ == fset,
+                    form.groups,
+                    )
+                if not group_match:
+                    raise ValueError('Fieldset specified, but not found.')
+                form = group_match[0]
 
         index = len(form.prefix) + len(form.widgets.prefix)
         raw_fname = fname[index:]

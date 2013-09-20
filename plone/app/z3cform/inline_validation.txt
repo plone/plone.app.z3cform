@@ -97,6 +97,13 @@ validation enabled, it will be called with the following parameters:
     >>> z3cform_validate_field(fname=u'form.widgets.age')
     '{"errmsg": ""}'
 
+If the field name (fname) is not provided by the client, the validation
+should return without issue:
+
+    >>> z3cform_validate_field()
+    '{"errmsg": ""}'
+    >>> z3cform_validate_field(fname=None)
+    '{"errmsg": ""}'
 
 Inline validation with groups
 -----------------------------

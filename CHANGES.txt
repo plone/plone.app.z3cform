@@ -4,6 +4,13 @@ Changelog
 0.7.5 (unreleased)
 ------------------
 
+- Inline validation supports fieldset names instead of integer-indexed naming.
+  [seanupton]
+- Use group __name__, not label value to have stable fieldset_name used in
+  DOM id, and for inline validation.
+  [seanupton]
+- Inline validation robustness if no field name is passed by client request.
+  [seanupton]
 - Support for IDict in the MultiWidget. Makes it compatible with z3c.form 3.0 (released 2013-06-24)
   [djay]
 - Give fieldset legends ids based on their name, for compatibility with

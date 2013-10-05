@@ -40,6 +40,7 @@ class MyGroupSchema(interface.Interface):
 
 class MyGroup(group.Group):
     label = u'Secondary Group'
+    __name__ = u'MyGroup'
     fields = field.Fields(MyGroupSchema)
 
 

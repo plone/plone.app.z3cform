@@ -70,8 +70,8 @@
                     <metal:fields-slot define-slot="fields">
                       <input type="hidden"
                           name="fieldset"
-                          tal:define="current_fieldset request/fieldset | string:#fieldsetlegend-default"
-                          tal:condition="python:has_groups and enable_form_tabbing"
+                          tal:define="current_fieldset request/fieldset | python:None"
+                          tal:condition="python:has_groups and enable_form_tabbing and current_fieldset is not None"
                           tal:attributes="value current_fieldset"
                           />
 

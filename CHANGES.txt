@@ -4,6 +4,9 @@ Changelog
 0.7.5 (unreleased)
 ------------------
 
+- Fix an issue with the inline validator, KSS was giving values for 
+  fieldset attr than can't be converted to an integer.
+  [jpgimenez]
 - Inline validation supports fieldset names instead of integer-indexed naming.
   [seanupton]
 - Use group __name__, not label value to have stable fieldset_name used in

@@ -4,6 +4,10 @@ Changelog
 0.6.3 (unreleased)
 ------------------
 
+- Fix an issue with the inline validator, KSS was giving values for 
+  fieldset attr than can't be converted to an integer.
+  [jpgimenez]
+
 
 0.6.2 (2012-12-09)
 ------------------

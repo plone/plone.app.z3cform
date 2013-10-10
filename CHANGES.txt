@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.6.3 (unreleased)
+0.6.3 (2013-10-09)
 ------------------
 
 - Fix an issue with the inline validator, KSS was giving values for 

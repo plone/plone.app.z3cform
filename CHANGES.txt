@@ -4,7 +4,8 @@ Changelog
 0.7.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Replace deprecated test assert statements.
+  [timo] 
 
 
 0.7.5 (2013-10-09)

@@ -39,18 +39,18 @@ class IntegrationTests(ptc.PloneTestCase):
 
     def test_layer_applied(self):
         from plone.app.z3cform.interfaces import IPloneFormLayer
-        self.failUnless(IPloneFormLayer.providedBy(self.portal.REQUEST))
+        self.assertTrue(IPloneFormLayer.providedBy(self.portal.REQUEST))
 
     def test_default_templates(self):
         form = self.portal.restrictedTraverse('test-form')
         rendered = form()
         # look for something only in the Plone-specific @@ploneform-macros
-        self.failUnless('documentFirstHeading' in rendered)
+        self.assertTrue('documentFirstHeading' in rendered)
 
     def test_content_provider(self):
         form = self.portal.restrictedTraverse('test-form')
         rendered = form()
-        self.failUnless('My test content provider' in rendered)
+        self.assertTrue('My test content provider' in rendered)
 
 
 

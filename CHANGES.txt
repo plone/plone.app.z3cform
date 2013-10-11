@@ -4,6 +4,9 @@ Changelog
 0.7.6 (unreleased)
 ------------------
 
+- Indicate 'error' status when reporting errors from group forms.
+  [davisagli]
+
 - Replace deprecated test assert statements.
   [timo] 
 

@@ -4,8 +4,12 @@ Changelog
 0.7.4 (unreleased)
 ------------------
 
+- We can add enable_unload_protection = False on a Form to disable unload protection.
+  [thomasdesvenain]
+
 - Add '.empty' css class to fields that have no value.
   [cedricmessiant]
+
 - Display 'required' span only on input mode
   [cedricmessiant]
 

@@ -9,7 +9,7 @@ A Plone specific integration and HTML mark-up for z3c.form.
 Introduction
 ==============
 
-This Plone package is aimed for developers who want to create forms 
+This Plone package is aimed for developers who want to create forms
 in Python code.
 
 Please read the documentation for `z3c.form`_, which contains important
@@ -123,6 +123,20 @@ You can disable this behavior for your form::
 
         # Disable turn fieldsets to tabs behavior
         enable_form_tabbing  = False
+
+Unload protection
+-----------------
+
+The default behaviour on Plone is to add a confirm box
+if you leave a form you have modified without having submitted it.
+
+You can disable this behavior for your form::
+
+    class SearchForm(z3c.form.group.GroupForm, z3c.form.form.Form):
+
+        # Disable unload protection behavior
+        enable_unload_protection  = False
+
 
 CSRF Protection
 ===============
@@ -335,8 +349,8 @@ to display these fields in view mode, add the following css in your theme::
 Testing
 ===============
 
-To test ``plone.app.z3form`` it is recommended to use 
-`plone.app.testing <https://pypi.python.org/pypi/plone.app.testing/>`_ 
+To test ``plone.app.z3form`` it is recommended to use
+`plone.app.testing <https://pypi.python.org/pypi/plone.app.testing/>`_
 function test layer which will do ``plone.app.z3cform`` setup for you.
 Read ``plone.app.z3cform`` manual for further instructions.
 

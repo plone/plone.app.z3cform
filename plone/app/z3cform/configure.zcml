@@ -28,21 +28,21 @@
   <browser:page
       name="ploneform-render-widget"
       for="z3c.form.interfaces.IWidget"
-      layer=".interfaces.IPloneFormLayer"
+      layer="z3c.form.interfaces.IFormLayer"
       class=".templates.RenderWidget"
       permission="zope.Public"
       />
   <browser:page
       name="ploneform-render-widget"
       for="zope.contentprovider.interfaces.IContentProvider"
-      layer=".interfaces.IPloneFormLayer"
+      layer="z3c.form.interfaces.IFormLayer"
       class=".templates.RenderContentProvider"
       permission="zope.Public"
       />
   <browser:page
       name="ploneform-render-widget"
       for="z3c.form.interfaces.ISingleCheckBoxWidget"
-      layer=".interfaces.IPloneFormLayer"
+      layer="z3c.form.interfaces.IFormLayer"
       class=".templates.RenderSingleCheckboxWidget"
       permission="zope.Public"
       />
@@ -156,5 +156,7 @@
 
   <!-- Use a custom actions manager that knows how to do CSRF token authentication. -->
   <adapter factory=".csrf.AuthenticatedButtonActions" />
+
+    <include package="plone.app.z3cform.tests" file="testing.zcml"/>
 
 </configure>

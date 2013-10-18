@@ -14,14 +14,15 @@
 
             <metal:define define-macro="titlelessform">
 
-                <tal:status define="status view/status" condition="status">
-                    <dl class="portalMessage error" tal:condition="view/widgets/errors">
+                <tal:status define="status view/status;
+                                    has_error python:view.widgets.errors or status == getattr(view, 'formErrorsMessage', None)" condition="status">
+                    <dl class="portalMessage error" tal:condition="has_error">
                         <dt i18n:translate="">
                             Error
                         </dt>
                         <dd tal:content="status" />
                     </dl>
-                    <dl class="portalMessage info" tal:condition="not: view/widgets/errors">
+                    <dl class="portalMessage info" tal:condition="not:has_error">
                         <dt i18n:translate="">
                             Info
                         </dt>
@@ -72,8 +73,8 @@
                     <metal:fields-slot define-slot="fields">
                       <input type="hidden"
                           name="fieldset"
-                          tal:define="current_fieldset request/fieldset | string:#fieldsetlegend-default"
-                          tal:condition="python:has_groups and enable_form_tabbing"
+                          tal:define="current_fieldset request/fieldset | python:None"
+                          tal:condition="python:has_groups and enable_form_tabbing and current_fieldset is not None"
                           tal:attributes="value current_fieldset"
                           />
 
@@ -103,15 +104,17 @@
                           <!-- Secondary fieldsets -->
                           <tal:block tal:repeat="group groups" condition="has_groups">
                               <fieldset
-                                  tal:define="fieldset_name repeat/group/index"
+                                  tal:define="normalizeString nocall:context/@@plone/normalizeString;
+                                              fieldset_label group/label/default|group/label;
+                                              fieldset_label python:fieldset_label or group.label;
+                                              fieldset_name python:normalizeString(getattr(group, '__name__', None) or fieldset_label);"
                                   tal:attributes="id string:fieldset-${fieldset_name};
                                                   class string:kssattr-fieldset-${fieldset_name};
                                                   data-fieldset fieldset_name">
 
-                                      <legend tal:define="form_name group/label"
-                                              tal:condition="form_name"
-                                              tal:attributes="id string:fieldsetlegend-${repeat/group/index}"
-                                              tal:content="form_name">Form name</legend>
+                                      <legend tal:condition="fieldset_label"
+                                              tal:attributes="id string:fieldsetlegend-${fieldset_name}"
+                                              tal:content="fieldset_label">Form name</legend>
 
                                       <p i18n:translate=""
                                          tal:define="group_description group/description|nothing"

@@ -97,6 +97,13 @@ validation enabled, it will be called with the following parameters:
     >>> z3cform_validate_field(fname=u'form.widgets.age')
     '{"errmsg": ""}'
 
+If the field name (fname) is not provided by the client, the validation
+should return without issue:
+
+    >>> z3cform_validate_field()
+    '{"errmsg": ""}'
+    >>> z3cform_validate_field(fname=None)
+    '{"errmsg": ""}'
 
 Inline validation with groups
 -----------------------------
@@ -111,9 +118,12 @@ field 'name' that's part of a group. Inline validation is invoked via the
     >>> form = MyGroupFormWrapper(context, request)
     >>> z3cform_validate_field = getMultiAdapter((form, request), name=u"z3cform_validate_field")
 
-The validation view takes an Attribute fset with the name of the group.
+The validation view takes an Attribute fset with ether the numeric index or
+the name of the group.
 
     >>> z3cform_validate_field(fname=u'form.widgets.name', fset="0")
+    '{"errmsg": "Required input is missing."}'
+    >>> z3cform_validate_field(fname=u'form.widgets.name', fset="mygroup")
     '{"errmsg": "Required input is missing."}'
 
     >>> request = make_request(form={'form.widgets.name': u'Name'})
@@ -121,6 +131,8 @@ The validation view takes an Attribute fset with the name of the group.
     >>> form = MyGroupFormWrapper(context, request)
     >>> z3cform_validate_field = getMultiAdapter((form, request), name=u"z3cform_validate_field")
     >>> z3cform_validate_field(fname=u'form.widgets.name', fset="0")
+    '{"errmsg": ""}'
+    >>> z3cform_validate_field(fname=u'form.widgets.name', fset="mygroup")
     '{"errmsg": ""}'
 
 

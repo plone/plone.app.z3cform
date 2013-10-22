@@ -55,13 +55,15 @@
                                   form_class view/css_class | string:;
                                   default_fieldset_label view/default_fieldset_label | form_name;
                                   enable_form_tabbing view/enable_form_tabbing | python:True;
+                                  enable_unload_protection view/enable_unload_protection|python:True;
+                                  unload_protection python:enable_unload_protection and 'enableUnloadProtection';
                                   has_groups python:bool(groups);
                                   form_tabbing python:(has_groups and enable_form_tabbing) and 'enableFormTabbing' or '';
                                   show_default_label python:has_groups and default_fieldset_label and len(view.widgets);
                                   "
-                      tal:attributes="action view/action|request/getURL; 
+                      tal:attributes="action view/action|request/getURL;
                                       enctype view/enctype;
-                                      class python:'rowlike enableUnloadProtection %s %s kssattr-formname-%s' % (form_tabbing, form_class, view.__name__ or request.getURL().split('/')[-1]);
+                                      class python:'rowlike %s %s %s kssattr-formname-%s' % (unload_protection, form_tabbing, form_class, view.__name__ or request.getURL().split('/')[-1]);
                                       id view/id;
                                       method view/method|string:'post'
                                       ">

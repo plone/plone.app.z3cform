@@ -4,6 +4,12 @@ Changelog
 0.7.6 (unreleased)
 ------------------
 
+- We can add enable_unload_protection = False on a Form to disable unload protection.
+  [thomasdesvenain]
+
+- Add '.empty' css class to fields that have no value.
+  [cedricmessiant]
+
 - Indicate 'error' status when reporting errors from group forms.
   [davisagli]
 
@@ -43,7 +49,7 @@ Changelog
 0.7.3 (2013-05-23)
 ------------------
 
-- Added possibility to use z3c.form's ContentProviders [gbastien, jfroche, gotcha] 
+- Added possibility to use z3c.form's ContentProviders [gbastien, jfroche, gotcha]
 
 
 0.7.2 (2013-03-05)

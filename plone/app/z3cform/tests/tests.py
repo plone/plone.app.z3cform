@@ -36,7 +36,6 @@ class IntegrationTests(unittest.TestCase):
 
 
 def test_suite():
-    import pdb; pdb.set_trace()
 
     inlineValidationTests = zope.testing.doctest.DocFileSuite(
         'inline_validation.rst',

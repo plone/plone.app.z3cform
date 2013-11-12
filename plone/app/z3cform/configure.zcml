@@ -7,6 +7,7 @@
     i18n_domain="plone">
 
   <include package="plone.z3cform" />
+  <include package="plone.app.widgets" />
   <include package=".wysiwyg" />
 
   <!-- Configuration installation profile -->
@@ -102,6 +103,24 @@
       for="zope.schema.interfaces.IBool
            plone.app.z3cform.interfaces.IPloneFormLayer"
       />
+
+  <!-- DATE/TIME FIELD REGISTRATIONS -->
+  <class class="zope.schema._field.Date">
+    <implements interface=".widget.IDateField"/>
+  </class>
+  <class class="zope.schema._field.Datetime">
+    <implements interface=".widget.IDatetimeField"/>
+  </class>
+  <adapter
+      factory=".widget.DateFieldWidget"
+      provides="z3c.form.interfaces.IFieldWidget"
+      for=".widget.IDateField
+           z3c.form.interfaces.IFormLayer" />
+  <adapter
+      factory=".widget.DatetimeFieldWidget"
+      provides="z3c.form.interfaces.IFieldWidget"
+      for=".widget.IDatetimeField
+           z3c.form.interfaces.IFormLayer" />
 
   <z3c:widgetTemplate
       mode="input"

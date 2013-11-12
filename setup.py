@@ -42,6 +42,7 @@ setup(name='plone.app.z3cform',
       install_requires=[
           'setuptools',
           'z3c.form >= 3.0',
+          'plone.app.widgets',
           'plone.z3cform>=0.5.11dev',
           'plone.protect',
           'z3c.formwidget.query',
@@ -52,6 +53,6 @@ setup(name='plone.app.z3cform',
           'zope.traversing',
       ],
       extras_require={
-        'tests': ['collective.testcaselayer']
+        'tests': []
       },
       )

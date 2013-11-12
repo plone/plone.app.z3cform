@@ -1,38 +1,21 @@
-
-import z3c.form
-
-from collective.z3cform.datetimewidget import widget_date
-from collective.z3cform.datetimewidget import widget_datetime
-from collective.z3cform.datetimewidget import widget_monthyear
-from collective.z3cform.datetimewidget import interfaces
+from plone.app.widgets.dx import DateWidget  # TODO: move definition in here
+from plone.app.widgets.dx import DatetimeWidget  # TODO: move def. in here
+from zope.schema.interfaces import IDate
+from zope.schema.interfaces import IDatetime
+from z3c.form.widget import FieldWidget
 
 
-class IDateField(interfaces.IDateField):
-    pass
-
-class IDatetimeField(interfaces.IDatetimeField):
+class IDateField(IDate):
     pass
 
 
-
-class DateWidget(widget_date.DateWidget):
-    show_jquerytools_dateinput = True
-
-class DatetimeWidget(widget_datetime.DatetimeWidget):
-    show_jquerytools_dateinput = True
-
-class MonthYearWidget(widget_monthyear.MonthYearWidget):
-    show_jquerytools_dateinput = True
-
+class IDatetimeField(IDatetime):
+    pass
 
 
 def DateFieldWidget(field, request):
-    return z3c.form.widget.FieldWidget(field, DateWidget(request))
+    return FieldWidget(field, DateWidget(request))
+
 
 def DatetimeFieldWidget(field, request):
-    return z3c.form.widget.FieldWidget(field, DatetimeWidget(request))
-
-def MonthYearFieldWidget(field, request):
-    return z3c.form.widget.FieldWidget(field, MonthYearWidget(request))
-
-
+    return FieldWidget(field, DatetimeWidget(request))

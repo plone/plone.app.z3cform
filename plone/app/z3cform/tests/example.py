@@ -4,7 +4,7 @@ from zope.contentprovider.provider import ContentProviderBase
 from z3c.form import form, field, button, group
 from z3c.form.interfaces import IFieldsAndContentProvidersForm
 from z3c.form.contentprovider import ContentProviders
-from plone.app.z3cform.layout import FormWrapper
+from plone.z3cform.layout import FormWrapper
 
 
 class MySchema(interface.Interface):

@@ -9,11 +9,11 @@ from Products.Five import zcml
 from Products.PloneTestCase import ptc
 from Products.PloneTestCase.layer import onsetup
 
-from plone.app.z3cform.tests.layer import InlineValidationLayer, FUNCTIONAL_TESTS
+from plone.app.z3cform.tests.layer import PAZ3CForm_INTEGRATION_TESTING
+from plone.app.z3cform.tests.layer import PAZ3CForm_ROBOT_TESTING
 
 from plone.testing import layered
 import robotsuite
-
 
 
 @onsetup
@@ -53,8 +53,6 @@ class IntegrationTests(ptc.PloneTestCase):
         self.assertTrue('My test content provider' in rendered)
 
 
-
-
 def test_suite():
 
     inlineValidationTests = zope.testing.doctest.DocFileSuite('inline_validation.txt',
@@ -62,10 +60,12 @@ def test_suite():
             optionflags=(zope.testing.doctest.ELLIPSIS | zope.testing.doctest.NORMALIZE_WHITESPACE)
         )
 
-    inlineValidationTests.layer = InlineValidationLayer
+    inlineValidationTests.layer = PAZ3CForm_INTEGRATION_TESTING
 
-    robotTests = layered(robotsuite.RobotTestSuite("test_multi.txt"),
-            layer=FUNCTIONAL_TESTS)
+    robotTests = layered(
+        robotsuite.RobotTestSuite("test_multi.txt"),
+        layer=PAZ3CForm_ROBOT_TESTING
+    )
 
 
     return unittest.TestSuite([

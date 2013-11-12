@@ -7,9 +7,12 @@ from zope.globalrequest import setRequest
 from z3c.form import form, field
 from z3c.form.object import registerFactoryAdapter
 
-from .layer import IntegrationLayer
+from .layer import PAZ3CForm_INTEGRATION_TESTING
 from ..utils import closest_content
 from ..interfaces import IPloneFormLayer
+from plone.app.testing import setRoles
+from plone.app.testing import login
+from plone.app.testing import TEST_USER_ID
 
 
 class ISubObject(interface.Interface):
@@ -60,17 +63,16 @@ class TestRequest(publisher.browser.TestRequest):
 
 
 class TestObjectSubForm(unittest.TestCase):
-    layer = IntegrationLayer
+    layer = PAZ3CForm_INTEGRATION_TESTING
     counter = 0
 
     def setUp(self):
-        self.portal = self.layer.portal
+        self.portal = self.layer['portal']
         self.request = TestRequest()
         setRequest(self.request)
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
 
     def _create_folder(self, fid):
-        self.layer.login()
-        self.layer.setRoles(['Manager'])
         self.portal.invokeFactory('Folder', fid)
         return self.portal[fid]
 
@@ -112,7 +114,8 @@ class TestObjectSubForm(unittest.TestCase):
         # of its multiwidget subforms is the main form context itself
         folder = self._create_folder('folder-2')
 
-        # XXX: in a real case the PUBLISHED attribute should be set by ZPublisher
+        # XXX: in a real case the PUBLISHED attribute should be set by
+        # ZPublisher
         self.request.PUBLISHED = folder
 
         _form = ComplexForm(folder, self.request)

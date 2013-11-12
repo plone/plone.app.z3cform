@@ -1,2 +1,2 @@
 # Convenience import
-from widget import WysiwygFieldWidget
+from plone.app.z3cform.wysiwyg.widget import WysiwygFieldWidget

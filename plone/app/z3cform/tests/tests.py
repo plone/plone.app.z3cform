@@ -36,6 +36,7 @@ class IntegrationTests(unittest.TestCase):
 
 
 def test_suite():
+    import pdb; pdb.set_trace()
 
     inlineValidationTests = zope.testing.doctest.DocFileSuite(
         'inline_validation.rst',
@@ -45,15 +46,13 @@ def test_suite():
             zope.testing.doctest.NORMALIZE_WHITESPACE
         )
     )
-
     inlineValidationTests.layer = PAZ3CForm_INTEGRATION_TESTING
 
     robotTests = layered(
-        robotsuite.RobotTestSuite("test_multi.rst"),
+        robotsuite.RobotTestSuite("test_multi.robot"),
         layer=PAZ3CForm_ROBOT_TESTING
     )
-
-    return unittest.TestSuite([
+    suite = unittest.TestSuite([
         unittest.makeSuite(IntegrationTests),
         zope.testing.doctest.DocFileSuite(
             'wysiwyg/README.rst',
@@ -76,3 +75,4 @@ def test_suite():
         inlineValidationTests,
         robotTests,
     ])
+    return suite

@@ -62,10 +62,10 @@ setup(
     ],
     extras_require={
         'tests': [
+            'plone.app.robotframework',
             'plone.app.testing',
             'plone.browserlayer',
             'plone.testing',
-            'robotsuite',
             'unittest2',
             'zope.contentprovider',
             'zope.publisher',

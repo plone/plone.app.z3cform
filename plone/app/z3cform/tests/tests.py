@@ -1,40 +1,22 @@
-import unittest
+from plone.app.z3cform.tests.layer import PAZ3CForm_INTEGRATION_TESTING
+from plone.app.z3cform.tests.layer import PAZ3CForm_ROBOT_TESTING
+from plone.browserlayer.layer import mark_layer
+from plone.testing import layered
+from zope.traversing.interfaces import BeforeTraverseEvent
+
+import robotsuite
+import unittest2 as unittest
 import zope.component.testing
 import zope.testing.doctest
 
-from plone.browserlayer.layer import mark_layer
-from zope.traversing.interfaces import BeforeTraverseEvent
 
-from Products.Five import zcml
-from Products.PloneTestCase import ptc
-from Products.PloneTestCase.layer import onsetup
+class IntegrationTests(unittest.TestCase):
+    layer = PAZ3CForm_INTEGRATION_TESTING
 
-from plone.app.z3cform.tests.layer import PAZ3CForm_INTEGRATION_TESTING
-from plone.app.z3cform.tests.layer import PAZ3CForm_ROBOT_TESTING
-
-from plone.testing import layered
-import robotsuite
-
-
-@onsetup
-def setup_zcml():
-    from Products.Five import fiveconfigure
-    import plone.app.z3cform.tests
-    fiveconfigure.debug_mode = True
-    zcml.load_config('testing.zcml', plone.app.z3cform.tests)
-    fiveconfigure.debug_mode = False
-
-setup_zcml()
-ptc.setupPloneSite(extension_profiles=('plone.app.z3cform:default',))
-
-
-class IntegrationTests(ptc.PloneTestCase):
-
-    def afterSetUp(self):
-        import plone.app.z3cform.tests
-        zcml.load_config('testing.zcml', plone.app.z3cform.tests)
-        self.addProfile('plone.app.z3cform:default')
-        event = BeforeTraverseEvent(self.portal, self.portal.REQUEST)
+    def setUp(self):
+        self.portal = self.layer['portal']
+        self.request = self.layer['request']
+        event = BeforeTraverseEvent(self.portal, self.request)
         mark_layer(self.portal, event)
 
     def test_layer_applied(self):
@@ -55,35 +37,42 @@ class IntegrationTests(ptc.PloneTestCase):
 
 def test_suite():
 
-    inlineValidationTests = zope.testing.doctest.DocFileSuite('inline_validation.txt',
-            package='plone.app.z3cform',
-            optionflags=(zope.testing.doctest.ELLIPSIS | zope.testing.doctest.NORMALIZE_WHITESPACE)
+    inlineValidationTests = zope.testing.doctest.DocFileSuite(
+        'inline_validation.rst',
+        package='plone.app.z3cform',
+        optionflags=(
+            zope.testing.doctest.ELLIPSIS |
+            zope.testing.doctest.NORMALIZE_WHITESPACE
         )
+    )
 
     inlineValidationTests.layer = PAZ3CForm_INTEGRATION_TESTING
 
     robotTests = layered(
-        robotsuite.RobotTestSuite("test_multi.txt"),
+        robotsuite.RobotTestSuite("test_multi.rst"),
         layer=PAZ3CForm_ROBOT_TESTING
     )
 
-
     return unittest.TestSuite([
         unittest.makeSuite(IntegrationTests),
-
-        zope.testing.doctest.DocFileSuite('wysiwyg/README.txt', package='plone.app.z3cform',
-                setUp=zope.component.testing.setUp, tearDown=zope.component.testing.tearDown,
-            ),
-
-        zope.testing.doctest.DocFileSuite('queryselect/README.txt', package='plone.app.z3cform',
-                setUp=zope.component.testing.setUp, tearDown=zope.component.testing.tearDown,
-            ),
-
-        zope.testing.doctest.DocTestSuite('plone.app.z3cform.wysiwyg.widget', package='plone.app.z3cform',
-                setUp=zope.component.testing.setUp, tearDown=zope.component.testing.tearDown,
-            ),
-
+        zope.testing.doctest.DocFileSuite(
+            'wysiwyg/README.rst',
+            package='plone.app.z3cform',
+            setUp=zope.component.testing.setUp,
+            tearDown=zope.component.testing.tearDown,
+        ),
+        zope.testing.doctest.DocFileSuite(
+            'queryselect/README.rst',
+            package='plone.app.z3cform',
+            setUp=zope.component.testing.setUp,
+            tearDown=zope.component.testing.tearDown,
+        ),
+        zope.testing.doctest.DocTestSuite(
+            'plone.app.z3cform.wysiwyg.widget',
+            package='plone.app.z3cform',
+            setUp=zope.component.testing.setUp,
+            tearDown=zope.component.testing.tearDown,
+        ),
         inlineValidationTests,
         robotTests,
-
-  ])
+    ])

@@ -9,6 +9,8 @@ class PAZ3CFormLayer(PloneSandboxLayer):
     defaultBases = (PLONE_FIXTURE,)
 
     def setUpZope(self, app, configurationContext):
+        z2.installProduct(app, 'Products.DateRecurringIndex')
+
         import plone.app.contenttypes
         self.loadZCML(package=plone.app.contenttypes,
                       context=configurationContext)

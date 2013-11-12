@@ -1,18 +1,15 @@
-import unittest2 as unittest
-
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import setRoles
+from plone.app.z3cform.interfaces import IPloneFormLayer
+from plone.app.z3cform.tests.layer import PAZ3CForm_INTEGRATION_TESTING
+from plone.app.z3cform.utils import closest_content
+from z3c.form import form, field
+from z3c.form.object import registerFactoryAdapter
 from zope import interface, schema
 from zope import publisher
 from zope.globalrequest import setRequest
 
-from z3c.form import form, field
-from z3c.form.object import registerFactoryAdapter
-
-from .layer import PAZ3CForm_INTEGRATION_TESTING
-from ..utils import closest_content
-from ..interfaces import IPloneFormLayer
-from plone.app.testing import setRoles
-from plone.app.testing import login
-from plone.app.testing import TEST_USER_ID
+import unittest2 as unittest
 
 
 class ISubObject(interface.Interface):

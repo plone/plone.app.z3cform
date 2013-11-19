@@ -1,7 +1,6 @@
+from plone.app.z3cform.utils import closest_content
 from z3c.form.object import SubformAdapter as BaseSubformAdapter
 from z3c.form.object import ObjectSubForm as BaseObjectSubForm
-
-from .utils import closest_content
 
 
 class ObjectSubForm(BaseObjectSubForm):
@@ -17,5 +16,4 @@ class ObjectSubForm(BaseObjectSubForm):
 class SubformAdapter(BaseSubformAdapter):
     """Subform factory adapter used to override the subform factory
     """
-
     factory = ObjectSubForm

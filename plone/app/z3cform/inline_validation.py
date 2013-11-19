@@ -1,11 +1,10 @@
-import json
-
 from Acquisition import aq_base
-from Products.Five import BrowserView
 from Products.CMFPlone.utils import normalizeString
-
-from zope.i18nmessageid import Message
+from Products.Five import BrowserView
 from zope.i18n import translate
+from zope.i18nmessageid import Message
+
+import json
 
 
 class InlineValidationView(BrowserView):
@@ -24,7 +23,7 @@ class InlineValidationView(BrowserView):
         if not hasattr(form, 'update'):
             return
         form.update()
-        
+
         if getattr(form, "extractData", None):
             data, errors = form.extractData()
         else:
@@ -35,7 +34,7 @@ class InlineValidationView(BrowserView):
             try:
                 fset = int(fset)  # integer-indexed fieldset names
                 form = form.groups[fset]
-            except ValueError, TypeError:
+            except (ValueError, TypeError):
                 # try to match fieldset on group name
                 _name = lambda g: getattr(g, '__name__', None) or g.label
                 group_match = filter(

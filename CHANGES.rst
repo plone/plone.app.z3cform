@@ -4,6 +4,10 @@ Changelog
 0.7.6 (unreleased)
 ------------------
 
+- Remove dependency on collective.z3cform.datetimewidget and instead use
+  plone.app.widgets.
+  [garbas, thet]
+
 - We can add enable_unload_protection = False on a Form to disable unload protection.
   [thomasdesvenain]
 

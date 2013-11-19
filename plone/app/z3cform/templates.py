@@ -1,19 +1,20 @@
-import os.path
-
+from Products.Five.browser import BrowserView
 from Products.Five.browser.metaconfigure import ViewMixinForTemplates
 from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 
-import z3c.form.interfaces
-
-import plone.z3cform.interfaces
-import plone.z3cform.templates
-
+import os.path
 import plone.app.z3cform
 import plone.app.z3cform.interfaces
+import plone.z3cform.interfaces
+import plone.z3cform.templates
+import z3c.form.interfaces
 
-from Products.Five.browser import BrowserView
 
-path = lambda p: os.path.join(os.path.dirname(plone.app.z3cform.__file__), 'templates', p)
+path = lambda p: os.path.join(
+    os.path.dirname(plone.app.z3cform.__file__),
+    'templates',
+    p
+)
 
 # Override the layout wrapper view default template with a more Plone-looking
 # one

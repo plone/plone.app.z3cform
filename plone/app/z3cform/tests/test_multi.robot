@@ -25,7 +25,8 @@ Test a multi form
 With the label
     [arguments]     ${title}   ${extra_keyword}   @{list}
     ${for}=  Get Element Attribute  xpath=//label[starts-with(translate(normalize-space(.)," &#9;&#10;&#13", "-"), translate(normalize-space("${title}")," &#9;&#10;&#13", "-"))]@for
-  #   ${for}  Execute Javascript   return $('label').filter(function(){return $(this).text().replace(/\s+/g,' ').trim()=='${title}'}).attr('for')[0]
+
+#   ${for}  Execute Javascript   return $('label').filter(function(){return $(this).text().replace(/\s+/g,' ').trim()=='${title}'}).attr('for')[0]
 
     Run Keyword     ${extra_keyword}  id=${for}   @{list}
 

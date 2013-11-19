@@ -7,8 +7,8 @@
     i18n_domain="plone">
 
   <include package="plone.z3cform" />
+  <include package="plone.app.widgets" />
   <include package=".wysiwyg" />
-  <include package="collective.z3cform.datetimewidget" />
 
   <!-- Configuration installation profile -->
 
@@ -104,23 +104,23 @@
            plone.app.z3cform.interfaces.IPloneFormLayer"
       />
 
-
-    <class class="zope.schema._field.Date">
-        <implements interface=".widget.IDateField"/>
-    </class>
-    <class class="zope.schema._field.Datetime">
-        <implements interface=".widget.IDatetimeField"/>
-    </class>
-    <adapter
-        factory=".widget.DateFieldWidget"
-        provides="z3c.form.interfaces.IFieldWidget"
-        for=".widget.IDateField
-             z3c.form.interfaces.IFormLayer" />
-    <adapter
-        factory=".widget.DatetimeFieldWidget"
-        provides="z3c.form.interfaces.IFieldWidget"
-        for=".widget.IDatetimeField
-             z3c.form.interfaces.IFormLayer" />
+  <!-- DATE/TIME FIELD REGISTRATIONS -->
+  <class class="zope.schema._field.Date">
+    <implements interface=".widget.IDateField"/>
+  </class>
+  <class class="zope.schema._field.Datetime">
+    <implements interface=".widget.IDatetimeField"/>
+  </class>
+  <adapter
+      factory=".widget.DateFieldWidget"
+      provides="z3c.form.interfaces.IFieldWidget"
+      for=".widget.IDateField
+           z3c.form.interfaces.IFormLayer" />
+  <adapter
+      factory=".widget.DatetimeFieldWidget"
+      provides="z3c.form.interfaces.IFieldWidget"
+      for=".widget.IDatetimeField
+           z3c.form.interfaces.IFormLayer" />
 
   <z3c:widgetTemplate
       mode="input"
@@ -143,7 +143,6 @@
       permission="zope.Public"
       />
 
-
   <adapter
       factory=".object.SubformAdapter"
       for="zope.interface.Interface
@@ -156,7 +155,5 @@
 
   <!-- Use a custom actions manager that knows how to do CSRF token authentication. -->
   <adapter factory=".csrf.AuthenticatedButtonActions" />
-
-    <include package="plone.app.z3cform.tests" file="testing.zcml"/>
 
 </configure>

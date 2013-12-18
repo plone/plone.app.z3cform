@@ -16,6 +16,9 @@ Changelog
 - Replace deprecated test assert statements.
   [timo] 
 
+- Solve #13567: InlineValidation broken for MultiWidget.
+  [sunew]
+
 
 0.7.5 (2013-10-09)
 ------------------

@@ -4,6 +4,9 @@ Changelog
 0.7.6 (unreleased)
 ------------------
 
+- Translate fieldset labels correctly.
+  [maurits]
+
 - We can add enable_unload_protection = False on a Form to disable unload protection.
   [thomasdesvenain]
 

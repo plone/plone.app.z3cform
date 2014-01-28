@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.7.6 (unreleased)
+0.7.6 (2014-01-27)
 ------------------
 
 - Translate fieldset labels correctly.

@@ -15,6 +15,8 @@ from plone.app.z3cform.tests.layer import FUNCTIONAL_TESTS
 from plone.testing import layered
 import robotsuite
 
+ROBOT_TEST_LEVEL = 5
+
 
 @onsetup
 def setup_zcml():
@@ -66,8 +68,10 @@ def test_suite():
 
     inlineValidationTests.layer = InlineValidationLayer
 
+    robottestsuite = robotsuite.RobotTestSuite("test_multi.txt")
+    robottestsuite.level = ROBOT_TEST_LEVEL
     robotTests = layered(
-        robotsuite.RobotTestSuite("test_multi.txt"),
+        robottestsuite,
         layer=FUNCTIONAL_TESTS
     )
 

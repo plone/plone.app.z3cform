@@ -9,6 +9,8 @@ import unittest2 as unittest
 import zope.component.testing
 import zope.testing.doctest
 
+ROBOT_TEST_LEVEL = 5
+
 
 class IntegrationTests(unittest.TestCase):
     layer = PAZ3CForm_INTEGRATION_TESTING

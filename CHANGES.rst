@@ -1,12 +1,19 @@
 Changelog
 =========
 
-0.7.6 (unreleased)
+0.7.7 (unreleased)
 ------------------
 
 - Remove dependency on collective.z3cform.datetimewidget and instead use
   plone.app.widgets.
   [garbas, thet]
+
+
+0.7.6 (2014-01-27)
+------------------
+
+- Translate fieldset labels correctly.
+  [maurits]
 
 - We can add enable_unload_protection = False on a Form to disable unload protection.
   [thomasdesvenain]
@@ -19,6 +26,9 @@ Changelog
 
 - Replace deprecated test assert statements.
   [timo] 
+
+- Solve #13567: InlineValidation broken for MultiWidget.
+  [sunew]
 
 
 0.7.5 (2013-10-09)

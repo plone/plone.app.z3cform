@@ -106,9 +106,9 @@
                           <tal:block tal:repeat="group groups" condition="has_groups">
                               <fieldset
                                   tal:define="normalizeString nocall:context/@@plone/normalizeString;
-                                              fieldset_label group/label/default|group/label;
-                                              fieldset_label python:fieldset_label or group.label;
-                                              fieldset_name python:normalizeString(getattr(group, '__name__', None) or fieldset_label);"
+                                              fieldset_label group/label;
+                                              fieldset_name group/__name__|group/label/default|fieldset_label;
+                                              fieldset_name python:normalizeString(fieldset_name);"
                                   tal:attributes="id string:fieldset-${fieldset_name};
                                                   class string:kssattr-fieldset-${fieldset_name};
                                                   data-fieldset fieldset_name">

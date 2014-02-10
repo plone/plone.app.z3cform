@@ -37,8 +37,7 @@ def _valid_context(context):
     seen = set()
     while context is not None and id(aq_base(context)) not in seen:
         seen.add(id(aq_base(context)))
-        if (IContentish.providedBy(context)
-            or IFolderish.providedBy(context)):
+        if (IContentish.providedBy(context) or IFolderish.providedBy(context)):
             return context
         parent = getattr(context, '__parent__', None)
         if parent is None:

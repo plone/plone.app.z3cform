@@ -4,7 +4,9 @@ Changelog
 0.7.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Remove dependency on collective.z3cform.datetimewidget and instead use
+  plone.app.widgets.
+  [garbas, thet]
 
 
 0.7.6 (2014-01-27)

@@ -7,12 +7,14 @@ import z3c.form.interfaces
 import z3c.form.browser.textarea
 import z3c.form.widget
 
+
 class IWysiwygWidget(z3c.form.interfaces.ITextAreaWidget):
     pass
 
+
 class WysiwygWidget(z3c.form.browser.textarea.TextAreaWidget):
     zope.interface.implementsOnly(IWysiwygWidget)
-    
+
     klass = u'kupu-widget'
     value = u''
 
@@ -27,6 +29,7 @@ class WysiwygWidget(z3c.form.browser.textarea.TextAreaWidget):
         if getattr(self.form.context, 'aq_inner', None) is None:
             self.form.context = Acquisition.ImplicitAcquisitionWrapper(
                 self.form.context, getSite())
+
 
 @zope.component.adapter(zope.schema.interfaces.IField,
                         z3c.form.interfaces.IFormLayer)

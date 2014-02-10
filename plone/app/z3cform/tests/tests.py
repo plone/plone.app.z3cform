@@ -1,42 +1,24 @@
-import unittest
-import zope.component.testing
-import zope.testing.doctest
-
+from plone.app.z3cform.tests.layer import PAZ3CForm_INTEGRATION_TESTING
+from plone.app.z3cform.tests.layer import PAZ3CForm_ROBOT_TESTING
 from plone.browserlayer.layer import mark_layer
+from plone.testing import layered
 from zope.traversing.interfaces import BeforeTraverseEvent
 
-from Products.Five import zcml
-from Products.PloneTestCase import ptc
-from Products.PloneTestCase.layer import onsetup
-
-from plone.app.z3cform.tests.layer import InlineValidationLayer
-from plone.app.z3cform.tests.layer import FUNCTIONAL_TESTS
-
-from plone.testing import layered
 import robotsuite
+import unittest2 as unittest
+import zope.component.testing
+import zope.testing.doctest
 
 ROBOT_TEST_LEVEL = 5
 
 
-@onsetup
-def setup_zcml():
-    from Products.Five import fiveconfigure
-    import plone.app.z3cform.tests
-    fiveconfigure.debug_mode = True
-    zcml.load_config('testing.zcml', plone.app.z3cform.tests)
-    fiveconfigure.debug_mode = False
+class IntegrationTests(unittest.TestCase):
+    layer = PAZ3CForm_INTEGRATION_TESTING
 
-setup_zcml()
-ptc.setupPloneSite(extension_profiles=('plone.app.z3cform:default',))
-
-
-class IntegrationTests(ptc.PloneTestCase):
-
-    def afterSetUp(self):
-        import plone.app.z3cform.tests
-        zcml.load_config('testing.zcml', plone.app.z3cform.tests)
-        self.addProfile('plone.app.z3cform:default')
-        event = BeforeTraverseEvent(self.portal, self.portal.REQUEST)
+    def setUp(self):
+        self.portal = self.layer['portal']
+        self.request = self.layer['request']
+        event = BeforeTraverseEvent(self.portal, self.request)
         mark_layer(self.portal, event)
 
     def test_layer_applied(self):
@@ -58,40 +40,33 @@ class IntegrationTests(ptc.PloneTestCase):
 def test_suite():
 
     inlineValidationTests = zope.testing.doctest.DocFileSuite(
-        'inline_validation.txt',
+        'inline_validation.rst',
         package='plone.app.z3cform',
         optionflags=(
             zope.testing.doctest.ELLIPSIS |
             zope.testing.doctest.NORMALIZE_WHITESPACE
         )
     )
+    inlineValidationTests.layer = PAZ3CForm_INTEGRATION_TESTING
 
-    inlineValidationTests.layer = InlineValidationLayer
-
-    robottestsuite = robotsuite.RobotTestSuite("test_multi.txt")
-    robottestsuite.level = ROBOT_TEST_LEVEL
     robotTests = layered(
-        robottestsuite,
-        layer=FUNCTIONAL_TESTS
+        robotsuite.RobotTestSuite("test_multi.robot"),
+        layer=PAZ3CForm_ROBOT_TESTING
     )
-
-    return unittest.TestSuite([
+    suite = unittest.TestSuite([
         unittest.makeSuite(IntegrationTests),
-
         zope.testing.doctest.DocFileSuite(
-            'wysiwyg/README.txt',
+            'wysiwyg/README.rst',
             package='plone.app.z3cform',
             setUp=zope.component.testing.setUp,
             tearDown=zope.component.testing.tearDown,
         ),
-
         zope.testing.doctest.DocFileSuite(
-            'queryselect/README.txt',
+            'queryselect/README.rst',
             package='plone.app.z3cform',
             setUp=zope.component.testing.setUp,
             tearDown=zope.component.testing.tearDown,
         ),
-
         zope.testing.doctest.DocTestSuite(
             'plone.app.z3cform.wysiwyg.widget',
             package='plone.app.z3cform',
@@ -100,4 +75,5 @@ def test_suite():
         ),
         inlineValidationTests,
         robotTests,
-  ])
+    ])
+    return suite

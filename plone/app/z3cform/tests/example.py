@@ -1,10 +1,10 @@
-from zope import interface, schema
-from zope.interface import implements
-from zope.contentprovider.provider import ContentProviderBase
+from plone.z3cform.layout import FormWrapper
 from z3c.form import form, field, button, group
-from z3c.form.interfaces import IFieldsAndContentProvidersForm
 from z3c.form.contentprovider import ContentProviders
-from plone.app.z3cform.layout import FormWrapper
+from z3c.form.interfaces import IFieldsAndContentProvidersForm
+from zope import interface, schema
+from zope.contentprovider.provider import ContentProviderBase
+from zope.interface import implements
 
 
 class MySchema(interface.Interface):
@@ -58,7 +58,6 @@ class MyGroupForm(group.GroupForm, form.Form):
 
 class MyGroupFormWrapper(FormWrapper):
     form = MyGroupForm
-
 
 
 class MyMultiSchema(interface.Interface):

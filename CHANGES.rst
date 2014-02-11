@@ -18,7 +18,7 @@ Changelog
   [davisagli]
 
 - Replace deprecated test assert statements.
-  [timo] 
+  [timo]
 
 
 0.7.5 (2013-10-09)

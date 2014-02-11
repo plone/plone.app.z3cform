@@ -4,6 +4,10 @@ Changelog
 0.7.6 (unreleased)
 ------------------
 
+- Remove DL's from portal message in templates.
+  https://github.com/plone/Products.CMFPlone/issues/153
+  [khink]
+
 - Remove dependency on collective.z3cform.datetimewidget and instead use
   plone.app.widgets.
   [garbas, thet]

@@ -409,7 +409,7 @@ plone.app.z3cform layers are not in place (configuration ZCML is not read). You 
 product's configuration.zcml. See *Installation* above.
 
 
-KSS inline validation (deprecared)
+KSS inline validation (deprecated)
 ====================================
 
 .. note ::

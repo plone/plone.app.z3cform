@@ -49,8 +49,10 @@ def test_suite():
     )
     inlineValidationTests.layer = PAZ3CForm_INTEGRATION_TESTING
 
+    robottestsuite = robotsuite.RobotTestSuite("test_multi.robot")
+    robottestsuite.level = ROBOT_TEST_LEVEL
     robotTests = layered(
-        robotsuite.RobotTestSuite("test_multi.robot"),
+        robottestsuite,
         layer=PAZ3CForm_ROBOT_TESTING
     )
     suite = unittest.TestSuite([

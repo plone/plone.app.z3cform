@@ -1,10 +1,7 @@
 from plone.app.z3cform.tests.layer import PAZ3CForm_INTEGRATION_TESTING
-from plone.app.z3cform.tests.layer import PAZ3CForm_ROBOT_TESTING
 from plone.browserlayer.layer import mark_layer
-from plone.testing import layered
 from zope.traversing.interfaces import BeforeTraverseEvent
 
-import robotsuite
 import unittest2 as unittest
 import zope.component.testing
 import zope.testing.doctest
@@ -49,12 +46,6 @@ def test_suite():
     )
     inlineValidationTests.layer = PAZ3CForm_INTEGRATION_TESTING
 
-    robottestsuite = robotsuite.RobotTestSuite("test_multi.robot")
-    robottestsuite.level = ROBOT_TEST_LEVEL
-    robotTests = layered(
-        robottestsuite,
-        layer=PAZ3CForm_ROBOT_TESTING
-    )
     suite = unittest.TestSuite([
         unittest.makeSuite(IntegrationTests),
         zope.testing.doctest.DocFileSuite(
@@ -76,6 +67,5 @@ def test_suite():
             tearDown=zope.component.testing.tearDown,
         ),
         inlineValidationTests,
-        robotTests,
     ])
     return suite

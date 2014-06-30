@@ -1,4 +1,3 @@
-from plone.app.testing import FunctionalTesting
 from plone.app.testing.layers import IntegrationTesting
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
@@ -32,7 +31,3 @@ PAZ3CForm_FIXTURE = PAZ3CFormLayer()
 PAZ3CForm_INTEGRATION_TESTING = IntegrationTesting(
     bases=(PAZ3CForm_FIXTURE,),
     name="plone.app.z3cform:Integration")
-PAZ3CForm_ROBOT_TESTING = FunctionalTesting(
-    bases=(PAZ3CForm_FIXTURE,
-           z2.ZSERVER_FIXTURE),
-    name="plone.app.z3cform:Acceptance")

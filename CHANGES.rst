@@ -4,7 +4,9 @@ Changelog
 1.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Handle an error where group.__name__ being None caused fieldsets to be given
+  the id 'fieldset-none', which causes issues the inline validation.
+  [esteele]
 
 
 1.0 (2014-02-26)
@@ -31,7 +33,7 @@ Changelog
   [davisagli]
 
 - Replace deprecated test assert statements.
-  [timo] 
+  [timo]
 
 - Solve #13567: InlineValidation broken for MultiWidget.
   [sunew]

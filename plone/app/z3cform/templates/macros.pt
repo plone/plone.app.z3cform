@@ -107,7 +107,7 @@
                               <fieldset
                                   tal:define="normalizeString nocall:context/@@plone/normalizeString;
                                               fieldset_label group/label;
-                                              fieldset_name group/__name__|group/label/default|fieldset_label;
+                                              fieldset_name python:getattr(group, '__name__', False) or getattr(group.label, 'default', False) or fieldset_label;
                                               fieldset_name python:normalizeString(fieldset_name);"
                                   tal:attributes="id string:fieldset-${fieldset_name};
                                                   class string:kssattr-fieldset-${fieldset_name};

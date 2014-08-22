@@ -61,7 +61,7 @@ Let's verify that worked:
     ...             return getMultiAdapter((self, self._REQUEST), Interface, name[2:]).__of__(self)
     ...         else:
     ...             return getattr(self, name)
-    ...         
+    ...
     >>> context = Bar()
     >>> request = make_request()
     >>> context._REQUEST = request # evil test fake
@@ -108,8 +108,8 @@ should return without issue:
 Inline validation with groups
 -----------------------------
 
-We use plone.app.z3cform.tests.example.MyGroupFormWrapper and validate the 
-field 'name' that's part of a group. Inline validation is invoked via the 
+We use plone.app.z3cform.tests.example.MyGroupFormWrapper and validate the
+field 'name' that's part of a group. Inline validation is invoked via the
 @@z3cform_validate_field view.
 
     >>> request = make_request(form={'form.widgets.name': ''})
@@ -139,8 +139,8 @@ the name of the group.
 Inline-Validation and Translation of ErrorSnippets
 --------------------------------------------------
 
-We use plone.app.z3cform.tests.example.MyGroupFormWrapper and validate the 
-field 'name' that's part of a group. Inline validation is invoked via the 
+We use plone.app.z3cform.tests.example.MyGroupFormWrapper and validate the
+field 'name' that's part of a group. Inline validation is invoked via the
 @@z3cform_validate_field view.
 
     >>> request = make_request(form={'form.widgets.name': ''}, lang='de',)

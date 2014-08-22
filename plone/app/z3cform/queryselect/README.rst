@@ -13,7 +13,7 @@ This is how your form schema could look like:
 
   >>> from zope import interface, schema
   >>> from plone.app.z3cform.queryselect import ArchetypesContentSourceBinder
-  
+
   >>> class ISelection(interface.Interface):
   ...     items = schema.Set(
   ...         title=u"Selection",

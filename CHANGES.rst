@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.1 (unreleased)
+1.0.1 (2014-10-23)
 ------------------
 
 - Handle an error where group.__name__ being None caused fieldsets to be given

@@ -9,7 +9,8 @@
                          key_error key_widget/error|nothing;
                          error_class python:(error or key_error) and ' error' or '';
                          fieldname_class string:kssattr-fieldname-${widget/name};"
-             tal:attributes="class string:multi-widget-field field z3cformInlineValidation ${fieldname_class}${error_class};
+             data-pat-inlinevalidation='{"type":"z3c.form"}'
+             tal:attributes="class string:multi-widget-field field pat-inlinevalidation ${fieldname_class}${error_class};
                              id string:formfield-${widget/id};">
 
             <input id="" name=""

@@ -4,8 +4,7 @@ Changelog
 1.0.2 (unreleased)
 ------------------
 
-- Fix inline-validation warning error
-  [jbirdwell]
+- Nothing changed yet.
 
 
 1.0.1 (2014-10-23)

@@ -192,3 +192,4 @@ in this case no validation output should be returned.
     >>> request = make_request(form={'form.widgets.age': 'Title'})
     >>> z3cform_validate_field = getMultiAdapter((view, request), name=u"z3cform_validate_field")
     >>> z3cform_validate_field(fname=u'form.widgets.age')
+    '{"errmsg": ""}'

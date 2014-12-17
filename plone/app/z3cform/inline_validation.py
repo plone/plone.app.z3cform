@@ -12,6 +12,8 @@ class InlineValidationView(BrowserView):
     """
 
     def __call__(self, fname=None, fset=None):
+        self.request.response.setHeader('Content-Type', 'application/json')
+
         res = {'errmsg': ''}
 
         if fname is None:
@@ -21,13 +23,13 @@ class InlineValidationView(BrowserView):
         if hasattr(aq_base(form), 'form_instance'):
             form = form.form_instance
         if not hasattr(form, 'update'):
-            return
+            return json.dumps(res)
         form.update()
 
         if getattr(form, "extractData", None):
             data, errors = form.extractData()
         else:
-            return
+            return json.dumps(res)
 
         #if we validate a field in a group we operate on the group
         if fset is not None:
@@ -57,5 +59,4 @@ class InlineValidationView(BrowserView):
             validationError = translate(validationError, context=self.request)
 
         res['errmsg'] = validationError or ''
-        self.request.response.setHeader('Content-Type', 'application/json')
         return json.dumps(res)

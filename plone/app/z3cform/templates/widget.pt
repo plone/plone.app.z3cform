@@ -26,6 +26,7 @@
             i18n:translate=""
             tal:content="structure description"
             tal:condition="python:description and not hidden"
+            tal:attributes="id string:formfield-${widget/id}-formHelp;"
             >field description
         </span>
     </label>

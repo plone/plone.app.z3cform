@@ -156,4 +156,54 @@
   <!-- Use a custom actions manager that knows how to do CSRF token authentication. -->
   <adapter factory=".csrf.AuthenticatedButtonActions" />
 
+
+  <adapter factory=".converters.DatetimeWidgetConverter" />
+  <adapter factory=".converters.DateWidgetConverter" />
+  <adapter factory=".converters.SelectWidgetConverter" />
+  <adapter factory=".converters.SequenceSelectWidgetConverter" />
+  <adapter factory=".converters.AjaxSelectWidgetConverter" />
+  <adapter factory=".converters.QueryStringDataConverter" />
+  <adapter factory=".converters.RelationChoiceRelatedItemsWidgetConverter" />
+  <adapter factory=".converters.RelatedItemsDataConverter" />
+
+  <class class=".widget.DateWidget">
+    <require permission="zope.Public"
+             interface=".interfaces.IDateWidget" />
+  </class>
+  <class class="zope.schema._field.Date">
+    <implements interface=".interfaces.IDateField"/>
+  </class>
+  <adapter
+      factory=".widget.DateFieldWidget"
+      for=".interfaces.IDateField
+           z3c.form.interfaces.IFormLayer" />
+
+  <class class=".widget.DatetimeWidget">
+    <require permission="zope.Public"
+             interface=".interfaces.IDatetimeWidget" />
+  </class>
+  <class class="zope.schema._field.Datetime">
+    <implements interface=".interfaces.IDatetimeField"/>
+  </class>
+  <adapter
+      factory=".widget.DatetimeFieldWidget"
+      for=".interfaces.IDatetimeField
+           z3c.form.interfaces.IFormLayer" />
+
+  <adapter factory=".widget.RelatedItemsFieldWidget"
+           for="z3c.relationfield.interfaces.IRelationChoice
+                z3c.form.interfaces.IFormLayer" />
+
+  <adapter factory=".widget.RelatedItemsFieldWidget"
+           for="z3c.relationfield.interfaces.IRelationList
+                z3c.form.interfaces.IFormLayer" />
+
+  <adapter
+    factory=".widget.RelatedItemsFieldWidget"
+    for="zope.schema.interfaces.IChoice
+         plone.app.vocabularies.catalog.CatalogSource
+         z3c.form.interfaces.IFormLayer" />
+
+  <adapter factory=".widget.QueryStringFieldWidget" />
+  <adapter factory="..RichTextFieldWidget" />
 </configure>

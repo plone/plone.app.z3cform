@@ -46,7 +46,7 @@ setup(
         'Products.CMFCore',
         'Products.CMFPlone',
         'Zope2',  # Products.Five
-        'plone.app.widgets>=2',
+        'plone.app.widgets>=2.0.0.dev0',
         'plone.protect',
         'plone.z3cform>=0.5.11dev',
         'z3c.form >= 3.0',
@@ -59,6 +59,7 @@ setup(
         'zope.interface',
         'zope.schema',
         'zope.traversing',
+        'plone.app.textfield'
     ],
     extras_require={
         'tests': [

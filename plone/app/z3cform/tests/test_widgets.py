@@ -551,7 +551,7 @@ class SelectWidgetTests(unittest.TestCase):
 
     def test_data_converter_list(self):
         from plone.app.z3cform.widget import SelectWidget
-        from plone.app.z3cform.widget import SelectWidgetConverter
+        from plone.app.z3cform.converters import SelectWidgetConverter
 
         field = List(__name__='listfield',
                      value_type=Choice(__name__='selectfield',
@@ -593,7 +593,7 @@ class SelectWidgetTests(unittest.TestCase):
 
     def test_data_converter_tuple(self):
         from plone.app.z3cform.widget import SelectWidget
-        from plone.app.z3cform.widget import SelectWidgetConverter
+        from plone.app.z3cform.converters import SelectWidgetConverter
 
         field = Tuple(__name__='tuplefield',
                       value_type=Choice(__name__='selectfield',
@@ -625,7 +625,7 @@ class SelectWidgetTests(unittest.TestCase):
 
     def test_data_converter_handles_empty_value(self):
         from plone.app.z3cform.widget import SelectWidget
-        from plone.app.z3cform.widget import SelectWidgetConverter
+        from plone.app.z3cform.converters import SelectWidgetConverter
 
         field = Tuple(__name__='tuplefield',
                       value_type=Choice(__name__='selectfield',
@@ -794,7 +794,7 @@ class AjaxSelectWidgetTests(unittest.TestCase):
 
     def test_data_converter_list(self):
         from plone.app.z3cform.widget import AjaxSelectWidget
-        from plone.app.z3cform.widget import AjaxSelectWidgetConverter
+        from plone.app.z3cform.converters import AjaxSelectWidgetConverter
 
         field = List(__name__='listfield', value_type=TextLine())
         widget = AjaxSelectWidget(self.request)
@@ -823,7 +823,7 @@ class AjaxSelectWidgetTests(unittest.TestCase):
 
     def test_data_converter_tuple(self):
         from plone.app.z3cform.widget import AjaxSelectWidget
-        from plone.app.z3cform.widget import AjaxSelectWidgetConverter
+        from plone.app.z3cform.converters import AjaxSelectWidgetConverter
 
         field = Tuple(__name__='tuplefield', value_type=TextLine())
         widget = AjaxSelectWidget(self.request)
@@ -878,13 +878,13 @@ class QueryStringWidgetTests(unittest.TestCase):
         self.request = TestRequest(environ={'HTTP_ACCEPT_LANGUAGE': 'en'})
 
     def test_converter_toWidgetValue(self):
-        from plone.app.z3cform.widget import QueryStringDataConverter
+        from plone.app.z3cform.converters import QueryStringDataConverter
         converter = QueryStringDataConverter(List(), None)
         self.assertEqual(converter.toWidgetValue(None), u'[]')
         self.assertEqual(converter.toWidgetValue([]), u'[]')
 
     def test_converter_empty_value(self):
-        from plone.app.z3cform.widget import QueryStringDataConverter
+        from plone.app.z3cform.converters import QueryStringDataConverter
         converter = QueryStringDataConverter(List(), None)
         self.assertEqual(converter.toFieldValue(u''), None)
         self.assertEqual(converter.toFieldValue(u'[]'), None)
@@ -986,7 +986,7 @@ class RelatedItemsWidgetTests(unittest.TestCase):
             )
 
     def test_converter_RelationChoice(self):
-        from plone.app.z3cform.widget import \
+        from plone.app.z3cform.converters import \
             RelationChoiceRelatedItemsWidgetConverter
         brain = Mock(getObject=Mock(return_value='obj'))
         portal_catalog = Mock(return_value=[brain])
@@ -994,19 +994,19 @@ class RelatedItemsWidgetTests(unittest.TestCase):
         converter = RelationChoiceRelatedItemsWidgetConverter(
             TextLine(), widget)
 
-        with mock.patch('plone.app.widgets.dx.IUUID', return_value='id'):
+        with mock.patch('plone.app.z3cform.converters.IUUID', return_value='id'):
             self.assertEqual(converter.toWidgetValue('obj'), 'id')
         self.assertEqual(converter.toWidgetValue(None), None)
 
         with mock.patch(
-                'plone.app.widgets.dx.getToolByName',
+                'plone.app.z3cform.converters.getToolByName',
                 return_value=portal_catalog):
             self.assertEqual(converter.toFieldValue('id'), 'obj')
         self.assertEqual(converter.toFieldValue(None), None)
 
     def test_converter_RelationList(self):
-        from plone.app.z3cform.widget import RelatedItemsDataConverter
-        from plone.app.z3cform.widget import IRelationList
+        from plone.app.z3cform.converters import RelatedItemsDataConverter
+        from z3c.relationfield.interfaces import IRelationList
         field = List()
         alsoProvides(field, IRelationList)
         brain1 = Mock(getObject=Mock(return_value='obj1'), UID='id1')
@@ -1017,19 +1017,19 @@ class RelatedItemsWidgetTests(unittest.TestCase):
 
         self.assertEqual(converter.toWidgetValue(None), None)
         with mock.patch(
-                'plone.app.widgets.dx.IUUID', side_effect=['id1', 'id2']):
+                'plone.app.z3cform.converters.IUUID', side_effect=['id1', 'id2']):
             self.assertEqual(
                 converter.toWidgetValue(['obj1', 'obj2']), 'id1;id2')
 
         self.assertEqual(converter.toFieldValue(None), None)
         with mock.patch(
-                'plone.app.widgets.dx.getToolByName',
+                'plone.app.z3cform.converters.getToolByName',
                 return_value=portal_catalog):
             self.assertEqual(
                 converter.toFieldValue('id1;id2'), ['obj1', 'obj2'])
 
     def test_converter_List_of_Choice(self):
-        from plone.app.z3cform.widget import RelatedItemsDataConverter
+        from plone.app.z3cform.converters import RelatedItemsDataConverter
         field = List()
         widget = Mock(separator=';')
         converter = RelatedItemsDataConverter(field, widget)

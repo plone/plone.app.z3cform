@@ -1,7 +1,7 @@
 from z3c.form.interfaces import IFormLayer
 from zope.schema.interfaces import IDate
 from zope.schema.interfaces import IDatetime
-from z3c.form.interfaces import ISelectWidget
+from z3c.form.interfaces import ISelectWidget as IBaseSelectWidget
 from z3c.form.interfaces import ITextWidget
 from plone.app.textfield.widget import IRichTextWidget as patextfield_IRichTextWidget
 
@@ -27,7 +27,7 @@ class IDatetimeWidget(ITextWidget):
     """Marker interface for the DatetimeWidget."""
 
 
-class ISelectWidget(ISelectWidget):
+class ISelectWidget(IBaseSelectWidget):
     """Marker interface for the SelectWidget."""
 
 

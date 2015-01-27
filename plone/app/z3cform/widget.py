@@ -2,8 +2,7 @@
 from Products.CMFCore.utils import getToolByName
 from lxml import etree
 from plone.app.textfield.value import RichTextValue
-from plone.app.textfield.widget import IRichTextWidget as patextfield_IRichTextWidget  # noqa
-from plone.app.textfield.widget import RichTextWidget as patextfield_RichTextWidget  # noqa
+from plone.app.textfield.widget import RichTextWidget as patextfield_RichTextWidget
 from plone.app.widgets.base import InputWidget
 from plone.app.widgets.base import SelectWidget as BaseSelectWidget
 from plone.app.widgets.base import TextareaWidget
@@ -21,11 +20,11 @@ from z3c.form.browser.text import TextWidget as z3cform_TextWidget
 from z3c.form.browser.widget import HTMLInputWidget
 from z3c.form.interfaces import IAddForm
 from z3c.form.interfaces import IFieldWidget
-from z3c.form.interfaces import ISelectWidget
 from z3c.form.interfaces import NO_VALUE
 from z3c.form.widget import FieldWidget
 from z3c.form.widget import Widget
 from zope.component import getUtility
+from zope.component import ComponentLookupError
 from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface import implementsOnly
@@ -38,7 +37,8 @@ from plone.app.z3cform.converters import (
     DateWidgetConverter, DatetimeWidgetConverter)
 from plone.app.z3cform.interfaces import (
     IDatetimeWidget, IDateWidget, IAjaxSelectWidget,
-    IRelatedItemsWidget, IQueryStringWidget, IRichTextWidget)
+    IRelatedItemsWidget, IQueryStringWidget, IRichTextWidget,
+    ISelectWidget)
 
 import json
 
@@ -553,7 +553,10 @@ class RichTextWidget(BaseWidget, patextfield_RichTextWidget):
 def DateFieldWidget(field, request):
     widget = FieldWidget(field, DateWidget(request))
     widget.pattern_options.setdefault('date', {})
-    widget.pattern_options['date']['firstDay'] = first_weekday()
+    try:
+        widget.pattern_options['date']['firstDay'] = first_weekday()
+    except ComponentLookupError:
+        pass
     return widget
 
 
@@ -587,5 +590,7 @@ def RichTextFieldWidget(field, request):
 
 
 @implementer(IFieldWidget)
-def QueryStringFieldWidget(field, request):
+def QueryStringFieldWidget(field, request, extra=None):
+    if extra is not None:
+        request = extra
     return FieldWidget(field, QueryStringWidget(request))

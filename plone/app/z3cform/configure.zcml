@@ -104,24 +104,6 @@
            plone.app.z3cform.interfaces.IPloneFormLayer"
       />
 
-  <!-- DATE/TIME FIELD REGISTRATIONS -->
-  <class class="zope.schema._field.Date">
-    <implements interface=".widget.IDateField"/>
-  </class>
-  <class class="zope.schema._field.Datetime">
-    <implements interface=".widget.IDatetimeField"/>
-  </class>
-  <adapter
-      factory=".widget.DateFieldWidget"
-      provides="z3c.form.interfaces.IFieldWidget"
-      for=".widget.IDateField
-           z3c.form.interfaces.IFormLayer" />
-  <adapter
-      factory=".widget.DatetimeFieldWidget"
-      provides="z3c.form.interfaces.IFieldWidget"
-      for=".widget.IDatetimeField
-           z3c.form.interfaces.IFormLayer" />
-
   <z3c:widgetTemplate
       mode="input"
       widget="z3c.form.interfaces.IMultiWidget"
@@ -156,7 +138,6 @@
   <!-- Use a custom actions manager that knows how to do CSRF token authentication. -->
   <adapter factory=".csrf.AuthenticatedButtonActions" />
 
-
   <adapter factory=".converters.DatetimeWidgetConverter" />
   <adapter factory=".converters.DateWidgetConverter" />
   <adapter factory=".converters.SelectWidgetConverter" />
@@ -166,6 +147,7 @@
   <adapter factory=".converters.RelationChoiceRelatedItemsWidgetConverter" />
   <adapter factory=".converters.RelatedItemsDataConverter" />
 
+  <!-- widget registration stuff -->
   <class class=".widget.DateWidget">
     <require permission="zope.Public"
              interface=".interfaces.IDateWidget" />
@@ -185,10 +167,10 @@
   <class class="zope.schema._field.Datetime">
     <implements interface=".interfaces.IDatetimeField"/>
   </class>
-  <adapter
-      factory=".widget.DatetimeFieldWidget"
-      for=".interfaces.IDatetimeField
-           z3c.form.interfaces.IFormLayer" />
+
+  <adapter factory=".widget.DatetimeFieldWidget"
+           for=".interfaces.IDatetimeField
+                z3c.form.interfaces.IFormLayer" />
 
   <adapter factory=".widget.RelatedItemsFieldWidget"
            for="z3c.relationfield.interfaces.IRelationChoice
@@ -198,12 +180,18 @@
            for="z3c.relationfield.interfaces.IRelationList
                 z3c.form.interfaces.IFormLayer" />
 
-  <adapter
-    factory=".widget.RelatedItemsFieldWidget"
-    for="zope.schema.interfaces.IChoice
-         plone.app.vocabularies.catalog.CatalogSource
-         z3c.form.interfaces.IFormLayer" />
+  <adapter factory=".widget.RelatedItemsFieldWidget"
+           for="zope.schema.interfaces.IChoice
+                plone.app.vocabularies.catalog.CatalogSource
+                z3c.form.interfaces.IFormLayer" />
 
-  <adapter factory=".widget.QueryStringFieldWidget" />
-  <adapter factory="..RichTextFieldWidget" />
+  <adapter factory=".widget.QueryStringFieldWidget"
+           for="zope.schema.interfaces.IList
+                zope.schema.interfaces.IDict
+                z3c.form.interfaces.IFormLayer"/>
+
+  <adapter factory=".widget.RichTextFieldWidget"
+           for="plone.app.textfield.interfaces.IRichText
+                z3c.form.interfaces.IFormLayer"/>
+
 </configure>

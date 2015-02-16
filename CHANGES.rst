@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.1 (unreleased)
+----------------
+
+- Integrate plone.app.widgets.
+  [vangheem]
+
+
 1.0.2 (unreleased)
 ------------------
 

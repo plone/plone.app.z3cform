@@ -4,7 +4,9 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Remove the ``RichTextFieldWidget`` adapter registration, as it's redundant to
+  the one in ``plone.app.textfield``. This avoids zcml registration conflicts.
+  [thet]
 
 
 1.1.0 (2015-03-21)

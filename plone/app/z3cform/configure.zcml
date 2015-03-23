@@ -28,21 +28,21 @@
   <browser:page
       name="ploneform-render-widget"
       for="z3c.form.interfaces.IWidget"
-      layer="z3c.form.interfaces.IFormLayer"
+      layer="plone.app.z3cform.interfaces.IPloneFormLayer"
       class=".templates.RenderWidget"
       permission="zope.Public"
       />
   <browser:page
       name="ploneform-render-widget"
       for="zope.contentprovider.interfaces.IContentProvider"
-      layer="z3c.form.interfaces.IFormLayer"
+      layer="plone.app.z3cform.interfaces.IPloneFormLayer"
       class=".templates.RenderContentProvider"
       permission="zope.Public"
       />
   <browser:page
       name="ploneform-render-widget"
       for="z3c.form.interfaces.ISingleCheckBoxWidget"
-      layer="z3c.form.interfaces.IFormLayer"
+      layer="plone.app.z3cform.interfaces.IPloneFormLayer"
       class=".templates.RenderSingleCheckboxWidget"
       permission="zope.Public"
       />
@@ -59,21 +59,21 @@
       provides="z3c.form.interfaces.IFieldWidget"
       for="zope.schema.interfaces.IList
            zope.schema.interfaces.ITextLine
-           z3c.form.interfaces.IFormLayer"
+           plone.app.z3cform.interfaces.IPloneFormLayer"
       />
   <adapter
       factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
       provides="z3c.form.interfaces.IFieldWidget"
       for="zope.schema.interfaces.ITuple
            zope.schema.interfaces.ITextLine
-           z3c.form.interfaces.IFormLayer"
+           plone.app.z3cform.interfaces.IPloneFormLayer"
       />
   <adapter
       factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
       provides="z3c.form.interfaces.IFieldWidget"
       for="zope.schema.interfaces.IAbstractSet
            zope.schema.interfaces.ITextLine
-           z3c.form.interfaces.IFormLayer"
+           plone.app.z3cform.interfaces.IPloneFormLayer"
       />
 
   <adapter
@@ -81,21 +81,21 @@
       provides="z3c.form.interfaces.IFieldWidget"
       for="zope.schema.interfaces.IList
            zope.schema.interfaces.IASCIILine
-           z3c.form.interfaces.IFormLayer"
+           plone.app.z3cform.interfaces.IPloneFormLayer"
       />
   <adapter
       factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
       provides="z3c.form.interfaces.IFieldWidget"
       for="zope.schema.interfaces.ITuple
            zope.schema.interfaces.IASCIILine
-           z3c.form.interfaces.IFormLayer"
+           plone.app.z3cform.interfaces.IPloneFormLayer"
       />
   <adapter
       factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
       provides="z3c.form.interfaces.IFieldWidget"
       for="zope.schema.interfaces.IAbstractSet
            zope.schema.interfaces.IASCIILine
-           z3c.form.interfaces.IFormLayer"
+           plone.app.z3cform.interfaces.IPloneFormLayer"
       />
 
   <adapter
@@ -158,7 +158,7 @@
   <adapter
       factory=".widget.DateFieldWidget"
       for=".interfaces.IDateField
-           z3c.form.interfaces.IFormLayer" />
+           plone.app.z3cform.interfaces.IPloneFormLayer" />
 
   <class class=".widget.DatetimeWidget">
     <require permission="zope.Public"
@@ -170,28 +170,28 @@
 
   <adapter factory=".widget.DatetimeFieldWidget"
            for=".interfaces.IDatetimeField
-                z3c.form.interfaces.IFormLayer" />
+                plone.app.z3cform.interfaces.IPloneFormLayer" />
 
   <adapter factory=".widget.RelatedItemsFieldWidget"
            for="z3c.relationfield.interfaces.IRelationChoice
-                z3c.form.interfaces.IFormLayer" />
+                plone.app.z3cform.interfaces.IPloneFormLayer" />
 
   <adapter factory=".widget.RelatedItemsFieldWidget"
            for="z3c.relationfield.interfaces.IRelationList
-                z3c.form.interfaces.IFormLayer" />
+                plone.app.z3cform.interfaces.IPloneFormLayer" />
 
   <adapter factory=".widget.RelatedItemsFieldWidget"
            for="zope.schema.interfaces.IChoice
                 plone.app.vocabularies.catalog.CatalogSource
-                z3c.form.interfaces.IFormLayer" />
+                plone.app.z3cform.interfaces.IPloneFormLayer" />
 
   <adapter factory=".widget.QueryStringFieldWidget"
            for="zope.schema.interfaces.IList
                 zope.schema.interfaces.IDict
-                z3c.form.interfaces.IFormLayer"/>
+                plone.app.z3cform.interfaces.IPloneFormLayer"/>
 
   <adapter factory=".widget.RichTextFieldWidget"
            for="plone.app.textfield.interfaces.IRichText
-                z3c.form.interfaces.IFormLayer"/>
+                plone.app.z3cform.interfaces.IPloneFormLayer"/>
 
 </configure>

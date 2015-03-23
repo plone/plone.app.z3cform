@@ -10,6 +10,10 @@ Changelog
 1.1.0 (2015-03-21)
 ------------------
 
+- Use the more specific browser layer ``IPloneFormLayer`` for adapter
+  registrations. This avoids double registration errors.
+  [thet]
+
 - Integrate plone.app.widgets.
   [vangheem]
 

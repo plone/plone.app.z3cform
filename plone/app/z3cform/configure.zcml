@@ -7,6 +7,7 @@
     i18n_domain="plone">
 
   <include package="plone.z3cform" />
+  <include package="plone.app.textfield"/>
   <include package="plone.app.widgets" />
   <include package=".wysiwyg" />
 
@@ -188,10 +189,6 @@
   <adapter factory=".widget.QueryStringFieldWidget"
            for="zope.schema.interfaces.IList
                 zope.schema.interfaces.IDict
-                z3c.form.interfaces.IFormLayer"/>
-
-  <adapter factory=".widget.RichTextFieldWidget"
-           for="plone.app.textfield.interfaces.IRichText
                 z3c.form.interfaces.IFormLayer"/>
 
 </configure>

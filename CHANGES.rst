@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1.1 (unreleased)
+1.1.1 (2015-05-04)
 ------------------
 
 - Use the more specific browser layer ``IPloneFormLayer`` for adapter

@@ -468,7 +468,7 @@ class RichTextWidget(BaseWidget, patextfield_RichTextWidget):
             editor = member.getProperty('wysiwyg_editor')
             if editor in available:
                 self._pattern = editor.lower()
-            elif editor in ('None', None, ''):
+            elif editor in ('None', None):
                 self._pattern = 'plaintexteditor'
             return default
         return self._pattern

@@ -453,9 +453,17 @@ class RichTextWidget(BaseWidget, patextfield_RichTextWidget):
         try:
             records = registry.forInterface(IEditingSchema, check=False,
                                             prefix='plone')
-            return records.default_editor.lower()
+            default = records.default_editor.lower()
+            available = records.available_editors
         except AttributeError:
-            return 'tinymce'
+            default = 'tinymce'
+            available = ['TinyMCE']
+        tool = getToolByName(self.context, "portal_membership")
+        member = tool.getAuthenticatedMember()
+        editor = member.getProperty('wysiwyg_editor')
+        if editor in available:
+            return editor.lower()
+        return default
 
     def _base_args(self):
         args = super(RichTextWidget, self)._base_args()

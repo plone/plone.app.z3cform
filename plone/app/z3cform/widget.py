@@ -445,25 +445,33 @@ class RichTextWidget(BaseWidget, patextfield_RichTextWidget):
 
     pattern_options = BaseWidget.pattern_options.copy()
 
+    def __init__(self, *args, **kwargs):
+        super(RichTextWidget, self).__init__(*args, **kwargs)
+        self._pattern = None
+
     @property
     def pattern(self):
         """dynamically grab the actual pattern name so it will
            work with custom visual editors"""
-        registry = getUtility(IRegistry)
-        try:
-            records = registry.forInterface(IEditingSchema, check=False,
-                                            prefix='plone')
-            default = records.default_editor.lower()
-            available = records.available_editors
-        except AttributeError:
-            default = 'tinymce'
-            available = ['TinyMCE']
-        tool = getToolByName(self.context, "portal_membership")
-        member = tool.getAuthenticatedMember()
-        editor = member.getProperty('wysiwyg_editor')
-        if editor in available:
-            return editor.lower()
-        return default
+        if self._pattern is None:
+            registry = getUtility(IRegistry)
+            try:
+                records = registry.forInterface(IEditingSchema, check=False,
+                                                prefix='plone')
+                default = records.default_editor.lower()
+                available = records.available_editors
+            except AttributeError:
+                default = 'tinymce'
+                available = ['TinyMCE']
+            tool = getToolByName(self.context, "portal_membership")
+            member = tool.getAuthenticatedMember()
+            editor = member.getProperty('wysiwyg_editor')
+            if editor in available:
+                self._pattern = editor.lower()
+            elif editor in ('None', None, ''):
+                self._pattern = 'plaintexteditor'
+            return default
+        return self._pattern
 
     def _base_args(self):
         args = super(RichTextWidget, self)._base_args()

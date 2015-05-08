@@ -4,8 +4,8 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- grab selected editor from user
+  [vangheem]
 
 1.1.1 (2015-05-04)
 ------------------

@@ -3,6 +3,7 @@ from zope.schema.interfaces import IDate
 from zope.schema.interfaces import IDatetime
 from z3c.form.interfaces import ISelectWidget as IBaseSelectWidget
 from z3c.form.interfaces import ITextWidget
+from z3c.form.interfaces import IMultiWidget
 from plone.app.textfield.widget import IRichTextWidget as patextfield_IRichTextWidget
 
 
@@ -45,3 +46,8 @@ class IRelatedItemsWidget(ITextWidget):
 
 class IRichTextWidget(patextfield_IRichTextWidget):
     """Marker interface for the TinyMCEWidget."""
+
+
+class IFileUploadWidget(IMultiWidget):
+    """Marker interface for the file upload widget.
+    """

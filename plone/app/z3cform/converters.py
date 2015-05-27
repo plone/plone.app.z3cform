@@ -3,21 +3,27 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_callable
 from datetime import date
 from datetime import datetime
+from plone.namedfile.interfaces import INamedField
 from plone.uuid.interfaces import IUUID
 from z3c.form.converter import BaseDataConverter
 from z3c.form.converter import CollectionSequenceDataConverter
 from z3c.form.converter import SequenceDataConverter
+from z3c.form.interfaces import IAddForm
+from z3c.form.interfaces import IDataManager
+from z3c.form.interfaces import NO_VALUE
 from zope.component import adapts
+from zope.component import queryMultiAdapter
 from zope.component.hooks import getSite
 from zope.schema.interfaces import ICollection
 from zope.schema.interfaces import IDate
 from zope.schema.interfaces import IDatetime
 from zope.schema.interfaces import IField
 from zope.schema.interfaces import IList
+from zope.schema.interfaces import ISequence
 
 from plone.app.z3cform.interfaces import (
     IDateWidget, IDatetimeWidget, ISelectWidget, IAjaxSelectWidget,
-    IRelatedItemsWidget, IQueryStringWidget)
+    IRelatedItemsWidget, IQueryStringWidget, IFileUploadWidget)
 
 import pytz
 import json
@@ -303,3 +309,63 @@ class QueryStringDataConverter(BaseDataConverter):
         if not value:
             return self.field.missing_value
         return value
+
+class FileUploadConverterBase(BaseDataConverter):
+    """Converter for multi file widgets used on `schema.List` fields."""
+
+#    adapts(ISequence, IFileUploadWidget)
+
+    def toWidgetValue(self, value):
+        """Converts the value to a form used by the widget.
+            For some reason this never gets called for File Uploads
+            """
+        return value
+
+    def toFieldValue(self, value):
+        """Converts the value to a storable form."""
+        context = self.widget.context
+        if not IAddForm.providedBy(self.widget.form):
+            dm = queryMultiAdapter((context, self.field), IDataManager)
+        else:
+            dm = None
+
+        current_field_value = (
+            dm.query()
+            if ((dm is not None) and self.field.interface.providedBy(context))
+            else None
+        )
+        if not current_field_value or current_field_value == NO_VALUE:
+            current_field_value = []
+        if not isinstance(current_field_value, list):
+            current_field_value = [current_field_value]
+        current_field_set = set(current_field_value)
+        retvalue = []
+        if (INamedField.providedBy(self.field)):
+            value_type = self.field._type
+        else:
+            value_type = self.field.value_type._type
+        if not value:
+            return value
+        elif not isinstance(value, list):
+            value = [value]
+        for item in value:
+            if item['new']:
+                retvalue.append(value_type(data=item['file'].read(),
+                                filename=item['name']))
+            else:
+                for existing_file in current_field_set:
+                    if existing_file.filename == item['name']:
+                        retvalue.append(existing_file)
+        if (INamedField.providedBy(self.field)):
+            return retvalue[0]
+        else:
+            return retvalue
+
+
+class FileUploadConverter(FileUploadConverterBase):
+    adapts(INamedField, IFileUploadWidget)
+
+
+class MultiFileUploadConverter(FileUploadConverterBase):
+    adapts(ISequence, IFileUploadWidget)
+

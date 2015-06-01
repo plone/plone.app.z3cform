@@ -49,5 +49,4 @@ class IRichTextWidget(patextfield_IRichTextWidget):
 
 
 class IFileUploadWidget(IMultiWidget):
-    """Marker interface for the file upload widget.
-    """
+    """Marker interface for the file upload widget."""

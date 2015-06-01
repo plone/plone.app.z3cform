@@ -247,8 +247,8 @@ class FileUploadWidgetTests(unittest.TestCase):
         tmpfile.flush()
         tmpfile.close()
         st = os.stat(tmpfile.name)
-        atime = st[ST_ATIME]  #access time
-        mtime = st[ST_MTIME]  #modification time
+        atime = st[ST_ATIME]  # access time
+        mtime = st[ST_MTIME]  # modification time
         new_mtime = mtime - 3 * 60 * 60  #new modification time 3 hours ago
         #modify the file timestamp
         os.utime(tmpfile.name, (atime, new_mtime))

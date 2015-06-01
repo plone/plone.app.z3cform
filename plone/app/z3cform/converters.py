@@ -311,7 +311,9 @@ class QueryStringDataConverter(BaseDataConverter):
         return value
 
 class FileUploadConverterBase(BaseDataConverter):
-    """Converter for multi file widgets used on `schema.List` fields."""
+    """Converter for multi file widgets used on `schema.List` fields.
+       Also a converter for single file widgets used on namedfile fields
+       """
 
 #    adapts(ISequence, IFileUploadWidget)
 

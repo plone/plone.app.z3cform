@@ -46,6 +46,7 @@
       class=".templates.RenderSingleCheckboxWidget"
       permission="zope.Public"
       />
+  
   <browser:page
       name="upload"
       for=".interfaces.IFileUploadWidget"

@@ -590,7 +590,6 @@ class FileUploadWidget(BaseWidget, z3cform_TextWidget):
     implementsOnly(IFileUploadWidget)
 
     _base = DivWidget
-#    _converter = FileUploadConverter
 
     pattern = 'upload'
     pattern_options = BaseWidget.pattern_options.copy()

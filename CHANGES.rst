@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1.3 (unreleased)
+1.1.3 (2015-07-18)
 ------------------
 
 - Also mock getToolByName for some tests.

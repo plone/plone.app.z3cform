@@ -4,7 +4,8 @@ Changelog
 1.1.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Also mock getToolByName for some tests.
+  [vangheem]
 
 
 1.1.2 (2015-05-11)
@@ -12,6 +13,7 @@ Changelog
 
 - grab selected editor from user
   [vangheem]
+
 
 1.1.1 (2015-05-04)
 ------------------

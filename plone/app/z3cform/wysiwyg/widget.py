@@ -1,11 +1,15 @@
+import logging
+
 import Acquisition
+import z3c.form.browser.textarea
+import z3c.form.interfaces
+import z3c.form.widget
+from zope.component.hooks import getSite
 import zope.interface
 import zope.schema.interfaces
-from zope.component.hooks import getSite
 
-import z3c.form.interfaces
-import z3c.form.browser.textarea
-import z3c.form.widget
+
+logger = logging.getLogger('plone.app.z3cform')
 
 
 class IWysiwygWidget(z3c.form.interfaces.ITextAreaWidget):
@@ -36,4 +40,6 @@ class WysiwygWidget(z3c.form.browser.textarea.TextAreaWidget):
 @zope.interface.implementer(z3c.form.interfaces.IFieldWidget)
 def WysiwygFieldWidget(field, request):
     """IFieldWidget factory for WysiwygWidget."""
+    logger.warn("Deprecation Warning\nplone.app.z3cform.wysiwyg.WysiwygFieldWidget "
+                "is deprecated and will be removed in Plone 4.1")
     return z3c.form.widget.FieldWidget(field, WysiwygWidget(request))

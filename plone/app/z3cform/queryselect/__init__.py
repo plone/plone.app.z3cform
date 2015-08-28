@@ -4,12 +4,18 @@ import persistent.wref
 import z3c.formwidget.query.interfaces
 import zope.schema.interfaces
 import zope.schema.vocabulary
+import logging
+
+
+logger = logging.getLogger('plone.app.z3cform')
 
 
 class ArchetypesContentSource(object):
     interface.implements(z3c.formwidget.query.interfaces.IQuerySource)
 
     def __init__(self, context):
+        logger.warn("Deprecation Warning\nplone.app.z3cform.queryselect.ArchetypesContentSource "
+                    "is deprecated and will be removed in Plone 4.1")
         self.context = context
 
     def __contains__(self, uid):

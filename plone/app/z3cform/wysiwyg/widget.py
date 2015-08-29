@@ -41,5 +41,5 @@ class WysiwygWidget(z3c.form.browser.textarea.TextAreaWidget):
 def WysiwygFieldWidget(field, request):
     """IFieldWidget factory for WysiwygWidget."""
     logger.warn("Deprecation Warning\nplone.app.z3cform.wysiwyg.WysiwygFieldWidget "
-                "is deprecated and will be removed in Plone 4.1")
+                "is deprecated and will be removed in Plone 5.1")
     return z3c.form.widget.FieldWidget(field, WysiwygWidget(request))

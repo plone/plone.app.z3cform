@@ -46,6 +46,28 @@
       class=".templates.RenderSingleCheckboxWidget"
       permission="zope.Public"
       />
+  
+  <browser:page
+      name="upload"
+      for=".interfaces.IFileUploadWidget"
+      class=".widget.Upload"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="downloadexisting"
+      for=".interfaces.IFileUploadWidget"
+      class=".widget.DownloadExisting"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="download"
+      for=".interfaces.IFileUploadWidget"
+      class=".widget.Download"
+      permission="zope2.View"
+      />
+
 
   <adapter factory=".templates.layout_factory" />
   <adapter factory=".templates.form_factory" />
@@ -146,6 +168,8 @@
   <adapter factory=".converters.QueryStringDataConverter" />
   <adapter factory=".converters.RelationChoiceRelatedItemsWidgetConverter" />
   <adapter factory=".converters.RelatedItemsDataConverter" />
+  <adapter factory=".converters.FileUploadConverter" />
+  <adapter factory=".converters.MultiFileUploadConverter" />
 
   <!-- widget registration stuff -->
   <class class=".widget.DateWidget">

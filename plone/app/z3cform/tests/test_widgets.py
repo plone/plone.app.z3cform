@@ -27,12 +27,7 @@ from plone.app.z3cform.widget import BaseWidget
 
 import mock
 import pytz
-
-try:
-    import unittest2 as unittest
-except ImportError:  # pragma: nocover
-    import unittest  # pragma: nocover
-    assert unittest  # pragma: nocover
+import unittest
 
 from Products.CMFPlone.interfaces import IMarkupSchema
 

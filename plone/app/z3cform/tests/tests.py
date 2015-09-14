@@ -2,7 +2,7 @@ from plone.app.z3cform.tests.layer import PAZ3CForm_INTEGRATION_TESTING
 from plone.browserlayer.layer import mark_layer
 from zope.traversing.interfaces import BeforeTraverseEvent
 
-import unittest2 as unittest
+import unittest
 import zope.component.testing
 import zope.testing.doctest
 

@@ -9,7 +9,7 @@ from zope import interface, schema
 from zope import publisher
 from zope.globalrequest import setRequest
 
-import unittest2 as unittest
+import unittest
 
 
 class ISubObject(interface.Interface):

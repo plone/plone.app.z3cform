@@ -66,7 +66,6 @@ setup(
             'plone.app.testing',
             'plone.browserlayer',
             'plone.testing',
-            'unittest2',
             'zope.contentprovider',
             'zope.publisher',
             'zope.testing',

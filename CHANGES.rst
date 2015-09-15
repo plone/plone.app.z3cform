@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1.4 (unreleased)
+1.1.4 (2015-09-16)
 ------------------
 
 - Remove unittest2 dependency.

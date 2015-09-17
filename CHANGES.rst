@@ -4,6 +4,9 @@ Changelog
 1.1.5 (unreleased)
 ------------------
 
+- Allow time options to be customized for DatetimeWidget.
+  [thet]
+
 - Wrap context to allow tools to be found in text widget.
   [cguardia]
 

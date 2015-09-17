@@ -178,7 +178,10 @@ class DatetimeWidgetTests(unittest.TestCase):
         self.request = TestRequest(environ={'HTTP_ACCEPT_LANGUAGE': 'en'})
         self.field = Datetime(__name__='datetimefield')
         self.widget = DatetimeWidget(self.request)
-        self.widget.pattern_options = {'date': {'firstDay': 0}}
+        self.widget.pattern_options = {
+            'date': {'firstDay': 0},
+            'time': {'interval': 15}
+        }
 
     def test_widget(self):
         current_year = datetime.today().year
@@ -213,7 +216,8 @@ class DatetimeWidgetTests(unittest.TestCase):
                     'time': {
                         'placeholder': u'Enter time...',
                         'today': u'Today',
-                        'format': 'h:i a'
+                        'format': 'h:i a',
+                        'interval': 15
                     }
                 }
             },

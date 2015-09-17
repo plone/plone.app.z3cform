@@ -4,7 +4,8 @@ Changelog
 1.1.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Allow time options to be customized for DatetimeWidget.
+  [thet]
 
 
 1.1.4 (2015-09-16)

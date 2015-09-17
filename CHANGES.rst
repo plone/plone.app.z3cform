@@ -4,7 +4,8 @@ Changelog
 1.1.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Wrap context to allow tools to be found in text widget.
+  [cguardia]
 
 
 1.1.4 (2015-09-16)

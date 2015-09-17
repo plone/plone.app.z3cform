@@ -914,10 +914,10 @@ class RelatedItemsWidgetTests(unittest.TestCase):
 
     def test_widget(self):
         from plone.app.z3cform.widget import RelatedItemsWidget
-        with patch('plone.app.widgets.utils.getToolByName') as mock_method:
-            props = Mock()
-            props.site_properties.getProperty.return_value = ['SomeType']
-            mock_method.return_value = props
+        with patch('plone.app.widgets.utils.getUtility') as mock_method:
+            registry = Mock()
+            registry.get.return_value = ['SomeType']
+            mock_method.return_value = registry
             widget = RelatedItemsWidget(self.request)
             widget.context = Mock(absolute_url=lambda: 'fake_url')
             widget.update()
@@ -943,11 +943,11 @@ class RelatedItemsWidgetTests(unittest.TestCase):
         """The pattern_options value for maximumSelectionSize should
         be 1 when the field only allows a single selection."""
         from plone.app.z3cform.widget import RelatedItemsFieldWidget
-        with patch('plone.app.widgets.utils.getToolByName') as mock_method:
+        with patch('plone.app.widgets.utils.getUtility') as mock_method:
             context = Mock(absolute_url=lambda: 'fake_url')
-            props = Mock()
-            props.site_properties.getProperty.return_value = ['SomeType']
-            mock_method.return_value = props
+            registry = Mock()
+            registry.get.return_value = []
+            mock_method.return_value = registry
             field = Choice(
                 __name__='selectfield',
                 values=['one', 'two', 'three'],
@@ -966,11 +966,11 @@ class RelatedItemsWidgetTests(unittest.TestCase):
         from zope.schema.interfaces import ISource
         from zope.schema.vocabulary import VocabularyRegistry
 
-        with patch('plone.app.widgets.utils.getToolByName') as mock_method:
+        with patch('plone.app.widgets.utils.getUtility') as mock_method:
             context = Mock(absolute_url=lambda: 'fake_url')
-            props = Mock()
-            props.site_properties.getProperty.return_value = ['SomeType']
-            mock_method.return_value = props
+            registry = Mock()
+            registry.get.return_value = []
+            mock_method.return_value = registry
             field = List(
                 __name__='selectfield',
                 value_type=Choice(vocabulary='foobar')

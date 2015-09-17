@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from Acquisition import ImplicitAcquisitionWrapper
+from UserDict import UserDict
 from Products.CMFCore.utils import getToolByName
 from lxml import etree
 from plone.app.textfield.value import RichTextValue
@@ -15,6 +17,7 @@ from plone.app.widgets.utils import get_querystring_options
 from plone.app.widgets.utils import get_relateditems_options
 from plone.app.widgets.utils import get_tinymce_options
 from plone.registry.interfaces import IRegistry
+from plone.app.z3cform.utils import closest_content
 from z3c.form.browser.select import SelectWidget as z3cform_SelectWidget
 from z3c.form.browser.text import TextWidget as z3cform_TextWidget
 from z3c.form.browser.widget import HTMLInputWidget
@@ -453,6 +456,15 @@ class RichTextWidget(BaseWidget, patextfield_RichTextWidget):
         super(RichTextWidget, self).__init__(*args, **kwargs)
         self._pattern = None
 
+    def wrapped_context(self):
+        """"We need to wrap the context to be able to acquire the root
+            of the site to get tools, as done in plone.app.textfield"""
+        context = self.context
+        content = closest_content(context)
+        if context.__class__ == dict:
+            context = UserDict(self.context)
+        return ImplicitAcquisitionWrapper(context, content)
+
     @property
     def pattern(self):
         """dynamically grab the actual pattern name so it will
@@ -467,7 +479,7 @@ class RichTextWidget(BaseWidget, patextfield_RichTextWidget):
             except AttributeError:
                 default = 'tinymce'
                 available = ['TinyMCE']
-            tool = getToolByName(self.context, "portal_membership")
+            tool = getToolByName(self.wrapped_context(), "portal_membership")
             member = tool.getAuthenticatedMember()
             editor = member.getProperty('wysiwyg_editor')
             if editor in available:
@@ -480,7 +492,7 @@ class RichTextWidget(BaseWidget, patextfield_RichTextWidget):
     def _base_args(self):
         args = super(RichTextWidget, self)._base_args()
         args['name'] = self.name
-        properties = getToolByName(self.context, 'portal_properties')
+        properties = getToolByName(self.wrapped_context(), 'portal_properties')
         charset = properties.site_properties.getProperty('default_charset',
                                                          'utf-8')
         value = self.value and self.value.raw_encoded or ''

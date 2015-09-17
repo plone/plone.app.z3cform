@@ -7,6 +7,9 @@ Changelog
 - Allow time options to be customized for DatetimeWidget.
   [thet]
 
+- Wrap context to allow tools to be found in text widget.
+  [cguardia]
+
 
 1.1.4 (2015-09-16)
 ------------------

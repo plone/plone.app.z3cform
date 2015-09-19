@@ -4,6 +4,9 @@ Changelog
 1.1.5 (unreleased)
 ------------------
 
+- Get default_charset values from configuration registry.
+  [esteele]
+
 - Allow time options to be customized for DatetimeWidget.
   [thet]
 

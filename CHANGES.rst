@@ -1,10 +1,11 @@
 Changelog
 =========
 
-1.1.5 (unreleased)
+1.1.5 (2015-09-20)
 ------------------
 
-- Get default_charset values from configuration registry.
+- Don't check portal_registry for default_charset, we only accept
+  utf-8.
   [esteele]
 
 - Allow time options to be customized for DatetimeWidget.

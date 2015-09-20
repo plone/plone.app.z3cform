@@ -492,12 +492,9 @@ class RichTextWidget(BaseWidget, patextfield_RichTextWidget):
     def _base_args(self):
         args = super(RichTextWidget, self)._base_args()
         args['name'] = self.name
-        properties = getToolByName(self.wrapped_context(), 'portal_properties')
-        charset = properties.site_properties.getProperty('default_charset',
-                                                         'utf-8')
         value = self.value and self.value.raw_encoded or ''
         args['value'] = (self.request.get(
-            self.field.getName(), value)).decode(charset)
+            self.field.getName(), value)).decode('utf-8')
 
         args.setdefault('pattern_options', {})
         merged = dict_merge(get_tinymce_options(self.context, self.field, self.request),  # noqa

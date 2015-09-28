@@ -1103,8 +1103,9 @@ class RichTextWidgetTests(unittest.TestCase):
         self.assertEqual(base_args['value'], u'')
         self.assertEqual(base_args['pattern'], 'tinymce')
 
+        prependToUrl = '{0}/resolveuid/'.format(self.portal.absolute_url())
         self.assertEqual(base_args['pattern_options']['prependToUrl'],
-                         'resolveuid/')
+                         prependToUrl)
         self.assertEqual(
             base_args['pattern_options']['upload']['relativePath'],
             '@@fileUpload')

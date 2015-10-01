@@ -2,7 +2,6 @@
 from datetime import date
 from datetime import datetime
 from mock import Mock
-from mock import patch
 from plone.app.widgets.testing import ExampleVocabulary
 from plone.app.widgets.testing import PLONEAPPWIDGETS_DX_INTEGRATION_TESTING
 from plone.app.widgets.testing import TestRequest
@@ -914,50 +913,42 @@ class RelatedItemsWidgetTests(unittest.TestCase):
 
     def test_widget(self):
         from plone.app.z3cform.widget import RelatedItemsWidget
-        with patch('plone.app.widgets.utils.getUtility') as mock_method:
-            registry = Mock()
-            registry.get.return_value = ['SomeType']
-            mock_method.return_value = registry
-            widget = RelatedItemsWidget(self.request)
-            widget.context = Mock(absolute_url=lambda: 'fake_url')
-            widget.update()
-            self.assertEqual(
-                {
-                    'name': None,
-                    'value': u'',
-                    'pattern': 'relateditems',
-                    'pattern_options': {
-                        'folderTypes': ['SomeType'],
-                        'homeText': u'Home',
-                        'searchAllText': u'Entire site',
-                        'searchText': u'Search',
-                        'separator': ';',
-                        'vocabularyUrl': '/@@getVocabulary?name='
-                                         'plone.app.vocabularies.Catalog',
-                    },
+        widget = RelatedItemsWidget(self.request)
+        widget.context = Mock(absolute_url=lambda: 'fake_url')
+        widget.update()
+        self.assertEqual(
+            {
+                'name': None,
+                'value': u'',
+                'pattern': 'relateditems',
+                'pattern_options': {
+                    'folderTypes': ['Folder'],
+                    'homeText': u'Home',
+                    'searchAllText': u'Entire site',
+                    'searchText': u'Search',
+                    'separator': ';',
+                    'vocabularyUrl': '/@@getVocabulary?name='
+                                     'plone.app.vocabularies.Catalog',
                 },
-                widget._base_args()
-            )
+            },
+            widget._base_args()
+        )
 
     def test_single_selection(self):
         """The pattern_options value for maximumSelectionSize should
         be 1 when the field only allows a single selection."""
         from plone.app.z3cform.widget import RelatedItemsFieldWidget
-        with patch('plone.app.widgets.utils.getUtility') as mock_method:
-            context = Mock(absolute_url=lambda: 'fake_url')
-            registry = Mock()
-            registry.get.return_value = []
-            mock_method.return_value = registry
-            field = Choice(
-                __name__='selectfield',
-                values=['one', 'two', 'three'],
-            )
-            widget = RelatedItemsFieldWidget(field, self.request)
-            widget.context = context
-            widget.update()
-            base_args = widget._base_args()
-            pattern_options = base_args['pattern_options']
-            self.assertEquals(pattern_options.get('maximumSelectionSize', 0), 1)
+        context = Mock(absolute_url=lambda: 'fake_url')
+        field = Choice(
+            __name__='selectfield',
+            values=['one', 'two', 'three'],
+        )
+        widget = RelatedItemsFieldWidget(field, self.request)
+        widget.context = context
+        widget.update()
+        base_args = widget._base_args()
+        pattern_options = base_args['pattern_options']
+        self.assertEquals(pattern_options.get('maximumSelectionSize', 0), 1)
 
     def test_multiple_selection(self):
         """The pattern_options key maximumSelectionSize shouldn't be
@@ -966,29 +957,25 @@ class RelatedItemsWidgetTests(unittest.TestCase):
         from zope.schema.interfaces import ISource
         from zope.schema.vocabulary import VocabularyRegistry
 
-        with patch('plone.app.widgets.utils.getUtility') as mock_method:
-            context = Mock(absolute_url=lambda: 'fake_url')
-            registry = Mock()
-            registry.get.return_value = []
-            mock_method.return_value = registry
-            field = List(
-                __name__='selectfield',
-                value_type=Choice(vocabulary='foobar')
-            )
-            widget = RelatedItemsFieldWidget(field, self.request)
-            widget.context = context
+        context = Mock(absolute_url=lambda: 'fake_url')
+        field = List(
+            __name__='selectfield',
+            value_type=Choice(vocabulary='foobar')
+        )
+        widget = RelatedItemsFieldWidget(field, self.request)
+        widget.context = context
 
-            vocab = Mock()
-            alsoProvides(vocab, ISource)
-            with mock.patch.object(VocabularyRegistry, 'get', return_value=vocab):
-                widget.update()
-                base_args = widget._base_args()
-            patterns_options = base_args['pattern_options']
-            self.assertFalse('maximumSelectionSize' in patterns_options)
-            self.assertEqual(
-                patterns_options['vocabularyUrl'],
-                '/@@getVocabulary?name=foobar&field=selectfield',
-                )
+        vocab = Mock()
+        alsoProvides(vocab, ISource)
+        with mock.patch.object(VocabularyRegistry, 'get', return_value=vocab):
+            widget.update()
+            base_args = widget._base_args()
+        patterns_options = base_args['pattern_options']
+        self.assertFalse('maximumSelectionSize' in patterns_options)
+        self.assertEqual(
+            patterns_options['vocabularyUrl'],
+            '/@@getVocabulary?name=foobar&field=selectfield',
+            )
 
     def test_converter_RelationChoice(self):
         from plone.app.z3cform.converters import \

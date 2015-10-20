@@ -21,6 +21,9 @@ Fixes:
   Fix options merging for TinyMCE widget.
   [alecm]
 
+- Fixed test for plone.app.widgets.
+  [Gagaro]
+
 1.1.8 (2016-01-08)
 ------------------
 

@@ -340,6 +340,20 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
         if ISequence.providedBy(self.field) or self.orderable:
             args['pattern_options']['orderable'] = True
 
+        if self.vocabulary == 'plone.app.vocabularies.Keywords':
+            membership = getToolByName(context, 'portal_membership')
+            user = membership.getAuthenticatedMember()
+
+            registry = getUtility(IRegistry)
+            roles_allowed_to_add_keywords = registry.get(
+                'plone.roles_allowed_to_add_keywords', [])
+            roles = set(user.getRolesInContext(context))
+
+            allowNewItems = 'false'
+            if roles.intersection(roles_allowed_to_add_keywords):
+                allowNewItems = 'true'
+            args['pattern_options']['allowNewItems'] = allowNewItems
+
         return args
 
 

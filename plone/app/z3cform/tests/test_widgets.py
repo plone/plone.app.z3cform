@@ -2,9 +2,12 @@
 from datetime import date
 from datetime import datetime
 from mock import Mock
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import setRoles
 from plone.app.widgets.testing import ExampleVocabulary
 from plone.app.widgets.testing import PLONEAPPWIDGETS_DX_INTEGRATION_TESTING
 from plone.app.widgets.testing import TestRequest
+from plone.app.z3cform.tests.layer import PAZ3CForm_INTEGRATION_TESTING
 from plone.dexterity.fti import DexterityFTI
 from plone.registry.interfaces import IRegistry
 from plone.testing.zca import UNIT_TESTING
@@ -869,6 +872,33 @@ class AjaxSelectWidgetTests(unittest.TestCase):
         self.assertTrue(isinstance(widget, AjaxSelectWidget))
         self.assertIs(widget.field, field)
         self.assertIs(widget.request, request)
+
+
+class AjaxSelectWidgetIntegrationTests(unittest.TestCase):
+
+    layer = PAZ3CForm_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.request = TestRequest(environ={'HTTP_ACCEPT_LANGUAGE': 'en'})
+
+    def test_keywords_can_add(self):
+        from plone.app.z3cform.widget import AjaxSelectWidget
+
+        portal = self.layer['portal']
+        setRoles(portal, TEST_USER_ID, ['Manager'])
+        widget = AjaxSelectWidget(self.request)
+        widget.context = portal
+        widget.vocabulary = 'plone.app.vocabularies.Keywords'
+        self.assertEqual(widget._base_args()['pattern_options']['allowNewItems'], 'true')
+
+    def test_keywords_cannot_add(self):
+        from plone.app.z3cform.widget import AjaxSelectWidget
+
+        portal = self.layer['portal']
+        widget = AjaxSelectWidget(self.request)
+        widget.context = portal
+        widget.vocabulary = 'plone.app.vocabularies.Keywords'
+        self.assertEqual(widget._base_args()['pattern_options']['allowNewItems'], 'false')
 
 
 class QueryStringWidgetTests(unittest.TestCase):

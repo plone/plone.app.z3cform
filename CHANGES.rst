@@ -4,6 +4,8 @@ Changelog
 1.1.6 (unreleased)
 ------------------
 
+Fixes:
+
 - Check if user can add keywords for AjaxSelectWidget.
   [Gagaro]
 

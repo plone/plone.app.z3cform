@@ -754,6 +754,7 @@ class AjaxSelectWidgetTests(unittest.TestCase):
                 'pattern_options': {
                     'separator': ';',
                     'maximumSelectionSize': 1,
+                    'allowNewItems': 'false',
                     'vocabularyUrl':
                     'http://127.0.0.1/++widget++choicefield/@@getSource',
                     },

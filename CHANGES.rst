@@ -10,7 +10,9 @@ New:
 
 Fixes:
 
-- *add item here*
+- Don't allow adding new terms in the AjaxAutocompleteWidget
+  when it's used with a Choice field.
+  [davisagli]
 
 
 1.1.6 (2015-10-27)

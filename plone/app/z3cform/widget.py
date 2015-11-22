@@ -322,6 +322,8 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
             field = self.field
         elif ICollection.providedBy(self.field):
             field = self.field.value_type
+        if IChoice.providedBy(field):
+            args['pattern_options']['allowNewItems'] = 'false'
         if not vocabulary_name and field is not None:
             vocabulary_name = field.vocabularyName
 

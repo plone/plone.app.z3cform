@@ -14,6 +14,11 @@ Fixes:
   when it's used with a Choice field.
   [davisagli]
 
+- Remove installation of plone.app.widgets default profile. In Plone 5 with
+  plone.app.widgets >= 2.0, the profile is only a dummy profile for BBB
+  compatibility.
+  [thet]
+
 
 1.1.6 (2015-10-27)
 ------------------

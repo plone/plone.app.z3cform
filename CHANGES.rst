@@ -19,6 +19,14 @@ Fixes:
   compatibility.
   [thet]
 
+- Fix ``AjaxSelectWidgetConverter`` to decode quoted-printable
+  encoded ascii strings back to unicode. The Select2 based
+  AjaxSelectWidget returned the ids which are vocabulary tokens
+  instead of the text. Fixes messed up characters when selecting
+  tags with non-ASCII characters. Fixes: plone/Products.CMFPlone#650
+  - makes obsolete: plone/plone.app.content#34
+  [thet]
+
 
 1.1.6 (2015-10-27)
 ------------------

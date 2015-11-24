@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_callable
+from binascii import a2b_qp
 from datetime import date
 from datetime import datetime
 from plone.uuid.interfaces import IUUID
@@ -182,8 +183,21 @@ class AjaxSelectWidgetConverter(BaseDataConverter):
         if isinstance(valueType, tuple):
             valueType = valueType[0]
         separator = getattr(self.widget, 'separator', ';')
-        return collectionType(valueType and valueType(v) or v
-                              for v in value.split(separator))
+
+        def _decode(value, valueType=None):
+            # value comes in as unicode
+            # 1) encode it as utf8 so that a2b_qp can handle it, and convert it
+            # back to bin, if it was quoted-printable encoded before
+            value = a2b_qp(value.encode('utf8'))
+            # 2) convert utf8 encoded string to unicode
+            value = value.decode('utf8')  # value is utf make unicode
+            # 3) apply any valueType conversion
+            return valueType(value) if valueType else value
+
+        ret = collectionType(
+            _decode(v, valueType) for v in value.split(separator)
+        )
+        return ret
 
 
 class RelationChoiceRelatedItemsWidgetConverter(BaseDataConverter):

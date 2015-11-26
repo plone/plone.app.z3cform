@@ -4,10 +4,6 @@ Changelog
 1.1.7 (unreleased)
 ------------------
 
-New:
-
-- *add item here*
-
 Fixes:
 
 - Don't allow adding new terms in the AjaxAutocompleteWidget

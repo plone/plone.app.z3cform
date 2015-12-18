@@ -10,7 +10,8 @@ New:
 
 Fixes:
 
-- *add item here*
+- Fix ajax selection for add forms
+  [tomgross]
 
 
 1.1.7 (2015-11-26)

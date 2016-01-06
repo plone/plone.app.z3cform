@@ -1102,7 +1102,11 @@ class RichTextWidgetTests(unittest.TestCase):
         from plone.app.textfield import RichText as RichTextField
 
         self.portal = self.layer['portal']
-        self.request = TestRequest(environ={'HTTP_ACCEPT_LANGUAGE': 'en'})
+        # since we are using a plone integration layer, we do
+        # not need to use the TestRequest class and we do not want
+        # to since the tinymce pattern requires a more properly
+        # setup zope2 request object to work correctly in tests
+        self.request = self.layer['request']
 
         class IWithText(Interface):
             text = RichTextField(title=u"Text")
@@ -1122,8 +1126,8 @@ class RichTextWidgetTests(unittest.TestCase):
         self.assertEqual(base_args['pattern'], 'tinymce')
 
         prependToUrl = '/plone/resolveuid/'
-        self.assertEqual(base_args['pattern_options']['prependToUrl'],
-                         prependToUrl)
+        self.assertEquals(base_args['pattern_options']['prependToUrl'],
+                          prependToUrl)
         self.assertEqual(
             base_args['pattern_options']['upload']['relativePath'],
             '@@fileUpload')

@@ -22,6 +22,7 @@ from z3c.form.browser.select import SelectWidget as z3cform_SelectWidget
 from z3c.form.browser.text import TextWidget as z3cform_TextWidget
 from z3c.form.browser.widget import HTMLInputWidget
 from z3c.form.interfaces import IAddForm
+from z3c.form.interfaces import IGroup
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.interfaces import NO_VALUE
 from z3c.form.widget import FieldWidget
@@ -314,6 +315,11 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
         # We need special handling for AddForms
         if IAddForm.providedBy(getattr(self, 'form')):
             context = self.form
+        # Use the main form as context if we have groups in an add form
+        elif IGroup.providedBy(getattr(self, 'form')) and \
+                IAddForm.providedBy(self.form.parentForm):
+            context = self.form.parentForm
+
 
         vocabulary_name = self.vocabulary
         field = None

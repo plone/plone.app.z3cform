@@ -4,13 +4,9 @@ Changelog
 1.1.8 (unreleased)
 ------------------
 
-New:
-
-- *add item here*
-
 Fixes:
 
-- *add item here*
+- Fixed tests for newer CMFPlone.  [Gagaro, ebrehault, vangheem]
 
 
 1.1.7 (2015-11-26)

@@ -4,14 +4,11 @@ Changelog
 1.1.8 (unreleased)
 ------------------
 
-New:
-
-- *add item here*
-
 Fixes:
 
 - Fix ajax selection for add forms
   [tomgross]
+- Fixed tests for newer CMFPlone.  [Gagaro, ebrehault, vangheem]
 
 
 1.1.7 (2015-11-26)

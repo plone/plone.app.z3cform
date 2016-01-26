@@ -143,6 +143,8 @@
                       </metal:define>
                     </metal:fields-slot>
 
+                    <metal:block define-slot="belowfields" />
+
                     <metal:actions-slot define-slot="actions">
                         <metal:define define-macro="actions">
                             <div class="formControls" tal:condition="view/actions/values|nothing">

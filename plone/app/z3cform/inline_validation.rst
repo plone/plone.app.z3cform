@@ -67,7 +67,7 @@ Let's verify that worked:
     >>> context._REQUEST = request # evil test fake
     >>> formWrapper = getMultiAdapter((context, request), name=u"test-form")
     >>> formWrapper
-    <Products.Five.metaclass.MyFormWrapper object ...>
+    <Products.Five.browser.metaconfigure.MyFormWrapper object ...>
     >>> formWrapper.form
     <class 'plone.app.z3cform.tests.example.MyForm'>
 

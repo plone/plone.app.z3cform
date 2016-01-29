@@ -13,6 +13,9 @@ Fixes:
 - Fix ajax selection for add forms
   [tomgross]
 
+- Use doctest instead of zope.testing.doctest
+  [pbauer]
+
 
 1.1.8 (2016-01-08)
 ------------------

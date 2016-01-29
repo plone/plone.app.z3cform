@@ -12,6 +12,7 @@ Fixes:
 
 - Fix ajax selection for add forms
   [tomgross]
+
 - Use doctest instead of zope.testing.doctest
   [pbauer]
 

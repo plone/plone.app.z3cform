@@ -6,7 +6,8 @@ Changelog
 
 New:
 
-- *add item here*
+- Add metal slot for inserting stuff below fields
+  [fredvd]
 
 Fixes:
 

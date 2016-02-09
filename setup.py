@@ -36,7 +36,7 @@ setup(
     keywords='zope plone form widget template',
     author='Plone Foundation',
     author_email='plone-developers@lists.sourceforge.net',
-    url='http://pypi.python.org/pypi/plone.app.z3cform',
+    url='https://pypi.python.org/pypi/plone.app.z3cform',
     license='GPL',
     packages=find_packages(exclude=['ez_setup']),
     namespace_packages=['plone', 'plone.app'],

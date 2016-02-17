@@ -519,9 +519,11 @@ class RichTextWidget(BaseWidget, patextfield_RichTextWidget):
             self.field.getName(), value)).decode('utf-8')
 
         args.setdefault('pattern_options', {})
-        merged = dict_merge(get_tinymce_options(self.context, self.field, self.request),  # noqa
-                            args['pattern_options'])
-        args['pattern_options'] = merged['pattern_options']
+        merged_options = dict_merge(get_tinymce_options(self.context,
+                                                        self.field,
+                                                        self.request),  # noqa
+                                    args['pattern_options'])
+        args['pattern_options'] = merged_options
 
         return args
 

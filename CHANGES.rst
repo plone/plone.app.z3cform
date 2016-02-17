@@ -17,6 +17,9 @@ Fixes:
 - Use doctest instead of zope.testing.doctest
   [pbauer]
 
+- Fix related items widget tests to include root path support.
+  Fix options merging for TinyMCE widget.
+  [alecm]
 
 1.1.8 (2016-01-08)
 ------------------

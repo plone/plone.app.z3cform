@@ -765,7 +765,7 @@ class AjaxSelectWidgetTests(unittest.TestCase):
     def test_widget_addform_url_on_addform(self):
         from plone.app.z3cform.widget import AjaxSelectWidget
         widget = AjaxSelectWidget(self.request)
-        form = Mock(parentForm=None)
+        form = Mock()
         from zope.interface import directlyProvides
         from z3c.form.interfaces import IAddForm
         directlyProvides(form, IAddForm)

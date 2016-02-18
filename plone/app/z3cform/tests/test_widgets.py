@@ -945,8 +945,7 @@ class RelatedItemsWidgetTests(unittest.TestCase):
     def test_widget(self):
         from plone.app.z3cform.widget import RelatedItemsWidget
         widget = RelatedItemsWidget(self.request)
-        widget.context = Mock(absolute_url=lambda: 'fake_url',
-                              getPhysicalPath=lambda: ['', 'site'])
+        widget.context = Mock(absolute_url=lambda: 'fake_url')
         widget.update()
         self.assertEqual(
             {
@@ -959,9 +958,8 @@ class RelatedItemsWidgetTests(unittest.TestCase):
                     'searchAllText': u'Entire site',
                     'searchText': u'Search',
                     'separator': ';',
-                    'vocabularyUrl': 'fake_url/@@getVocabulary?name='
+                    'vocabularyUrl': '/@@getVocabulary?name='
                                      'plone.app.vocabularies.Catalog',
-                    'rootPath': '/site',
                 },
             },
             widget._base_args()
@@ -971,8 +969,7 @@ class RelatedItemsWidgetTests(unittest.TestCase):
         """The pattern_options value for maximumSelectionSize should
         be 1 when the field only allows a single selection."""
         from plone.app.z3cform.widget import RelatedItemsFieldWidget
-        context = Mock(absolute_url=lambda: 'fake_url',
-                       getPhysicalPath=lambda: ['', 'site'])
+        context = Mock(absolute_url=lambda: 'fake_url')
         field = Choice(
             __name__='selectfield',
             values=['one', 'two', 'three'],
@@ -991,8 +988,7 @@ class RelatedItemsWidgetTests(unittest.TestCase):
         from zope.schema.interfaces import ISource
         from zope.schema.vocabulary import VocabularyRegistry
 
-        context = Mock(absolute_url=lambda: 'fake_url',
-                       getPhysicalPath=lambda: ['', 'site'])
+        context = Mock(absolute_url=lambda: 'fake_url')
         field = List(
             __name__='selectfield',
             value_type=Choice(vocabulary='foobar')
@@ -1009,7 +1005,7 @@ class RelatedItemsWidgetTests(unittest.TestCase):
         self.assertFalse('maximumSelectionSize' in patterns_options)
         self.assertEqual(
             patterns_options['vocabularyUrl'],
-            'fake_url/@@getVocabulary?name=foobar&field=selectfield',
+            '/@@getVocabulary?name=foobar&field=selectfield',
             )
 
     def test_converter_RelationChoice(self):

@@ -16,13 +16,14 @@ from plone.app.widgets.utils import get_datetime_options
 from plone.app.widgets.utils import get_querystring_options
 from plone.app.widgets.utils import get_relateditems_options
 from plone.app.widgets.utils import get_tinymce_options
+from plone.app.widgets.utils import get_widget_form
 from plone.registry.interfaces import IRegistry
 from plone.app.z3cform.utils import closest_content
 from z3c.form.browser.select import SelectWidget as z3cform_SelectWidget
 from z3c.form.browser.text import TextWidget as z3cform_TextWidget
 from z3c.form.browser.widget import HTMLInputWidget
-from z3c.form.interfaces import IAddForm
-from z3c.form.interfaces import IGroup
+from z3c.form.interfaces import IEditForm
+from z3c.form.interfaces import IForm
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.interfaces import NO_VALUE
 from z3c.form.widget import FieldWidget
@@ -54,6 +55,8 @@ class BaseWidget(Widget):
 
     pattern = None
     pattern_options = {}
+    _adapterValueAttributes = (Widget._adapterValueAttributes +
+                               ('pattern_options',))
 
     def _base(self, pattern, pattern_options={}):
         """Base widget class."""
@@ -289,6 +292,15 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
     vocabulary_view = '@@getVocabulary'
     orderable = False
 
+    def update(self):
+        super(AjaxSelectWidget, self).update()
+        field = getattr(self, 'field', None)
+        if ICollection.providedBy(self.field):
+            field = self.field.value_type
+        if (not self.vocabulary and field is not None and
+                getattr(field, 'vocabularyName', None)):
+            self.vocabulary = field.vocabularyName
+
     def _base_args(self):
         """Method which will calculate _base class arguments.
 
@@ -312,14 +324,11 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
         field_name = self.field and self.field.__name__ or None
 
         context = self.context
-        # We need special handling for AddForms
-        if IAddForm.providedBy(getattr(self, 'form')):
-            context = self.form
-        # Use the main form as context if we have groups in an add form
-        elif IGroup.providedBy(getattr(self, 'form')) and \
-                IAddForm.providedBy(self.form.parentForm):
-            context = self.form.parentForm
-
+        view_context = get_widget_form(self)
+        # For EditForms and non-Forms (in tests), the vocabulary is looked
+        # up on the context, otherwise on the view
+        if IEditForm.providedBy(view_context) or not IForm.providedBy(view_context):
+            view_context = context
 
         vocabulary_name = self.vocabulary
         field = None
@@ -330,11 +339,9 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
             field = self.field.value_type
         if IChoice.providedBy(field):
             args['pattern_options']['allowNewItems'] = 'false'
-        if not vocabulary_name and field is not None:
-            vocabulary_name = field.vocabularyName
 
         args['pattern_options'] = dict_merge(
-            get_ajaxselect_options(context, args['value'], self.separator,
+            get_ajaxselect_options(view_context, args['value'], self.separator,
                                    vocabulary_name, self.vocabulary_view,
                                    field_name),
             args['pattern_options'])
@@ -377,8 +384,21 @@ class RelatedItemsWidget(BaseWidget, z3cform_TextWidget):
 
     separator = ';'
     vocabulary = None
+    vocabulary_override = False
     vocabulary_view = '@@getVocabulary'
     orderable = False
+
+    def update(self):
+        super(RelatedItemsWidget, self).update()
+        field = getattr(self, 'field', None)
+        if ICollection.providedBy(self.field):
+            field = self.field.value_type
+        if (not self.vocabulary and field is not None and
+                getattr(field, 'vocabularyName', None)):
+            self.vocabulary = field.vocabularyName
+            self.vocabulary_override = True
+        else:
+            self.vocabulary = 'plone.app.vocabularies.Catalog'
 
     def _base_args(self):
         """Method which will calculate _base class arguments.
@@ -406,20 +426,23 @@ class RelatedItemsWidget(BaseWidget, z3cform_TextWidget):
             field = self.field.value_type
 
         vocabulary_name = self.vocabulary
-        if not vocabulary_name:
-            if field is not None and field.vocabularyName:
-                vocabulary_name = field.vocabularyName
-            else:
-                vocabulary_name = 'plone.app.vocabularies.Catalog'
 
         field_name = self.field and self.field.__name__ or None
+
+        context = self.context
+        view_context = get_widget_form(self)
+        # For EditForms and non-Forms (in tests), the vocabulary is looked
+        # up on the context, otherwise on the view
+        if IEditForm.providedBy(view_context) or not IForm.providedBy(view_context):
+            view_context = context
+
         args['pattern_options'] = dict_merge(
-            get_relateditems_options(self.context, args['value'],
+            get_relateditems_options(view_context, args['value'],
                                      self.separator, vocabulary_name,
                                      self.vocabulary_view, field_name),
             args['pattern_options'])
 
-        if not self.vocabulary:  # widget vocab takes precedence over field
+        if not self.vocabulary_override:  # widget vocab takes precedence over field
             if field and getattr(field, 'vocabulary', None):
                 form_url = self.request.getURL()
                 source_url = "%s/++widget++%s/@@getSource" % (
@@ -519,9 +542,11 @@ class RichTextWidget(BaseWidget, patextfield_RichTextWidget):
             self.field.getName(), value)).decode('utf-8')
 
         args.setdefault('pattern_options', {})
-        merged = dict_merge(get_tinymce_options(self.context, self.field, self.request),  # noqa
-                            args['pattern_options'])
-        args['pattern_options'] = merged['pattern_options']
+        merged_options = dict_merge(get_tinymce_options(self.context,
+                                                        self.field,
+                                                        self.request),  # noqa
+                                    args['pattern_options'])
+        args['pattern_options'] = merged_options
 
         return args
 

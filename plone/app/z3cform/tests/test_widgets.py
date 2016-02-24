@@ -962,6 +962,8 @@ class RelatedItemsWidgetTests(unittest.TestCase):
                     'vocabularyUrl': 'fake_url/@@getVocabulary?name='
                                      'plone.app.vocabularies.Catalog',
                     'rootPath': '/site',
+                    'treeVocabularyUrl':  '/@@getVocabulary?name='
+                                          'plone.app.vocabularies.Catalog',
                 },
             },
             widget._base_args()

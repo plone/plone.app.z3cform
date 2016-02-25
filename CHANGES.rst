@@ -24,6 +24,9 @@ Fixes:
 - Fixed test for plone.app.widgets.
   [Gagaro]
 
+- Used assertDictEqual instead of assertEqual for RelatedItemsWidgetTests.test_widget
+  [Gagaro]
+
 1.1.8 (2016-01-08)
 ------------------
 

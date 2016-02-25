@@ -948,7 +948,7 @@ class RelatedItemsWidgetTests(unittest.TestCase):
         widget.context = Mock(absolute_url=lambda: 'fake_url',
                               getPhysicalPath=lambda: ['', 'site'])
         widget.update()
-        self.assertEqual(
+        self.assertDictEqual(
             {
                 'name': None,
                 'value': u'',
@@ -964,6 +964,8 @@ class RelatedItemsWidgetTests(unittest.TestCase):
                     'rootPath': '/site',
                     'treeVocabularyUrl':  '/@@getVocabulary?name='
                                           'plone.app.vocabularies.Catalog',
+                    'sort_on': 'sortable_title',
+                    'sort_order': 'ascending'
                 },
             },
             widget._base_args()

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from plone.app.z3cform.interfaces import IPloneFormLayer
 from plone.app.z3cform.wysiwyg.widget import WysiwygWidget
 from zope import interface
@@ -29,7 +30,8 @@ class TestWidget(unittest.TestCase):
     def test_missing_aq_chain(self):
         # testing support for contents witout Acquisiion chain (for avoid
         # regression)
-        # See https://github.com/plone/plone.app.z3cform/commit/587e229e267705a4fd48c6c51a76f849196fceba#commitcomment-2630299
+        # See
+        # https://github.com/plone/plone.app.z3cform/commit/587e229e267705a4fd48c6c51a76f849196fceba#commitcomment-2630299
         obj = NoAcquisitionAware()
         widget = WysiwygWidget(obj.request)
         widget.form = TestForm()

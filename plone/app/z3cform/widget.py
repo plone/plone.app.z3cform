@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 from Acquisition import ImplicitAcquisitionWrapper
-from UserDict import UserDict
-from Products.CMFCore.utils import getToolByName
 from lxml import etree
 from plone.app.textfield.value import RichTextValue
-from plone.app.textfield.widget import RichTextWidget as patextfield_RichTextWidget
+from plone.app.textfield.widget import RichTextWidget as patext_RichTextWidget
+from plone.app.widgets.base import dict_merge
 from plone.app.widgets.base import InputWidget
 from plone.app.widgets.base import SelectWidget as BaseSelectWidget
 from plone.app.widgets.base import TextareaWidget
-from plone.app.widgets.base import dict_merge
-from plone.app.widgets.utils import NotImplemented
+from plone.app.widgets.utils import first_weekday
 from plone.app.widgets.utils import get_ajaxselect_options
 from plone.app.widgets.utils import get_date_options
 from plone.app.widgets.utils import get_datetime_options
@@ -17,37 +15,40 @@ from plone.app.widgets.utils import get_querystring_options
 from plone.app.widgets.utils import get_relateditems_options
 from plone.app.widgets.utils import get_tinymce_options
 from plone.app.widgets.utils import get_widget_form
-from plone.registry.interfaces import IRegistry
+from plone.app.widgets.utils import NotImplemented as PatternNotImplemented
+from plone.app.z3cform.converters import DatetimeWidgetConverter
+from plone.app.z3cform.converters import DateWidgetConverter
+from plone.app.z3cform.interfaces import IAjaxSelectWidget
+from plone.app.z3cform.interfaces import IDatetimeWidget
+from plone.app.z3cform.interfaces import IDateWidget
+from plone.app.z3cform.interfaces import IQueryStringWidget
+from plone.app.z3cform.interfaces import IRelatedItemsWidget
+from plone.app.z3cform.interfaces import IRichTextWidget
+from plone.app.z3cform.interfaces import ISelectWidget
 from plone.app.z3cform.utils import closest_content
+from plone.registry.interfaces import IRegistry
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.interfaces import IEditingSchema
+from UserDict import UserDict
 from z3c.form.browser.select import SelectWidget as z3cform_SelectWidget
 from z3c.form.browser.text import TextWidget as z3cform_TextWidget
 from z3c.form.browser.widget import HTMLInputWidget
 from z3c.form.interfaces import IEditForm
-from z3c.form.interfaces import IForm
 from z3c.form.interfaces import IFieldWidget
+from z3c.form.interfaces import IForm
 from z3c.form.interfaces import NO_VALUE
 from z3c.form.widget import FieldWidget
 from z3c.form.widget import Widget
-from zope.component import getUtility
 from zope.component import ComponentLookupError
+from zope.component import getUtility
 from zope.i18n import translate
 from zope.interface import implementer
-from zope.interface import implementsOnly
+from zope.interface import implementer_only
 from zope.schema.interfaces import IChoice
 from zope.schema.interfaces import ICollection
 from zope.schema.interfaces import ISequence
-from plone.app.widgets.utils import first_weekday
-
-from plone.app.z3cform.converters import (
-    DateWidgetConverter, DatetimeWidgetConverter)
-from plone.app.z3cform.interfaces import (
-    IDatetimeWidget, IDateWidget, IAjaxSelectWidget,
-    IRelatedItemsWidget, IQueryStringWidget, IRichTextWidget,
-    ISelectWidget)
 
 import json
-
-from Products.CMFPlone.interfaces import IEditingSchema
 
 
 class BaseWidget(Widget):
@@ -60,7 +61,7 @@ class BaseWidget(Widget):
 
     def _base(self, pattern, pattern_options={}):
         """Base widget class."""
-        raise NotImplemented
+        raise PatternNotImplemented
 
     def _base_args(self):
         """Method which will calculate _base class arguments.
@@ -73,7 +74,7 @@ class BaseWidget(Widget):
         :rtype: dict
         """
         if self.pattern is None:
-            raise NotImplemented("'pattern' option is not provided.")
+            raise PatternNotImplemented("'pattern' option is not provided.")
         return {
             'pattern': self.pattern,
             'pattern_options': self.pattern_options.copy(),
@@ -90,14 +91,13 @@ class BaseWidget(Widget):
         return self._base(**self._base_args()).render()
 
 
+@implementer_only(IDateWidget)
 class DateWidget(BaseWidget, HTMLInputWidget):
     """Date widget for z3c.form."""
 
     _base = InputWidget
     _converter = DateWidgetConverter
     _formater = 'date'
-
-    implementsOnly(IDateWidget)
 
     pattern = 'pickadate'
     pattern_options = BaseWidget.pattern_options.copy()
@@ -153,6 +153,7 @@ class DateWidget(BaseWidget, HTMLInputWidget):
         return field_value.ctime()
 
 
+@implementer_only(IDatetimeWidget)
 class DatetimeWidget(DateWidget, HTMLInputWidget):
     """Datetime widget for z3c.form.
 
@@ -164,8 +165,6 @@ class DatetimeWidget(DateWidget, HTMLInputWidget):
 
     _converter = DatetimeWidgetConverter
     _formater = 'dateTime'
-
-    implementsOnly(IDatetimeWidget)
 
     pattern_options = DateWidget.pattern_options.copy()
 
@@ -202,12 +201,11 @@ class DatetimeWidget(DateWidget, HTMLInputWidget):
         return args
 
 
+@implementer_only(ISelectWidget)
 class SelectWidget(BaseWidget, z3cform_SelectWidget):
     """Select widget for z3c.form."""
 
     _base = BaseSelectWidget
-
-    implementsOnly(ISelectWidget)
 
     pattern = 'select2'
     pattern_options = BaseWidget.pattern_options.copy()
@@ -277,12 +275,11 @@ class SelectWidget(BaseWidget, z3cform_SelectWidget):
         return self.request.get(self.name, default)
 
 
+@implementer_only(IAjaxSelectWidget)
 class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
     """Ajax select widget for z3c.form."""
 
     _base = InputWidget
-
-    implementsOnly(IAjaxSelectWidget)
 
     pattern = 'select2'
     pattern_options = BaseWidget.pattern_options.copy()
@@ -327,7 +324,10 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
         view_context = get_widget_form(self)
         # For EditForms and non-Forms (in tests), the vocabulary is looked
         # up on the context, otherwise on the view
-        if IEditForm.providedBy(view_context) or not IForm.providedBy(view_context):
+        if (
+            IEditForm.providedBy(view_context) or
+            not IForm.providedBy(view_context)
+        ):
             view_context = context
 
         vocabulary_name = self.vocabulary
@@ -372,12 +372,11 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
         return args
 
 
+@implementer_only(IRelatedItemsWidget)
 class RelatedItemsWidget(BaseWidget, z3cform_TextWidget):
     """RelatedItems widget for z3c.form."""
 
     _base = InputWidget
-
-    implementsOnly(IRelatedItemsWidget)
 
     pattern = 'relateditems'
     pattern_options = BaseWidget.pattern_options.copy()
@@ -393,8 +392,11 @@ class RelatedItemsWidget(BaseWidget, z3cform_TextWidget):
         field = getattr(self, 'field', None)
         if ICollection.providedBy(self.field):
             field = self.field.value_type
-        if (not self.vocabulary and field is not None and
-                getattr(field, 'vocabularyName', None)):
+        if (
+            not self.vocabulary and
+            field is not None and
+            getattr(field, 'vocabularyName', None)
+        ):
             self.vocabulary = field.vocabularyName
             self.vocabulary_override = True
         else:
@@ -433,31 +435,45 @@ class RelatedItemsWidget(BaseWidget, z3cform_TextWidget):
         view_context = get_widget_form(self)
         # For EditForms and non-Forms (in tests), the vocabulary is looked
         # up on the context, otherwise on the view
-        if IEditForm.providedBy(view_context) or not IForm.providedBy(view_context):
+        if (
+            IEditForm.providedBy(view_context) or
+            not IForm.providedBy(view_context)
+        ):
             view_context = context
 
         args['pattern_options'] = dict_merge(
-            get_relateditems_options(view_context, args['value'],
-                                     self.separator, vocabulary_name,
-                                     self.vocabulary_view, field_name),
-            args['pattern_options'])
+            get_relateditems_options(
+                view_context,
+                args['value'],
+                self.separator,
+                vocabulary_name,
+                self.vocabulary_view,
+                field_name,
+            ),
+            args['pattern_options']
+        )
 
-        if not self.vocabulary_override:  # widget vocab takes precedence over field
-            if field and getattr(field, 'vocabulary', None):
-                form_url = self.request.getURL()
-                source_url = "%s/++widget++%s/@@getSource" % (
-                    form_url, self.name)
-                args['pattern_options']['vocabularyUrl'] = source_url
+        if (
+            not self.vocabulary_override and
+            field and
+            getattr(field, 'vocabulary', None)
+        ):
+            # widget vocab takes precedence over field
+            form_url = self.request.getURL()
+            source_url = "{0:s}/++widget++{1:s}/@@getSource".format(
+                form_url,
+                self.name
+            )
+            args['pattern_options']['vocabularyUrl'] = source_url
 
         return args
 
 
+@implementer_only(IQueryStringWidget)
 class QueryStringWidget(BaseWidget, z3cform_TextWidget):
     """QueryString widget for z3c.form."""
 
     _base = InputWidget
-
-    implementsOnly(IQueryStringWidget)
 
     pattern = 'querystring'
     pattern_options = BaseWidget.pattern_options.copy()
@@ -488,12 +504,11 @@ class QueryStringWidget(BaseWidget, z3cform_TextWidget):
         return args
 
 
-class RichTextWidget(BaseWidget, patextfield_RichTextWidget):
+@implementer_only(IRichTextWidget)
+class RichTextWidget(BaseWidget, patext_RichTextWidget):
     """TinyMCE widget for z3c.form."""
 
     _base = TextareaWidget
-
-    implementsOnly(IRichTextWidget)
 
     pattern_options = BaseWidget.pattern_options.copy()
 

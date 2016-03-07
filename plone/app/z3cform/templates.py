@@ -10,11 +10,12 @@ import plone.z3cform.templates
 import z3c.form.interfaces
 
 
-path = lambda p: os.path.join(
-    os.path.dirname(plone.app.z3cform.__file__),
-    'templates',
-    p
-)
+def path(filepart):
+    return os.path.join(
+        os.path.dirname(plone.app.z3cform.__file__),
+        'templates',
+        filepart
+    )
 
 # Override the layout wrapper view default template with a more Plone-looking
 # one
@@ -34,6 +35,7 @@ form_factory = plone.z3cform.templates.ZopeTwoFormTemplateFactory(
 
 # The ploneform-macros view
 class Macros(BrowserView):
+
     def __getitem__(self, key):
         return self.index.macros[key]
 

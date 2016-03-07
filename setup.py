@@ -1,24 +1,24 @@
+from setuptools import find_packages
+from setuptools import setup
+
 import os
-from setuptools import setup, find_packages
 
 
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-version = '1.2.1.dev0'
+version = '2.0.0.dev0'
 
 long_description = (
-    read('README.rst')
-    + '\n' +
-    read('plone', 'app', 'z3cform', 'wysiwyg', 'README.rst')
-    + '\n' +
-    read('plone', 'app', 'z3cform', 'queryselect', 'README.rst')
-    + '\n' +
-    read('plone', 'app', 'z3cform', 'inline_validation.rst')
-    + '\n' +
-    read('CHANGES.rst')
-    + '\n'
-    )
+    read('README.rst') +
+    '\n' +
+    read('plone', 'app', 'z3cform', 'wysiwyg', 'README.rst') +
+    '\n' +
+    read('plone', 'app', 'z3cform', 'inline_validation.rst') +
+    '\n' +
+    read('CHANGES.rst') +
+    '\n'
+)
 
 setup(
     name='plone.app.z3cform',

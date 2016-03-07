@@ -1,12 +1,23 @@
 Changelog
 =========
 
-1.2.1 (unreleased)
+2.0.0 (unreleased)
 ------------------
 
 Incompatibilities:
 
-- *add item here*
+- Deprecated "plone.app.z3cform.object" and moved to
+  "plone.app.z3cform.objectsubform" in order to avoid built in names
+  as module names, which may result in difficult to debug errors.
+  [jensens]
+
+- Made existing soft deprecation (by comment) of plone.app.z3cform.layout
+  explicit by deprecating using zope.deferredimport.
+  [jensens]
+
+- removed plone.app.z3cform.queryselect since this was deprecated already
+  and removal planned (!) already for Plone 4.1
+  [jensens]
 
 New:
 
@@ -14,7 +25,8 @@ New:
 
 Fixes:
 
-- *add item here*
+- Cleanup: pep8, uth8-headers, zca-decorators, ...
+  [jensens]
 
 
 1.2.0 (2016-02-25)

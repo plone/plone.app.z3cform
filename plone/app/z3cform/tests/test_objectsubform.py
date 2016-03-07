@@ -1,12 +1,15 @@
-from plone.app.testing import TEST_USER_ID
+# -*- coding: utf-8 -*-
 from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from plone.app.z3cform.interfaces import IPloneFormLayer
 from plone.app.z3cform.tests.layer import PAZ3CForm_INTEGRATION_TESTING
 from plone.app.z3cform.utils import closest_content
-from z3c.form import form, field
+from z3c.form import field
+from z3c.form import form
 from z3c.form.object import registerFactoryAdapter
-from zope import interface, schema
+from zope import interface
 from zope import publisher
+from zope import schema
 from zope.globalrequest import setRequest
 
 import unittest

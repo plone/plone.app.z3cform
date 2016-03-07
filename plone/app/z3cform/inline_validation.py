@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from Products.CMFPlone.utils import normalizeString
 from Products.Five import BrowserView
@@ -31,7 +32,7 @@ class InlineValidationView(BrowserView):
         else:
             return json.dumps(res)
 
-        #if we validate a field in a group we operate on the group
+        # if we validate a field in a group we operate on the group
         if fset is not None:
             try:
                 fset = int(fset)  # integer-indexed fieldset names
@@ -42,7 +43,7 @@ class InlineValidationView(BrowserView):
                 group_match = filter(
                     lambda group: normalizeString(_name(group)) == fset,
                     form.groups,
-                    )
+                )
                 if not group_match:
                     raise ValueError('Fieldset specified, but not found.')
                 form = group_match[0]

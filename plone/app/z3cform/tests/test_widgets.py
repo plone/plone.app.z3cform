@@ -2,22 +2,24 @@
 from datetime import date
 from datetime import datetime
 from mock import Mock
-from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from plone.app.widgets.testing import ExampleVocabulary
 from plone.app.widgets.testing import PLONEAPPWIDGETS_DX_INTEGRATION_TESTING
 from plone.app.widgets.testing import TestRequest
 from plone.app.z3cform.tests.layer import PAZ3CForm_INTEGRATION_TESTING
+from plone.app.z3cform.widget import BaseWidget
 from plone.dexterity.fti import DexterityFTI
 from plone.registry.interfaces import IRegistry
 from plone.testing.zca import UNIT_TESTING
+from Products.CMFPlone.interfaces import IMarkupSchema
 from z3c.form.interfaces import IFormLayer
 from z3c.form.widget import FieldWidget
 from zope.component import getUtility
 from zope.component import provideUtility
 from zope.component.globalregistry import base
-from zope.interface import Interface
 from zope.interface import alsoProvides
+from zope.interface import Interface
 from zope.schema import Choice
 from zope.schema import Date
 from zope.schema import Datetime
@@ -25,13 +27,10 @@ from zope.schema import List
 from zope.schema import Set
 from zope.schema import TextLine
 from zope.schema import Tuple
-from plone.app.z3cform.widget import BaseWidget
 
 import mock
 import pytz
 import unittest
-
-from Products.CMFPlone.interfaces import IMarkupSchema
 
 
 class BaseWidgetTests(unittest.TestCase):
@@ -757,7 +756,7 @@ class AjaxSelectWidgetTests(unittest.TestCase):
                     'allowNewItems': 'false',
                     'vocabularyUrl':
                     'http://127.0.0.1/++widget++choicefield/@@getSource',
-                    },
+                },
             },
             widget._base_args(),
         )
@@ -890,7 +889,8 @@ class AjaxSelectWidgetIntegrationTests(unittest.TestCase):
         widget = AjaxSelectWidget(self.request)
         widget.context = portal
         widget.vocabulary = 'plone.app.vocabularies.Keywords'
-        self.assertEqual(widget._base_args()['pattern_options']['allowNewItems'], 'true')
+        self.assertEqual(widget._base_args()['pattern_options'][
+                         'allowNewItems'], 'true')
 
     def test_keywords_cannot_add(self):
         from plone.app.z3cform.widget import AjaxSelectWidget
@@ -899,7 +899,8 @@ class AjaxSelectWidgetIntegrationTests(unittest.TestCase):
         widget = AjaxSelectWidget(self.request)
         widget.context = portal
         widget.vocabulary = 'plone.app.vocabularies.Keywords'
-        self.assertEqual(widget._base_args()['pattern_options']['allowNewItems'], 'false')
+        self.assertEqual(widget._base_args()['pattern_options'][
+                         'allowNewItems'], 'false')
 
 
 class QueryStringWidgetTests(unittest.TestCase):
@@ -1014,7 +1015,7 @@ class RelatedItemsWidgetTests(unittest.TestCase):
         self.assertEqual(
             patterns_options['vocabularyUrl'],
             'fake_url/@@getVocabulary?name=foobar&field=selectfield',
-            )
+        )
 
     def test_converter_RelationChoice(self):
         from plone.app.z3cform.converters import \

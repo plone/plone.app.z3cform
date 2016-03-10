@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from Products.CMFCore.interfaces import IContentish
 from Products.CMFCore.interfaces import IFolderish

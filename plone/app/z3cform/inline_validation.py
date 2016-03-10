@@ -20,14 +20,16 @@ class InlineValidationView(BrowserView):
         if fname is None:
             return json.dumps(res)
 
-        form = self.context
-        if hasattr(aq_base(form), 'form_instance'):
-            form = form.form_instance
-        if not hasattr(form, 'update'):
+        try:
+            form = aq_base(self.context).form_instance
+        except AttributeError:
+            form = self.context
+        try:
+            aq_base(form).update()
+        except AttributeError:
             return json.dumps(res)
-        form.update()
 
-        if getattr(form, "extractData", None):
+        if getattr(form, 'extractData', None):
             data, errors = form.extractData()
         else:
             return json.dumps(res)
@@ -39,7 +41,8 @@ class InlineValidationView(BrowserView):
                 form = form.groups[fset]
             except (ValueError, TypeError):
                 # try to match fieldset on group name
-                _name = lambda g: getattr(g, '__name__', None) or g.label
+                def _name(group):
+                    return getattr(group, '__name__', group.label)
                 group_match = filter(
                     lambda group: normalizeString(_name(group)) == fset,
                     form.groups,

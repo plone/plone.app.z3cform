@@ -56,8 +56,10 @@ class BaseWidget(Widget):
 
     pattern = None
     pattern_options = {}
-    _adapterValueAttributes = (Widget._adapterValueAttributes +
-                               ('pattern_options',))
+    _adapterValueAttributes = (
+        Widget._adapterValueAttributes +
+        ('pattern_options',)
+    )
 
     def _base(self, pattern, pattern_options={}):
         """Base widget class."""
@@ -144,7 +146,9 @@ class DateWidget(BaseWidget, HTMLInputWidget):
             return u''
 
         formatter = self.request.locale.dates.getFormatter(
-            self._formater, "short")
+            self._formater,
+            'short'
+        )
         if field_value.year > 1900:
             return formatter.format(field_value)
 
@@ -348,7 +352,10 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
 
         if field and getattr(field, 'vocabulary', None):
             form_url = self.request.getURL()
-            source_url = "%s/++widget++%s/@@getSource" % (form_url, self.name)
+            source_url = '{0:s}/++widget++{1:s}/@@getSource'.format(
+                form_url,
+                self.name
+            )
             args['pattern_options']['vocabularyUrl'] = source_url
 
         # ISequence represents an orderable collection
@@ -460,7 +467,7 @@ class RelatedItemsWidget(BaseWidget, z3cform_TextWidget):
         ):
             # widget vocab takes precedence over field
             form_url = self.request.getURL()
-            source_url = "{0:s}/++widget++{1:s}/@@getSource".format(
+            source_url = '{0:s}/++widget++{1:s}/@@getSource'.format(
                 form_url,
                 self.name
             )
@@ -539,7 +546,7 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
             except AttributeError:
                 default = 'tinymce'
                 available = ['TinyMCE']
-            tool = getToolByName(self.wrapped_context(), "portal_membership")
+            tool = getToolByName(self.wrapped_context(), 'portal_membership')
             member = tool.getAuthenticatedMember()
             editor = member.getProperty('wysiwyg_editor')
             if editor in available:
@@ -557,10 +564,14 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
             self.field.getName(), value)).decode('utf-8')
 
         args.setdefault('pattern_options', {})
-        merged_options = dict_merge(get_tinymce_options(self.context,
-                                                        self.field,
-                                                        self.request),  # noqa
-                                    args['pattern_options'])
+        merged_options = dict_merge(
+            get_tinymce_options(
+                self.context,
+                self.field,
+                self.request
+            ),
+            args['pattern_options']
+        )
         args['pattern_options'] = merged_options
 
         return args
@@ -588,7 +599,7 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
                 del base_args['pattern_options']
                 textarea_widget = self._base(None, None, **base_args)
                 textarea_widget.klass = ''
-                mt_pattern_name = '{}{}'.format(
+                mt_pattern_name = '{0}{1}'.format(
                     self._base._klass_prefix,
                     'textareamimetypeselector'
                 )
@@ -599,11 +610,13 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
                 value_mime_type = self.value.mimeType if self.value\
                     else self.field.default_mime_type
                 mt_select = etree.Element('select')
-                mt_select.attrib['id'] = '{}_text_format'.format(self.id)
-                mt_select.attrib['name'] = '{}.mimeType'.format(self.name)
+                mt_select.attrib['id'] = '{0}_text_format'.format(self.id)
+                mt_select.attrib['name'] = '{0}.mimeType'.format(self.name)
                 mt_select.attrib['class'] = mt_pattern_name
-                mt_select.attrib['{}{}'.format('data-', mt_pattern_name)] =\
-                    json.dumps({
+                mt_select.attrib[
+                    'data-{0}'.format(mt_pattern_name)
+                ] = json.dumps(
+                    {
                         'textareaName': self.name,
                         'widgets': {
                             'text/html': {  # TODO: currently, we only support
@@ -613,7 +626,8 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
                                 'patternOptions': pattern_options
                             }
                         }
-                    })
+                    }
+                )
 
                 # Create a list of allowed mime types
                 for mt in allowed_mime_types:
@@ -625,7 +639,7 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
                     mt_select.append(opt)
 
                 # Render the combined widget
-                rendered = '{}\n{}'.format(
+                rendered = '{0}\n{1}'.format(
                     textarea_widget.render(),
                     etree.tostring(mt_select)
                 )

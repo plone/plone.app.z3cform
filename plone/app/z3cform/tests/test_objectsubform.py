@@ -34,7 +34,7 @@ class SubObject(object):
         return self.__name__ or ''
 
     def __repr__(self):
-        return "<SubObject title='%s'>" % self.title
+        return "<SubObject title='{0:s}'>".format(self.title)
 
 
 registerFactoryAdapter(ISubObject, SubObject)

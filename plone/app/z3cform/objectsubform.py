@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from plone.app.z3cform.utils import closest_content
 from z3c.form.object import ObjectSubForm as BaseObjectSubForm
 from z3c.form.object import SubformAdapter as BaseSubformAdapter

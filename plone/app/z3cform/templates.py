@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from Products.Five.browser import BrowserView
 from Products.Five.browser.metaconfigure import ViewMixinForTemplates
 from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile

@@ -13,13 +13,13 @@ from zope.interface import implements
 
 
 class MySchema(interface.Interface):
-    age = schema.Int(title=u"Age")
+    age = schema.Int(title=u'Age')
 
 
 class MyContentProvider(ContentProviderBase):
 
     def render(self):
-        return "My test content provider"
+        return 'My test content provider'
 
 
 class MyForm(form.Form):

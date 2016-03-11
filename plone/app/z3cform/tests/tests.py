@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from plone.app.z3cform.tests.layer import PAZ3CForm_INTEGRATION_TESTING
 from plone.browserlayer.layer import mark_layer
 from zope.traversing.interfaces import BeforeTraverseEvent
@@ -5,6 +6,7 @@ from zope.traversing.interfaces import BeforeTraverseEvent
 import doctest
 import unittest
 import zope.component.testing
+
 
 ROBOT_TEST_LEVEL = 5
 
@@ -50,12 +52,6 @@ def test_suite():
         unittest.makeSuite(IntegrationTests),
         doctest.DocFileSuite(
             'wysiwyg/README.rst',
-            package='plone.app.z3cform',
-            setUp=zope.component.testing.setUp,
-            tearDown=zope.component.testing.tearDown,
-        ),
-        doctest.DocFileSuite(
-            'queryselect/README.rst',
             package='plone.app.z3cform',
             setUp=zope.component.testing.setUp,
             tearDown=zope.component.testing.tearDown,

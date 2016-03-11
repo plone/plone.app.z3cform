@@ -1,10 +1,14 @@
-import logging
+# -*- coding: utf-8 -*-
+from zope.component import adapter
+from zope.component.hooks import getSite
+from zope.interface import implementer
+from zope.interface import implementer_only
 
 import Acquisition
+import logging
 import z3c.form.browser.textarea
 import z3c.form.interfaces
 import z3c.form.widget
-from zope.component.hooks import getSite
 import zope.interface
 import zope.schema.interfaces
 
@@ -16,8 +20,8 @@ class IWysiwygWidget(z3c.form.interfaces.ITextAreaWidget):
     pass
 
 
+@implementer_only(IWysiwygWidget)
 class WysiwygWidget(z3c.form.browser.textarea.TextAreaWidget):
-    zope.interface.implementsOnly(IWysiwygWidget)
 
     klass = u'kupu-widget'
     value = u''
@@ -35,11 +39,13 @@ class WysiwygWidget(z3c.form.browser.textarea.TextAreaWidget):
                 self.form.context, getSite())
 
 
-@zope.component.adapter(zope.schema.interfaces.IField,
-                        z3c.form.interfaces.IFormLayer)
-@zope.interface.implementer(z3c.form.interfaces.IFieldWidget)
+@adapter(zope.schema.interfaces.IField, z3c.form.interfaces.IFormLayer)
+@implementer(z3c.form.interfaces.IFieldWidget)
 def WysiwygFieldWidget(field, request):
     """IFieldWidget factory for WysiwygWidget."""
-    logger.warn("Deprecation Warning\nplone.app.z3cform.wysiwyg.WysiwygFieldWidget "
-                "is deprecated and will be removed in Plone 5.1")
+    logger.warn(
+        'plone.app.z3cform.wysiwyg.WysiwygFieldWidget is deprecated and'
+        'will be removed in Plone 5.1',
+        DeprecationWarning
+    )
     return z3c.form.widget.FieldWidget(field, WysiwygWidget(request))

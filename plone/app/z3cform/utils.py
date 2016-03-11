@@ -1,7 +1,10 @@
+# -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from Products.CMFCore.interfaces import IContentish
 from Products.CMFCore.interfaces import IFolderish
 from zope.component.hooks import getSite
+
+
 try:
     from zope.globalrequest import getRequest
     getRequest  # pyflakes

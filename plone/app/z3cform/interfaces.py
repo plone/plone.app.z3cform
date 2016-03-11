@@ -1,9 +1,10 @@
+# -*- coding: utf-8 -*-
+from plone.app.textfield.widget import IRichTextWidget as patextfield_IRichTextWidget  # noqa
 from z3c.form.interfaces import IFormLayer
-from zope.schema.interfaces import IDate
-from zope.schema.interfaces import IDatetime
 from z3c.form.interfaces import ISelectWidget as IBaseSelectWidget
 from z3c.form.interfaces import ITextWidget
-from plone.app.textfield.widget import IRichTextWidget as patextfield_IRichTextWidget
+from zope.schema.interfaces import IDate
+from zope.schema.interfaces import IDatetime
 
 
 class IPloneFormLayer(IFormLayer):

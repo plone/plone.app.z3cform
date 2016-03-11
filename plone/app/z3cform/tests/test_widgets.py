@@ -2,22 +2,24 @@
 from datetime import date
 from datetime import datetime
 from mock import Mock
-from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from plone.app.widgets.testing import ExampleVocabulary
 from plone.app.widgets.testing import PLONEAPPWIDGETS_DX_INTEGRATION_TESTING
 from plone.app.widgets.testing import TestRequest
 from plone.app.z3cform.tests.layer import PAZ3CForm_INTEGRATION_TESTING
+from plone.app.z3cform.widget import BaseWidget
 from plone.dexterity.fti import DexterityFTI
 from plone.registry.interfaces import IRegistry
 from plone.testing.zca import UNIT_TESTING
+from Products.CMFPlone.interfaces import IMarkupSchema
 from z3c.form.interfaces import IFormLayer
 from z3c.form.widget import FieldWidget
 from zope.component import getUtility
 from zope.component import provideUtility
 from zope.component.globalregistry import base
-from zope.interface import Interface
 from zope.interface import alsoProvides
+from zope.interface import Interface
 from zope.schema import Choice
 from zope.schema import Date
 from zope.schema import Datetime
@@ -25,13 +27,10 @@ from zope.schema import List
 from zope.schema import Set
 from zope.schema import TextLine
 from zope.schema import Tuple
-from plone.app.z3cform.widget import BaseWidget
 
 import mock
 import pytz
 import unittest
-
-from Products.CMFPlone.interfaces import IMarkupSchema
 
 
 class BaseWidgetTests(unittest.TestCase):
@@ -546,10 +545,10 @@ class SelectWidgetTests(unittest.TestCase):
         )
         widget.name = 'selectfield'
         self.request.form['selectfield'] = 'one'
-        self.assertEquals(widget.extract(), 'one')
+        self.assertEqual(widget.extract(), 'one')
         widget.multiple = True
         self.request.form['selectfield'] = 'one;two'
-        self.assertEquals(widget.extract(), 'one;two')
+        self.assertEqual(widget.extract(), 'one;two')
 
     def test_data_converter_list(self):
         from plone.app.z3cform.widget import SelectWidget
@@ -757,7 +756,7 @@ class AjaxSelectWidgetTests(unittest.TestCase):
                     'allowNewItems': 'false',
                     'vocabularyUrl':
                     'http://127.0.0.1/++widget++choicefield/@@getSource',
-                    },
+                },
             },
             widget._base_args(),
         )
@@ -766,9 +765,9 @@ class AjaxSelectWidgetTests(unittest.TestCase):
         from plone.app.z3cform.widget import AjaxSelectWidget
         widget = AjaxSelectWidget(self.request)
         form = Mock(parentForm=None)
-        from zope.interface import directlyProvides
+        from zope.interface import directlyProvides  # noqa
         from z3c.form.interfaces import IAddForm
-        directlyProvides(form, IAddForm)
+        directlyProvides(form, IAddForm)  # noqa
         form.request = {'URL': 'http://addform_url'}
         widget.form = form
         self.assertEqual(
@@ -890,7 +889,8 @@ class AjaxSelectWidgetIntegrationTests(unittest.TestCase):
         widget = AjaxSelectWidget(self.request)
         widget.context = portal
         widget.vocabulary = 'plone.app.vocabularies.Keywords'
-        self.assertEqual(widget._base_args()['pattern_options']['allowNewItems'], 'true')
+        self.assertEqual(widget._base_args()['pattern_options'][
+                         'allowNewItems'], 'true')
 
     def test_keywords_cannot_add(self):
         from plone.app.z3cform.widget import AjaxSelectWidget
@@ -899,7 +899,8 @@ class AjaxSelectWidgetIntegrationTests(unittest.TestCase):
         widget = AjaxSelectWidget(self.request)
         widget.context = portal
         widget.vocabulary = 'plone.app.vocabularies.Keywords'
-        self.assertEqual(widget._base_args()['pattern_options']['allowNewItems'], 'false')
+        self.assertEqual(widget._base_args()['pattern_options'][
+                         'allowNewItems'], 'false')
 
 
 class QueryStringWidgetTests(unittest.TestCase):
@@ -986,7 +987,7 @@ class RelatedItemsWidgetTests(unittest.TestCase):
         widget.update()
         base_args = widget._base_args()
         pattern_options = base_args['pattern_options']
-        self.assertEquals(pattern_options.get('maximumSelectionSize', 0), 1)
+        self.assertEqual(pattern_options.get('maximumSelectionSize', 0), 1)
 
     def test_multiple_selection(self):
         """The pattern_options key maximumSelectionSize shouldn't be
@@ -1014,7 +1015,7 @@ class RelatedItemsWidgetTests(unittest.TestCase):
         self.assertEqual(
             patterns_options['vocabularyUrl'],
             'fake_url/@@getVocabulary?name=foobar&field=selectfield',
-            )
+        )
 
     def test_converter_RelationChoice(self):
         from plone.app.z3cform.converters import \
@@ -1025,7 +1026,10 @@ class RelatedItemsWidgetTests(unittest.TestCase):
         converter = RelationChoiceRelatedItemsWidgetConverter(
             TextLine(), widget)
 
-        with mock.patch('plone.app.z3cform.converters.IUUID', return_value='id'):
+        with mock.patch(
+            'plone.app.z3cform.converters.IUUID',
+            return_value='id'
+        ):
             self.assertEqual(converter.toWidgetValue('obj'), 'id')
         self.assertEqual(converter.toWidgetValue(None), None)
 
@@ -1048,7 +1052,9 @@ class RelatedItemsWidgetTests(unittest.TestCase):
 
         self.assertEqual(converter.toWidgetValue(None), None)
         with mock.patch(
-                'plone.app.z3cform.converters.IUUID', side_effect=['id1', 'id2']):
+            'plone.app.z3cform.converters.IUUID',
+            side_effect=['id1', 'id2']
+        ):
             self.assertEqual(
                 converter.toWidgetValue(['obj1', 'obj2']), 'id1;id2')
 
@@ -1134,8 +1140,10 @@ class RichTextWidgetTests(unittest.TestCase):
         self.assertEqual(base_args['pattern'], 'tinymce')
 
         prependToUrl = '/plone/resolveuid/'
-        self.assertEquals(base_args['pattern_options']['prependToUrl'],
-                          prependToUrl)
+        self.assertEqual(
+            base_args['pattern_options']['prependToUrl'],
+            prependToUrl
+        )
         self.assertEqual(
             base_args['pattern_options']['upload']['relativePath'],
             '@@fileUpload')
@@ -1149,7 +1157,7 @@ class RichTextWidgetTests(unittest.TestCase):
         widget.context = self.portal
         widget.value = RichTextValue(u'Lorem ipsum \u2026')
         base_args = widget._base_args()
-        self.assertEquals(base_args['value'], u'Lorem ipsum \u2026')
+        self.assertEqual(base_args['value'], u'Lorem ipsum \u2026')
 
     def _set_mimetypes(self, default='text/html', allowed=('text/html')):
         """Set portal's mimetype settings.
@@ -1157,7 +1165,7 @@ class RichTextWidgetTests(unittest.TestCase):
         if IMarkupSchema:
             registry = getUtility(IRegistry)
             self.settings = registry.forInterface(
-                IMarkupSchema, prefix="plone")
+                IMarkupSchema, prefix='plone')
             self.settings.default_type = default
             self.settings.allowed_types = allowed
 

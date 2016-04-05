@@ -942,12 +942,58 @@ class RelatedItemsWidgetTests(unittest.TestCase):
     def setUp(self):
         self.request = TestRequest(environ={'HTTP_ACCEPT_LANGUAGE': 'en'})
 
-    def test_widget(self):
+    @mock.patch('plone.app.widgets.utils.get_portal')
+    @mock.patch('plone.app.widgets.utils.getNavigationRootObject')
+    def test_related_items_widget(
+
+        self,
+        mock_nav_root_ob,
+        mock_get_portal
+    ):
         from plone.app.z3cform.widget import RelatedItemsWidget
+        EXPECTED_PORTAL_ROOT = '', 'site'
+        EXPECTED_NAV_ROOT = '', 'site'
+        EXPECTED_ROOT_PATH = '/site'
+        EXPECTED_BASE_PATH = '/site'
+        EXPECTED_VOCAB_URL = 'portal_url/@@getVocabulary?name=' \
+                             'plone.app.vocabularies.Catalog'
+        EXPECTED_TREE_URL = 'portal_url/@@getVocabulary?name=' \
+                            'plone.app.vocabularies.Catalog'
+
+        portal = mock.MagicMock(name='portal')
+        portal.absolute_url.return_value = 'portal_url'
+        portal.getPhysicalPath.return_value = EXPECTED_PORTAL_ROOT
+        mock_get_portal.return_value = portal
+
+        navroot = mock.MagicMock(name='navroot')
+        navroot.getPhysicalPath.return_value = EXPECTED_NAV_ROOT
+        mock_nav_root_ob.return_value = navroot
+
         widget = RelatedItemsWidget(self.request)
-        widget.context = Mock(absolute_url=lambda: 'fake_url',
-                              getPhysicalPath=lambda: ['', 'site'])
+        widget.context = Mock(
+            name='context',
+            absolute_url=lambda: 'fake_url',
+            getPhysicalPath=lambda: ['', 'site', 'folder', 'item'],
+        )
         widget.update()
+        result = widget._base_args()
+
+        self.assertEqual(
+            EXPECTED_ROOT_PATH,
+            result['pattern_options']['rootPath']
+        )
+        self.assertEqual(
+            EXPECTED_BASE_PATH,
+            result['pattern_options'].get('basePath', None)
+        )
+        self.assertEqual(
+            EXPECTED_VOCAB_URL,
+            result['pattern_options']['vocabularyUrl']
+        )
+        self.assertEqual(
+            EXPECTED_TREE_URL,
+            result['pattern_options']['treeVocabularyUrl']
+        )
         self.assertDictEqual(
             {
                 'name': None,
@@ -959,16 +1005,86 @@ class RelatedItemsWidgetTests(unittest.TestCase):
                     'searchAllText': u'Entire site',
                     'searchText': u'Search',
                     'separator': ';',
-                    'vocabularyUrl': 'fake_url/@@getVocabulary?name='
-                                     'plone.app.vocabularies.Catalog',
-                    'rootPath': '/site',
-                    'treeVocabularyUrl':  '/@@getVocabulary?name='
-                                          'plone.app.vocabularies.Catalog',
+                    'vocabularyUrl': EXPECTED_VOCAB_URL,
+                    'rootPath': EXPECTED_ROOT_PATH,
+                    'basePath': EXPECTED_BASE_PATH,
+                    'treeVocabularyUrl':  EXPECTED_TREE_URL,
                     'sort_on': 'sortable_title',
                     'sort_order': 'ascending'
                 },
             },
-            widget._base_args()
+            result
+        )
+
+    @mock.patch('plone.app.widgets.utils.get_portal')
+    @mock.patch('plone.app.widgets.utils.getNavigationRootObject')
+    def test_related_items_widget_nav_root(
+        self,
+        mock_nav_root_ob,
+        mock_get_portal
+    ):
+        from plone.app.z3cform.widget import RelatedItemsWidget
+        EXPECTED_PORTAL_ROOT = '', 'site'
+        EXPECTED_NAV_ROOT = '', 'site', 'nav'
+        EXPECTED_ROOT_PATH = '/site'
+        EXPECTED_BASE_PATH = '/site/nav'
+        EXPECTED_VOCAB_URL = 'portal_url/@@getVocabulary?name=' \
+                             'plone.app.vocabularies.Catalog'
+        EXPECTED_TREE_URL = 'portal_url/@@getVocabulary?name=' \
+                            'plone.app.vocabularies.Catalog'
+
+        portal = mock.MagicMock(name='portal')
+        portal.absolute_url.return_value = 'portal_url'
+        portal.getPhysicalPath.return_value = EXPECTED_PORTAL_ROOT
+        mock_get_portal.return_value = portal
+
+        navroot = mock.MagicMock(name='navroot')
+        navroot.getPhysicalPath.return_value = EXPECTED_NAV_ROOT
+        mock_nav_root_ob.return_value = navroot
+
+        widget = RelatedItemsWidget(self.request)
+        widget.context = Mock(
+            absolute_url=lambda: 'fake_url',
+            getPhysicalPath=lambda: ['', 'site', 'nav', 'folder', 'item']
+        )
+        widget.update()
+        result = widget._base_args()
+        self.assertEqual(
+            EXPECTED_ROOT_PATH,
+            result['pattern_options']['rootPath']
+        )
+        self.assertEqual(
+            EXPECTED_BASE_PATH,
+            result['pattern_options'].get('basePath', None)
+        )
+        self.assertEqual(
+            EXPECTED_VOCAB_URL,
+            result['pattern_options']['vocabularyUrl']
+        )
+        self.assertEqual(
+            EXPECTED_TREE_URL,
+            result['pattern_options']['treeVocabularyUrl']
+        )
+        self.assertDictEqual(
+            {
+                'name': None,
+                'value': u'',
+                'pattern': 'relateditems',
+                'pattern_options': {
+                    'folderTypes': ['Folder'],
+                    'homeText': u'Home',
+                    'searchAllText': u'Entire site',
+                    'searchText': u'Search',
+                    'separator': ';',
+                    'vocabularyUrl': EXPECTED_VOCAB_URL,
+                    'rootPath': EXPECTED_ROOT_PATH,
+                    'basePath': EXPECTED_BASE_PATH,
+                    'treeVocabularyUrl':  EXPECTED_TREE_URL,
+                    'sort_on': 'sortable_title',
+                    'sort_order': 'ascending'
+                },
+            },
+            result
         )
 
     def test_single_selection(self):

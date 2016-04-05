@@ -14,7 +14,9 @@ New:
 
 Fixes:
 
-- *add item here*
+- Enhance test in order to show problem in RelatedItemsWidget with
+  navigation-roots
+  [jensens]
 
 
 1.2.0 (2016-02-25)

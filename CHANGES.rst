@@ -25,6 +25,10 @@ New:
 
 Fixes:
 
+- Enhance test in order to show problem in RelatedItemsWidget with 
+  navigation-roots
+  [jensens]
+
 - Cleanup: pep8, uth8-headers, zca-decorators, ...
   [jensens]
 

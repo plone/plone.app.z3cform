@@ -459,7 +459,6 @@ class RelatedItemsWidget(BaseWidget, z3cform_TextWidget):
             ),
             args['pattern_options']
         )
-
         if (
             not self.vocabulary_override and
             field and

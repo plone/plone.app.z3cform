@@ -1129,7 +1129,7 @@ class RelatedItemsWidgetTests(unittest.TestCase):
         self.assertFalse('maximumSelectionSize' in patterns_options)
         self.assertEqual(
             patterns_options['vocabularyUrl'],
-            'fake_url/@@getVocabulary?name=foobar&field=selectfield',
+            '/@@getVocabulary?name=foobar&field=selectfield',
             )
 
     def test_converter_RelationChoice(self):

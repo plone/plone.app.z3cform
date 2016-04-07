@@ -25,6 +25,9 @@ New:
 
 Fixes:
 
+- Reduce dependency on plone.app.widgets in tests.
+  [thet]
+
 - Enhance test in order to show problem in RelatedItemsWidget with 
   navigation-roots
   [jensens]

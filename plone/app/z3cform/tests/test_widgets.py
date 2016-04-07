@@ -4,9 +4,7 @@ from datetime import datetime
 from mock import Mock
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
-from plone.app.widgets.testing import ExampleVocabulary
-from plone.app.widgets.testing import PLONEAPPWIDGETS_DX_INTEGRATION_TESTING
-from plone.app.widgets.testing import TestRequest
+from zope.publisher.browser import TestRequest as BaseTestRequest
 from plone.app.z3cform.tests.layer import PAZ3CForm_INTEGRATION_TESTING
 from plone.app.z3cform.widget import BaseWidget
 from plone.dexterity.fti import DexterityFTI
@@ -19,6 +17,7 @@ from zope.component import getUtility
 from zope.component import provideUtility
 from zope.component.globalregistry import base
 from zope.interface import alsoProvides
+from zope.interface import implements
 from zope.interface import Interface
 from zope.schema import Choice
 from zope.schema import Date
@@ -27,10 +26,32 @@ from zope.schema import List
 from zope.schema import Set
 from zope.schema import TextLine
 from zope.schema import Tuple
+from zope.schema.interfaces import IVocabularyFactory
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 
 import mock
 import pytz
 import unittest
+
+
+class ExampleVocabulary(object):
+    implements(IVocabularyFactory)
+
+    def __call__(self, context, query=None):
+        items = [u'One', u'Two', u'Three']
+        tmp = SimpleVocabulary([
+            SimpleTerm(it.lower(), it.lower(), it)
+            for it in items
+            if query is None
+            or query.lower() in it.lower()
+        ])
+        tmp.test = 1
+        return tmp
+
+
+class TestRequest(BaseTestRequest):
+    pass
 
 
 class BaseWidgetTests(unittest.TestCase):
@@ -1226,7 +1247,7 @@ def _custom_field_widget(field, request):
 
 class RichTextWidgetTests(unittest.TestCase):
 
-    layer = PLONEAPPWIDGETS_DX_INTEGRATION_TESTING
+    layer = PAZ3CForm_INTEGRATION_TESTING
 
     def setUp(self):
         from plone.app.textfield import RichText as RichTextField

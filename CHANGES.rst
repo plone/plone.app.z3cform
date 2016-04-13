@@ -21,7 +21,8 @@ Incompatibilities:
 
 New:
 
-- *add item here*
+- make widget available to wysiwyg_support template
+  [gotcha]
 
 Fixes:
 

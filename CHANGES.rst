@@ -153,13 +153,6 @@ Fixes:
 
 
 1.0.1 (2014-10-23)
-0.7.8 (unreleased)
-------------------
-
-- make widget available to wysiwyg_support
-  [gotcha]
-
-0.7.7 (2014-10-20)
 ------------------
 
 - Handle an error where group.__name__ being None caused fieldsets to be given

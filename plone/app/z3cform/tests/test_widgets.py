@@ -4,7 +4,6 @@ from datetime import datetime
 from mock import Mock
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
-from zope.publisher.browser import TestRequest as BaseTestRequest
 from plone.app.z3cform.tests.layer import PAZ3CForm_INTEGRATION_TESTING
 from plone.app.z3cform.widget import BaseWidget
 from plone.dexterity.fti import DexterityFTI
@@ -19,6 +18,7 @@ from zope.component.globalregistry import base
 from zope.interface import alsoProvides
 from zope.interface import implements
 from zope.interface import Interface
+from zope.publisher.browser import TestRequest as BaseTestRequest
 from zope.schema import Choice
 from zope.schema import Date
 from zope.schema import Datetime
@@ -43,8 +43,8 @@ class ExampleVocabulary(object):
         tmp = SimpleVocabulary([
             SimpleTerm(it.lower(), it.lower(), it)
             for it in items
-            if query is None
-            or query.lower() in it.lower()
+            if query is None or
+            query.lower() in it.lower()
         ])
         tmp.test = 1
         return tmp

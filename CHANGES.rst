@@ -4,14 +4,6 @@ Changelog
 1.2.1 (unreleased)
 ------------------
 
-Incompatibilities:
-
-- *add item here*
-
-New:
-
-- *add item here*
-
 Fixes:
 
 - Enhance test in order to show problem in RelatedItemsWidget with

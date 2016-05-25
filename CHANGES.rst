@@ -10,7 +10,9 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Don't overwrite widget default css classes when rendering pattern widgets.
+  This allows setting a css class via the ``klass`` keyword in plone.autoform widget directives.
+  [thet]
 
 Bug fixes:
 

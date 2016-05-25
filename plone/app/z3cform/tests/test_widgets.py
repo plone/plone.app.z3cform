@@ -99,6 +99,20 @@ class BaseWidgetTests(unittest.TestCase):
             '<input class="pat-example" type="text"/>',
             widget.render())
 
+    def test_widget_base_custom_css(self):
+        from plone.app.z3cform.widget import BaseWidget
+        from plone.app.widgets.base import InputWidget
+
+        widget = BaseWidget(self.request)
+        widget.field = self.field
+        widget.pattern = 'example'
+        widget.klass = 'very-custom-class'
+        widget._base = InputWidget
+
+        self.assertEqual(
+            '<input class="pat-example very-custom-class" type="text"/>',
+            widget.render())
+
 
 class DateWidgetTests(unittest.TestCase):
 

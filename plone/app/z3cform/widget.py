@@ -90,7 +90,13 @@ class BaseWidget(Widget):
         """
         if self.mode != 'input':
             return super(BaseWidget, self).render()
-        return self._base(**self._base_args()).render()
+
+        pattern_widget = self._base(**self._base_args())
+        if getattr(self, 'klass', False):
+            pattern_widget.klass = u'{0} {1}'.format(
+                pattern_widget.klass, self.klass
+            )
+        return pattern_widget.render()
 
 
 @implementer_only(IDateWidget)

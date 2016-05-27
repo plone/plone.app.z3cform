@@ -113,6 +113,31 @@ class BaseWidgetTests(unittest.TestCase):
             '<input class="pat-example very-custom-class" type="text"/>',
             widget.render())
 
+    def test_widget_base_pattern_options_with_functions(self):
+        from plone.app.z3cform.widget import BaseWidget
+        from plone.app.widgets.base import InputWidget
+
+        widget = BaseWidget(self.request)
+        widget.context = 'testcontext'
+        widget.field = self.field
+        widget.pattern = 'example'
+        widget._base = InputWidget
+        widget.pattern_options = {
+            'subdict': {
+                'subsubnormal': 789,
+                'subsublist': [7, 8, 9, lambda x: x],
+                'subsubtuple': (7, 8, 9, lambda x: x),
+            }
+        }
+
+        self.assertEqual(
+            '<input class="pat-example" type="text" '
+            'data-pat-example="{&quot;subdict&quot;: '
+            '{&quot;subsubtuple&quot;: [7, 8, 9, &quot;testcontext&quot;], '
+            '&quot;subsublist&quot;: [7, 8, 9, &quot;testcontext&quot;], '
+            '&quot;subsubnormal&quot;: 789}}"/>',
+            widget.render())
+
 
 class DateWidgetTests(unittest.TestCase):
 

@@ -25,6 +25,7 @@ from plone.app.z3cform.interfaces import IQueryStringWidget
 from plone.app.z3cform.interfaces import IRelatedItemsWidget
 from plone.app.z3cform.interfaces import IRichTextWidget
 from plone.app.z3cform.interfaces import ISelectWidget
+from plone.app.z3cform.utils import call_callables
 from plone.app.z3cform.utils import closest_content
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
@@ -91,7 +92,13 @@ class BaseWidget(Widget):
         if self.mode != 'input':
             return super(BaseWidget, self).render()
 
-        pattern_widget = self._base(**self._base_args())
+        _base_args = self._base_args()
+        _base_args['pattern_options'] = call_callables(
+            _base_args['pattern_options'],
+            self.context
+        )
+
+        pattern_widget = self._base(**_base_args)
         if getattr(self, 'klass', False):
             pattern_widget.klass = u'{0} {1}'.format(
                 pattern_widget.klass, self.klass

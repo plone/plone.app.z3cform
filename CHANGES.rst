@@ -10,6 +10,11 @@ Breaking changes:
 
 New features:
 
+- Support functions as values in the ``pattern_options`` dictionary, whch gets then serialized to JSON.
+  Before that, walk recursively through ``pattern_options`` and call all functions with the widgets context.
+  This allows for context-specific, runtime evaluated pattern option values.
+  [thet]
+
 - Don't overwrite widget default css classes when rendering pattern widgets.
   This allows setting a css class via the ``klass`` keyword in plone.autoform widget directives.
   [thet]

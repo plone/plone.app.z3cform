@@ -48,3 +48,28 @@ def _valid_context(context):
         context = parent
 
     return None
+
+
+def call_callables(value, *args, **kwargs):
+    """Walk recursively through data structure and call all callables, passing
+    the arguments and keyword arguments to it.
+    """
+    ret = value
+    if callable(value):
+        ret = value(*args, **kwargs)
+    elif isinstance(value, list):
+        ret = [
+            call_callables(v, *args, **kwargs)
+            for v in value
+        ]
+    elif isinstance(value, tuple):
+        ret = tuple(
+            call_callables(v, *args, **kwargs)
+            for v in value
+        )
+    elif isinstance(value, dict):
+        ret = {
+            k: call_callables(v, *args, **kwargs)
+            for k, v in value.items()
+        }
+    return ret

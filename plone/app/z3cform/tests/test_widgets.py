@@ -19,6 +19,7 @@ from zope.interface import alsoProvides
 from zope.interface import implements
 from zope.interface import Interface
 from zope.publisher.browser import TestRequest as BaseTestRequest
+from zope.schema import BytesLine
 from zope.schema import Choice
 from zope.schema import Date
 from zope.schema import Datetime
@@ -1069,7 +1070,7 @@ class RelatedItemsWidgetTests(unittest.TestCase):
                     'vocabularyUrl': EXPECTED_VOCAB_URL,
                     'rootPath': EXPECTED_ROOT_PATH,
                     'basePath': EXPECTED_BASE_PATH,
-                    'treeVocabularyUrl':  EXPECTED_TREE_URL,
+                    'treeVocabularyUrl': EXPECTED_TREE_URL,
                     'sort_on': 'sortable_title',
                     'sort_order': 'ascending'
                 },
@@ -1140,7 +1141,7 @@ class RelatedItemsWidgetTests(unittest.TestCase):
                     'vocabularyUrl': EXPECTED_VOCAB_URL,
                     'rootPath': EXPECTED_ROOT_PATH,
                     'basePath': EXPECTED_BASE_PATH,
-                    'treeVocabularyUrl':  EXPECTED_TREE_URL,
+                    'treeVocabularyUrl': EXPECTED_TREE_URL,
                     'sort_on': 'sortable_title',
                     'sort_order': 'ascending'
                 },
@@ -1243,17 +1244,29 @@ class RelatedItemsWidgetTests(unittest.TestCase):
 
     def test_converter_List_of_Choice(self):
         from plone.app.z3cform.converters import RelatedItemsDataConverter
-        field = List()
-        widget = Mock(separator=';')
-        converter = RelatedItemsDataConverter(field, widget)
+        fields = (
+            List(),
+            List(value_type=TextLine()),
+            List(value_type=BytesLine()),
+            )
+        for field in fields:
+            expected_value_type = getattr(field.value_type, '_type', unicode)
+            widget = Mock(separator=';')
+            converter = RelatedItemsDataConverter(field, widget)
 
-        self.assertEqual(converter.toWidgetValue(None), None)
-        self.assertEqual(
-            converter.toWidgetValue(['id1', 'id2']), 'id1;id2')
+            self.assertEqual(converter.toWidgetValue(None), None)
+            self.assertEqual(
+                converter.toWidgetValue(['id1', 'id2']), 'id1;id2')
 
-        self.assertEqual(converter.toFieldValue(None), None)
-        self.assertEqual(
-            converter.toFieldValue('id1;id2'), ['id1', 'id2'])
+            self.assertEqual(converter.toFieldValue(None), None)
+            self.assertEqual(
+                converter.toFieldValue('id1;id2'), ['id1', 'id2'])
+
+            self.assertEqual(converter.toFieldValue(None), None)
+            self.assertEqual(
+                type(converter.toFieldValue('id1;id2')[0]),
+                expected_value_type
+                )
 
     def test_fieldwidget(self):
         from plone.app.z3cform.widget import RelatedItemsWidget

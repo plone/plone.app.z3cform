@@ -264,7 +264,10 @@ class RelatedItemsDataConverter(BaseDataConverter):
                                   for uid in value
                                   if uid in objects.keys())
         else:
-            return collectionType(v for v in value)
+            valueType = getattr(self.field.value_type, '_type', unicode)
+            if isinstance(valueType, tuple):
+                valueType = self.field.value_type[-1]
+            return collectionType(valueType(v) for v in value)
 
 
 @adapter(IList, IQueryStringWidget)

@@ -10,6 +10,12 @@ Breaking changes:
 
 New features:
 
+- Related items data converter supports explicit value_type specified in
+  field when using collections of UUID values.  This is backward-compatible
+  with previous conversion to field values, supports str/unicode value(s),
+  whichever is specified by field.
+  [seanupton]
+
 - Support functions as values in the ``pattern_options`` dictionary, whch gets then serialized to JSON.
   Before that, walk recursively through ``pattern_options`` and call all functions with the widgets context.
   This allows for context-specific, runtime evaluated pattern option values.

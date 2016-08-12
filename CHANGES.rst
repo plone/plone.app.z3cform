@@ -4,10 +4,6 @@ Changelog
 2.0.1 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
 New features:
 
 - Related items data converter supports explicit value_type specified in
@@ -24,10 +20,6 @@ New features:
 - Don't overwrite widget default css classes when rendering pattern widgets.
   This allows setting a css class via the ``klass`` keyword in plone.autoform widget directives.
   [thet]
-
-Bug fixes:
-
-- *add item here*
 
 
 2.0.0 (2016-04-29)

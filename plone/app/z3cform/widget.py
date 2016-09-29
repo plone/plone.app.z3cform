@@ -270,8 +270,16 @@ class SelectWidget(BaseWidget, z3cform_SelectWidget):
         if not self.required:
             options['allowClear'] = True
 
+        base_items = self.items
+        if callable(base_items):
+            # items used to be a property in all widgets, then in the select
+            # widget it became a method, then in a few others too, but never in
+            # all, so this was reverted to let it be a property again.  Let's
+            # support both here to avoid breaking on some z3c.form versions.
+            # See https://github.com/zopefoundation/z3c.form/issues/44
+            base_items = base_items()
         items = []
-        for item in self.items():
+        for item in base_items:
             if not isinstance(item['content'], basestring):
                 item['content'] = translate(
                     item['content'],

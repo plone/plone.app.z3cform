@@ -14,7 +14,10 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- In select widget, accept items as property or method.
+  This avoids breaking on some z3c.form versions.
+  See https://github.com/zopefoundation/z3c.form/issues/44
+  [maurits]
 
 
 1.2.1 (2016-04-29)

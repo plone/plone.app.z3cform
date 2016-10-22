@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from plone.app.z3cform.tests.layer import PAZ3CForm_INTEGRATION_TESTING
 from plone.browserlayer.layer import mark_layer
+from plone.testing import layered
 from zope.traversing.interfaces import BeforeTraverseEvent
 
 import doctest
@@ -37,16 +38,14 @@ class IntegrationTests(unittest.TestCase):
 
 
 def test_suite():
-
-    inlineValidationTests = doctest.DocFileSuite(
+    inlineValidationTests = layered(doctest.DocFileSuite(
         'inline_validation.rst',
         package='plone.app.z3cform',
         optionflags=(
             doctest.ELLIPSIS |
             doctest.NORMALIZE_WHITESPACE
         )
-    )
-    inlineValidationTests.layer = PAZ3CForm_INTEGRATION_TESTING
+    ), layer=PAZ3CForm_INTEGRATION_TESTING)
 
     suite = unittest.TestSuite([
         unittest.makeSuite(IntegrationTests),

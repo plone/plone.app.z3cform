@@ -4,14 +4,6 @@ Changelog
 1.2.2 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - In select widget, accept items as property or method.

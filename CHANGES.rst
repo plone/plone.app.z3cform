@@ -6,7 +6,11 @@ Changelog
 
 Breaking changes:
 
-- *add item here*
+- Removed ``plone.app.z3cform.object`` and
+  ``plone.app.z3cform.objectsubform`` because z3c.form 3.3 removed the
+  underlying code.
+  See https://github.com/zopefoundation/z3c.form/pull/38 for upstream changes.
+  [maurits]
 
 New features:
 

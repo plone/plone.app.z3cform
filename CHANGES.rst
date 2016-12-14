@@ -1,12 +1,14 @@
 Changelog
 =========
 
-2.1.3 (unreleased)
-------------------
+2.2 (unreleased)
+----------------
 
 Breaking changes:
 
-- *add item here*
+- Test fixes for plone.app.widgets 2.1.
+  While this is not a breaking change functionality or API wise, the tests do only pass with plone.app.widgets 2.1.
+  [thet]
 
 New features:
 

@@ -15,6 +15,7 @@ from z3c.form.widget import FieldWidget
 from zope.component import getUtility
 from zope.component import provideUtility
 from zope.component.globalregistry import base
+from zope.globalrequest import setRequest
 from zope.interface import alsoProvides
 from zope.interface import implements
 from zope.interface import Interface
@@ -999,155 +1000,93 @@ class QueryStringWidgetTests(unittest.TestCase):
         )
 
 
+class RelatedItemsWidgetIntegrationTests(unittest.TestCase):
+
+    layer = PAZ3CForm_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer['portal']
+        self.request = TestRequest(environ={'HTTP_ACCEPT_LANGUAGE': 'en'})
+        setRequest(self.request)
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+
+    def assertDictContainsSubsetReplacement(self, actual, expected):
+        """assertDictContainsSubset was removed in Python 3.2, see:
+        https://bugs.python.org/issue9424
+        To not introduce a forward incompatibility, here is a replacement based
+        on: http://stackoverflow.com/a/21058312
+        """
+        return set(expected.items()).issubset(set(actual.items()))
+
+    def test_related_items_widget(self):
+        from plone.app.z3cform.widget import RelatedItemsWidget
+        EXPECTED_ROOT_PATH = '/plone'
+        EXPECTED_ROOT_URL = 'http://nohost/plone'
+        EXPECTED_BASE_PATH = '/plone'
+        EXPECTED_VOCAB_URL = 'http://nohost/plone/@@getVocabulary?name=plone.app.vocabularies.Catalog'  # noqa
+
+        widget = RelatedItemsWidget(self.request)
+        widget.context = self.portal
+        widget.update()
+
+        result = widget._base_args()
+
+        self.assertEqual(
+            EXPECTED_ROOT_PATH,
+            result['pattern_options']['rootPath']
+        )
+        self.assertEqual(
+            EXPECTED_ROOT_URL,
+            result['pattern_options']['rootUrl']
+        )
+        self.assertEqual(
+            EXPECTED_BASE_PATH,
+            result['pattern_options']['basePath']
+        )
+        self.assertEqual(
+            EXPECTED_VOCAB_URL,
+            result['pattern_options']['vocabularyUrl']
+        )
+
+    def test_related_items_widget_nav_root(self):
+        from plone.app.z3cform.widget import RelatedItemsWidget
+        from plone.app.layout.navigation.interfaces import INavigationRoot
+        EXPECTED_ROOT_PATH = '/plone'
+        EXPECTED_ROOT_URL = 'http://nohost/plone'
+        EXPECTED_BASE_PATH = '/plone/subfolder'
+        EXPECTED_VOCAB_URL = 'http://nohost/plone/@@getVocabulary?name=plone.app.vocabularies.Catalog'  # noqa
+
+        self.portal.invokeFactory('Folder', 'subfolder')
+        subfolder = self.portal['subfolder']
+        alsoProvides(subfolder, INavigationRoot)
+
+        widget = RelatedItemsWidget(self.request)
+        widget.context = subfolder
+        widget.update()
+        result = widget._base_args()
+
+        self.assertEqual(
+            EXPECTED_ROOT_PATH,
+            result['pattern_options']['rootPath']
+        )
+        self.assertEqual(
+            EXPECTED_ROOT_URL,
+            result['pattern_options']['rootUrl']
+        )
+        self.assertEqual(
+            EXPECTED_BASE_PATH,
+            result['pattern_options']['basePath']
+        )
+        self.assertEqual(
+            EXPECTED_VOCAB_URL,
+            result['pattern_options']['vocabularyUrl']
+        )
+
+
 class RelatedItemsWidgetTests(unittest.TestCase):
 
     def setUp(self):
         self.request = TestRequest(environ={'HTTP_ACCEPT_LANGUAGE': 'en'})
-
-    @mock.patch('plone.app.widgets.utils.get_portal')
-    @mock.patch('plone.app.widgets.utils.getNavigationRootObject')
-    def test_related_items_widget(
-
-        self,
-        mock_nav_root_ob,
-        mock_get_portal
-    ):
-        from plone.app.z3cform.widget import RelatedItemsWidget
-        EXPECTED_PORTAL_ROOT = '', 'site'
-        EXPECTED_NAV_ROOT = '', 'site'
-        EXPECTED_ROOT_PATH = '/site'
-        EXPECTED_BASE_PATH = '/site'
-        EXPECTED_VOCAB_URL = 'portal_url/@@getVocabulary?name=' \
-                             'plone.app.vocabularies.Catalog'
-        EXPECTED_TREE_URL = 'portal_url/@@getVocabulary?name=' \
-                            'plone.app.vocabularies.Catalog'
-
-        portal = mock.MagicMock(name='portal')
-        portal.absolute_url.return_value = 'portal_url'
-        portal.getPhysicalPath.return_value = EXPECTED_PORTAL_ROOT
-        mock_get_portal.return_value = portal
-
-        navroot = mock.MagicMock(name='navroot')
-        navroot.getPhysicalPath.return_value = EXPECTED_NAV_ROOT
-        mock_nav_root_ob.return_value = navroot
-
-        widget = RelatedItemsWidget(self.request)
-        widget.context = Mock(
-            name='context',
-            absolute_url=lambda: 'fake_url',
-            getPhysicalPath=lambda: ['', 'site', 'folder', 'item'],
-        )
-        widget.update()
-        result = widget._base_args()
-
-        self.assertEqual(
-            EXPECTED_ROOT_PATH,
-            result['pattern_options']['rootPath']
-        )
-        self.assertEqual(
-            EXPECTED_BASE_PATH,
-            result['pattern_options'].get('basePath', None)
-        )
-        self.assertEqual(
-            EXPECTED_VOCAB_URL,
-            result['pattern_options']['vocabularyUrl']
-        )
-        self.assertEqual(
-            EXPECTED_TREE_URL,
-            result['pattern_options']['treeVocabularyUrl']
-        )
-        self.assertDictEqual(
-            {
-                'name': None,
-                'value': u'',
-                'pattern': 'relateditems',
-                'pattern_options': {
-                    'folderTypes': ['Folder'],
-                    'homeText': u'Home',
-                    'searchAllText': u'Entire site',
-                    'searchText': u'Search',
-                    'separator': ';',
-                    'vocabularyUrl': EXPECTED_VOCAB_URL,
-                    'rootPath': EXPECTED_ROOT_PATH,
-                    'basePath': EXPECTED_BASE_PATH,
-                    'treeVocabularyUrl': EXPECTED_TREE_URL,
-                    'sort_on': 'sortable_title',
-                    'sort_order': 'ascending'
-                },
-            },
-            result
-        )
-
-    @mock.patch('plone.app.widgets.utils.get_portal')
-    @mock.patch('plone.app.widgets.utils.getNavigationRootObject')
-    def test_related_items_widget_nav_root(
-        self,
-        mock_nav_root_ob,
-        mock_get_portal
-    ):
-        from plone.app.z3cform.widget import RelatedItemsWidget
-        EXPECTED_PORTAL_ROOT = '', 'site'
-        EXPECTED_NAV_ROOT = '', 'site', 'nav'
-        EXPECTED_ROOT_PATH = '/site'
-        EXPECTED_BASE_PATH = '/site/nav'
-        EXPECTED_VOCAB_URL = 'portal_url/@@getVocabulary?name=' \
-                             'plone.app.vocabularies.Catalog'
-        EXPECTED_TREE_URL = 'portal_url/@@getVocabulary?name=' \
-                            'plone.app.vocabularies.Catalog'
-
-        portal = mock.MagicMock(name='portal')
-        portal.absolute_url.return_value = 'portal_url'
-        portal.getPhysicalPath.return_value = EXPECTED_PORTAL_ROOT
-        mock_get_portal.return_value = portal
-
-        navroot = mock.MagicMock(name='navroot')
-        navroot.getPhysicalPath.return_value = EXPECTED_NAV_ROOT
-        mock_nav_root_ob.return_value = navroot
-
-        widget = RelatedItemsWidget(self.request)
-        widget.context = Mock(
-            absolute_url=lambda: 'fake_url',
-            getPhysicalPath=lambda: ['', 'site', 'nav', 'folder', 'item']
-        )
-        widget.update()
-        result = widget._base_args()
-        self.assertEqual(
-            EXPECTED_ROOT_PATH,
-            result['pattern_options']['rootPath']
-        )
-        self.assertEqual(
-            EXPECTED_BASE_PATH,
-            result['pattern_options'].get('basePath', None)
-        )
-        self.assertEqual(
-            EXPECTED_VOCAB_URL,
-            result['pattern_options']['vocabularyUrl']
-        )
-        self.assertEqual(
-            EXPECTED_TREE_URL,
-            result['pattern_options']['treeVocabularyUrl']
-        )
-        self.assertDictEqual(
-            {
-                'name': None,
-                'value': u'',
-                'pattern': 'relateditems',
-                'pattern_options': {
-                    'folderTypes': ['Folder'],
-                    'homeText': u'Home',
-                    'searchAllText': u'Entire site',
-                    'searchText': u'Search',
-                    'separator': ';',
-                    'vocabularyUrl': EXPECTED_VOCAB_URL,
-                    'rootPath': EXPECTED_ROOT_PATH,
-                    'basePath': EXPECTED_BASE_PATH,
-                    'treeVocabularyUrl': EXPECTED_TREE_URL,
-                    'sort_on': 'sortable_title',
-                    'sort_order': 'ascending'
-                },
-            },
-            result
-        )
 
     def test_single_selection(self):
         """The pattern_options value for maximumSelectionSize should

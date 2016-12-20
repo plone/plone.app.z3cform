@@ -16,7 +16,9 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Fix RelatedItemsDataConverter with relation lists, where in an iteration a wrong value was checked to be existent.
+  Fixes failures in situations, where a ``None`` value was part of the relation list.
+  [thet]
 
 
 2.1.2 (2016-12-02)

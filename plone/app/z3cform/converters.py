@@ -230,7 +230,7 @@ class RelatedItemsDataConverter(BaseDataConverter):
             return self.field.missing_value
         separator = getattr(self.widget, 'separator', ';')
         if IRelationList.providedBy(self.field):
-            return separator.join([IUUID(o) for o in value if value])
+            return separator.join([IUUID(o) for o in value if o])
         else:
             return separator.join(v for v in value if v)
 

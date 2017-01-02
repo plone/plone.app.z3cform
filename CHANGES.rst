@@ -4,14 +4,6 @@ Changelog
 1.2.3 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Fix RelatedItemsDataConverter with relation lists, where in an iteration a wrong value was checked to be existent.

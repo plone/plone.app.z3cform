@@ -10,10 +10,6 @@ Breaking changes:
   While this is not a breaking change functionality or API wise, the tests do only pass with plone.app.widgets 2.1.
   [thet]
 
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Fix RelatedItemsDataConverter with relation lists, where in an iteration a wrong value was checked to be existent.

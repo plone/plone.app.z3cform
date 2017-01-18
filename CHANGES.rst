@@ -32,6 +32,11 @@ Bug fixes:
   Fixes failures in situations, where a ``None`` value was part of the relation list.
   [thet]
 
+- Fix RelatedItemsDataConverter with choice lists, where choices are UUID
+  strings of selected relations, but conversion failed, because Choice
+  field has None as its value_type
+  [datakurre]
+
 
 2.1.2 (2016-12-02)
 ------------------

@@ -265,6 +265,8 @@ class RelatedItemsDataConverter(BaseDataConverter):
                                   if uid in objects.keys())
         else:
             valueType = getattr(self.field.value_type, '_type', unicode)
+            if valueType is None:
+                valueType = unicode
             return collectionType(valueType(v) for v in value)
 
 

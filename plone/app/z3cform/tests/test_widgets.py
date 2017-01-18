@@ -1187,9 +1187,12 @@ class RelatedItemsWidgetTests(unittest.TestCase):
             List(),
             List(value_type=TextLine()),
             List(value_type=BytesLine()),
+            List(value_type=Choice(values=['one', 'two', 'three']))
             )
         for field in fields:
             expected_value_type = getattr(field.value_type, '_type', unicode)
+            if expected_value_type is None:
+                expected_value_type = unicode
             widget = Mock(separator=';')
             converter = RelatedItemsDataConverter(field, widget)
 

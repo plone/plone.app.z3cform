@@ -57,7 +57,7 @@
                                   default_fieldset_label view/default_fieldset_label | form_name;
                                   enable_form_tabbing view/enable_form_tabbing | python:True;
                                   enable_unload_protection view/enable_unload_protection|python:True;
-                                  unload_protection python:enable_unload_protection and 'enableUnloadProtection';
+                                  unload_protection python:enable_unload_protection and 'pat-formunloadalert';
                                   has_groups python:bool(groups);
                                   form_tabbing python:(has_groups and enable_form_tabbing) and 'enableFormTabbing pat-autotoc' or '';
                                   show_default_label python:has_groups and default_fieldset_label and len(view.widgets);
@@ -142,6 +142,8 @@
 
                       </metal:define>
                     </metal:fields-slot>
+
+                    <metal:block define-slot="belowfields" />
 
                     <metal:actions-slot define-slot="actions">
                         <metal:define define-macro="actions">

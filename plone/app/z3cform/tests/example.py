@@ -1,19 +1,25 @@
+# -*- coding: utf-8 -*-
 from plone.z3cform.layout import FormWrapper
-from z3c.form import form, field, button, group
+from z3c.form import button
+from z3c.form import field
+from z3c.form import form
+from z3c.form import group
 from z3c.form.contentprovider import ContentProviders
 from z3c.form.interfaces import IFieldsAndContentProvidersForm
-from zope import interface, schema
+from zope import interface
+from zope import schema
 from zope.contentprovider.provider import ContentProviderBase
 from zope.interface import implements
 
 
 class MySchema(interface.Interface):
-    age = schema.Int(title=u"Age")
+    age = schema.Int(title=u'Age')
 
 
 class MyContentProvider(ContentProviderBase):
+
     def render(self):
-        return "My test content provider"
+        return 'My test content provider'
 
 
 class MyForm(form.Form):

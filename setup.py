@@ -1,24 +1,26 @@
+from setuptools import find_packages
+from setuptools import setup
+
 import os
-from setuptools import setup, find_packages
 
 
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-version = '1.1.7.dev0'
+
+version = '2.2.1.dev0'
+
 
 long_description = (
-    read('README.rst')
-    + '\n' +
-    read('plone', 'app', 'z3cform', 'wysiwyg', 'README.rst')
-    + '\n' +
-    read('plone', 'app', 'z3cform', 'queryselect', 'README.rst')
-    + '\n' +
-    read('plone', 'app', 'z3cform', 'inline_validation.rst')
-    + '\n' +
-    read('CHANGES.rst')
-    + '\n'
-    )
+    read('README.rst') +
+    '\n' +
+    read('plone', 'app', 'z3cform', 'wysiwyg', 'README.rst') +
+    '\n' +
+    read('plone', 'app', 'z3cform', 'inline_validation.rst') +
+    '\n' +
+    read('CHANGES.rst') +
+    '\n'
+)
 
 setup(
     name='plone.app.z3cform',
@@ -28,7 +30,7 @@ setup(
     long_description=long_description,
     classifiers=[
         "Framework :: Plone",
-        "Framework :: Plone :: 5.0",
+        "Framework :: Plone :: 5.1",
         "Framework :: Zope2",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.7",
@@ -36,7 +38,7 @@ setup(
     keywords='zope plone form widget template',
     author='Plone Foundation',
     author_email='plone-developers@lists.sourceforge.net',
-    url='http://pypi.python.org/pypi/plone.app.z3cform',
+    url='https://pypi.python.org/pypi/plone.app.z3cform',
     license='GPL',
     packages=find_packages(exclude=['ez_setup']),
     namespace_packages=['plone', 'plone.app'],
@@ -65,6 +67,8 @@ setup(
     ],
     extras_require={
         'tests': [
+            'mock',
+            'plone.app.robotframework',
             'plone.app.testing',
             'plone.browserlayer',
             'plone.testing',

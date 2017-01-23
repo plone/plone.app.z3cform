@@ -4,14 +4,15 @@ Inline validation
 First, let's set up some infrastructure:
 
     >>> from zope.interface import alsoProvides
-    >>> from Testing.ZopeTestCase import ZopeLite
-    >>> from Testing.makerequest import makerequest
+    >>> from plone.testing.z2 import makeTestRequest
     >>> from zope.annotation.interfaces import IAttributeAnnotatable
     >>> from z3c.form.interfaces import IFormLayer
 
-    >>> app = ZopeLite.app()
-    >>> def make_request(form={}, lang='en'):
-    ...     request = makerequest(app, environ = {'HTTP_ACCEPT_LANGUAGE': lang}).REQUEST
+    >>> app = layer['app']
+    >>> def make_request(form=None, lang='en'):
+    ...     request = makeTestRequest({'HTTP_ACCEPT_LANGUAGE': lang})
+    ...     if form is None:
+    ...         form = {}
     ...     request.form.update(form)
     ...     alsoProvides(request, IFormLayer)
     ...     alsoProvides(request, IAttributeAnnotatable)
@@ -67,7 +68,7 @@ Let's verify that worked:
     >>> context._REQUEST = request # evil test fake
     >>> formWrapper = getMultiAdapter((context, request), name=u"test-form")
     >>> formWrapper
-    <Products.Five.metaclass.MyFormWrapper object ...>
+    <Products.Five...MyFormWrapper object ...>
     >>> formWrapper.form
     <class 'plone.app.z3cform.tests.example.MyForm'>
 
@@ -154,6 +155,7 @@ the behavior of archetypes.)
 
     >>> z3cform_validate_field(fname=u'form.widgets.name', fset="0")
     '{"errmsg": "Erforderliche Eingabe fehlt."}'
+
 
 Forms embedded inside normal views
 -----------------------------------

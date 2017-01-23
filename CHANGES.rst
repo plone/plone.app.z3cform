@@ -1,12 +1,154 @@
 Changelog
 =========
 
-1.1.7 (unreleased)
+2.2.1 (unreleased)
+------------------
+
+Breaking changes:
+
+- *add item here*
+
+New features:
+
+- *add item here*
+
+Bug fixes:
+
+- *add item here*
+
+
+2.2 (2017-01-02)
+----------------
+
+Breaking changes:
+
+- Test fixes for plone.app.widgets 2.1.
+  While this is not a breaking change functionality or API wise, the tests do only pass with plone.app.widgets 2.1.
+  [thet]
+
+Bug fixes:
+
+- Fix RelatedItemsDataConverter with relation lists, where in an iteration a wrong value was checked to be existent.
+  Fixes failures in situations, where a ``None`` value was part of the relation list.
+  [thet]
+
+
+2.1.2 (2016-12-02)
+------------------
+
+Bug fixes:
+
+- Remove ZopeTestCase.
+  [ivanteoh, maurits]
+
+- In select widget, accept items as property or method.
+  This avoids breaking on some z3c.form versions.
+  See https://github.com/zopefoundation/z3c.form/issues/44
+  [maurits]
+
+
+2.1.1 (2016-09-16)
+------------------
+
+Bug fixes:
+
+- Enable unload protection by using pattern class ``pat-formunloadalert`` instead ``enableUnloadProtection``.
+  [thet]
+
+
+2.1 (2016-08-12)
+----------------
+
+New features:
+
+- Related items data converter supports explicit value_type specified in
+  field when using collections of UUID values.  This is backward-compatible
+  with previous conversion to field values, supports str/unicode value(s),
+  whichever is specified by field.
+  [seanupton]
+
+- Support functions as values in the ``pattern_options`` dictionary, whch gets then serialized to JSON.
+  Before that, walk recursively through ``pattern_options`` and call all functions with the widgets context.
+  This allows for context-specific, runtime evaluated pattern option values.
+  [thet]
+
+- Don't overwrite widget default css classes when rendering pattern widgets.
+  This allows setting a css class via the ``klass`` keyword in plone.autoform widget directives.
+  [thet]
+
+
+2.0.0 (2016-04-29)
+------------------
+
+Incompatibilities:
+
+- Deprecated "plone.app.z3cform.object" and moved to
+  "plone.app.z3cform.objectsubform" in order to avoid built in names
+  as module names, which may result in difficult to debug errors.
+  [jensens]
+
+- Made existing soft deprecation (by comment) of plone.app.z3cform.layout
+  explicit by deprecating using zope.deferredimport.
+  [jensens]
+
+- removed plone.app.z3cform.queryselect since this was deprecated already
+  and removal planned (!) already for Plone 4.1
+  [jensens]
+
+New:
+
+- make widget available to wysiwyg_support template
+  [gotcha]
+
+Fixes:
+
+- Reduce dependency on plone.app.widgets in tests.
+  [thet]
+
+- Enhance test in order to show problem in RelatedItemsWidget with
+  navigation-roots
+  [jensens]
+
+- Cleanup: pep8, uth8-headers, zca-decorators, ...
+  [jensens]
+
+
+1.2.0 (2016-02-25)
 ------------------
 
 New:
 
-- *add item here*
+- Add metal slot for inserting stuff below fields
+  [fredvd]
+
+Fixes:
+
+- Fix ajax selection for add forms
+  [tomgross]
+
+- Use doctest instead of zope.testing.doctest
+  [pbauer]
+
+- Fix related items widget tests to include root path support.
+  Fix options merging for TinyMCE widget.
+  [alecm]
+
+- Fixed test for plone.app.widgets.
+  [Gagaro]
+
+- Used assertDictEqual instead of assertEqual for RelatedItemsWidgetTests.test_widget
+  [Gagaro]
+
+1.1.8 (2016-01-08)
+------------------
+
+Fixes:
+
+- Fixed tests for newer CMFPlone.  [Gagaro, ebrehault, vangheem]
+
+
+1.1.7 (2015-11-26)
+------------------
 
 Fixes:
 

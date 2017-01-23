@@ -1,6 +1,7 @@
-from plone.app.testing.layers import IntegrationTesting
+# -*- coding: utf-8 -*-
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
+from plone.app.testing.layers import IntegrationTesting
 from plone.testing import z2
 
 
@@ -30,4 +31,5 @@ class PAZ3CFormLayer(PloneSandboxLayer):
 PAZ3CForm_FIXTURE = PAZ3CFormLayer()
 PAZ3CForm_INTEGRATION_TESTING = IntegrationTesting(
     bases=(PAZ3CForm_FIXTURE,),
-    name="plone.app.z3cform:Integration")
+    name='plone.app.z3cform:Integration'
+)

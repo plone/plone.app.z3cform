@@ -1,10 +1,13 @@
+# -*- coding: utf-8 -*-
 from plone.app.z3cform.tests.layer import PAZ3CForm_INTEGRATION_TESTING
 from plone.browserlayer.layer import mark_layer
+from plone.testing import layered
 from zope.traversing.interfaces import BeforeTraverseEvent
 
+import doctest
 import unittest
 import zope.component.testing
-import zope.testing.doctest
+
 
 ROBOT_TEST_LEVEL = 5
 
@@ -35,32 +38,24 @@ class IntegrationTests(unittest.TestCase):
 
 
 def test_suite():
-
-    inlineValidationTests = zope.testing.doctest.DocFileSuite(
+    inlineValidationTests = layered(doctest.DocFileSuite(
         'inline_validation.rst',
         package='plone.app.z3cform',
         optionflags=(
-            zope.testing.doctest.ELLIPSIS |
-            zope.testing.doctest.NORMALIZE_WHITESPACE
+            doctest.ELLIPSIS |
+            doctest.NORMALIZE_WHITESPACE
         )
-    )
-    inlineValidationTests.layer = PAZ3CForm_INTEGRATION_TESTING
+    ), layer=PAZ3CForm_INTEGRATION_TESTING)
 
     suite = unittest.TestSuite([
         unittest.makeSuite(IntegrationTests),
-        zope.testing.doctest.DocFileSuite(
+        doctest.DocFileSuite(
             'wysiwyg/README.rst',
             package='plone.app.z3cform',
             setUp=zope.component.testing.setUp,
             tearDown=zope.component.testing.tearDown,
         ),
-        zope.testing.doctest.DocFileSuite(
-            'queryselect/README.rst',
-            package='plone.app.z3cform',
-            setUp=zope.component.testing.setUp,
-            tearDown=zope.component.testing.tearDown,
-        ),
-        zope.testing.doctest.DocTestSuite(
+        doctest.DocTestSuite(
             'plone.app.z3cform.wysiwyg.widget',
             package='plone.app.z3cform',
             setUp=zope.component.testing.setUp,

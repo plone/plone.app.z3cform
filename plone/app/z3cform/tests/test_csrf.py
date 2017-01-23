@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from plone.protect.tests.case import KeyringTestCase
 
 
@@ -13,6 +14,7 @@ class TestAuthenticatedButtonActions(KeyringTestCase):
             enableCSRFProtection = True
 
         class DummyAction(object):
+
             def isExecuted(self):
                 return True
 

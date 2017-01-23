@@ -1,14 +1,22 @@
 # -*- coding: utf-8 -*-
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import safe_callable
 from binascii import a2b_qp
 from datetime import date
 from datetime import datetime
+from plone.app.z3cform.interfaces import IAjaxSelectWidget
+from plone.app.z3cform.interfaces import IDatetimeWidget
+from plone.app.z3cform.interfaces import IDateWidget
+from plone.app.z3cform.interfaces import IQueryStringWidget
+from plone.app.z3cform.interfaces import IRelatedItemsWidget
+from plone.app.z3cform.interfaces import ISelectWidget
 from plone.uuid.interfaces import IUUID
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_callable
 from z3c.form.converter import BaseDataConverter
 from z3c.form.converter import CollectionSequenceDataConverter
 from z3c.form.converter import SequenceDataConverter
-from zope.component import adapts
+from z3c.relationfield.interfaces import IRelationChoice
+from z3c.relationfield.interfaces import IRelationList
+from zope.component import adapter
 from zope.component.hooks import getSite
 from zope.schema.interfaces import ICollection
 from zope.schema.interfaces import IDate
@@ -16,21 +24,13 @@ from zope.schema.interfaces import IDatetime
 from zope.schema.interfaces import IField
 from zope.schema.interfaces import IList
 
-from plone.app.z3cform.interfaces import (
-    IDateWidget, IDatetimeWidget, ISelectWidget, IAjaxSelectWidget,
-    IRelatedItemsWidget, IQueryStringWidget)
-
-import pytz
 import json
-
-from z3c.relationfield.interfaces import IRelationChoice
-from z3c.relationfield.interfaces import IRelationList
+import pytz
 
 
+@adapter(IDate, IDateWidget)
 class DateWidgetConverter(BaseDataConverter):
     """Data converter for date fields."""
-
-    adapts(IDate, IDateWidget)
 
     def toWidgetValue(self, value):
         """Converts from field value to widget.
@@ -60,10 +60,9 @@ class DateWidgetConverter(BaseDataConverter):
         return date(*map(int, value.split('-')))
 
 
+@adapter(IDatetime, IDatetimeWidget)
 class DatetimeWidgetConverter(BaseDataConverter):
     """Data converter for datetime fields."""
-
-    adapts(IDatetime, IDatetimeWidget)
 
     def toWidgetValue(self, value):
         """Converts from field value to widget.
@@ -135,21 +134,22 @@ class SelectWidgetConverterBase(object):
         return super(SelectWidgetConverterBase, self).toFieldValue(value)
 
 
+@adapter(IField, ISelectWidget)
 class SequenceSelectWidgetConverter(
         SelectWidgetConverterBase, SequenceDataConverter):
-    adapts(IField, ISelectWidget)
+    pass
 
 
+@adapter(ICollection, ISelectWidget)
 class SelectWidgetConverter(
         SelectWidgetConverterBase, CollectionSequenceDataConverter):
-    adapts(ICollection, ISelectWidget)
+    pass
 
 
+@adapter(ICollection, IAjaxSelectWidget)
 class AjaxSelectWidgetConverter(BaseDataConverter):
     """Data converter for ICollection fields using the AjaxSelectWidget.
     """
-
-    adapts(ICollection, IAjaxSelectWidget)
 
     def toWidgetValue(self, value):
         """Converts from field value to widget.
@@ -200,11 +200,10 @@ class AjaxSelectWidgetConverter(BaseDataConverter):
         return ret
 
 
+@adapter(IRelationChoice, IRelatedItemsWidget)
 class RelationChoiceRelatedItemsWidgetConverter(BaseDataConverter):
     """Data converter for RelationChoice fields using the RelatedItemsWidget.
     """
-
-    adapts(IRelationChoice, IRelatedItemsWidget)
 
     def toWidgetValue(self, value):
         if not value:
@@ -226,10 +225,9 @@ class RelationChoiceRelatedItemsWidgetConverter(BaseDataConverter):
             return self.field.missing_value
 
 
+@adapter(ICollection, IRelatedItemsWidget)
 class RelatedItemsDataConverter(BaseDataConverter):
     """Data converter for ICollection fields using the RelatedItemsWidget."""
-
-    adapts(ICollection, IRelatedItemsWidget)
 
     def toWidgetValue(self, value):
         """Converts from field value to widget.
@@ -244,7 +242,7 @@ class RelatedItemsDataConverter(BaseDataConverter):
             return self.field.missing_value
         separator = getattr(self.widget, 'separator', ';')
         if IRelationList.providedBy(self.field):
-            return separator.join([IUUID(o) for o in value if value])
+            return separator.join([IUUID(o) for o in value if o])
         else:
             return separator.join(v for v in value if v)
 
@@ -280,13 +278,13 @@ class RelatedItemsDataConverter(BaseDataConverter):
                                   for uid in value
                                   if uid in objects.keys())
         else:
-            return collectionType(v for v in value)
+            valueType = getattr(self.field.value_type, '_type', unicode)
+            return collectionType(valueType(v) for v in value)
 
 
+@adapter(IList, IQueryStringWidget)
 class QueryStringDataConverter(BaseDataConverter):
     """Data converter for IList."""
-
-    adapts(IList, IQueryStringWidget)
 
     def toWidgetValue(self, value):
         """Converts from field value to widget.

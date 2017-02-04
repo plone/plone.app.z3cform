@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- remove deprecated __of__ for browserviews
+  [pbauer]
 
 
 2.2 (2017-01-02)

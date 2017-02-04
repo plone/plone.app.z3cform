@@ -59,7 +59,7 @@ Let's verify that worked:
     ...     def restrictedTraverse(self, name):
     ...         # fake traversal to the form
     ...         if name.startswith('@@'):
-    ...             return getMultiAdapter((self, self._REQUEST), Interface, name[2:]).__of__(self)
+    ...             return getMultiAdapter((self, self._REQUEST), Interface, name[2:])
     ...         else:
     ...             return getattr(self, name)
     ...

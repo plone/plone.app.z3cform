@@ -14,6 +14,9 @@ New features:
 
 Bug fixes:
 
+- Test fixes for plone.app.widgets 2.1.
+  [thet]
+
 - remove deprecated __of__ for browserviews
   [pbauer]
 

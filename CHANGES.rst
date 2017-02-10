@@ -10,7 +10,8 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Do not show the "Clear" button for required Date or DateTime fields.
+  [thet]
 
 Bug fixes:
 

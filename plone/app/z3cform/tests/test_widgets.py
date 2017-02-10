@@ -148,6 +148,7 @@ class DateWidgetTests(unittest.TestCase):
 
         self.request = TestRequest(environ={'HTTP_ACCEPT_LANGUAGE': 'en'})
         self.field = Date(__name__='datefield')
+        self.field.required = False
         self.widget = DateWidget(self.request)
         self.widget.field = self.field
         self.widget.pattern_options = {'date': {'firstDay': 0}}
@@ -187,6 +188,13 @@ class DateWidgetTests(unittest.TestCase):
             },
             self.widget._base_args(),
         )
+
+    def test_widget_required(self):
+        """Required fields should not have a "Clear" button.
+        """
+        self.field.required = True
+        base_args = self.widget._base_args()
+        self.assertEqual(base_args['pattern_options']['clear'], False)
 
     def test_data_converter(self):
         from plone.app.z3cform.widget import DateWidgetConverter
@@ -240,7 +248,9 @@ class DatetimeWidgetTests(unittest.TestCase):
 
         self.request = TestRequest(environ={'HTTP_ACCEPT_LANGUAGE': 'en'})
         self.field = Datetime(__name__='datetimefield')
+        self.field.required = False
         self.widget = DatetimeWidget(self.request)
+        self.widget.field = self.field
         self.widget.pattern_options = {
             'date': {'firstDay': 0},
             'time': {'interval': 15}
@@ -285,6 +295,13 @@ class DatetimeWidgetTests(unittest.TestCase):
             },
             self.widget._base_args(),
         )
+
+    def test_widget_required(self):
+        """Required fields should not have a "Clear" button.
+        """
+        self.field.required = True
+        base_args = self.widget._base_args()
+        self.assertEqual(base_args['pattern_options']['clear'], False)
 
     def test_data_converter(self):
         from plone.app.z3cform.widget import DatetimeWidgetConverter

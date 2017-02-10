@@ -135,6 +135,9 @@ class DateWidget(BaseWidget, HTMLInputWidget):
                                           self.value) or u'').strip()
 
         args.setdefault('pattern_options', {})
+        if self.field.required:
+            # Required fields should not have a "Clear" button
+            args['pattern_options']['clear'] = False
         args['pattern_options'] = dict_merge(
             get_date_options(self.request),
             args['pattern_options'])

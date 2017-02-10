@@ -10,9 +10,13 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Do not show the "Clear" button for required Date or DateTime fields.
+  [thet]
 
 Bug fixes:
+
+- Test fixes for plone.app.widgets 2.1.
+  [thet]
 
 - remove deprecated __of__ for browserviews
   [pbauer]

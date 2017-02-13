@@ -4,10 +4,6 @@ Changelog
 2.2.1 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
 New features:
 
 - Do not show the "Clear" button for required Date or DateTime fields.

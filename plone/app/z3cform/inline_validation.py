@@ -26,7 +26,7 @@ class InlineValidationView(BrowserView):
             form = self.context
         try:
             aq_base(form).update()
-        except AttributeError:
+        except (AttributeError, TypeError):
             return json.dumps(res)
 
         if getattr(form, 'extractData', None):

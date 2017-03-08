@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Catch TypeError occuring on conflicting subrequests in inline validation
+  [tomgross]
 
 
 2.2.1 (2017-02-12)

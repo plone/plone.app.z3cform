@@ -7,23 +7,24 @@ from plone.app.z3cform.utils import closest_content
 from z3c.form import field
 from z3c.form import form
 from z3c.form.object import registerFactoryAdapter
-from zope import interface
 from zope import publisher
 from zope import schema
 from zope.globalrequest import setRequest
+from zope.interface import implementer
+from zope.interface import Interface
 
 import unittest
 
 
-class ISubObject(interface.Interface):
+class ISubObject(Interface):
 
     title = schema.TextLine(
-        title=u"Subobject Title"
+        title=u'Subobject Title'
     )
 
 
+@implementer(ISubObject)
 class SubObject(object):
-    interface.implements(ISubObject)
 
     title = schema.fieldproperty.FieldProperty(ISubObject['title'])
 
@@ -34,19 +35,19 @@ class SubObject(object):
         return self.__name__ or ''
 
     def __repr__(self):
-        return "<SubObject title='{0:s}'>".format(self.title)
+        return '<SubObject title=\'{0:s}\'>'.format(self.title)
 
 
 registerFactoryAdapter(ISubObject, SubObject)
 
 
-class IComplexForm(interface.Interface):
+class IComplexForm(Interface):
 
     object_field = schema.List(
-        title=u"Object Field",
+        title=u'Object Field',
         required=False,
         value_type=schema.Object(
-            title=u"object",
+            title=u'object',
             schema=ISubObject
         )
     )
@@ -54,12 +55,13 @@ class IComplexForm(interface.Interface):
 
 class ComplexForm(form.Form):
     fields = field.Fields(IComplexForm)
-    label = u"Complex form"
+    label = u'Complex form'
     ignoreContext = True
 
 
+@implementer(IPloneFormLayer)
 class TestRequest(publisher.browser.TestRequest):
-    interface.implements(IPloneFormLayer)
+    pass
 
 
 class TestObjectSubForm(unittest.TestCase):

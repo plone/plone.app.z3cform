@@ -21,6 +21,7 @@ def path(filepart):
 # Override the layout wrapper view default template with a more Plone-looking
 # one
 
+
 layout_factory = plone.z3cform.templates.ZopeTwoFormTemplateFactory(
     path('layout.pt'),
     form=plone.z3cform.interfaces.IFormWrapper,

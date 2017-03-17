@@ -18,7 +18,7 @@ class TestUnitCallCallables(unittest.TestCase):
     def test_simple_function(self):
         from plone.app.z3cform.utils import call_callables
 
-        test_in = lambda x: x
+        def test_in(x): return x
         test_compare = 'funny return value'
         test_out = call_callables(
             test_in,

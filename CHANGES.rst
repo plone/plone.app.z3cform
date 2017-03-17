@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.2.2 (unreleased)
+2.3.0 (unreleased)
 ------------------
 
 Breaking changes:
@@ -10,12 +10,17 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Add new class ``view-name-VIEWNAME`` to form element indicating the view name w/o old kss prefix.
+  New class's replaces ``++`` in view by ``-`` in order to produce valid class (CSS selectable) names.
+  [jensens]
 
 Bug fixes:
 
 - Catch TypeError occuring on conflicting subrequests in inline validation
   [tomgross]
+
+- Clean up: code-style, zca-decorators, replace lambda.
+  [jensens]
 
 
 2.2.1 (2017-02-12)

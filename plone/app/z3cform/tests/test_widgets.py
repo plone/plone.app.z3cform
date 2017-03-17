@@ -17,7 +17,7 @@ from zope.component import provideUtility
 from zope.component.globalregistry import base
 from zope.globalrequest import setRequest
 from zope.interface import alsoProvides
-from zope.interface import implements
+from zope.interface import implementer
 from zope.interface import Interface
 from zope.publisher.browser import TestRequest as BaseTestRequest
 from zope.schema import BytesLine
@@ -37,8 +37,8 @@ import pytz
 import unittest
 
 
+@implementer(IVocabularyFactory)
 class ExampleVocabulary(object):
-    implements(IVocabularyFactory)
 
     def __call__(self, context, query=None):
         items = [u'One', u'Two', u'Three']
@@ -1204,7 +1204,7 @@ class RelatedItemsWidgetTests(unittest.TestCase):
             List(value_type=TextLine()),
             List(value_type=BytesLine()),
             List(value_type=Choice(values=['one', 'two', 'three']))
-            )
+        )
         for field in fields:
             expected_value_type = getattr(field.value_type, '_type', unicode)
             if expected_value_type is None:
@@ -1224,7 +1224,7 @@ class RelatedItemsWidgetTests(unittest.TestCase):
             self.assertEqual(
                 type(converter.toFieldValue('id1;id2')[0]),
                 expected_value_type
-                )
+            )
 
     def test_fieldwidget(self):
         from plone.app.z3cform.widget import RelatedItemsWidget
@@ -1270,7 +1270,7 @@ class RichTextWidgetTests(unittest.TestCase):
         self.request = self.layer['request']
 
         class IWithText(Interface):
-            text = RichTextField(title=u"Text")
+            text = RichTextField(title=u'Text')
 
         self.field = IWithText['text']
 

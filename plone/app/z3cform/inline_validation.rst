@@ -52,10 +52,10 @@ Then we create a simple z3c form
 Let's verify that worked:
 
     >>> from zope.component import getMultiAdapter
-    >>> from zope.interface import Interface, implements
+    >>> from zope.interface import Interface, implementer
     >>> from Acquisition import Implicit
-    >>> class Bar(Implicit):
-    ...     implements(Interface)
+    >>> @implementer(Interface)
+    ... class Bar(Implicit):
     ...     def restrictedTraverse(self, name):
     ...         # fake traversal to the form
     ...         if name.startswith('@@'):

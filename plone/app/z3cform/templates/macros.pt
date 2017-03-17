@@ -61,10 +61,12 @@
                                   has_groups python:bool(groups);
                                   form_tabbing python:(has_groups and enable_form_tabbing) and 'enableFormTabbing pat-autotoc' or '';
                                   show_default_label python:has_groups and default_fieldset_label and len(view.widgets);
+                                  form_view_name_raw python:view.__name__ or request.getURL().split('/')[-1];
+                                  form_view_name python:'-'.join(['view', 'name'] + [x for x in form_view_name_raw.split('++') if x]);
                                   "
                       tal:attributes="action view/action|request/getURL;
                                       enctype view/enctype;
-                                      class python:'rowlike %s %s %s kssattr-formname-%s' % (unload_protection, form_tabbing, form_class, view.__name__ or request.getURL().split('/')[-1]);
+                                      class python:'rowlike {0} {1} {2} kssattr-formname-{3} {4}'.format(unload_protection, form_tabbing, form_class, form_view_name_raw, form_view_name);
                                       id view/id;
                                       method view/method|string:'post'
                                       ">

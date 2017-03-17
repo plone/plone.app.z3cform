@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.2.2 (unreleased)
+2.3.0 (unreleased)
 ------------------
 
 Breaking changes:
@@ -10,7 +10,9 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Add new class ``form-view-name-VIEWNAME`` to form element indicating the view name w/o old kss prefix.
+  New class's replaces ``++`` in view by ``__`` in order to produce valid class (CSS selectable) names.
+  [jensens]
 
 Bug fixes:
 

@@ -19,6 +19,9 @@ Bug fixes:
 - Catch TypeError occuring on conflicting subrequests in inline validation
   [tomgross]
 
+- Clean up: code-style, zca-decorators, replace lambda.
+  [jensens]
+
 
 2.2.1 (2017-02-12)
 ------------------

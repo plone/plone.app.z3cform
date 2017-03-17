@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 from plone.app.z3cform.interfaces import IPloneFormLayer
 from plone.app.z3cform.wysiwyg.widget import WysiwygWidget
-from zope import interface
 from zope import publisher
 from zope.globalrequest import setRequest
+from zope.interface import implementer
 
 import unittest
 
 
+@implementer(IPloneFormLayer)
 class TestRequest(publisher.browser.TestRequest):
-    interface.implements(IPloneFormLayer)
+    pass
 
 
 class TestForm(object):

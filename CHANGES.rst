@@ -10,8 +10,8 @@ Breaking changes:
 
 New features:
 
-- Add new class ``form-view-name-VIEWNAME`` to form element indicating the view name w/o old kss prefix.
-  New class's replaces ``++`` in view by ``__`` in order to produce valid class (CSS selectable) names.
+- Add new class ``view-name-VIEWNAME`` to form element indicating the view name w/o old kss prefix.
+  New class's replaces ``++`` in view by ``-`` in order to produce valid class (CSS selectable) names.
   [jensens]
 
 Bug fixes:

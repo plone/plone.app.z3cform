@@ -125,16 +125,6 @@
       permission="zope.Public"
       />
 
-  <adapter
-      factory=".object.SubformAdapter"
-      for="zope.interface.Interface
-           plone.app.z3cform.interfaces.IPloneFormLayer
-           zope.interface.Interface
-           zope.interface.Interface
-           z3c.form.interfaces.IObjectWidget
-           zope.interface.Interface
-           zope.interface.Interface" />
-
   <!-- Use a custom actions manager that knows how to do CSRF token authentication. -->
   <adapter factory=".csrf.AuthenticatedButtonActions" />
 

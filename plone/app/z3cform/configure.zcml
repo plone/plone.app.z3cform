@@ -39,13 +39,6 @@
       class=".templates.RenderContentProvider"
       permission="zope.Public"
       />
-  <browser:page
-      name="ploneform-render-widget"
-      for="z3c.form.interfaces.ISingleCheckBoxWidget"
-      layer="plone.app.z3cform.interfaces.IPloneFormLayer"
-      class=".templates.RenderSingleCheckboxWidget"
-      permission="zope.Public"
-      />
 
   <adapter factory=".templates.layout_factory" />
   <adapter factory=".templates.form_factory" />
@@ -99,9 +92,34 @@
       />
 
   <adapter
-      factory="z3c.form.browser.checkbox.SingleCheckBoxFieldWidget"
+      factory=".widget.SingleCheckBoxBoolFieldWidget"
       for="zope.schema.interfaces.IBool
-           plone.app.z3cform.interfaces.IPloneFormLayer"
+           .interfaces.IPloneFormLayer"
+      />
+  <adapter
+      factory=".converters.BoolSingleCheckboxDataConverter"
+      />
+
+  <z3c:widgetTemplate
+      mode="display"
+      field="zope.schema.interfaces.IBool"
+      widget=".interfaces.ISingleCheckBoxBoolWidget"
+      layer=".interfaces.IPloneFormLayer"
+      template="templates/singlecheckboxbool_display.pt"
+      />
+  <z3c:widgetTemplate
+      mode="input"
+      field="zope.schema.interfaces.IBool"
+      widget=".interfaces.ISingleCheckBoxBoolWidget"
+      layer=".interfaces.IPloneFormLayer"
+      template="templates/singlecheckboxbool_input.pt"
+      />
+  <z3c:widgetTemplate
+      mode="hidden"
+      field="zope.schema.interfaces.IBool"
+      widget=".interfaces.ISingleCheckBoxBoolWidget"
+      layer=".interfaces.IPloneFormLayer"
+      template="templates/singlecheckboxbool_hidden.pt"
       />
 
   <z3c:widgetTemplate

@@ -23,6 +23,11 @@ Bug fixes:
 - Related Items Widget: In search mode, when no basePath was set, search site-wide.
   Fixes: https://github.com/plone/mockup/issues/769
   [thet]
+- Fixes #64: SingleCheckBoxFieldWidget does not render value in view mode.
+  In order to fix this issue the hacky view was removed.
+  It is replaced by a new widget to render a single checkbox with bool values.
+  An appropiate data converter was added as well.
+  [jensens]
 
 
 3.0 (2017-03-28)

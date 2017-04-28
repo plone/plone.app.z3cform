@@ -1,3 +1,4 @@
+<!-- DEPRECATED -->
 <div
    metal:define-macro="widget-wrapper"
    tal:define="widget nocall:context;
@@ -9,7 +10,6 @@
    tal:attributes="class string:field pat-inlinevalidation ${fieldname_class}${error_class};
                    data-fieldname widget/name;
                    id string:formfield-${widget/id};">
-
     <input type="text" tal:replace="structure widget/render"
            metal:define-slot="widget" />
 

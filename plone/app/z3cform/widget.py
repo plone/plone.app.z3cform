@@ -472,6 +472,11 @@ class RelatedItemsWidget(BaseWidget, z3cform_TextWidget):
         ):
             view_context = context
 
+        root_search_mode = (
+            args['pattern_options'].get('mode', None) and
+            'basePath' not in args['pattern_options']
+        )
+
         args['pattern_options'] = dict_merge(
             get_relateditems_options(
                 view_context,
@@ -483,6 +488,10 @@ class RelatedItemsWidget(BaseWidget, z3cform_TextWidget):
             ),
             args['pattern_options']
         )
+        if root_search_mode:
+            # Delete default basePath option in search mode, when no basePath
+            # was explicitly set.
+            del args['pattern_options']['basePath']
         if (
             not self.vocabulary_override and
             field and

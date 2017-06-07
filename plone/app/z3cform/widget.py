@@ -598,7 +598,7 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
         args.setdefault('pattern_options', {})
         merged_options = dict_merge(
             get_tinymce_options(
-                self.context,
+                self.wrapped_context(),
                 self.field,
                 self.request
             ),

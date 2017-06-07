@@ -14,9 +14,13 @@ New features:
 
 Bug fixes:
 
+- Fix broken ``get_tinymce_options`` when called with non-contentish contexts like form or field contexts.
+  [thet]
+
 - Related Items Widget: In search mode, when no basePath was set, search site-wide.
   Fixes: https://github.com/plone/mockup/issues/769
   [thet]
+
 
 3.0 (2017-03-28)
 ----------------

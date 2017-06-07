@@ -14,8 +14,9 @@ New features:
 
 Bug fixes:
 
-- *add item here*
-
+- Related Items Widget: In search mode, when no basePath was set, search site-wide.
+  Fixes: https://github.com/plone/mockup/issues/769
+  [thet]
 
 3.0 (2017-03-28)
 ----------------

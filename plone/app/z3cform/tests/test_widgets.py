@@ -10,6 +10,7 @@ from plone.dexterity.fti import DexterityFTI
 from plone.registry.interfaces import IRegistry
 from plone.testing.zca import UNIT_TESTING
 from Products.CMFPlone.interfaces import IMarkupSchema
+from z3c.form.form import Form
 from z3c.form.interfaces import IFormLayer
 from z3c.form.widget import FieldWidget
 from zope.component import getUtility
@@ -1294,6 +1295,56 @@ class RichTextWidgetTests(unittest.TestCase):
         self.assertEqual(
             base_args['pattern_options']['upload']['relativePath'],
             '@@fileUpload')
+
+    def test_widget_params_different_contexts(self):
+        from plone.app.z3cform.widget import RichTextWidget
+
+        setRoles(self.portal, TEST_USER_ID, ['Contributor'])
+
+        widget = FieldWidget(self.field, RichTextWidget(self.request))
+        self.portal.invokeFactory('Folder', 'sub')
+        sub = self.portal.sub
+        form = Form(sub, self.request)
+
+        # portal context
+        widget.context = self.portal
+        widget.update()
+        base_args = widget._base_args()
+
+        self.assertEqual(
+            base_args['pattern_options']['relatedItems']['basePath'],
+            '/plone'
+        )
+
+        # sub context
+        widget.context = sub
+        widget.update()
+        base_args = widget._base_args()
+
+        self.assertEqual(
+            base_args['pattern_options']['relatedItems']['basePath'],
+            '/plone/sub'
+        )
+
+        # form context
+        widget.context = form
+        widget.update()
+        base_args = widget._base_args()
+
+        self.assertEqual(
+            base_args['pattern_options']['relatedItems']['basePath'],
+            '/plone/sub'
+        )
+
+        # non-contentish context
+        widget.context = None
+        widget.update()
+        base_args = widget._base_args()
+
+        self.assertEqual(
+            base_args['pattern_options']['relatedItems']['basePath'],
+            '/plone'
+        )
 
     def test_widget_values(self):
         from plone.app.z3cform.widget import RichTextWidget

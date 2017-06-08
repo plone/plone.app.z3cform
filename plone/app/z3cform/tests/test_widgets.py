@@ -33,6 +33,7 @@ from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
+import json
 import mock
 import pytz
 import unittest
@@ -1427,3 +1428,77 @@ class RichTextWidgetTests(unittest.TestCase):
             self.assertTrue(
                 '<option value="text/plain" selected="selected">' in rendered)
             self.assertTrue('pat-tinymce' not in rendered)
+
+
+class LinkWidgetIntegrationTests(unittest.TestCase):
+
+    layer = PAZ3CForm_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer['portal']
+        self.request = TestRequest(environ={'HTTP_ACCEPT_LANGUAGE': 'en'})
+        setRequest(self.request)
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+
+    def test_link_widget__pattern_options(self):
+        from plone.app.z3cform.widget import LinkWidget
+        widget = LinkWidget(self.request)
+
+        pattern_data = json.loads(widget.pattern_data())
+        self.assertEqual(
+            pattern_data['vocabularyUrl'],
+            'http://nohost/plone/@@getVocabulary?name=plone.app.vocabularies.Catalog'  # noqa
+        )
+        self.assertEqual(pattern_data['maximumSelectionSize'], 1)
+
+    def test_link_widget__extract_internal(self):
+        from plone.app.z3cform.widget import LinkWidget
+        widget = LinkWidget(self.request)
+        widget.context = self.portal
+        widget.name = 'testlinkwidget'
+        widget.update()
+
+        self.request.form['testlinkwidget.internal'] = 'abc'
+        self.assertEqual(
+            widget.extract(),
+            u'${portal_url}/resolveuid/abc'
+        )
+
+    def test_link_widget__extract_external(self):
+        from plone.app.z3cform.widget import LinkWidget
+        widget = LinkWidget(self.request)
+        widget.context = self.portal
+        widget.name = 'testlinkwidget'
+        widget.update()
+
+        self.request.form['testlinkwidget.external'] = 'https://plone.org'
+        self.assertEqual(
+            widget.extract(),
+            u'https://plone.org'
+        )
+
+    def test_link_widget__extract_email(self):
+        from plone.app.z3cform.widget import LinkWidget
+        widget = LinkWidget(self.request)
+        widget.context = self.portal
+        widget.name = 'testlinkwidget'
+        widget.update()
+
+        self.request.form['testlinkwidget.email'] = 'dev@plone.org'
+        self.assertEqual(
+            widget.extract(),
+            u'mailto:dev@plone.org'
+        )
+
+    def test_link_widget__extract_email_including_mailto(self):
+        from plone.app.z3cform.widget import LinkWidget
+        widget = LinkWidget(self.request)
+        widget.context = self.portal
+        widget.name = 'testlinkwidget'
+        widget.update()
+
+        self.request.form['testlinkwidget.email'] = 'mailto:dev@plone.org'
+        self.assertEqual(
+            widget.extract(),
+            u'mailto:dev@plone.org'
+        )

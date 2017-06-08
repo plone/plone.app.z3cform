@@ -21,6 +21,7 @@ from plone.app.z3cform.converters import DateWidgetConverter
 from plone.app.z3cform.interfaces import IAjaxSelectWidget
 from plone.app.z3cform.interfaces import IDatetimeWidget
 from plone.app.z3cform.interfaces import IDateWidget
+from plone.app.z3cform.interfaces import ILinkWidget
 from plone.app.z3cform.interfaces import IQueryStringWidget
 from plone.app.z3cform.interfaces import IRelatedItemsWidget
 from plone.app.z3cform.interfaces import IRichTextWidget
@@ -30,6 +31,7 @@ from plone.app.z3cform.utils import closest_content
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IEditingSchema
+from Products.CMFPlone.utils import safe_unicode
 from UserDict import UserDict
 from z3c.form.browser.select import SelectWidget as z3cform_SelectWidget
 from z3c.form.browser.text import TextWidget as z3cform_TextWidget
@@ -42,6 +44,7 @@ from z3c.form.widget import FieldWidget
 from z3c.form.widget import Widget
 from zope.component import ComponentLookupError
 from zope.component import getUtility
+from zope.component.hooks import getSite
 from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface import implementer_only
@@ -686,6 +689,46 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
         return super(RichTextWidget, self).render()
 
 
+@implementer_only(ILinkWidget)
+class LinkWidget(z3cform_TextWidget):
+    """Implementation of enhanced link widget.
+
+    .. note::
+        Unlike the others here, this is not a plone.app.widgets based widget
+        and it uses it's own template.
+    """
+
+    def pattern_data(self):
+        pattern_data = {
+            'vocabularyUrl': '{0}/@@getVocabulary?name=plone.app.vocabularies.Catalog'.format(  # noqa
+                getSite().absolute_url(0)
+            ),
+            'maximumSelectionSize': 1
+        }
+        return json.dumps(pattern_data)
+
+    def extract(self, default=NO_VALUE):
+        form = self.request.form
+        internal = form.get(self.name + '.internal')
+        external = form.get(self.name + '.external')
+        email = form.get(self.name + '.email')
+        if internal:
+            url = '${portal_url}/resolveuid/' + internal
+        elif email:
+            subject = form.get(self.name + '.subject')
+            if email[:7] != 'mailto:':
+                email = 'mailto:' + email
+            if not subject:
+                url = email
+            else:
+                url = '{}?subject={}'.format(email, subject)
+        else:
+            url = external   # the default is `http://` so we land here
+        if url:
+            self.request.form[self.name] = safe_unicode(url)
+        return super(LinkWidget, self).extract(default=default)
+
+
 @implementer(IFieldWidget)
 def DateFieldWidget(field, request):
     widget = FieldWidget(field, DateWidget(request))
@@ -731,3 +774,8 @@ def QueryStringFieldWidget(field, request, extra=None):
     if extra is not None:
         request = extra
     return FieldWidget(field, QueryStringWidget(request))
+
+
+@implementer(IFieldWidget)
+def LinkFieldWidget(field, request):
+    return FieldWidget(field, LinkWidget(request))

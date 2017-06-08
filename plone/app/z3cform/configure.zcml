@@ -118,6 +118,13 @@
       template="templates/object_input.pt"
       />
 
+  <z3c:widgetTemplate
+      mode="input"
+      widget=".interfaces.ILinkWidget"
+      layer=".interfaces.IPloneFormLayer"
+      template="templates/link_input.pt"
+      />
+
   <browser:page
       name="z3cform_validate_field"
       for="*"
@@ -136,6 +143,7 @@
   <adapter factory=".converters.QueryStringDataConverter" />
   <adapter factory=".converters.RelationChoiceRelatedItemsWidgetConverter" />
   <adapter factory=".converters.RelatedItemsDataConverter" />
+  <adapter factory=".converters.LinkWidgetDataConverter" />
 
   <!-- widget registration stuff -->
   <class class=".widget.DateWidget">
@@ -182,6 +190,10 @@
 
   <adapter factory=".widget.RichTextFieldWidget"
            for="plone.app.textfield.interfaces.IRichText
+                plone.app.z3cform.interfaces.IPloneFormLayer"/>
+
+  <adapter factory=".widget.LinkFieldWidget"
+           for="z3c.form.interfaces.ITextWidget
                 plone.app.z3cform.interfaces.IPloneFormLayer"/>
 
 </configure>

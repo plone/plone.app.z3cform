@@ -14,6 +14,9 @@ New features:
 
 Bug fixes:
 
+- Add new and enhanced link widget.
+  [tomgross, thet]
+
 - Fix broken ``get_tinymce_options`` when called with non-contentish contexts like form or field contexts.
   [thet]
 

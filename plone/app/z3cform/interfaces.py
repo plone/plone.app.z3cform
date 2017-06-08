@@ -46,3 +46,7 @@ class IRelatedItemsWidget(ITextWidget):
 
 class IRichTextWidget(patextfield_IRichTextWidget):
     """Marker interface for the TinyMCEWidget."""
+
+
+class ILinkWidget(ITextWidget):
+    """Marker interface for the enhanced link widget."""

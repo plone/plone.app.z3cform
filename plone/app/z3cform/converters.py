@@ -4,9 +4,11 @@ from datetime import datetime
 from plone.app.z3cform.interfaces import IAjaxSelectWidget
 from plone.app.z3cform.interfaces import IDatetimeWidget
 from plone.app.z3cform.interfaces import IDateWidget
+from plone.app.z3cform.interfaces import ILinkWidget
 from plone.app.z3cform.interfaces import IQueryStringWidget
 from plone.app.z3cform.interfaces import IRelatedItemsWidget
 from plone.app.z3cform.interfaces import ISelectWidget
+from plone.app.z3cform.utils import replace_link_variables_by_paths
 from plone.uuid.interfaces import IUUID
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_callable
@@ -303,3 +305,39 @@ class QueryStringDataConverter(BaseDataConverter):
         if not value:
             return self.field.missing_value
         return value
+
+
+@adapter(IField, ILinkWidget)
+class LinkWidgetDataConverter(BaseDataConverter):
+    """Data converter for the enhanced link widget."""
+
+    def toWidgetValue(self, value):
+        value = super(LinkWidgetDataConverter, self).toWidgetValue(value)
+        result = {'internal': u'',
+                  'external': u'',
+                  'email': u'',
+                  'email_subject': u''}
+        uuid = None
+        if value.startswith('mailto:'):
+            value = value[7:]   # strip mailto from beginning
+            if '?subject=' in value:
+                email, email_subject = value.split('?subject=')
+                result['email'] = email
+                result['email_subject'] = email_subject
+            else:
+                result['email'] = value
+        else:
+            if '/resolveuid/' in value:
+                result['internal'] = value.rsplit('/', 1)[-1]
+            else:
+                portal = getSite()
+                path = replace_link_variables_by_paths(portal, value)
+                path = path[len(portal.absolute_url())+1:].encode('ascii', 'ignore')  # noqa
+                obj = portal.unrestrictedTraverse(path=path, default=None)
+                if obj is not None:
+                    uuid = IUUID(obj, None)
+            if uuid is not None:
+                result['internal'] = uuid
+            else:
+                result['external'] = value
+        return result

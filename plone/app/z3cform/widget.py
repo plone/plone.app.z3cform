@@ -716,14 +716,16 @@ class LinkWidget(z3cform_TextWidget):
             url = '${portal_url}/resolveuid/' + internal
         elif email:
             subject = form.get(self.name + '.subject')
+            if email[:7] != 'mailto:':
+                email = 'mailto:' + email
             if not subject:
-                url = 'mailto:' + email
+                url = email
             else:
-                url = 'mailto:{}?subject={}'.format(email, subject)
+                url = '{}?subject={}'.format(email, subject)
         else:
             url = external   # the default is `http://` so we land here
         if url:
-            self.request[self.name] = safe_unicode(url)
+            self.request.form[self.name] = safe_unicode(url)
         return super(LinkWidget, self).extract(default=default)
 
 

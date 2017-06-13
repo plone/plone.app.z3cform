@@ -8,7 +8,7 @@ from plone.app.z3cform.interfaces import ILinkWidget
 from plone.app.z3cform.interfaces import IQueryStringWidget
 from plone.app.z3cform.interfaces import IRelatedItemsWidget
 from plone.app.z3cform.interfaces import ISelectWidget
-from plone.app.z3cform.utils import replace_link_variables_by_paths
+from plone.app.z3cform import utils
 from plone.uuid.interfaces import IUUID
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_callable
@@ -27,6 +27,7 @@ from zope.schema.interfaces import IList
 
 import json
 import pytz
+import urlparse
 
 
 @adapter(IDate, IDateWidget)
@@ -313,12 +314,14 @@ class LinkWidgetDataConverter(BaseDataConverter):
 
     def toWidgetValue(self, value):
         value = super(LinkWidgetDataConverter, self).toWidgetValue(value)
-        result = {'internal': u'',
-                  'external': u'',
-                  'email': u'',
-                  'email_subject': u''}
-        uuid = None
+        result = {
+            'internal': u'',
+            'external': u'',
+            'email': u'',
+            'email_subject': u''
+        }
         if value.startswith('mailto:'):
+            # Handle mail URLs
             value = value[7:]   # strip mailto from beginning
             if '?subject=' in value:
                 email, email_subject = value.split('?subject=')
@@ -327,12 +330,19 @@ class LinkWidgetDataConverter(BaseDataConverter):
             else:
                 result['email'] = value
         else:
-            if '/resolveuid/' in value:
+            uuid = None
+            portal = getSite()
+            is_same_domain = utils.is_same_domain(value, portal.absolute_url())
+            is_absolute = utils.is_absolute(value)
+            if '/resolveuid/' in value and (not is_absolute or is_same_domain):
+                # Take the UUID part of a resolveuid url, but onl if it's on
+                # the same domain.
                 result['internal'] = value.rsplit('/', 1)[-1]
-            else:
-                portal = getSite()
-                path = replace_link_variables_by_paths(portal, value)
-                path = path[len(portal.absolute_url())+1:].encode('ascii', 'ignore')  # noqa
+            elif not is_absolute or is_absolute and is_same_domain:
+                # Handdle relative URLs or absolute URLs on the same domain.
+                path = urlparse.urlparse(value).path
+                path = utils.replace_link_variables_by_paths(portal, path)
+                path = path.encode('ascii', 'ignore')
                 obj = portal.unrestrictedTraverse(path=path, default=None)
                 if obj is not None:
                     uuid = IUUID(obj, None)

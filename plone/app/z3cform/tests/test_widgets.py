@@ -9,6 +9,7 @@ from plone.app.z3cform.widget import BaseWidget
 from plone.dexterity.fti import DexterityFTI
 from plone.registry.interfaces import IRegistry
 from plone.testing.zca import UNIT_TESTING
+from plone.uuid.interfaces import IUUID
 from Products.CMFPlone.interfaces import IMarkupSchema
 from z3c.form.form import Form
 from z3c.form.interfaces import IFormLayer
@@ -1501,4 +1502,68 @@ class LinkWidgetIntegrationTests(unittest.TestCase):
         self.assertEqual(
             widget.extract(),
             u'mailto:dev@plone.org'
+        )
+
+    def test_link_widget__data_converter(self):
+        from plone.app.z3cform.widget import LinkWidget
+        from plone.app.z3cform.converters import LinkWidgetDataConverter
+
+        field = TextLine(__name__='linkfield')
+        widget = LinkWidget(self.request)
+        converter = LinkWidgetDataConverter(field, widget)
+
+        self.portal.invokeFactory('Folder', 'test')
+        portal_url = self.portal.absolute_url()
+        portal_path = '/'.join(self.portal.getPhysicalPath())
+
+        # Test external URLs
+        self.assertEqual(
+            converter.toWidgetValue(u'https://plone.org')['external'],
+            u'https://plone.org'
+        )
+
+        # Test relative resolveuid URLs
+        self.assertEqual(
+            converter.toWidgetValue(u'/resolveuid/1234')['internal'],
+            u'1234'
+        )
+
+        # Test absolute resolveuid URLs on the same domain
+        self.assertEqual(
+            converter.toWidgetValue(portal_url + '/resolveuid/1234')['internal'],  # noqa
+            u'1234'
+        )
+
+        # Test absolute resolveuid URLs on a different domain
+        self.assertEqual(
+            converter.toWidgetValue(u'http://anyurl/resolveuid/1234')['external'],  # noqa
+            u'http://anyurl/resolveuid/1234'
+        )
+
+        # Test interrnal URL paths
+        self.assertEqual(
+            converter.toWidgetValue(portal_path + '/test')['internal'],
+            IUUID(self.portal.test)
+        )
+
+        # Test absolute interrnal URLs
+        self.assertEqual(
+            converter.toWidgetValue(portal_url + '/test')['internal'],
+            IUUID(self.portal.test)
+        )
+
+        # Test mail
+        self.assertEqual(
+            converter.toWidgetValue(u'mailto:me')['email'],
+            u'me'
+        )
+
+        # Test mail with subject
+        self.assertEqual(
+            converter.toWidgetValue(u'mailto:me?subject=jep')['email'],
+            u'me'
+        )
+        self.assertEqual(
+            converter.toWidgetValue(u'mailto:me?subject=jep')['email_subject'],
+            u'jep'
         )

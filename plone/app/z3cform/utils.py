@@ -4,6 +4,8 @@ from Products.CMFCore.interfaces import IContentish
 from Products.CMFCore.interfaces import IFolderish
 from zope.component.hooks import getSite
 
+import urlparse
+
 
 try:
     from zope.globalrequest import getRequest
@@ -105,3 +107,10 @@ def replace_link_variables_by_paths(context, url):
         )
 
     return url
+
+
+def is_absolute(url):
+    """Return ``True``, if url is an absolute url.
+    See: https://stackoverflow.com/a/8357518/1337474
+    """
+    return bool(urlparse.urlparse(url).netloc)

@@ -8,6 +8,7 @@ from plone.app.z3cform.interfaces import ILinkWidget
 from plone.app.z3cform.interfaces import IQueryStringWidget
 from plone.app.z3cform.interfaces import IRelatedItemsWidget
 from plone.app.z3cform.interfaces import ISelectWidget
+from plone.app.z3cform.utils import is_absolute
 from plone.app.z3cform.utils import replace_link_variables_by_paths
 from plone.uuid.interfaces import IUUID
 from Products.CMFCore.utils import getToolByName
@@ -313,10 +314,12 @@ class LinkWidgetDataConverter(BaseDataConverter):
 
     def toWidgetValue(self, value):
         value = super(LinkWidgetDataConverter, self).toWidgetValue(value)
-        result = {'internal': u'',
-                  'external': u'',
-                  'email': u'',
-                  'email_subject': u''}
+        result = {
+            'internal': u'',
+            'external': u'',
+            'email': u'',
+            'email_subject': u''
+        }
         uuid = None
         if value.startswith('mailto:'):
             value = value[7:]   # strip mailto from beginning
@@ -329,10 +332,10 @@ class LinkWidgetDataConverter(BaseDataConverter):
         else:
             if '/resolveuid/' in value:
                 result['internal'] = value.rsplit('/', 1)[-1]
-            else:
+            elif not is_absolute(value):
                 portal = getSite()
                 path = replace_link_variables_by_paths(portal, value)
-                path = path[len(portal.absolute_url())+1:].encode('ascii', 'ignore')  # noqa
+                path = path.encode('ascii', 'ignore')
                 obj = portal.unrestrictedTraverse(path=path, default=None)
                 if obj is not None:
                     uuid = IUUID(obj, None)

@@ -91,7 +91,13 @@ class TestUnitCallCallables(unittest.TestCase):
         self.assertEqual(test_out, test_compare)
 
 
-def test_suite():
-    return unittest.TestSuite([
-        unittest.makeSuite(TestUnitCallCallables),
-    ])
+class TestUtils(unittest.TestCase):
+
+    def test_is_absolute(self):
+        from plone.app.z3cform.utils import is_absolute
+
+        self.assertTrue(is_absolute('https://plone.org/'))
+        self.assertTrue(is_absolute('http://plone.org/'))
+        self.assertTrue(is_absolute('webdav://plone.org/'))
+        self.assertTrue(not is_absolute('./path/to/site'))
+        self.assertTrue(not is_absolute('/resolveuid/'))

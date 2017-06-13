@@ -9,6 +9,7 @@ from plone.app.z3cform.widget import BaseWidget
 from plone.dexterity.fti import DexterityFTI
 from plone.registry.interfaces import IRegistry
 from plone.testing.zca import UNIT_TESTING
+from plone.uuid.interfaces import IUUID
 from Products.CMFPlone.interfaces import IMarkupSchema
 from z3c.form.form import Form
 from z3c.form.interfaces import IFormLayer
@@ -1501,4 +1502,42 @@ class LinkWidgetIntegrationTests(unittest.TestCase):
         self.assertEqual(
             widget.extract(),
             u'mailto:dev@plone.org'
+        )
+
+    def test_link_widget__data_converter(self):
+        from plone.app.z3cform.widget import LinkWidget
+        from plone.app.z3cform.converters import LinkWidgetDataConverter
+
+        field = TextLine(__name__='linkfield')
+        widget = LinkWidget(self.request)
+        converter = LinkWidgetDataConverter(field, widget)
+
+        self.assertEqual(
+            converter.toWidgetValue('https://plone.org')['external'],
+            u'https://plone.org'
+        )
+
+        self.assertEqual(
+            converter.toWidgetValue('/resolveuid/1234')['internal'],
+            u'1234'
+        )
+
+        self.portal.invokeFactory('Folder', 'test')
+        self.assertEqual(
+            converter.toWidgetValue('/plone/test')['internal'],
+            IUUID(self.portal.test)
+        )
+
+        self.assertEqual(
+            converter.toWidgetValue('mailto:me')['email'],
+            u'me'
+        )
+
+        self.assertEqual(
+            converter.toWidgetValue('mailto:me?subject=jep')['email'],
+            u'me'
+        )
+        self.assertEqual(
+            converter.toWidgetValue('mailto:me?subject=jep')['email_subject'],
+            u'jep'
         )

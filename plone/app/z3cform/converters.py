@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import date
 from datetime import datetime
+from plone.app.z3cform import utils
 from plone.app.z3cform.interfaces import IAjaxSelectWidget
 from plone.app.z3cform.interfaces import IDatetimeWidget
 from plone.app.z3cform.interfaces import IDateWidget
@@ -8,7 +9,7 @@ from plone.app.z3cform.interfaces import ILinkWidget
 from plone.app.z3cform.interfaces import IQueryStringWidget
 from plone.app.z3cform.interfaces import IRelatedItemsWidget
 from plone.app.z3cform.interfaces import ISelectWidget
-from plone.app.z3cform import utils
+from plone.app.z3cform.interfaces import ISingleCheckBoxBoolWidget
 from plone.uuid.interfaces import IUUID
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_callable
@@ -19,6 +20,7 @@ from z3c.relationfield.interfaces import IRelationChoice
 from z3c.relationfield.interfaces import IRelationList
 from zope.component import adapter
 from zope.component.hooks import getSite
+from zope.schema.interfaces import IBool
 from zope.schema.interfaces import ICollection
 from zope.schema.interfaces import IDate
 from zope.schema.interfaces import IDatetime
@@ -351,3 +353,21 @@ class LinkWidgetDataConverter(BaseDataConverter):
             else:
                 result['external'] = value
         return result
+
+
+@adapter(IBool, ISingleCheckBoxBoolWidget)
+class BoolSingleCheckboxDataConverter(BaseDataConverter):
+    """Special converter between boolean fields and single checkbox widgets.
+    """
+
+    def toWidgetValue(self, value):
+        """Convert from Python bool to token sequence representation."""
+        if value:
+            return ['selected']
+        return ['unselected']
+
+    def toFieldValue(self, value):
+        """See interfaces.IDataConverter"""
+        # consider all different from true as false,
+        # this way it works with one checkbox
+        return bool(value and value[0] == 'selected')

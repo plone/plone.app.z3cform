@@ -9,6 +9,7 @@ import plone.app.z3cform.interfaces
 import plone.z3cform.interfaces
 import plone.z3cform.templates
 import z3c.form.interfaces
+import zope.deprecation
 
 
 def path(filepart):
@@ -47,6 +48,7 @@ class RenderWidget(ViewMixinForTemplates, BrowserView):
     index = ViewPageTemplateFile('templates/widget.pt')
 
 
+@zope.deprecation.deprecate('No longer used, see widget.py for new solution')
 class RenderSingleCheckboxWidget(ViewMixinForTemplates, BrowserView):
     index = ViewPageTemplateFile('templates/singlecheckbox.pt')
 

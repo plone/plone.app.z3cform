@@ -3,6 +3,7 @@ from Acquisition import ImplicitAcquisitionWrapper
 from lxml import etree
 from plone.app.textfield.value import RichTextValue
 from plone.app.textfield.widget import RichTextWidget as patext_RichTextWidget
+from plone.app.vocabularies.terms import TermWithDescription
 from plone.app.widgets.base import SelectWidget as BaseSelectWidget
 from plone.app.widgets.base import dict_merge
 from plone.app.widgets.base import InputWidget
@@ -22,10 +23,12 @@ from plone.app.z3cform.interfaces import IAjaxSelectWidget
 from plone.app.z3cform.interfaces import IDatetimeWidget
 from plone.app.z3cform.interfaces import IDateWidget
 from plone.app.z3cform.interfaces import ILinkWidget
+from plone.app.z3cform.interfaces import IPloneFormLayer
 from plone.app.z3cform.interfaces import IQueryStringWidget
 from plone.app.z3cform.interfaces import IRelatedItemsWidget
 from plone.app.z3cform.interfaces import IRichTextWidget
 from plone.app.z3cform.interfaces import ISelectWidget
+from plone.app.z3cform.interfaces import ISingleCheckBoxBoolWidget
 from plone.app.z3cform.utils import call_callables
 from plone.app.z3cform.utils import closest_content
 from plone.registry.interfaces import IRegistry
@@ -33,6 +36,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IEditingSchema
 from Products.CMFPlone.utils import safe_unicode
 from UserDict import UserDict
+from z3c.form.browser.checkbox import SingleCheckBoxWidget
 from z3c.form.browser.select import SelectWidget as z3cform_SelectWidget
 from z3c.form.browser.text import TextWidget as z3cform_TextWidget
 from z3c.form.browser.widget import HTMLInputWidget
@@ -40,17 +44,23 @@ from z3c.form.interfaces import IEditForm
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.interfaces import IForm
 from z3c.form.interfaces import NO_VALUE
+from z3c.form.term import BoolTerms
+from z3c.form.term import Terms
 from z3c.form.widget import FieldWidget
 from z3c.form.widget import Widget
+from zope.component import adapter
 from zope.component import ComponentLookupError
 from zope.component import getUtility
 from zope.component.hooks import getSite
 from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface import implementer_only
+from zope.schema.interfaces import IBool
 from zope.schema.interfaces import IChoice
 from zope.schema.interfaces import ICollection
 from zope.schema.interfaces import ISequence
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 
 import json
 
@@ -721,7 +731,10 @@ class LinkWidget(z3cform_TextWidget):
             if not subject:
                 url = email
             else:
-                url = '{}?subject={}'.format(email, subject)
+                url = '{email}?subject={subject}'.format(
+                    email=email,
+                    subject=subject
+                )
         else:
             url = external   # the default is `http://` so we land here
         if url:
@@ -779,3 +792,75 @@ def QueryStringFieldWidget(field, request, extra=None):
 @implementer(IFieldWidget)
 def LinkFieldWidget(field, request):
     return FieldWidget(field, LinkWidget(request))
+
+
+@implementer_only(ISingleCheckBoxBoolWidget)
+class SingleCheckBoxBoolWidget(SingleCheckBoxWidget):
+    """Single Input type checkbox widget implementation."""
+
+    klass = u'single-checkbox-bool-widget'
+
+    @property
+    def label(self):
+        if self.mode == 'input':
+            return u''
+        return getattr(self, '_label', u'')
+
+    @label.setter
+    def label(self, value):
+        self._label = value
+
+    @property
+    def description(self):
+        if self.mode == 'input':
+            return u''
+        return getattr(self, '_description', u'')
+
+    @description.setter
+    def description(self, value):
+        self._description = value
+
+    def updateTerms(self):
+        if self.mode == 'input':
+            # in input mode use only one checkbox with true
+            self.terms = Terms()
+            self.terms.terms = SimpleVocabulary((
+                TermWithDescription(
+                    True,
+                    'selected',
+                    getattr(self, '_label', None) or self.field.title,
+                    getattr(
+                        self,
+                        '_description',
+                        None
+                    ) or self.field.description
+                ),
+            ))
+            return self.terms
+        if not self.terms:
+            self.terms = Terms()
+            self.terms.terms = SimpleVocabulary(
+                [
+                    SimpleTerm(*args) for args in [
+                        (True, 'selected', BoolTerms.trueLabel),
+                        (False, 'unselected', BoolTerms.falseLabel)
+                    ]
+                ]
+            )
+        return self.terms
+
+    @property
+    def items(self):
+        result = super(SingleCheckBoxBoolWidget, self).items
+        for record in result:
+            term = self.terms.terms.getTermByToken(record['value'])
+            record['description'] = getattr(term, 'description', '')
+            record['required'] = self.required
+        return result
+
+
+@adapter(IBool, IPloneFormLayer)
+@implementer(IFieldWidget)
+def SingleCheckBoxBoolFieldWidget(field, request):
+    """IFieldWidget factory for CheckBoxWidget."""
+    return FieldWidget(field, SingleCheckBoxBoolWidget(request))

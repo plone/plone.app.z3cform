@@ -56,6 +56,7 @@ setup(
         'z3c.formwidget.query',
         'zope.browserpage',
         'zope.component',
+        'zope.deprecation',
         'zope.globalrequest',
         'zope.i18n',
         'zope.i18nmessageid',

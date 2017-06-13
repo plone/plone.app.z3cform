@@ -2,14 +2,14 @@
 from plone.app.textfield.widget import IRichTextWidget as patextfield_IRichTextWidget  # noqa
 from z3c.form.interfaces import ISelectWidget as IBaseSelectWidget
 from z3c.form.interfaces import IFormLayer
+from z3c.form.interfaces import ISingleCheckBoxWidget
 from z3c.form.interfaces import ITextWidget
 from zope.schema.interfaces import IDate
 from zope.schema.interfaces import IDatetime
 
 
 class IPloneFormLayer(IFormLayer):
-    """Request layer installed via browserlayer.xml
-    """
+    """Request layer installed via browserlayer.xml"""
 
 
 class IDateField(IDate):
@@ -50,3 +50,7 @@ class IRichTextWidget(patextfield_IRichTextWidget):
 
 class ILinkWidget(ITextWidget):
     """Marker interface for the enhanced link widget."""
+
+
+class ISingleCheckBoxBoolWidget(ISingleCheckBoxWidget):
+    """Marker interface for the SingleCheckboxBoolWidget."""

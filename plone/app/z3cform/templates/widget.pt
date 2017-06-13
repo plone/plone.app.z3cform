@@ -14,7 +14,7 @@
                    id string:formfield-${widget/id};">
     <label for="" class="horizontal"
         tal:attributes="for widget/id"
-        tal:condition="not:hidden">
+        tal:condition="python: not hidden and widget.label">
         <span i18n:translate="" tal:replace="widget/label">label</span>
 
         <span class="required horizontal" title="Required"
@@ -22,7 +22,7 @@
               i18n:attributes="title title_required;">&nbsp;</span>
 
         <span class="formHelp"
-            tal:define="description widget/field/description"
+            tal:define="description python: getattr(widget, 'description', widget.field.description)"
             i18n:translate=""
             tal:content="structure description"
             tal:condition="python:description and not hidden"
@@ -31,7 +31,7 @@
     </label>
 
     <div class="fieldErrorBox"
-        tal:content="structure error/render|nothing">
+         tal:content="structure error/render|nothing">
         Error
     </div>
 

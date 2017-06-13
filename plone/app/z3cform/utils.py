@@ -114,3 +114,11 @@ def is_absolute(url):
     See: https://stackoverflow.com/a/8357518/1337474
     """
     return bool(urlparse.urlparse(url).netloc)
+
+
+def is_same_domain(url1, url2):
+    """Return ``True``, if url1 is on the same protocol and domain than url2.
+    """
+    purl1 = urlparse.urlparse(url1)
+    purl2 = urlparse.urlparse(url2)
+    return purl1.scheme == purl2.scheme and purl1.netloc == purl2.netloc

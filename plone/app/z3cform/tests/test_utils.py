@@ -101,3 +101,24 @@ class TestUtils(unittest.TestCase):
         self.assertTrue(is_absolute('webdav://plone.org/'))
         self.assertTrue(not is_absolute('./path/to/site'))
         self.assertTrue(not is_absolute('/resolveuid/'))
+
+    def test_is_same_domain(self):
+        from plone.app.z3cform.utils import is_same_domain
+
+        # Those use the same protocol and are on the same domaain
+        self.assertTrue(is_same_domain(
+            'https://plone.org/doc1',
+            'https://plone.org/doc2/doc3'
+        ))
+
+        # These are two completly different URLs
+        self.assertTrue(not is_same_domain(
+            'https://domain1.com',
+            'https://anotherdomain.com'
+        ))
+
+        # Here, different transport protocols are used. Returning False.
+        self.assertTrue(not is_same_domain(
+            'https://plone.org',
+            'http://plone.org'
+        ))

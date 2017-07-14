@@ -151,6 +151,7 @@ class DateWidget(BaseWidget, HTMLInputWidget):
         args['name'] = self.name
         args['value'] = (self.request.get(self.name,
                                           self.value) or u'').strip()
+        args['type'] = 'date'
 
         args.setdefault('pattern_options', {})
         if self.field.required:
@@ -224,6 +225,8 @@ class DatetimeWidget(DateWidget, HTMLInputWidget):
 
         if args['value'] and len(args['value'].split(' ')) == 1:
             args['value'] += ' 00:00'
+
+        args['type'] = 'datetime-local'
 
         args.setdefault('pattern_options', {})
         if 'time' in args['pattern_options']:

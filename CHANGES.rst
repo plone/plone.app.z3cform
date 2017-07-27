@@ -97,6 +97,9 @@ New features:
 - PLIP 2150: Use ISO8601/HTML5 datetime-local format.
   [thet]
 
+- PLIP 2150: Use ``pat-date-picker`` and ``pat-datetime-picker`` from Pattern library.
+  [thet]
+
 - PLIP 2150: Change the input type for date fields to ``date`` and for datetime fields to ``datetime-local``.
   [thet]
 

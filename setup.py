@@ -49,7 +49,7 @@ setup(
         'Products.CMFCore',
         'Products.CMFPlone',
         'Zope2',  # Products.Five
-        'plone.app.widgets',
+        'plone.app.widgets<2.0',
         'plone.protect',
         'plone.z3cform>=0.5.11dev',
         'z3c.form >= 3.0',

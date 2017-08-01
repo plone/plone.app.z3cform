@@ -4,15 +4,17 @@ Changelog
 1.0.2 (unreleased)
 ------------------
 
-- Depend on plone.app.widgets, below version 2 which is for Plone 5. Add a
+Bug fixes:
+
+- Depend on plone.app.widgets below version 2, which is for Plone 5. Add a
   section to the README for which Plone version plone.app.z3cform 1.0.x is
   useful. (Plone 4.3 with plone.app.widgets 1.x)
   [fredvd]
 
-- Remove enableFormTabbing css class from forms, since 1.0 this packages depends
-  on plone.app.widgets's GS profile, so pat-autotoc should work. This allows
-  you to still enable form_tabbing.js if other add'ons still depend on
-  enableFormTabbing.
+- Remove enableFormTabbing css class from forms. Since 1.0 this packages depends
+  on plone.app.widgets's GS profile, so ``pat-autotoc`` should work. This allows
+  you to still enable ``form_tabbing.js`` if other add'ons still depend on
+  ``enableFormTabbing``.
   [fredvd]
 
 - Fix inline-validation warning error

@@ -28,8 +28,11 @@ setup(
     long_description=long_description,
     classifiers=[
         "Framework :: Plone",
+        "Framework :: Plone :: 4.3",
         "Framework :: Zope2",
         "Programming Language :: Python",
+        "Programming Language :: Python :: 2.6",
+        "Programming Language :: Python :: 2.7",
     ],
     keywords='zope plone form widget template',
     author='Plone Foundation',

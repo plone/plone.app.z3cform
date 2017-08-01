@@ -4,6 +4,12 @@ Changelog
 1.0.2 (unreleased)
 ------------------
 
+- Remove enableFormTabbing css class from forms, since 1.0 this packages depends
+  on plone.app.widgets's GS profile, so pat-autotoc should work. This allows
+  you to still enable form_tabbing.js if other add'ons still depend on
+  enableFormTabbing.
+  [fredvd]
+
 - Fix inline-validation warning error
   [jbirdwell]
 

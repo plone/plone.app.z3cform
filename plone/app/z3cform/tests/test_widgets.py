@@ -1001,6 +1001,18 @@ class QueryStringWidgetTests(unittest.TestCase):
         self.assertEqual(converter.toFieldValue(u''), None)
         self.assertEqual(converter.toFieldValue(u'[]'), None)
 
+    @mock.patch(
+        'plone.app.widgets.utils.get_ajaxselect_options',
+        new=lambda *args, **kwargs: None
+    )
+    @mock.patch(
+        'plone.app.widgets.utils.get_date_options',
+        new=lambda *args, **kwargs: None
+    )
+    @mock.patch(
+        'plone.app.widgets.utils.get_relateditems_options',
+        new=lambda *args, **kwargs: None
+    )
     def test_widget(self):
         from plone.app.z3cform.widget import QueryStringWidget
         widget = QueryStringWidget(self.request)
@@ -1013,7 +1025,10 @@ class QueryStringWidgetTests(unittest.TestCase):
                     'indexOptionsUrl': '/@@qsOptions',
                     'previewCountURL': '/@@querybuildernumberofresults',
                     'previewURL': '/@@querybuilder_html_results',
-                },
+                    'patternAjaxSelectOptions': None,
+                    'patternDateOptions': None,
+                    'patternRelateditemsOptions': None,
+                 },
             },
             widget._base_args()
         )

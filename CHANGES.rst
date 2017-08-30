@@ -14,8 +14,9 @@ New features:
 
 Bug fixes:
 
-- *add item here*
-
+- Test fixes for changes in plone.app.widgets querystring options.
+  [thet]
+  
 
 3.0.1 (2017-07-03)
 ------------------

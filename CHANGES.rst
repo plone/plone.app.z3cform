@@ -4,14 +4,6 @@ Changelog
 3.0.2 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Test fixes for changes in plone.app.widgets querystring options.

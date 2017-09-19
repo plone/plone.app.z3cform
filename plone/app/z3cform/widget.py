@@ -157,8 +157,8 @@ class DateWidget(BaseWidget, HTMLInputWidget):
         """
         args = super(DateWidget, self)._base_args()
         args['name'] = self.name
-        args['value'] = (self.request.get(self.name,
-                                          self.value) or u'').strip()
+        val = self.request.get(self.name, self.value) or u''
+        args['value'] = val.strip()
         args['type'] = 'date'
 
         args.setdefault('pattern_options', {})
@@ -167,7 +167,8 @@ class DateWidget(BaseWidget, HTMLInputWidget):
             args['pattern_options']['clear'] = False
         args['pattern_options'] = dict_merge(
             get_date_options(self.request),
-            args['pattern_options'])
+            args['pattern_options']
+        )
 
         return args
 
@@ -984,3 +985,4 @@ class SingleCheckBoxBoolWidget(SingleCheckBoxWidget):
 def SingleCheckBoxBoolFieldWidget(field, request):
     """IFieldWidget factory for CheckBoxWidget."""
     return FieldWidget(field, SingleCheckBoxBoolWidget(request))
+

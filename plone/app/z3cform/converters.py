@@ -38,7 +38,7 @@ class DateWidgetConverter(BaseDataConverter):
     """Data converter for date fields."""
 
     def toWidgetValue(self, value):
-        """Converts from field value to widget.
+        """Converts from field value to widget value.
 
         :param value: Field value.
         :type value: date
@@ -52,7 +52,7 @@ class DateWidgetConverter(BaseDataConverter):
                 ).format(value=value)
 
     def toFieldValue(self, value):
-        """Converts from widget value to field.
+        """Converts from widget value to field value.
 
         :param value: Value inserted by date widget.
         :type value: string
@@ -70,18 +70,21 @@ class DatetimeWidgetConverter(BaseDataConverter):
     """Data converter for datetime fields."""
 
     def toWidgetValue(self, value):
-        """Converts from field value to widget.
+        """Converts from field value to widget value.
 
         :param value: Field value.
         :type value: datetime
 
-        :returns: Datetime in format `Y-m-d H:M`
+        :returns: Datetime in format `Y-m-dTH:M`
         :rtype: string
         """
         if value is self.field.missing_value:
             return u''
-        return ('{value.year:}-{value.month:02}-{value.day:02}'
-                'T{value.hour:02}:{value.minute:02}').format(value=value)
+
+        ret = '{value.year:}-{value.month:02}-{value.day:02}'\
+            'T{value.hour:02}:{value.minute:02}'.format(value=value)
+
+        return ret
 
     def toFieldValue(self, value):
         """Converts from widget value to field.
@@ -94,24 +97,28 @@ class DatetimeWidgetConverter(BaseDataConverter):
         """
         if not value:
             return self.field.missing_value
+
         tmp = value.split('T')
         if not tmp[0]:
             return self.field.missing_value
-        value = tmp[0].split('-')
+
+        parts = tmp[0].split('-')
         if len(tmp) == 2 and ':' in tmp[1]:
-            value += tmp[1].split(':')
+            parts += tmp[1].split(':')
         else:
-            value += ['00', '00']
+            parts += ['00', '00']
+
+        ret = datetime(*map(int, parts))
 
         # TODO: respect the selected zone from the widget and just fall back
         # to default_zone
         default_zone = self.widget.default_timezone
         zone = default_zone(self.widget.context)\
             if safe_callable(default_zone) else default_zone
-        ret = datetime(*map(int, value))
         if zone:
             tzinfo = pytz.timezone(zone)
             ret = tzinfo.localize(ret)
+
         return ret
 
 

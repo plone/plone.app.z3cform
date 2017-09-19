@@ -80,8 +80,8 @@ class DatetimeWidgetConverter(BaseDataConverter):
         """
         if value is self.field.missing_value:
             return u''
-        return ('{value.year:}-{value.month:02}-{value.day:02} '
-                '{value.hour:02}:{value.minute:02}').format(value=value)
+        return ('{value.year:}-{value.month:02}-{value.day:02}'
+                'T{value.hour:02}:{value.minute:02}').format(value=value)
 
     def toFieldValue(self, value):
         """Converts from widget value to field.
@@ -94,7 +94,7 @@ class DatetimeWidgetConverter(BaseDataConverter):
         """
         if not value:
             return self.field.missing_value
-        tmp = value.split(' ')
+        tmp = value.split('T')
         if not tmp[0]:
             return self.field.missing_value
         value = tmp[0].split('-')

@@ -231,10 +231,6 @@ class DatetimeWidget(DateWidget, HTMLInputWidget):
         :rtype: dict
         """
         args = super(DatetimeWidget, self)._base_args()
-
-        if args['value'] and len(args['value'].split(' ')) == 1:
-            args['value'] += ' 00:00'
-
         args['type'] = 'datetime-local'
 
         args.setdefault('pattern_options', {})

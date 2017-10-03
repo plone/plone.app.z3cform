@@ -10,11 +10,14 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Link widget: add ``placeholder`` attributes for external and email link input fields.
+  [thet]
 
 Bug fixes:
 
-- *add item here*
+- Fix in link widget data converter for ``toWidgetValue`` to return an empty structure when the field value is empty instead of returning the portal root object.
+  Fixes: https://github.com/plone/Products.CMFPlone/issues/2163
+  [thet]
 
 
 3.0.2 (2017-09-06)
@@ -24,7 +27,7 @@ Bug fixes:
 
 - Test fixes for changes in plone.app.widgets querystring options.
   [thet]
-  
+
 
 3.0.1 (2017-07-03)
 ------------------

@@ -322,6 +322,8 @@ class LinkWidgetDataConverter(BaseDataConverter):
             'email': u'',
             'email_subject': u''
         }
+        if not value:
+            return result
         if value.startswith('mailto:'):
             # Handle mail URLs
             value = value[7:]   # strip mailto from beginning

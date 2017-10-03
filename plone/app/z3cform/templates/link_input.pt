@@ -21,7 +21,7 @@
         <span class="linkLabel" i18n:translate="label_external_url">External</span>
         <div class="form-group main">
           <label for="external" i18n:translate="help_external_url">External URL (can be relative within this site or absolute if it starts with http:// or https://)</label>
-          <input type="text" name="external"
+          <input type="text" name="external" placeholder="https://domain.com"
                  tal:attributes="name string:${view/name}.external;
                                  value view/value/external | nothing" />
         </div>
@@ -32,7 +32,7 @@
         <div class="form-inline">
           <div class="form-group main">
             <label i18n:translate="help_email_url">Email Address</label>
-            <input type="text" name="email"
+            <input type="text" name="email" placeholder="name@domain.com"
                    tal:attributes="name string:${view/name}.email;
                                    value view/value/email | nothing" />
           </div>

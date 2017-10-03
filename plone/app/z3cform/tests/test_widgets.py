@@ -1531,6 +1531,12 @@ class LinkWidgetIntegrationTests(unittest.TestCase):
         portal_url = self.portal.absolute_url()
         portal_path = '/'.join(self.portal.getPhysicalPath())
 
+        # Test empty value
+        widget_value = converter.toWidgetValue(u'')
+        self.assertEqual(widget_value['internal'], u'')
+        self.assertEqual(widget_value['external'], u'')
+        self.assertEqual(widget_value['email'], u'')
+
         # Test external URLs
         self.assertEqual(
             converter.toWidgetValue(u'https://plone.org')['external'],

@@ -15,6 +15,9 @@ New features:
 
 Bug fixes:
 
+- Use RichTextValue's output_relative_to(self.context) in RichTextWidget so the ITransform doesn't use siteroot.
+  [jaroel]
+
 - Fix in link widget data converter for ``toWidgetValue`` to return an empty structure when the field value is empty instead of returning the portal root object.
   Fixes: https://github.com/plone/Products.CMFPlone/issues/2163
   [thet]

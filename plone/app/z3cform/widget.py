@@ -694,7 +694,7 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
             return ''
 
         if isinstance(self.value, RichTextValue):
-            return self.value.output
+            return self.value.output_relative_to(self.context)
 
         return super(RichTextWidget, self).render()
 

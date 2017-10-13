@@ -341,15 +341,23 @@ class LinkWidgetDataConverter(BaseDataConverter):
             if '/resolveuid/' in value and (not is_absolute or is_same_domain):
                 # Take the UUID part of a resolveuid url, but onl if it's on
                 # the same domain.
-                result['internal'] = value.rsplit('/', 1)[-1]
+                uuid = value.rsplit('/', 1)[-1]
             elif not is_absolute or is_absolute and is_same_domain:
-                # Handdle relative URLs or absolute URLs on the same domain.
-                path = urlparse.urlparse(value).path
-                path = utils.replace_link_variables_by_paths(portal, path)
-                path = path.encode('ascii', 'ignore')
-                obj = portal.unrestrictedTraverse(path=path, default=None)
-                if obj is not None:
-                    uuid = IUUID(obj, None)
+                # Handle relative URLs or absolute URLs on the same domain.
+                parsed = urlparse.urlparse(value)
+                if parsed.params or parsed.query or parsed.fragment:
+                    # we don't want to loose query parameters
+                    # so we don't convert URLs pointing to internal
+                    # objects with params, querys or fragments
+                    # to uids
+                    pass
+                else:
+                    path = utils.replace_link_variables_by_paths(
+                        portal, parsed.path)
+                    path = path.encode('ascii', 'ignore')
+                    obj = portal.unrestrictedTraverse(path=path, default=None)
+                    if obj is not None:
+                        uuid = IUUID(obj, None)
             if uuid is not None:
                 result['internal'] = uuid
             else:

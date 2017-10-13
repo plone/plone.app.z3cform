@@ -22,6 +22,9 @@ Bug fixes:
   Fixes: https://github.com/plone/Products.CMFPlone/issues/2163
   [thet]
 
+- Keep "internal" links with query strings as external links, otherwise
+  the query string is lost
+  [tomgross]
 
 3.0.2 (2017-09-06)
 ------------------

@@ -2,7 +2,7 @@ Changelog
 =========
 
 3.0.3 (unreleased)
-------------------
+------------------------
 
 Breaking changes:
 
@@ -27,6 +27,12 @@ Bug fixes:
 
 - Keep "internal" links with query strings as external links, otherwise
   the query string is lost
+  [tomgross]
+
+- Allow an additional CSS class for widgets in this package
+  [tomgross]
+
+- Document customization of widgets
   [tomgross]
 
 3.0.2 (2017-09-06)

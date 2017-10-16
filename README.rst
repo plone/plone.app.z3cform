@@ -346,6 +346,34 @@ to display these fields in view mode, add the following css in your theme::
        display: none;
     }
 
+
+Add additional parameters to widgets
+=====================================
+
+You can add additional parameters to widgets defined in this package
+via the `plone.autoform.widgets.ParameterizedWidget` ::
+
+  from plone.app.z3c.form.widget import DateWidget
+  MyDateWidget = ParameterizedWidget(DateWidget, additional_css_class='event_start')
+
+
+or via directives ::
+
+  from plone.app.z3c.form.widget import DateWidget
+
+
+  @provider(IFormFieldProvider)
+  class IMyEventBehavior(model.Schema):
+
+  ...
+      widget('event_start', DateWidget, additional_css_class='event_start')
+      event_start = schema.TextLine(
+          title=_(u'label_event_start'),
+          description=_(u'help_event_start'),
+          required=True,
+      )
+
+
 Testing
 ===============
 
@@ -358,7 +386,7 @@ If you still need to test forms on lower level in unit tests
 you need to enable ``plone.app.z3cform`` support manually.
 Below is an example::
 
-    import unittest2 as unittest
+    import unittest
 
     from zope.interface import alsoProvides
     from zope.publisher.browser import setDefaultSkin

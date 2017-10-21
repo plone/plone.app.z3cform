@@ -2,6 +2,7 @@
 from datetime import date
 from datetime import datetime
 from plone.app.z3cform import utils
+from plone.app.z3cform._compat import urlparse
 from plone.app.z3cform.interfaces import IAjaxSelectWidget
 from plone.app.z3cform.interfaces import IDatetimeWidget
 from plone.app.z3cform.interfaces import IDateWidget
@@ -29,7 +30,6 @@ from zope.schema.interfaces import IList
 
 import json
 import pytz
-import urlparse
 
 
 @adapter(IDate, IDateWidget)
@@ -344,7 +344,7 @@ class LinkWidgetDataConverter(BaseDataConverter):
                 uuid = value.rsplit('/', 1)[-1]
             elif not is_absolute or is_absolute and is_same_domain:
                 # Handle relative URLs or absolute URLs on the same domain.
-                parsed = urlparse.urlparse(value)
+                parsed = urlparse(value)
                 if parsed.params or parsed.query or parsed.fragment:
                     # we don't want to loose query parameters
                     # so we don't convert URLs pointing to internal

@@ -15,6 +15,9 @@ New features:
 
 Bug fixes:
 
+- Imports are Python3 compatible
+  [ale-rt]
+
 - Use RichTextValue's output_relative_to(self.context) in RichTextWidget so the ITransform doesn't use siteroot.
   [jaroel]
 

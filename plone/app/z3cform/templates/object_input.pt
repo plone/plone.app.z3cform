@@ -1,4 +1,4 @@
-<div class="object-widget" tal:attributes="class view/klass">
+<div i18n:domain="plone" class="object-widget" tal:attributes="class view/klass">
     <tal:block repeat="widget view/subform/widgets/values">
         <div tal:define="hidden python:widget.mode == 'hidden';
                          error widget/error;

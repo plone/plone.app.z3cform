@@ -15,6 +15,9 @@ New features:
 
 Bug fixes:
 
+- Fix: Add missing i18n-domains to templates.
+  [jensens]
+
 - Use RichTextValue's output_relative_to(self.context) in RichTextWidget so the ITransform doesn't use siteroot.
   [jaroel]
 

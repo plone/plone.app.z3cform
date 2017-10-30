@@ -1,5 +1,6 @@
 <!-- DEPRECATED -->
 <div
+   i18n:domain="plone"
    metal:define-macro="widget-wrapper"
    tal:define="widget nocall:context;
                hidden python:widget.mode == 'hidden';

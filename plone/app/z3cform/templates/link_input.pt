@@ -1,4 +1,4 @@
-<div>
+<div i18n:domain="plone">
   <div class="linkModal">
 
     <div class="linkTypes pat-autotoc autotabs"

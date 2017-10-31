@@ -1599,11 +1599,11 @@ class WidgetCustomizingIntegrationTests(unittest.TestCase):
 
     layer = PAZ3CForm_INTEGRATION_TESTING
 
-    def test_widget_base_additional_css(self):
+    def test_widget_base_wrapper_css(self):
 
         class ITestDateSchema(Schema):
 
-            widget('my_date', DateWidget, additional_css_class='foo')
+            widget('my_date', DateWidget, wrapper_css_class='foo')
             my_date = Date(title=u'My Date')
 
         class TestForm(AutoExtensibleForm, EditForm):

@@ -354,7 +354,7 @@ You can add additional parameters to widgets defined in this package
 via the `plone.autoform.widgets.ParameterizedWidget` ::
 
   from plone.app.z3c.form.widget import DateWidget
-  MyDateWidget = ParameterizedWidget(DateWidget, additional_css_class='event_start')
+  MyDateWidget = ParameterizedWidget(DateWidget, wrapper_css_class='event_start')
 
 
 or via directives ::
@@ -366,7 +366,7 @@ or via directives ::
   class IMyEventBehavior(model.Schema):
 
   ...
-      widget('event_start', DateWidget, additional_css_class='event_start')
+      widget('event_start', DateWidget, wrapper_css_class='event_start')
       event_start = schema.TextLine(
           title=_(u'label_event_start'),
           description=_(u'help_event_start'),

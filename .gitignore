@@ -8,3 +8,7 @@ dist
 /bin
 /parts
 /develop-eggs
+/include
+/lib*
+.*.swp
+pip-selfcheck.json

@@ -6,12 +6,17 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.z3cform.tests.layer import PAZ3CForm_INTEGRATION_TESTING
 from plone.app.z3cform.widget import BaseWidget
+from plone.app.z3cform.widget import DateWidget
+from plone.autoform.directives import widget
+from plone.autoform.form import AutoExtensibleForm
 from plone.dexterity.fti import DexterityFTI
 from plone.registry.interfaces import IRegistry
+from plone.supermodel.model import Schema
 from plone.testing.zca import UNIT_TESTING
 from plone.uuid.interfaces import IUUID
 from Products.CMFPlone.interfaces import IMarkupSchema
 from z3c.form.form import Form
+from z3c.form.form import EditForm
 from z3c.form.interfaces import IFormLayer
 from z3c.form.widget import FieldWidget
 from zope.component import getUtility
@@ -1588,3 +1593,25 @@ class LinkWidgetIntegrationTests(unittest.TestCase):
             converter.toWidgetValue(u'mailto:me?subject=jep')['email_subject'],
             u'jep'
         )
+
+
+class WidgetCustomizingIntegrationTests(unittest.TestCase):
+
+    layer = PAZ3CForm_INTEGRATION_TESTING
+
+    def test_widget_base_wrapper_css(self):
+
+        class ITestDateSchema(Schema):
+
+            widget('my_date', DateWidget, wrapper_css_class='foo')
+            my_date = Date(title=u'My Date')
+
+        class TestForm(AutoExtensibleForm, EditForm):
+
+            ignoreContext = True
+            schema = ITestDateSchema
+
+        render = TestForm(self.layer['portal'], self.layer['request'])
+        self.assertIn(
+            'empty foo" data-fieldname="form.widgets.my_date"', render())
+

@@ -4,10 +4,6 @@ Changelog
 3.0.3 (unreleased)
 ------------------------
 
-Breaking changes:
-
-- *add item here*
-
 New features:
 
 - Link widget: add ``placeholder`` attributes for external and email link input fields.

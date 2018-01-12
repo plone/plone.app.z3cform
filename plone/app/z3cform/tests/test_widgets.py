@@ -1127,6 +1127,10 @@ class RelatedItemsWidgetTests(unittest.TestCase):
     def setUp(self):
         self.request = TestRequest(environ={'HTTP_ACCEPT_LANGUAGE': 'en'})
 
+    @mock.patch(
+        'plone.app.widgets.utils.getToolByName',
+        new=Mock(return_value=Mock(return_value='testuser'))
+    )
     def test_single_selection(self):
         """The pattern_options value for maximumSelectionSize should
         be 1 when the field only allows a single selection."""
@@ -1144,6 +1148,10 @@ class RelatedItemsWidgetTests(unittest.TestCase):
         pattern_options = base_args['pattern_options']
         self.assertEqual(pattern_options.get('maximumSelectionSize', 0), 1)
 
+    @mock.patch(
+        'plone.app.widgets.utils.getToolByName',
+        new=Mock(return_value=Mock(return_value='testuser'))
+    )
     def test_multiple_selection(self):
         """The pattern_options key maximumSelectionSize shouldn't be
         set when the field allows multiple selections"""

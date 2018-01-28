@@ -2,10 +2,8 @@
 from Acquisition import aq_base
 from Products.CMFCore.interfaces import IContentish
 from Products.CMFCore.interfaces import IFolderish
+from six.moves import urllib
 from zope.component.hooks import getSite
-
-import urlparse
-
 
 try:
     from zope.globalrequest import getRequest
@@ -113,12 +111,12 @@ def is_absolute(url):
     """Return ``True``, if url is an absolute url.
     See: https://stackoverflow.com/a/8357518/1337474
     """
-    return bool(urlparse.urlparse(url).netloc)
+    return bool(urllib.parse.urlparse(url).netloc)
 
 
 def is_same_domain(url1, url2):
     """Return ``True``, if url1 is on the same protocol and domain than url2.
     """
-    purl1 = urlparse.urlparse(url1)
-    purl2 = urlparse.urlparse(url2)
+    purl1 = urllib.parse.urlparse(url1)
+    purl2 = urllib.parse.urlparse(url2)
     return purl1.scheme == purl2.scheme and purl1.netloc == purl2.netloc

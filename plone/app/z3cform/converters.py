@@ -13,6 +13,7 @@ from plone.app.z3cform.interfaces import ISingleCheckBoxBoolWidget
 from plone.uuid.interfaces import IUUID
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_callable
+from six.moves import urllib
 from z3c.form.converter import BaseDataConverter
 from z3c.form.converter import CollectionSequenceDataConverter
 from z3c.form.converter import SequenceDataConverter
@@ -29,7 +30,7 @@ from zope.schema.interfaces import IList
 
 import json
 import pytz
-import urlparse
+import six
 
 
 @adapter(IDate, IDateWidget)
@@ -127,7 +128,7 @@ class SelectWidgetConverterBase(object):
         :rtype: list | tuple | set
         """
         separator = getattr(self.widget, 'separator', ';')
-        if isinstance(value, basestring):
+        if isinstance(value, six.string_types):
             value = value.strip()
             if value:
                 value = value.split(separator)
@@ -167,7 +168,7 @@ class AjaxSelectWidgetConverter(BaseDataConverter):
         if not value:
             return self.field.missing_value
         separator = getattr(self.widget, 'separator', ';')
-        return separator.join(unicode(v) for v in value)
+        return separator.join(six.text_type(v) for v in value)
 
     def toFieldValue(self, value):
         """Converts from widget value to field.
@@ -269,9 +270,9 @@ class RelatedItemsDataConverter(BaseDataConverter):
                                   for uid in value
                                   if uid in objects.keys())
         else:
-            valueType = getattr(self.field.value_type, '_type', unicode)
+            valueType = getattr(self.field.value_type, '_type', six.text_type)
             if valueType is None:
-                valueType = unicode
+                valueType = six.text_type
             return collectionType(valueType(v) for v in value)
 
 
@@ -344,7 +345,7 @@ class LinkWidgetDataConverter(BaseDataConverter):
                 uuid = value.rsplit('/', 1)[-1]
             elif not is_absolute or is_absolute and is_same_domain:
                 # Handle relative URLs or absolute URLs on the same domain.
-                parsed = urlparse.urlparse(value)
+                parsed = urllib.parse.urlparse(value)
                 if parsed.params or parsed.query or parsed.fragment:
                     # we don't want to loose query parameters
                     # so we don't convert URLs pointing to internal

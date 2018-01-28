@@ -42,6 +42,7 @@ from zope.schema.vocabulary import SimpleVocabulary
 import json
 import mock
 import pytz
+import six
 import unittest
 
 
@@ -1237,9 +1238,9 @@ class RelatedItemsWidgetTests(unittest.TestCase):
             List(value_type=Choice(values=['one', 'two', 'three']))
         )
         for field in fields:
-            expected_value_type = getattr(field.value_type, '_type', unicode)
+            expected_value_type = getattr(field.value_type, '_type', six.text_type)
             if expected_value_type is None:
-                expected_value_type = unicode
+                expected_value_type = six.text_type
             widget = Mock(separator=';')
             converter = RelatedItemsDataConverter(field, widget)
 

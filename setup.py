@@ -52,6 +52,7 @@ setup(
         'plone.app.widgets>=2.0.0.dev0',
         'plone.protect',
         'plone.z3cform>=0.5.11dev',
+        'six',
         'z3c.form >= 3.0',
         'z3c.formwidget.query',
         'zope.browserpage',

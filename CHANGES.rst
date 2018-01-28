@@ -17,6 +17,9 @@ Bug fixes:
 - Fix test failures from https://github.com/plone/plone.app.widgets/pull/177
   [thet]
 
+- Prepare for Python 2 / 3 compatibility
+  [pbauer]
+
 
 3.0.3 (2017-11-24)
 ------------------

@@ -63,6 +63,7 @@ from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
 import json
+import six
 
 
 class BaseWidget(Widget):
@@ -296,7 +297,7 @@ class SelectWidget(BaseWidget, z3cform_SelectWidget):
             base_items = base_items()
         items = []
         for item in base_items:
-            if not isinstance(item['content'], basestring):
+            if not isinstance(item['content'], six.string_types):
                 item['content'] = translate(
                     item['content'],
                     context=self.request,

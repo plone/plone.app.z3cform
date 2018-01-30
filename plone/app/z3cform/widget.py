@@ -35,7 +35,6 @@ from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IEditingSchema
 from Products.CMFPlone.utils import safe_unicode
-from UserDict import UserDict
 from z3c.form.browser.checkbox import SingleCheckBoxWidget
 from z3c.form.browser.select import SelectWidget as z3cform_SelectWidget
 from z3c.form.browser.text import TextWidget as z3cform_TextWidget
@@ -64,6 +63,11 @@ from zope.schema.vocabulary import SimpleVocabulary
 
 import json
 import six
+
+try:
+    from collections import UserDict
+except ImportError:
+    from UserDict import UserDict
 
 
 class BaseWidget(Widget):

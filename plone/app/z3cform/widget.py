@@ -610,8 +610,10 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
         args = super(RichTextWidget, self)._base_args()
         args['name'] = self.name
         value = self.value and self.value.raw_encoded or ''
-        args['value'] = (self.request.get(
-            self.field.getName(), value)).decode('utf-8')
+        value = (self.request.get(self.field.getName(), value))
+        if six.PY2:
+            value = value.decode('utf-8')
+        args['value'] = value
 
         args.setdefault('pattern_options', {})
         merged_options = dict_merge(

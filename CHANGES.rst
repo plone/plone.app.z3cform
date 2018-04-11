@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Fix SingleCheckBoxBoolWidget description to render structure
+  [allusa]
 
 
 3.0.4 (2018-02-04)

@@ -17,6 +17,9 @@ Bug fixes:
 - Fix SingleCheckBoxBoolWidget description to render structure
   [allusa]
 
+- Prepare for Python 2 / 3 compatibility
+  [pbauer]
+
 
 3.0.4 (2018-02-04)
 ------------------

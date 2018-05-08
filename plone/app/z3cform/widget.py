@@ -609,10 +609,8 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
     def _base_args(self):
         args = super(RichTextWidget, self)._base_args()
         args['name'] = self.name
-        value = self.value and self.value.raw_encoded or ''
-        value = (self.request.get(self.field.getName(), value))
-        if six.PY2:
-            value = value.decode('utf-8')
+        value = self.value and self.value.raw or u''
+        value = self.request.get(self.name, value)
         args['value'] = value
 
         args.setdefault('pattern_options', {})

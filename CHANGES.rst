@@ -18,7 +18,7 @@ Bug fixes:
   [allusa]
 
 - Prepare for Python 2 / 3 compatibility
-  [pbauer]
+  [pbauer, MatthewWilkes]
 
 
 3.0.4 (2018-02-04)

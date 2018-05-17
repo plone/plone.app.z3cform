@@ -64,6 +64,7 @@ from zope.schema.vocabulary import SimpleVocabulary
 import json
 import six
 
+
 try:
     from collections import UserDict
 except ImportError:

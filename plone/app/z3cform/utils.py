@@ -5,6 +5,7 @@ from Products.CMFCore.interfaces import IFolderish
 from six.moves import urllib
 from zope.component.hooks import getSite
 
+
 try:
     from zope.globalrequest import getRequest
     getRequest  # pyflakes

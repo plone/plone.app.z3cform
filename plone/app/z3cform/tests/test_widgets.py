@@ -15,8 +15,8 @@ from plone.supermodel.model import Schema
 from plone.testing.zca import UNIT_TESTING
 from plone.uuid.interfaces import IUUID
 from Products.CMFPlone.interfaces import IMarkupSchema
-from z3c.form.form import Form
 from z3c.form.form import EditForm
+from z3c.form.form import Form
 from z3c.form.interfaces import IFormLayer
 from z3c.form.widget import FieldWidget
 from zope.component import getUtility
@@ -1623,4 +1623,3 @@ class WidgetCustomizingIntegrationTests(unittest.TestCase):
         render = TestForm(self.layer['portal'], self.layer['request'])
         self.assertIn(
             'empty foo" data-fieldname="form.widgets.my_date"', render())
-

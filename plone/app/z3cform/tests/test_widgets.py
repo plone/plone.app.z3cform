@@ -399,7 +399,7 @@ class DatetimeWidgetTests(unittest.TestCase):
         dt = datetime(2013, 11, 13, 10, 20)
         setattr(context, self.field.getName(), dt)
         self.widget.context = context
-        self.widget.default_timezone = lambda(context): 'Europe/Amsterdam'
+        self.widget.default_timezone = lambda context: 'Europe/Amsterdam'
         tz = pytz.timezone('Europe/Amsterdam')
 
         converter = DatetimeWidgetConverter(self.field, self.widget)
@@ -1034,7 +1034,7 @@ class QueryStringWidgetTests(unittest.TestCase):
                     'patternAjaxSelectOptions': None,
                     'patternDateOptions': None,
                     'patternRelateditemsOptions': None,
-                 },
+                },
             },
             widget._base_args()
         )
@@ -1238,7 +1238,11 @@ class RelatedItemsWidgetTests(unittest.TestCase):
             List(value_type=Choice(values=['one', 'two', 'three']))
         )
         for field in fields:
-            expected_value_type = getattr(field.value_type, '_type', six.text_type)
+            expected_value_type = getattr(
+                field.value_type,
+                '_type',
+                six.text_type
+            )
             if expected_value_type is None:
                 expected_value_type = six.text_type
             widget = Mock(separator=';')

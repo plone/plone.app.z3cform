@@ -44,7 +44,7 @@ def test_suite():
         optionflags=(
             doctest.ELLIPSIS |
             doctest.NORMALIZE_WHITESPACE
-        )
+        ),
     ), layer=PAZ3CForm_INTEGRATION_TESTING)
 
     suite = unittest.TestSuite([

@@ -14,6 +14,9 @@ New features:
 
 Bug fixes:
 
+- Cleanup code analysis problems.
+  [jensens]
+
 - Fix SingleCheckBoxBoolWidget description to render structure
   [allusa]
 

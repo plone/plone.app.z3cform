@@ -11,18 +11,20 @@ class TestUnitCallCallables(unittest.TestCase):
         test_compare = 1
         test_out = call_callables(
             test_in,
-            'funny return value'
+            'funny return value',
         )
         self.assertEqual(test_out, test_compare)
 
     def test_simple_function(self):
         from plone.app.z3cform.utils import call_callables
 
-        def test_in(x): return x
+        def test_in(x):
+            return x
+
         test_compare = 'funny return value'
         test_out = call_callables(
             test_in,
-            'funny return value'
+            'funny return value',
         )
         self.assertEqual(test_out, test_compare)
 
@@ -33,7 +35,7 @@ class TestUnitCallCallables(unittest.TestCase):
         test_compare = [1, 2, 3, 'funny return value']
         test_out = call_callables(
             test_in,
-            'funny return value'
+            'funny return value',
         )
         self.assertEqual(test_out, test_compare)
 
@@ -44,7 +46,7 @@ class TestUnitCallCallables(unittest.TestCase):
         test_compare = (1, 2, 3, 'funny return value')
         test_out = call_callables(
             test_in,
-            'funny return value'
+            'funny return value',
         )
         self.assertEqual(test_out, test_compare)
 
@@ -63,8 +65,8 @@ class TestUnitCallCallables(unittest.TestCase):
                     'subsubnormal': 789,
                     'subsublist': [7, 8, 9, lambda x: x],
                     'subsubtuple': (7, 8, 9, lambda x: x),
-                }
-            }
+                },
+            },
         }
 
         test_compare = {
@@ -79,13 +81,13 @@ class TestUnitCallCallables(unittest.TestCase):
                     'subsubnormal': 789,
                     'subsublist': [7, 8, 9, 'funny return value'],
                     'subsubtuple': (7, 8, 9, 'funny return value'),
-                }
-            }
+                },
+            },
         }
 
         test_out = call_callables(
             test_in,
-            'funny return value'
+            'funny return value',
         )
 
         self.assertEqual(test_out, test_compare)
@@ -108,17 +110,17 @@ class TestUtils(unittest.TestCase):
         # Those use the same protocol and are on the same domaain
         self.assertTrue(is_same_domain(
             'https://plone.org/doc1',
-            'https://plone.org/doc2/doc3'
+            'https://plone.org/doc2/doc3',
         ))
 
         # These are two completly different URLs
         self.assertTrue(not is_same_domain(
             'https://domain1.com',
-            'https://anotherdomain.com'
+            'https://anotherdomain.com',
         ))
 
         # Here, different transport protocols are used. Returning False.
         self.assertTrue(not is_same_domain(
             'https://plone.org',
-            'http://plone.org'
+            'http://plone.org',
         ))

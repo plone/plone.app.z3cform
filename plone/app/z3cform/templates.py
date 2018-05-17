@@ -16,7 +16,7 @@ def path(filepart):
     return os.path.join(
         os.path.dirname(plone.app.z3cform.__file__),
         'templates',
-        filepart
+        filepart,
     )
 
 # Override the layout wrapper view default template with a more Plone-looking

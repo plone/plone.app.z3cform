@@ -15,8 +15,8 @@ from plone.supermodel.model import Schema
 from plone.testing.zca import UNIT_TESTING
 from plone.uuid.interfaces import IUUID
 from Products.CMFPlone.interfaces import IMarkupSchema
-from z3c.form.form import Form
 from z3c.form.form import EditForm
+from z3c.form.form import Form
 from z3c.form.interfaces import IFormLayer
 from z3c.form.widget import FieldWidget
 from zope.component import getUtility
@@ -54,8 +54,7 @@ class ExampleVocabulary(object):
         tmp = SimpleVocabulary([
             SimpleTerm(it.lower(), it.lower(), it)
             for it in items
-            if query is None or
-            query.lower() in it.lower()
+            if query is None or query.lower() in it.lower()
         ])
         tmp.test = 1
         return tmp
@@ -80,16 +79,18 @@ class BaseWidgetTests(unittest.TestCase):
 
         self.assertRaises(
             NotImplemented,
-            widget._base_args)
+            widget._base_args,
+        )
 
         widget.pattern = 'example'
 
         self.assertEqual(
             {
                 'pattern': 'example',
-                'pattern_options': {}
+                'pattern_options': {},
             },
-            widget._base_args())
+            widget._base_args(),
+        )
 
     def test_widget_base_notimplemented(self):
         from plone.app.z3cform.widget import BaseWidget
@@ -102,13 +103,15 @@ class BaseWidgetTests(unittest.TestCase):
 
         self.assertRaises(
             NotImplemented,
-            widget.render)
+            widget.render,
+        )
 
         widget._base = InputWidget
 
         self.assertEqual(
             '<input class="pat-example" type="text"/>',
-            widget.render())
+            widget.render(),
+        )
 
     def test_widget_base_custom_css(self):
         from plone.app.z3cform.widget import BaseWidget
@@ -138,7 +141,7 @@ class BaseWidgetTests(unittest.TestCase):
                 'subsubnormal': 789,
                 'subsublist': [7, 8, 9, lambda x: x],
                 'subsubtuple': (7, 8, 9, lambda x: x),
-            }
+            },
         }
 
         self.assertEqual(
@@ -147,7 +150,8 @@ class BaseWidgetTests(unittest.TestCase):
             '{&quot;subsubtuple&quot;: [7, 8, 9, &quot;testcontext&quot;], '
             '&quot;subsublist&quot;: [7, 8, 9, &quot;testcontext&quot;], '
             '&quot;subsubnormal&quot;: 789}}"/>',
-            widget.render())
+            widget.render(),
+        )
 
 
 class DateWidgetTests(unittest.TestCase):
@@ -188,12 +192,12 @@ class DateWidgetTests(unittest.TestCase):
                         'placeholder': u'Enter date...',
                         'monthsShort': [u'Jan', u'Feb', u'Mar', u'Apr', u'May',
                                         u'Jun', u'Jul', u'Aug', u'Sep', u'Oct',
-                                        u'Nov', u'Dec']
+                                        u'Nov', u'Dec'],
                     },
                     'time': False,
                     'today': u'Today',
                     'clear': u'Clear',
-                }
+                },
             },
             self.widget._base_args(),
         )
@@ -262,7 +266,7 @@ class DatetimeWidgetTests(unittest.TestCase):
         self.widget.field = self.field
         self.widget.pattern_options = {
             'date': {'firstDay': 0},
-            'time': {'interval': 15}
+            'time': {'interval': 15},
         }
 
     def test_widget(self):
@@ -291,16 +295,16 @@ class DatetimeWidgetTests(unittest.TestCase):
                         'placeholder': u'Enter date...',
                         'monthsShort': [u'Jan', u'Feb', u'Mar', u'Apr', u'May',
                                         u'Jun', u'Jul', u'Aug', u'Sep', u'Oct',
-                                        u'Nov', u'Dec']
+                                        u'Nov', u'Dec'],
                     },
                     'time': {
                         'placeholder': u'Enter time...',
                         'format': 'h:i a',
-                        'interval': 15
+                        'interval': 15,
                     },
                     'today': u'Today',
                     'clear': u'Clear',
-                }
+                },
             },
             self.widget._base_args(),
         )
@@ -399,7 +403,7 @@ class DatetimeWidgetTests(unittest.TestCase):
         dt = datetime(2013, 11, 13, 10, 20)
         setattr(context, self.field.getName(), dt)
         self.widget.context = context
-        self.widget.default_timezone = lambda(context): 'Europe/Amsterdam'
+        self.widget.default_timezone = lambda context: 'Europe/Amsterdam'
         tz = pytz.timezone('Europe/Amsterdam')
 
         converter = DatetimeWidgetConverter(self.field, self.widget)
@@ -448,7 +452,7 @@ class SelectWidgetTests(unittest.TestCase):
         widget.id = 'test-widget'
         widget.field = Choice(
             __name__='selectfield',
-            values=['one', 'two', 'three']
+            values=['one', 'two', 'three'],
         )
         widget.terms = widget.field.vocabulary
         widget.field.required = True
@@ -462,8 +466,8 @@ class SelectWidgetTests(unittest.TestCase):
                 'items': [
                     ('one', 'one'),
                     ('two', 'two'),
-                    ('three', 'three')
-                ]
+                    ('three', 'three'),
+                ],
             },
             widget._base_args(),
         )
@@ -480,8 +484,8 @@ class SelectWidgetTests(unittest.TestCase):
                     (u'', u''),
                     ('one', 'one'),
                     ('two', 'two'),
-                    ('three', 'three')
-                ]
+                    ('three', 'three'),
+                ],
             },
             widget._base_args(),
         )
@@ -498,8 +502,8 @@ class SelectWidgetTests(unittest.TestCase):
                 'items': [
                     ('one', 'one'),
                     ('two', 'two'),
-                    ('three', 'three')
-                ]
+                    ('three', 'three'),
+                ],
             },
             widget._base_args(),
         )
@@ -518,8 +522,8 @@ class SelectWidgetTests(unittest.TestCase):
                 'items': [
                     ('one', 'one'),
                     ('two', 'two'),
-                    ('three', 'three')
-                ]
+                    ('three', 'three'),
+                ],
             },
             widget._base_args(),
         )
@@ -537,8 +541,8 @@ class SelectWidgetTests(unittest.TestCase):
                 'items': [
                     ('one', 'one'),
                     ('two', 'two'),
-                    ('three', 'three')
-                ]
+                    ('three', 'three'),
+                ],
             },
             widget._base_args(),
         )
@@ -550,7 +554,7 @@ class SelectWidgetTests(unittest.TestCase):
         widget.separator = '.'
         widget.field = List(
             __name__='selectfield',
-            value_type=Choice(values=['one', 'two', 'three'])
+            value_type=Choice(values=['one', 'two', 'three']),
         )
         widget.terms = widget.field.value_type.vocabulary
         self.assertEqual(
@@ -564,8 +568,8 @@ class SelectWidgetTests(unittest.TestCase):
                 'items': [
                     ('one', 'one'),
                     ('two', 'two'),
-                    ('three', 'three')
-                ]
+                    ('three', 'three'),
+                ],
             },
             widget._base_args(),
         )
@@ -576,7 +580,7 @@ class SelectWidgetTests(unittest.TestCase):
         widget.id = 'test-widget'
         widget.field = Tuple(
             __name__='selectfield',
-            value_type=Choice(values=['one', 'two', 'three'])
+            value_type=Choice(values=['one', 'two', 'three']),
         )
         widget.terms = widget.field.value_type.vocabulary
         self.assertEqual(
@@ -590,8 +594,8 @@ class SelectWidgetTests(unittest.TestCase):
                 'items': [
                     ('one', 'one'),
                     ('two', 'two'),
-                    ('three', 'three')
-                ]
+                    ('three', 'three'),
+                ],
             },
             widget._base_args(),
         )
@@ -603,7 +607,7 @@ class SelectWidgetTests(unittest.TestCase):
         # A set is not orderable
         widget.field = Set(
             __name__='selectfield',
-            value_type=Choice(values=['one', 'two', 'three'])
+            value_type=Choice(values=['one', 'two', 'three']),
         )
         widget.terms = widget.field.value_type.vocabulary
         self.assertEqual(
@@ -617,8 +621,8 @@ class SelectWidgetTests(unittest.TestCase):
                 'items': [
                     ('one', 'one'),
                     ('two', 'two'),
-                    ('three', 'three')
-                ]
+                    ('three', 'three'),
+                ],
             },
             widget._base_args(),
         )
@@ -628,7 +632,7 @@ class SelectWidgetTests(unittest.TestCase):
         widget = SelectWidget(self.request)
         widget.field = Choice(
             __name__='selectfield',
-            values=['one', 'two', 'three']
+            values=['one', 'two', 'three'],
         )
         widget.name = 'selectfield'
         self.request.form['selectfield'] = 'one'
@@ -641,9 +645,13 @@ class SelectWidgetTests(unittest.TestCase):
         from plone.app.z3cform.widget import SelectWidget
         from plone.app.z3cform.converters import SelectWidgetConverter
 
-        field = List(__name__='listfield',
-                     value_type=Choice(__name__='selectfield',
-                                       values=['one', 'two', 'three']))
+        field = List(
+            __name__='listfield',
+            value_type=Choice(
+                __name__='selectfield',
+                values=['one', 'two', 'three'],
+            ),
+        )
         widget = SelectWidget(self.request)
         widget.field = field
         widget.multiple = True
@@ -671,21 +679,25 @@ class SelectWidgetTests(unittest.TestCase):
         )
         self.assertRaises(
             LookupError,
-            converter.toFieldValue, 'one;two;three'
+            converter.toFieldValue, 'one;two;three',
         )
 
         self.assertEqual(
             converter.toWidgetValue(['one', 'two', 'three']),
-            ['one', 'two', 'three']
+            ['one', 'two', 'three'],
         )
 
     def test_data_converter_tuple(self):
         from plone.app.z3cform.widget import SelectWidget
         from plone.app.z3cform.converters import SelectWidgetConverter
 
-        field = Tuple(__name__='tuplefield',
-                      value_type=Choice(__name__='selectfield',
-                                        values=['one', 'two', 'three']))
+        field = Tuple(
+            __name__='tuplefield',
+            value_type=Choice(
+                __name__='selectfield',
+                values=['one', 'two', 'three'],
+            ),
+        )
         widget = SelectWidget(self.request)
         widget.field = field
         widget.multiple = True
@@ -749,7 +761,7 @@ class AjaxSelectWidgetTests(unittest.TestCase):
                 'pattern': 'select2',
                 'pattern_options': {'separator': ';'},
             },
-            widget._base_args()
+            widget._base_args(),
         )
 
         widget.vocabulary = 'example'
@@ -761,9 +773,9 @@ class AjaxSelectWidgetTests(unittest.TestCase):
                 'pattern': 'select2',
                 'pattern_options': {
                     'vocabularyUrl': '/@@getVocabulary?name=example',
-                    'separator': ';'
+                    'separator': ';',
                 },
-            }
+            },
         )
 
         widget.value = 'three;two'
@@ -776,9 +788,9 @@ class AjaxSelectWidgetTests(unittest.TestCase):
                 'pattern_options': {
                     'vocabularyUrl': '/@@getVocabulary?name=example',
                     'initialValues': {'three': u'Three', 'two': u'Two'},
-                    'separator': ';'
+                    'separator': ';',
                 },
-            }
+            },
         )
 
     def test_widget_list_orderable(self):
@@ -842,7 +854,7 @@ class AjaxSelectWidgetTests(unittest.TestCase):
                     'maximumSelectionSize': 1,
                     'allowNewItems': 'false',
                     'vocabularyUrl':
-                    'http://127.0.0.1/++widget++choicefield/@@getSource',
+                        'http://127.0.0.1/++widget++choicefield/@@getSource',
                 },
             },
             widget._base_args(),
@@ -875,8 +887,8 @@ class AjaxSelectWidgetTests(unittest.TestCase):
                 'pattern_options': {
                     'separator': ';',
                     'vocabularyUrl':
-                    'http://addform_url/@@getVocabulary?name=vocabulary1'}
-
+                    'http://addform_url/@@getVocabulary?name=vocabulary1',
+                },
             },
             widget._base_args(),
         )
@@ -976,8 +988,10 @@ class AjaxSelectWidgetIntegrationTests(unittest.TestCase):
         widget = AjaxSelectWidget(self.request)
         widget.context = portal
         widget.vocabulary = 'plone.app.vocabularies.Keywords'
-        self.assertEqual(widget._base_args()['pattern_options'][
-                         'allowNewItems'], 'true')
+        self.assertEqual(
+            widget._base_args()['pattern_options']['allowNewItems'],
+            'true',
+        )
 
     def test_keywords_cannot_add(self):
         from plone.app.z3cform.widget import AjaxSelectWidget
@@ -986,8 +1000,10 @@ class AjaxSelectWidgetIntegrationTests(unittest.TestCase):
         widget = AjaxSelectWidget(self.request)
         widget.context = portal
         widget.vocabulary = 'plone.app.vocabularies.Keywords'
-        self.assertEqual(widget._base_args()['pattern_options'][
-                         'allowNewItems'], 'false')
+        self.assertEqual(
+            widget._base_args()['pattern_options']['allowNewItems'],
+            'false',
+        )
 
 
 class QueryStringWidgetTests(unittest.TestCase):
@@ -1009,15 +1025,15 @@ class QueryStringWidgetTests(unittest.TestCase):
 
     @mock.patch(
         'plone.app.widgets.utils.get_ajaxselect_options',
-        new=lambda *args, **kwargs: None
+        new=lambda *args, **kwargs: None,
     )
     @mock.patch(
         'plone.app.widgets.utils.get_date_options',
-        new=lambda *args, **kwargs: None
+        new=lambda *args, **kwargs: None,
     )
     @mock.patch(
         'plone.app.widgets.utils.get_relateditems_options',
-        new=lambda *args, **kwargs: None
+        new=lambda *args, **kwargs: None,
     )
     def test_widget(self):
         from plone.app.z3cform.widget import QueryStringWidget
@@ -1034,9 +1050,9 @@ class QueryStringWidgetTests(unittest.TestCase):
                     'patternAjaxSelectOptions': None,
                     'patternDateOptions': None,
                     'patternRelateditemsOptions': None,
-                 },
+                },
             },
-            widget._base_args()
+            widget._base_args(),
         )
 
 
@@ -1073,19 +1089,19 @@ class RelatedItemsWidgetIntegrationTests(unittest.TestCase):
 
         self.assertEqual(
             EXPECTED_ROOT_PATH,
-            result['pattern_options']['rootPath']
+            result['pattern_options']['rootPath'],
         )
         self.assertEqual(
             EXPECTED_ROOT_URL,
-            result['pattern_options']['rootUrl']
+            result['pattern_options']['rootUrl'],
         )
         self.assertEqual(
             EXPECTED_BASE_PATH,
-            result['pattern_options']['basePath']
+            result['pattern_options']['basePath'],
         )
         self.assertEqual(
             EXPECTED_VOCAB_URL,
-            result['pattern_options']['vocabularyUrl']
+            result['pattern_options']['vocabularyUrl'],
         )
 
     def test_related_items_widget_nav_root(self):
@@ -1107,19 +1123,19 @@ class RelatedItemsWidgetIntegrationTests(unittest.TestCase):
 
         self.assertEqual(
             EXPECTED_ROOT_PATH,
-            result['pattern_options']['rootPath']
+            result['pattern_options']['rootPath'],
         )
         self.assertEqual(
             EXPECTED_ROOT_URL,
-            result['pattern_options']['rootUrl']
+            result['pattern_options']['rootUrl'],
         )
         self.assertEqual(
             EXPECTED_BASE_PATH,
-            result['pattern_options']['basePath']
+            result['pattern_options']['basePath'],
         )
         self.assertEqual(
             EXPECTED_VOCAB_URL,
-            result['pattern_options']['vocabularyUrl']
+            result['pattern_options']['vocabularyUrl'],
         )
 
 
@@ -1130,7 +1146,7 @@ class RelatedItemsWidgetTests(unittest.TestCase):
 
     @mock.patch(
         'plone.app.widgets.utils.getToolByName',
-        new=Mock(return_value=Mock(return_value='testuser'))
+        new=Mock(return_value=Mock(return_value='testuser')),
     )
     def test_single_selection(self):
         """The pattern_options value for maximumSelectionSize should
@@ -1151,7 +1167,7 @@ class RelatedItemsWidgetTests(unittest.TestCase):
 
     @mock.patch(
         'plone.app.widgets.utils.getToolByName',
-        new=Mock(return_value=Mock(return_value='testuser'))
+        new=Mock(return_value=Mock(return_value='testuser')),
     )
     def test_multiple_selection(self):
         """The pattern_options key maximumSelectionSize shouldn't be
@@ -1164,7 +1180,7 @@ class RelatedItemsWidgetTests(unittest.TestCase):
                        getPhysicalPath=lambda: ['', 'site'])
         field = List(
             __name__='selectfield',
-            value_type=Choice(vocabulary='foobar')
+            value_type=Choice(vocabulary='foobar'),
         )
         widget = RelatedItemsFieldWidget(field, self.request)
         widget.context = context
@@ -1188,18 +1204,21 @@ class RelatedItemsWidgetTests(unittest.TestCase):
         portal_catalog = Mock(return_value=[brain])
         widget = Mock()
         converter = RelationChoiceRelatedItemsWidgetConverter(
-            TextLine(), widget)
+            TextLine(),
+            widget,
+        )
 
         with mock.patch(
             'plone.app.z3cform.converters.IUUID',
-            return_value='id'
+            return_value='id',
         ):
             self.assertEqual(converter.toWidgetValue('obj'), 'id')
         self.assertEqual(converter.toWidgetValue(None), None)
 
         with mock.patch(
-                'plone.app.z3cform.converters.getToolByName',
-                return_value=portal_catalog):
+            'plone.app.z3cform.converters.getToolByName',
+            return_value=portal_catalog,
+        ):
             self.assertEqual(converter.toFieldValue('id'), 'obj')
         self.assertEqual(converter.toFieldValue(None), None)
 
@@ -1217,17 +1236,22 @@ class RelatedItemsWidgetTests(unittest.TestCase):
         self.assertEqual(converter.toWidgetValue(None), None)
         with mock.patch(
             'plone.app.z3cform.converters.IUUID',
-            side_effect=['id1', 'id2']
+            side_effect=['id1', 'id2'],
         ):
             self.assertEqual(
-                converter.toWidgetValue(['obj1', 'obj2']), 'id1;id2')
+                converter.toWidgetValue(['obj1', 'obj2']),
+                'id1;id2',
+            )
 
         self.assertEqual(converter.toFieldValue(None), None)
         with mock.patch(
-                'plone.app.z3cform.converters.getToolByName',
-                return_value=portal_catalog):
+            'plone.app.z3cform.converters.getToolByName',
+            return_value=portal_catalog,
+        ):
             self.assertEqual(
-                converter.toFieldValue('id1;id2'), ['obj1', 'obj2'])
+                converter.toFieldValue('id1;id2'),
+                ['obj1', 'obj2'],
+            )
 
     def test_converter_List_of_Choice(self):
         from plone.app.z3cform.converters import RelatedItemsDataConverter
@@ -1235,10 +1259,14 @@ class RelatedItemsWidgetTests(unittest.TestCase):
             List(),
             List(value_type=TextLine()),
             List(value_type=BytesLine()),
-            List(value_type=Choice(values=['one', 'two', 'three']))
+            List(value_type=Choice(values=['one', 'two', 'three'])),
         )
         for field in fields:
-            expected_value_type = getattr(field.value_type, '_type', six.text_type)
+            expected_value_type = getattr(
+                field.value_type,
+                '_type',
+                six.text_type,
+            )
             if expected_value_type is None:
                 expected_value_type = six.text_type
             widget = Mock(separator=';')
@@ -1246,16 +1274,20 @@ class RelatedItemsWidgetTests(unittest.TestCase):
 
             self.assertEqual(converter.toWidgetValue(None), None)
             self.assertEqual(
-                converter.toWidgetValue(['id1', 'id2']), 'id1;id2')
+                converter.toWidgetValue(['id1', 'id2']),
+                'id1;id2',
+            )
 
             self.assertEqual(converter.toFieldValue(None), None)
             self.assertEqual(
-                converter.toFieldValue('id1;id2'), ['id1', 'id2'])
+                converter.toFieldValue('id1;id2'),
+                ['id1', 'id2'],
+            )
 
             self.assertEqual(converter.toFieldValue(None), None)
             self.assertEqual(
                 type(converter.toFieldValue('id1;id2')[0]),
-                expected_value_type
+                expected_value_type,
             )
 
     def test_fieldwidget(self):
@@ -1321,11 +1353,12 @@ class RichTextWidgetTests(unittest.TestCase):
         prependToUrl = '/plone/resolveuid/'
         self.assertEqual(
             base_args['pattern_options']['prependToUrl'],
-            prependToUrl
+            prependToUrl,
         )
         self.assertEqual(
             base_args['pattern_options']['upload']['relativePath'],
-            '@@fileUpload')
+            '@@fileUpload',
+        )
 
     def test_widget_params_different_contexts(self):
         from plone.app.z3cform.widget import RichTextWidget
@@ -1344,7 +1377,7 @@ class RichTextWidgetTests(unittest.TestCase):
 
         self.assertEqual(
             base_args['pattern_options']['relatedItems']['basePath'],
-            '/plone'
+            '/plone',
         )
 
         # sub context
@@ -1354,7 +1387,7 @@ class RichTextWidgetTests(unittest.TestCase):
 
         self.assertEqual(
             base_args['pattern_options']['relatedItems']['basePath'],
-            '/plone/sub'
+            '/plone/sub',
         )
 
         # form context
@@ -1364,7 +1397,7 @@ class RichTextWidgetTests(unittest.TestCase):
 
         self.assertEqual(
             base_args['pattern_options']['relatedItems']['basePath'],
-            '/plone/sub'
+            '/plone/sub',
         )
 
         # non-contentish context
@@ -1374,7 +1407,7 @@ class RichTextWidgetTests(unittest.TestCase):
 
         self.assertEqual(
             base_args['pattern_options']['relatedItems']['basePath'],
-            '/plone'
+            '/plone',
         )
 
     def test_widget_values(self):
@@ -1394,7 +1427,9 @@ class RichTextWidgetTests(unittest.TestCase):
         if IMarkupSchema:
             registry = getUtility(IRegistry)
             self.settings = registry.forInterface(
-                IMarkupSchema, prefix='plone')
+                IMarkupSchema,
+                prefix='plone',
+            )
             self.settings.default_type = default
             self.settings.allowed_types = allowed
 
@@ -1456,7 +1491,8 @@ class RichTextWidgetTests(unittest.TestCase):
             self.assertTrue('pat-textareamimetypeselector' in rendered)
             self.assertTrue('data-pat-textareamimetypeselector' in rendered)
             self.assertTrue(
-                '<option value="text/plain" selected="selected">' in rendered)
+                '<option value="text/plain" selected="selected">' in rendered,
+            )
             self.assertTrue('pat-tinymce' not in rendered)
 
 
@@ -1477,7 +1513,7 @@ class LinkWidgetIntegrationTests(unittest.TestCase):
         pattern_data = json.loads(widget.pattern_data())
         self.assertEqual(
             pattern_data['vocabularyUrl'],
-            'http://nohost/plone/@@getVocabulary?name=plone.app.vocabularies.Catalog'  # noqa
+            'http://nohost/plone/@@getVocabulary?name=plone.app.vocabularies.Catalog',  # noqa
         )
         self.assertEqual(pattern_data['maximumSelectionSize'], 1)
 
@@ -1491,7 +1527,7 @@ class LinkWidgetIntegrationTests(unittest.TestCase):
         self.request.form['testlinkwidget.internal'] = 'abc'
         self.assertEqual(
             widget.extract(),
-            u'${portal_url}/resolveuid/abc'
+            u'${portal_url}/resolveuid/abc',
         )
 
     def test_link_widget__extract_external(self):
@@ -1504,7 +1540,7 @@ class LinkWidgetIntegrationTests(unittest.TestCase):
         self.request.form['testlinkwidget.external'] = 'https://plone.org'
         self.assertEqual(
             widget.extract(),
-            u'https://plone.org'
+            u'https://plone.org',
         )
 
     def test_link_widget__extract_email(self):
@@ -1517,7 +1553,7 @@ class LinkWidgetIntegrationTests(unittest.TestCase):
         self.request.form['testlinkwidget.email'] = 'dev@plone.org'
         self.assertEqual(
             widget.extract(),
-            u'mailto:dev@plone.org'
+            u'mailto:dev@plone.org',
         )
 
     def test_link_widget__extract_email_including_mailto(self):
@@ -1530,7 +1566,7 @@ class LinkWidgetIntegrationTests(unittest.TestCase):
         self.request.form['testlinkwidget.email'] = 'mailto:dev@plone.org'
         self.assertEqual(
             widget.extract(),
-            u'mailto:dev@plone.org'
+            u'mailto:dev@plone.org',
         )
 
     def test_link_widget__data_converter(self):
@@ -1554,53 +1590,53 @@ class LinkWidgetIntegrationTests(unittest.TestCase):
         # Test external URLs
         self.assertEqual(
             converter.toWidgetValue(u'https://plone.org')['external'],
-            u'https://plone.org'
+            u'https://plone.org',
         )
 
         # Test relative resolveuid URLs
         self.assertEqual(
             converter.toWidgetValue(u'/resolveuid/1234')['internal'],
-            u'1234'
+            u'1234',
         )
 
         # Test absolute resolveuid URLs on the same domain
         self.assertEqual(
             converter.toWidgetValue(portal_url + '/resolveuid/1234')['internal'],  # noqa
-            u'1234'
+            u'1234',
         )
 
         # Test absolute resolveuid URLs on a different domain
         self.assertEqual(
             converter.toWidgetValue(u'http://anyurl/resolveuid/1234')['external'],  # noqa
-            u'http://anyurl/resolveuid/1234'
+            u'http://anyurl/resolveuid/1234',
         )
 
         # Test interrnal URL paths
         self.assertEqual(
             converter.toWidgetValue(portal_path + '/test')['internal'],
-            IUUID(self.portal.test)
+            IUUID(self.portal.test),
         )
 
         # Test absolute interrnal URLs
         self.assertEqual(
             converter.toWidgetValue(portal_url + '/test')['internal'],
-            IUUID(self.portal.test)
+            IUUID(self.portal.test),
         )
 
         # Test mail
         self.assertEqual(
             converter.toWidgetValue(u'mailto:me')['email'],
-            u'me'
+            u'me',
         )
 
         # Test mail with subject
         self.assertEqual(
             converter.toWidgetValue(u'mailto:me?subject=jep')['email'],
-            u'me'
+            u'me',
         )
         self.assertEqual(
             converter.toWidgetValue(u'mailto:me?subject=jep')['email_subject'],
-            u'jep'
+            u'jep',
         )
 
 
@@ -1622,5 +1658,6 @@ class WidgetCustomizingIntegrationTests(unittest.TestCase):
 
         render = TestForm(self.layer['portal'], self.layer['request'])
         self.assertIn(
-            'empty foo" data-fieldname="form.widgets.my_date"', render())
-
+            'empty foo" data-fieldname="form.widgets.my_date"',
+            render(),
+        )

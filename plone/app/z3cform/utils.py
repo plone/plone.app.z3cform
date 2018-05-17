@@ -5,6 +5,7 @@ from Products.CMFCore.interfaces import IFolderish
 from six.moves import urllib
 from zope.component.hooks import getSite
 
+
 try:
     from zope.globalrequest import getRequest
     getRequest  # pyflakes
@@ -94,14 +95,14 @@ def replace_link_variables_by_paths(context, url):
         url = _replace_variable_by_path(
             url,
             '${navigation_root_url}',
-            portal_state.navigation_root()
+            portal_state.navigation_root(),
         )
 
     if '${portal_url}' in url:
         url = _replace_variable_by_path(
             url,
             '${portal_url}',
-            portal_state.portal()
+            portal_state.portal(),
         )
 
     return url

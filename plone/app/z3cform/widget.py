@@ -114,13 +114,14 @@ class BaseWidget(Widget):
         _base_args = self._base_args()
         _base_args['pattern_options'] = call_callables(
             _base_args['pattern_options'],
-            self.context
+            self.context,
         )
 
         pattern_widget = self._base(**_base_args)
         if getattr(self, 'klass', False):
             pattern_widget.klass = u'{0} {1}'.format(
-                pattern_widget.klass, self.klass
+                pattern_widget.klass,
+                self.klass,
             )
         return pattern_widget.render()
 
@@ -182,7 +183,7 @@ class DateWidget(BaseWidget, HTMLInputWidget):
 
         formatter = self.request.locale.dates.getFormatter(
             self._formater,
-            'short'
+            'short',
         )
         if field_value.year > 1900:
             return formatter.format(field_value)
@@ -397,7 +398,7 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
             form_url = self.request.getURL()
             source_url = '{0:s}/++widget++{1:s}/@@getSource'.format(
                 form_url,
-                self.name
+                self.name,
             )
             args['pattern_options']['vocabularyUrl'] = source_url
 
@@ -505,7 +506,7 @@ class RelatedItemsWidget(BaseWidget, z3cform_TextWidget):
                 self.vocabulary_view,
                 field_name,
             ),
-            args['pattern_options']
+            args['pattern_options'],
         )
         if root_search_mode:
             # Delete default basePath option in search mode, when no basePath
@@ -520,7 +521,7 @@ class RelatedItemsWidget(BaseWidget, z3cform_TextWidget):
             form_url = self.request.getURL()
             source_url = '{0:s}/++widget++{1:s}/@@getSource'.format(
                 form_url,
-                self.name
+                self.name,
             )
             args['pattern_options']['vocabularyUrl'] = source_url
 
@@ -619,9 +620,9 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
             get_tinymce_options(
                 self.wrapped_context(),
                 self.field,
-                self.request
+                self.request,
             ),
-            args['pattern_options']
+            args['pattern_options'],
         )
         args['pattern_options'] = merged_options
 
@@ -652,7 +653,7 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
                 textarea_widget.klass = ''
                 mt_pattern_name = '{0}{1}'.format(
                     self._base._klass_prefix,
-                    'textareamimetypeselector'
+                    'textareamimetypeselector',
                 )
 
                 # Initialize mimetype selector pattern
@@ -665,7 +666,7 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
                 mt_select.attrib['name'] = '{0}.mimeType'.format(self.name)
                 mt_select.attrib['class'] = mt_pattern_name
                 mt_select.attrib[
-                    'data-{0}'.format(mt_pattern_name)
+                    'data-{0}'.format(mt_pattern_name),
                 ] = json.dumps(
                     {
                         'textareaName': self.name,
@@ -674,10 +675,10 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
                                             # richtext widget config for
                                             # 'text/html', no other mimetypes.
                                 'pattern': self.pattern,
-                                'patternOptions': pattern_options
-                            }
-                        }
-                    }
+                                'patternOptions': pattern_options,
+                            },
+                        },
+                    },
                 )
 
                 # Create a list of allowed mime types
@@ -692,7 +693,7 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
                 # Render the combined widget
                 rendered = '{0}\n{1}'.format(
                     textarea_widget.render(),
-                    etree.tostring(mt_select)
+                    etree.tostring(mt_select),
                 )
             return rendered
 
@@ -717,9 +718,9 @@ class LinkWidget(z3cform_TextWidget):
     def pattern_data(self):
         pattern_data = {
             'vocabularyUrl': '{0}/@@getVocabulary?name=plone.app.vocabularies.Catalog'.format(  # noqa
-                getSite().absolute_url(0)
+                getSite().absolute_url(0),
             ),
-            'maximumSelectionSize': 1
+            'maximumSelectionSize': 1,
         }
         return json.dumps(pattern_data)
 
@@ -739,7 +740,7 @@ class LinkWidget(z3cform_TextWidget):
             else:
                 url = '{email}?subject={subject}'.format(
                     email=email,
-                    subject=subject
+                    subject=subject,
                 )
         else:
             url = external   # the default is `http://` so we land here
@@ -838,8 +839,8 @@ class SingleCheckBoxBoolWidget(SingleCheckBoxWidget):
                     getattr(
                         self,
                         '_description',
-                        None
-                    ) or self.field.description
+                        None,
+                    ) or self.field.description,
                 ),
             ))
             return self.terms
@@ -849,9 +850,9 @@ class SingleCheckBoxBoolWidget(SingleCheckBoxWidget):
                 [
                     SimpleTerm(*args) for args in [
                         (True, 'selected', BoolTerms.trueLabel),
-                        (False, 'unselected', BoolTerms.falseLabel)
+                        (False, 'unselected', BoolTerms.falseLabel),
                     ]
-                ]
+                ],
             )
         return self.terms
 

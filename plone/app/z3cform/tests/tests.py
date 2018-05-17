@@ -43,8 +43,8 @@ def test_suite():
         package='plone.app.z3cform',
         optionflags=(
             doctest.ELLIPSIS |
-            doctest.NORMALIZE_WHITESPACE
-        )
+            doctest.NORMALIZE_WHITESPACE,
+        ),
     ), layer=PAZ3CForm_INTEGRATION_TESTING)
 
     suite = unittest.TestSuite([

@@ -46,6 +46,6 @@ def WysiwygFieldWidget(field, request):
     logger.warn(
         'plone.app.z3cform.wysiwyg.WysiwygFieldWidget is deprecated and'
         'will be removed in Plone 5.1',
-        DeprecationWarning
+        DeprecationWarning,
     )
     return z3c.form.widget.FieldWidget(field, WysiwygWidget(request))

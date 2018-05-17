@@ -321,7 +321,7 @@ class LinkWidgetDataConverter(BaseDataConverter):
             'internal': u'',
             'external': u'',
             'email': u'',
-            'email_subject': u''
+            'email_subject': u'',
         }
         if not value:
             return result

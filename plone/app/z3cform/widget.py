@@ -666,7 +666,7 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
                 mt_select.attrib['name'] = '{0}.mimeType'.format(self.name)
                 mt_select.attrib['class'] = mt_pattern_name
                 mt_select.attrib[
-                    'data-{0}'.format(mt_pattern_name),
+                    'data-{0}'.format(mt_pattern_name)
                 ] = json.dumps(
                     {
                         'textareaName': self.name,

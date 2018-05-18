@@ -23,6 +23,10 @@ Bug fixes:
 - Prepare for Python 2 / 3 compatibility
   [pbauer, MatthewWilkes]
 
+- Render mimetype selection box correctly for a ``RichTextWidget`` which also
+  brings back the TinyMCE.
+  [sallner]
+
 
 3.0.4 (2018-02-04)
 ------------------

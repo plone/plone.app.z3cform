@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from plone.app.z3cform.interfaces import IPloneFormLayer
+from plone.app.z3cform.tests.layer import PAZ3CForm_INTEGRATION_TESTING
 from plone.app.z3cform.wysiwyg.widget import WysiwygWidget
 from zope import publisher
 from zope.globalrequest import setRequest
@@ -23,6 +24,8 @@ class NoAcquisitionAware(object):
 
 
 class TestWidget(unittest.TestCase):
+
+    layer = PAZ3CForm_INTEGRATION_TESTING
 
     def setUp(self):
         self.request = TestRequest()

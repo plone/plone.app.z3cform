@@ -904,22 +904,35 @@ class AjaxSelectWidgetTests(unittest.TestCase):
 
         self.assertEqual(
             converter.toFieldValue(''),
-            field.missing_value,
+            field.missing_value
         )
 
         self.assertEqual(
             converter.toFieldValue('123;456;789'),
-            ['123', '456', '789'],
+            ['123', '456', '789']
         )
 
         self.assertEqual(
             converter.toWidgetValue([]),
-            None,
+            None
         )
 
         self.assertEqual(
             converter.toWidgetValue(['123', '456', '789']),
-            '123;456;789',
+            '123;456;789'
+        )
+
+        # Test Umlauts
+        self.assertEqual(
+            converter.toFieldValue(u'äl€;mäl€'),
+            [u'äl€', u'mäl€']
+        )
+
+        # Test quoted-printable converted with binascii.b2a_qp, as done by the
+        # vocabularies token
+        self.assertEqual(
+            converter.toFieldValue('=C3=A4l=E2=82=AC;m=C3=A4l=E2=82=AC'),
+            [u'äl€', u'mäl€']
         )
 
     def test_data_converter_tuple(self):
@@ -933,22 +946,35 @@ class AjaxSelectWidgetTests(unittest.TestCase):
 
         self.assertEqual(
             converter.toFieldValue(''),
-            field.missing_value,
+            field.missing_value
         )
 
         self.assertEqual(
             converter.toFieldValue('123;456;789'),
-            ('123', '456', '789'),
+            ('123', '456', '789')
         )
 
         self.assertEqual(
             converter.toWidgetValue(tuple()),
-            None,
+            None
         )
 
         self.assertEqual(
             converter.toWidgetValue(('123', '456', '789')),
-            '123;456;789',
+            '123;456;789'
+        )
+
+        # Test Umlauts
+        self.assertEqual(
+            converter.toFieldValue(u'äl€;mäl€'),
+            (u'äl€', u'mäl€')
+        )
+
+        # Test quoted-printable converted with binascii.b2a_qp, as done by the
+        # vocabularies token
+        self.assertEqual(
+            converter.toFieldValue('=C3=A4l=E2=82=AC;m=C3=A4l=E2=82=AC'),
+            (u'äl€', u'mäl€')
         )
 
     def test_fieldwidget(self):

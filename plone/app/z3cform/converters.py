@@ -273,6 +273,9 @@ class RelatedItemsDataConverter(BaseDataConverter):
             valueType = getattr(self.field.value_type, '_type', six.text_type)
             if valueType is None:
                 valueType = six.text_type
+            if valueType == six.binary_type:
+                return collectionType(
+                    valueType(v, encoding='utf8') for v in value)
             return collectionType(valueType(v) for v in value)
 
 

@@ -27,6 +27,7 @@ Then we create a simple z3c form
     >>> class MySchema(interface.Interface):
     ...     age = schema.Int(title=u"Age")
 
+    >>> from __future__ import print_function
     >>> class MyForm(form.Form):
     ...     fields = field.Fields(MySchema)
     ...     ignoreContext = True # don't use context to get widget data
@@ -34,7 +35,7 @@ Then we create a simple z3c form
     ...     @button.buttonAndHandler(u'Apply')
     ...     def handleApply(self, action):
     ...         data, errors = self.extractData()
-    ...         print data['age'] # ... or do stuff
+    ...         print(data['age'])  # ... or do stuff
 
     >>> class MyFormWrapper(FormWrapper):
     ...     form = MyForm

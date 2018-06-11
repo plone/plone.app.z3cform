@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from datetime import date
 from datetime import datetime
+from json import loads
 from mock import Mock
+from lxml import html
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.z3cform.tests.layer import PAZ3CForm_INTEGRATION_TESTING
@@ -143,14 +145,32 @@ class BaseWidgetTests(unittest.TestCase):
                 'subsubtuple': (7, 8, 9, lambda x: x),
             },
         }
-
+        output = widget.render()
+        # output is something like
+        #
+        # <input class="pat-example"
+        #        type="text"
+        #        data-pat-example="$JSON_ENCODED_OPTIONS" />'
+        self.assertRegexpMatches(widget.render(), '<input .*/>')
+        # We cannot foresee how the options are encoded
+        # so we will extract the attributes with lxml
+        # and be sure that they will match what we expect
+        observed_attrib = html.fromstring(output).attrib
         self.assertEqual(
-            '<input class="pat-example" type="text" '
-            'data-pat-example="{&quot;subdict&quot;: '
-            '{&quot;subsubtuple&quot;: [7, 8, 9, &quot;testcontext&quot;], '
-            '&quot;subsublist&quot;: [7, 8, 9, &quot;testcontext&quot;], '
-            '&quot;subsubnormal&quot;: 789}}"/>',
-            widget.render(),
+            sorted(observed_attrib),
+            ['class', 'data-pat-example', 'type']
+        )
+        self.assertEqual(observed_attrib['class'], 'pat-example')
+        self.assertEqual(observed_attrib['type'], 'text')
+        self.assertDictEqual(
+            loads(observed_attrib['data-pat-example']),
+            {
+                'subdict': {
+                    'subsubnormal': 789,
+                    'subsublist': [7, 8, 9, 'testcontext'],
+                    'subsubtuple': [7, 8, 9, 'testcontext']
+                }
+            },
         )
 
 

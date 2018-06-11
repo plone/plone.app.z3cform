@@ -1299,9 +1299,13 @@ class RelatedItemsWidgetTests(unittest.TestCase):
             )
 
             self.assertEqual(converter.toFieldValue(None), None)
+            if not six.PY2 and expected_value_type == six.binary_type:
+                expected = [b'id1', b'id2']
+            else:
+                expected = ['id1', 'id2']
             self.assertEqual(
                 converter.toFieldValue('id1;id2'),
-                ['id1', 'id2'],
+                expected,
             )
 
             self.assertEqual(converter.toFieldValue(None), None)

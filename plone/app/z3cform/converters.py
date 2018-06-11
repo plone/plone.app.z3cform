@@ -358,7 +358,8 @@ class LinkWidgetDataConverter(BaseDataConverter):
                 else:
                     path = utils.replace_link_variables_by_paths(
                         portal, parsed.path)
-                    path = path.encode('ascii', 'ignore')
+                    if six.PY2:
+                        path = path.encode('ascii', 'ignore')
                     obj = portal.unrestrictedTraverse(path=path, default=None)
                     if obj is not None:
                         uuid = IUUID(obj, None)

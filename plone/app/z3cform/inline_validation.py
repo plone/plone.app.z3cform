@@ -43,10 +43,10 @@ class InlineValidationView(BrowserView):
                 # try to match fieldset on group name
                 def _name(group):
                     return getattr(group, '__name__', group.label)
-                group_match = filter(
+                group_match = list(filter(
                     lambda group: normalizeString(_name(group)) == fset,
                     form.groups,
-                )
+                ))
                 if not group_match:
                     raise ValueError('Fieldset specified, but not found.')
                 form = group_match[0]

@@ -27,6 +27,8 @@ Bug fixes:
   brings back the TinyMCE.
   [sallner]
 
+- Allow RelatedItems widget to be used in subforms
+  [tomgross]
 
 3.0.4 (2018-02-04)
 ------------------

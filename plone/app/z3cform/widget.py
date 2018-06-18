@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+from Acquisition import aq_base
 from Acquisition import ImplicitAcquisitionWrapper
+from OFS.interfaces import ISimpleItem
 from lxml import etree
 from plone.app.textfield.value import RichTextValue
 from plone.app.textfield.widget import RichTextWidget as patext_RichTextWidget
@@ -35,6 +37,7 @@ from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IEditingSchema
 from Products.CMFPlone.utils import safe_unicode
+from six.moves import UserDict
 from z3c.form.browser.checkbox import SingleCheckBoxWidget
 from z3c.form.browser.select import SelectWidget as z3cform_SelectWidget
 from z3c.form.browser.text import TextWidget as z3cform_TextWidget
@@ -63,12 +66,6 @@ from zope.schema.vocabulary import SimpleVocabulary
 
 import json
 import six
-
-
-try:
-    from collections import UserDict
-except ImportError:
-    from UserDict import UserDict
 
 
 class BaseWidget(Widget):
@@ -124,6 +121,9 @@ class BaseWidget(Widget):
                 self.klass,
             )
         return pattern_widget.render()
+
+    def is_subform_widget(self):
+        return getattr(aq_base(self.form), 'parentForm', None) is not None
 
 
 @implementer_only(IDateWidget)
@@ -486,11 +486,18 @@ class RelatedItemsWidget(BaseWidget, z3cform_TextWidget):
         view_context = get_widget_form(self)
         # For EditForms and non-Forms (in tests), the vocabulary is looked
         # up on the context, otherwise on the view
-        if (
-            IEditForm.providedBy(view_context) or
-            not IForm.providedBy(view_context)
-        ):
+        if IEditForm.providedBy(view_context):
+            if self.is_subform_widget():
+                view_context = self.form.parentForm.context
+            elif not ISimpleItem.providedBy(context):
+                view_context = self.form.context
+            else:
+                view_context = context
+        elif not IForm.providedBy(view_context):
             view_context = context
+        else:
+            pass
+            # view_context is defined above already
 
         root_search_mode = (
             args['pattern_options'].get('mode', None) and

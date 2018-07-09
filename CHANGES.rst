@@ -14,8 +14,9 @@ New features:
 
 Bug fixes:
 
-- *add item here*
-
+- Remove aquisition on extraction in relation widget
+  This allows early pickeling (for CMFEditions)
+  [tomgross]
 
 3.0.5 (2018-06-19)
 ------------------

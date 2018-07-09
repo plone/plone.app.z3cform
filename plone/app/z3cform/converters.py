@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from Acquisition import aq_base
 from datetime import date
 from datetime import datetime
 from plone.app.z3cform import utils
@@ -205,14 +206,11 @@ class RelationChoiceRelatedItemsWidgetConverter(BaseDataConverter):
     def toFieldValue(self, value):
         if not value:
             return self.field.missing_value
-        try:
-            catalog = getToolByName(self.widget.context, 'portal_catalog')
-        except AttributeError:
-            catalog = getToolByName(getSite(), 'portal_catalog')
+        catalog = getToolByName(getSite(), 'portal_catalog')
 
         res = catalog(UID=value)
         if res:
-            return res[0].getObject()
+            return aq_base(res[0].getObject())
         else:
             return self.field.missing_value
 
@@ -258,12 +256,9 @@ class RelatedItemsDataConverter(BaseDataConverter):
         value = value.split(separator)
 
         if IRelationList.providedBy(self.field):
-            try:
-                catalog = getToolByName(self.widget.context, 'portal_catalog')
-            except AttributeError:
-                catalog = getToolByName(getSite(), 'portal_catalog')
+            catalog = getToolByName(getSite(), 'portal_catalog')
 
-            objects = {item.UID: item.getObject()
+            objects = {item.UID: aq_base(item.getObject())
                        for item in catalog(UID=value) if item}
 
             return collectionType(objects[uid]

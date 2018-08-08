@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.5 (unreleased)
+3.0.6 (unreleased)
 ------------------
 
 Breaking changes:
@@ -11,6 +11,14 @@ Breaking changes:
 New features:
 
 - *add item here*
+
+Bug fixes:
+
+- *add item here*
+
+
+3.0.5 (2018-06-19)
+------------------
 
 Bug fixes:
 
@@ -27,6 +35,8 @@ Bug fixes:
   brings back the TinyMCE.
   [sallner]
 
+- Allow RelatedItems widget to be used in subforms
+  [tomgross]
 
 3.0.4 (2018-02-04)
 ------------------

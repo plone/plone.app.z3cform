@@ -273,6 +273,9 @@ class RelatedItemsDataConverter(BaseDataConverter):
             valueType = getattr(self.field.value_type, '_type', six.text_type)
             if valueType is None:
                 valueType = six.text_type
+            if not six.PY2 and valueType == six.binary_type:
+                return collectionType(
+                    valueType(v, encoding='utf8') for v in value)
             return collectionType(valueType(v) for v in value)
 
 
@@ -355,7 +358,8 @@ class LinkWidgetDataConverter(BaseDataConverter):
                 else:
                     path = utils.replace_link_variables_by_paths(
                         portal, parsed.path)
-                    path = path.encode('ascii', 'ignore')
+                    if six.PY2:
+                        path = path.encode('ascii', 'ignore')
                     obj = portal.unrestrictedTraverse(path=path, default=None)
                     if obj is not None:
                         uuid = IUUID(obj, None)

@@ -29,7 +29,7 @@ Bug fixes:
   [allusa]
 
 - Prepare for Python 2 / 3 compatibility
-  [pbauer, MatthewWilkes]
+  [pbauer, MatthewWilkes, ale-rt]
 
 - Render mimetype selection box correctly for a ``RichTextWidget`` which also
   brings back the TinyMCE.

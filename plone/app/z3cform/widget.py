@@ -698,7 +698,7 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
                     mt_select.append(opt)
 
                 # Render the combined widget
-                rendered = '{0}\n{1}'.format(
+                rendered = u'{0}\n{1}'.format(
                     textarea_widget.render(),
                     etree.tostring(mt_select, encoding='unicode'),
                 )

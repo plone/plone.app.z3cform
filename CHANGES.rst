@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Prepare for Python 2 / 3 compatibility
+  [pbauer, MatthewWilkes, ale-rt]
 
 
 3.0.5 (2018-06-19)

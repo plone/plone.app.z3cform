@@ -6,6 +6,7 @@ from mock import Mock
 from lxml import html
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from plone.app.widgets.utils import NotImplemented as PatternNotImplemented
 from plone.app.z3cform.tests.layer import PAZ3CForm_INTEGRATION_TESTING
 from plone.app.z3cform.widget import BaseWidget
 from plone.app.z3cform.widget import DateWidget
@@ -74,13 +75,11 @@ class BaseWidgetTests(unittest.TestCase):
         self.maxDiff = 999999
 
     def test_widget_pattern_notimplemented(self):
-        from plone.app.widgets.utils import NotImplemented
-
         widget = BaseWidget(self.request)
         widget.field = self.field
 
         self.assertRaises(
-            NotImplemented,
+            PatternNotImplemented,
             widget._base_args,
         )
 
@@ -97,14 +96,13 @@ class BaseWidgetTests(unittest.TestCase):
     def test_widget_base_notimplemented(self):
         from plone.app.z3cform.widget import BaseWidget
         from plone.app.widgets.base import InputWidget
-        from plone.app.widgets.utils import NotImplemented
 
         widget = BaseWidget(self.request)
         widget.field = self.field
         widget.pattern = 'example'
 
         self.assertRaises(
-            NotImplemented,
+            PatternNotImplemented,
             widget.render,
         )
 

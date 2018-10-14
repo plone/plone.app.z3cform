@@ -20,7 +20,7 @@
       name="ploneform-macros"
       for="*"
       layer=".interfaces.IPloneFormLayer"
-      class=".templates.Macros"
+      class=".views.Macros"
       template="templates/macros.pt"
       allowed_interface="zope.interface.common.mapping.IItemMapping"
       permission="zope.Public"
@@ -29,19 +29,19 @@
       name="ploneform-render-widget"
       for="z3c.form.interfaces.IWidget"
       layer="plone.app.z3cform.interfaces.IPloneFormLayer"
-      class=".templates.RenderWidget"
+      class=".views.RenderWidget"
       permission="zope.Public"
       />
   <browser:page
       name="ploneform-render-widget"
       for="zope.contentprovider.interfaces.IContentProvider"
       layer="plone.app.z3cform.interfaces.IPloneFormLayer"
-      class=".templates.RenderContentProvider"
+      class=".views.RenderContentProvider"
       permission="zope.Public"
       />
 
-  <adapter factory=".templates.layout_factory" />
-  <adapter factory=".templates.form_factory" />
+  <adapter factory=".views.layout_factory" />
+  <adapter factory=".views.form_factory" />
 
   <!-- Make the default widget for sequence-of-text-lines a textlines
        widget; the default is too confusing

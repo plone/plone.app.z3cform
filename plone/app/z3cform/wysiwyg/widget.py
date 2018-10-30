@@ -6,6 +6,7 @@ from zope.interface import implementer_only
 
 import Acquisition
 import logging
+import warnings
 import z3c.form.browser.textarea
 import z3c.form.interfaces
 import z3c.form.widget
@@ -43,7 +44,7 @@ class WysiwygWidget(z3c.form.browser.textarea.TextAreaWidget):
 @implementer(z3c.form.interfaces.IFieldWidget)
 def WysiwygFieldWidget(field, request):
     """IFieldWidget factory for WysiwygWidget."""
-    logger.warn(
+    warnings.warn(
         'plone.app.z3cform.wysiwyg.WysiwygFieldWidget is deprecated and'
         'will be removed in Plone 5.1',
         DeprecationWarning,

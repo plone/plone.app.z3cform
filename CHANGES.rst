@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Fix deprecation warning
+  (https://github.com/plone/Products.CMFPlone/issues/2605) [ale-rt]
 
 
 2.1.2 (2016-12-02)

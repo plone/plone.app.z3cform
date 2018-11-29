@@ -42,6 +42,7 @@ from z3c.form.browser.checkbox import SingleCheckBoxWidget
 from z3c.form.browser.select import SelectWidget as z3cform_SelectWidget
 from z3c.form.browser.text import TextWidget as z3cform_TextWidget
 from z3c.form.browser.widget import HTMLInputWidget
+from z3c.form import interfaces as form_ifaces
 from z3c.form.interfaces import IEditForm
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.interfaces import IForm
@@ -57,6 +58,7 @@ from zope.component.hooks import getSite
 from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface import implementer_only
+from zope.schema import interfaces as schema_ifaces
 from zope.schema.interfaces import IBool
 from zope.schema.interfaces import IChoice
 from zope.schema.interfaces import ICollection
@@ -65,6 +67,7 @@ from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
 import json
+import collections
 import six
 
 
@@ -257,6 +260,27 @@ class SelectWidget(BaseWidget, z3cform_SelectWidget):
     orderable = False
     required = True
 
+    @property
+    def items(self):
+        """
+        Optionally handle ITreeVocabulary vocabs as dicts.
+        """
+        terms = self.terms
+        if form_ifaces.ITerms.providedBy(terms):
+            terms = terms.terms
+
+        if schema_ifaces.ITreeVocabulary.providedBy(terms):
+            groups = collections.OrderedDict()
+            for group_term, option_terms in terms.items():
+                group_widget = type(self)(self.request)
+                group_widget.terms = option_terms
+                group_label = (
+                    group_term.title or group_term.value or group_term.token)
+                groups[group_label] = super(SelectWidget, group_widget).items
+            return groups
+        else:
+            return super(SelectWidget, self).items
+
     def _base_args(self):
         """Method which will calculate _base class arguments.
 
@@ -301,14 +325,25 @@ class SelectWidget(BaseWidget, z3cform_SelectWidget):
             # support both here to avoid breaking on some z3c.form versions.
             # See https://github.com/zopefoundation/z3c.form/issues/44
             base_items = base_items()
-        items = []
-        for item in base_items:
+
+        def makeItem(item):
+            """
+            Gather the information needed by the widget for the given term.
+            """
             if not isinstance(item['content'], six.string_types):
                 item['content'] = translate(
                     item['content'],
                     context=self.request,
                     default=item['value'])
-            items.append((item['value'], item['content']))
+            return (item['value'], item['content'])
+
+        if isinstance(base_items, dict):
+            items = collections.OrderedDict(
+                (group_label, [
+                    makeItem(base_item) for base_item in group_options])
+                for group_label, group_options in base_items.items())
+        else:
+            items = [makeItem(item) for item in base_items]
         args['items'] = items
 
         return args

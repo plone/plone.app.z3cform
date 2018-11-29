@@ -10,7 +10,9 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Add support for rendering <optgroup> elements from
+  zope.schema.interfaces.ITreeVocabulary hierarchical terms.
+  [rpatterson]
 
 Bug fixes:
 

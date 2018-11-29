@@ -38,6 +38,7 @@ from zope.schema import List
 from zope.schema import Set
 from zope.schema import TextLine
 from zope.schema import Tuple
+from zope.schema import vocabulary
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
@@ -757,6 +758,44 @@ class SelectWidgetTests(unittest.TestCase):
             converter.toFieldValue((u'',)),
             field.missing_value,
         )
+
+    def test_widget_optgroup(self):
+        """
+        If the widget vocabulary is a mapping <optgroup>'s are rendered.
+        """
+        from z3c.form import term
+        from plone.app.z3cform.widget import SelectWidget
+        widget = SelectWidget(self.request)
+        widget.field = Choice(vocabulary=vocabulary.TreeVocabulary.fromDict({
+            ('foo_group', 'Foo Group'): {
+                ('bar_group', 'Bar Group'): {},
+                ('qux_group', 'Qux Group'): {},
+            },
+            ('corge_group', 'Corge Group'): {
+                ('grault_group', 'Grault Group'): {},
+                ('garply_group', 'Garply Group'): {},
+            },
+        }))
+        # Usse term.CollectionTermsVocabulary to simulate a named vocabulary
+        # factory lookup
+        widget.terms = term.CollectionTermsVocabulary(
+            context=None, request=self.request, form=None, field=None,
+            widget=widget, vocabulary=widget.field.vocabulary)
+        widget.updateTerms()
+        html = widget.render()
+        self.assertNotIn(
+            '<option value="foo_group">', html,
+            'Top level vocab item rendered as <option...>')
+        self.assertIn(
+            '<optgroup label="Foo Group">', html,
+            'Rendered select widget missing an <optgroup...>')
+
+        base_args = widget._base_args()
+        pattern_widget = widget._base(**base_args)
+        items = pattern_widget.items
+        self.assertIsInstance(
+            items, dict,
+            'Wrong widget items type')
 
 
 class AjaxSelectWidgetTests(unittest.TestCase):

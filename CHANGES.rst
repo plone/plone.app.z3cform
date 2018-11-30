@@ -4,19 +4,11 @@ Changelog
 3.0.8 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
 New features:
 
 - Add support for rendering <optgroup> elements from
   zope.schema.interfaces.ITreeVocabulary hierarchical terms.
   [rpatterson]
-
-Bug fixes:
-
-- *add item here*
 
 
 3.0.7 (2018-11-07)

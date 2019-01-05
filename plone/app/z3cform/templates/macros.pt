@@ -16,13 +16,13 @@
 
                 <tal:status define="status view/status;
                                     has_error python:view.widgets.errors or status == getattr(view, 'formErrorsMessage', None)" condition="status">
-                    <dl class="portalMessage error" tal:condition="has_error">
+                    <dl class="portalMessage error" tal:condition="has_error" role="alert">
                         <dt i18n:translate="">
                             Error
                         </dt>
                         <dd tal:content="status" />
                     </dl>
-                    <dl class="portalMessage info" tal:condition="not:has_error">
+                    <dl class="portalMessage info" tal:condition="not:has_error" role="status">
                         <dt i18n:translate="">
                             Info
                         </dt>

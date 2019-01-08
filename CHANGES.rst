@@ -4,14 +4,6 @@ Changelog
 3.0.9 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - a11y: added role attribute for portalMessage

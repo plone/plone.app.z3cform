@@ -369,14 +369,12 @@ class LinkWidgetDataConverter(BaseDataConverter):
                 result['external'] = value
         return result
 
-
     def toFieldValue(self, value):
         """Converts from widget value to field."""
 
         if not value:
             return self.field.missing_value
-        print("*** LinkWidgetDataConverter ** toFieldValue {}".format(value))
-        if type(value)==type({}):
+        if isinstance(value, dict):
             internal = value.get('internal')
             external = value.get('external')
             email = value.get('email')
@@ -398,7 +396,6 @@ class LinkWidgetDataConverter(BaseDataConverter):
         else:
             url = external
         return url
-
 
 
 @adapter(IBool, ISingleCheckBoxBoolWidget)

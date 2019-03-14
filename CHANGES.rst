@@ -14,7 +14,7 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- LinkFieldWidget: added converter method toFieldValue [ksuess]
 
 
 3.0.9 (2019-01-08)

@@ -2,8 +2,8 @@
 from datetime import date
 from datetime import datetime
 from json import loads
-from mock import Mock
 from lxml import html
+from mock import Mock
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.widgets.utils import NotImplemented as PatternNotImplemented
@@ -57,12 +57,12 @@ def example_vocabulary_factory(context, query=None):
         [
             SimpleTerm(
                 item.lower(),  # value
-                token="token_{0}".format(item.lower()),
-                title=item
+                token='token_{0}'.format(item.lower()),
+                title=item,
             )
             for item in items
             if query is None or query.lower() in item.lower()
-        ]
+        ],
     )
     tmp.test = 1
     return tmp
@@ -157,7 +157,7 @@ class BaseWidgetTests(unittest.TestCase):
         observed_attrib = html.fromstring(output).attrib
         self.assertEqual(
             sorted(observed_attrib),
-            ['class', 'data-pat-example', 'type']
+            ['class', 'data-pat-example', 'type'],
         )
         self.assertEqual(observed_attrib['class'], 'pat-example')
         self.assertEqual(observed_attrib['type'], 'text')
@@ -167,8 +167,8 @@ class BaseWidgetTests(unittest.TestCase):
                 'subdict': {
                     'subsubnormal': 789,
                     'subsublist': [7, 8, 9, 'testcontext'],
-                    'subsubtuple': [7, 8, 9, 'testcontext']
-                }
+                    'subsubtuple': [7, 8, 9, 'testcontext'],
+                },
             },
         )
 
@@ -843,7 +843,10 @@ class AjaxSelectWidgetTests(unittest.TestCase):
                 'pattern': 'select2',
                 'pattern_options': {
                     'vocabularyUrl': '/@@getVocabulary?name=example',
-                    'initialValues': {'token_three': u'Three', 'token_two': u'Two'},
+                    'initialValues': {
+                        'token_three': u'Three',
+                        'token_two': u'Two',
+                    },
                     'separator': ';',
                 },
             },
@@ -986,7 +989,7 @@ class AjaxSelectWidgetTests(unittest.TestCase):
         field = Tuple(
             __name__='listfield',
             value_type=Choice(
-                vocabulary="example"
+                vocabulary='example',
             ),
         )
         widget = AjaxSelectWidget(self.request)

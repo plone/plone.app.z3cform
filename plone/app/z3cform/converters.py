@@ -142,7 +142,7 @@ class SelectWidgetConverterBase(object):
 @adapter(IField, ISelectWidget)
 class SequenceSelectWidgetConverter(
         SelectWidgetConverterBase,
-        SequenceDataConverter
+        SequenceDataConverter,
 ):
     """Data converter for IField fields using the SelectWidget.
     """
@@ -151,7 +151,7 @@ class SequenceSelectWidgetConverter(
 @adapter(ICollection, ISelectWidget)
 class SelectWidgetConverter(
     SelectWidgetConverterBase,
-    CollectionSequenceDataConverter
+    CollectionSequenceDataConverter,
 ):
     """Data converter for ICollection fields using the SelectWidget.
     """

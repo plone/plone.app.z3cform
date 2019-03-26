@@ -393,7 +393,7 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
         if self.vocabulary:
             factory = queryUtility(
                 IVocabularyFactory,
-                self.vocabulary
+                self.vocabulary,
             )
             if factory:
                 return factory(self._view_context())
@@ -406,7 +406,7 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
             options['vocabularyUrl'] = '{0}/{1}?name={2}'.format(
                 get_context_url(self._view_context()),
                 self.vocabulary_view,
-                self.vocabulary
+                self.vocabulary,
             )
             field_name = self.field and self.field.__name__ or None
             if field_name:
@@ -483,7 +483,7 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
                 'plone.roles_allowed_to_add_keywords', set())
             roles = set(user.getRolesInContext(context))
             allowNewItems = bool(
-                roles.intersection(roles_allowed_to_add_keywords)
+                roles.intersection(roles_allowed_to_add_keywords),
             )
             args['pattern_options']['allowNewItems'] = allowNewItems
 

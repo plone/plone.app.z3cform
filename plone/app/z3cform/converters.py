@@ -369,6 +369,34 @@ class LinkWidgetDataConverter(BaseDataConverter):
                 result['external'] = value
         return result
 
+    def toFieldValue(self, value):
+        """Converts from widget value to field."""
+
+        if not value:
+            return self.field.missing_value
+        if isinstance(value, dict):
+            internal = value.get('internal')
+            external = value.get('external')
+            email = value.get('email')
+        else:
+            return value
+        if internal:
+            url = '${portal_url}/resolveuid/' + internal
+        elif email:
+            subject = value.get('email_subject')
+            if email[:7] != 'mailto:':
+                email = u'mailto:' + email
+            if not subject:
+                url = email
+            else:
+                url = u'{email}?subject={subject}'.format(
+                    email=email,
+                    subject=subject,
+                )
+        else:
+            url = external
+        return url
+
 
 @adapter(IBool, ISingleCheckBoxBoolWidget)
 class BoolSingleCheckboxDataConverter(BaseDataConverter):

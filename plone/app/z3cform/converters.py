@@ -216,7 +216,7 @@ class AjaxSelectWidgetConverter(BaseDataConverter):
                 except LookupError:
                     pass
             untokenized_value.append(
-                valueType(token) if valueType else token
+                valueType(token) if valueType else token,
             )
 
         return collectionType(untokenized_value)

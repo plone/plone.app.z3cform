@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from Acquisition import ImplicitAcquisitionWrapper
-from OFS.interfaces import ISimpleItem
 from lxml import etree
+from OFS.interfaces import ISimpleItem
 from plone.app.textfield.value import RichTextValue
 from plone.app.textfield.widget import RichTextWidget as patext_RichTextWidget
 from plone.app.vocabularies.terms import TermWithDescription
-from plone.app.widgets.base import SelectWidget as BaseSelectWidget
 from plone.app.widgets.base import dict_merge
 from plone.app.widgets.base import InputWidget
+from plone.app.widgets.base import SelectWidget as BaseSelectWidget
 from plone.app.widgets.base import TextareaWidget
-from plone.app.widgets.utils import NotImplemented as PatternNotImplemented
 from plone.app.widgets.utils import first_weekday
 from plone.app.widgets.utils import get_context_url
 from plone.app.widgets.utils import get_date_options
@@ -19,6 +18,7 @@ from plone.app.widgets.utils import get_querystring_options
 from plone.app.widgets.utils import get_relateditems_options
 from plone.app.widgets.utils import get_tinymce_options
 from plone.app.widgets.utils import get_widget_form
+from plone.app.widgets.utils import NotImplemented as PatternNotImplemented
 from plone.app.z3cform.converters import DatetimeWidgetConverter
 from plone.app.z3cform.converters import DateWidgetConverter
 from plone.app.z3cform.interfaces import IAjaxSelectWidget

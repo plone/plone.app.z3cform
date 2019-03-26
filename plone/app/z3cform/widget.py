@@ -412,7 +412,7 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
             if field_name:
                 options['vocabularyUrl'] += '&field={0}'.format(field_name)
             vocabulary = self.get_vocabulary()
-            if vocabulary and self.value:
+            if vocabulary is not None and self.value:
                 options['initialValues'] = dict()
                 for token in self.value.split(self.separator):
                     try:

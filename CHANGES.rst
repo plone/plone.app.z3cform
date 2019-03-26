@@ -16,6 +16,13 @@ Bug fixes:
 
 - LinkFieldWidget: added converter method toFieldValue [ksuess]
 
+- Fixes AjaxSelectWidget to respect tokens different from values in vocabularies.
+  This includes changes in both, the converter and the widget itself.
+  A test was added too.
+  ``get_ajaxselect_options`` from ``plone.app.widgets.utils`` is assimilated by the widget now too simplify the whole code,
+  so the one in the other package is dead code now and will be deprecated there.
+  [jensens]
+
 
 3.0.9 (2019-01-08)
 ------------------

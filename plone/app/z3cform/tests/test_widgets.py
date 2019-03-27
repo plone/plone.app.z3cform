@@ -1118,10 +1118,6 @@ class QueryStringWidgetTests(unittest.TestCase):
         self.assertEqual(converter.toFieldValue(u'[]'), None)
 
     @mock.patch(
-        'plone.app.widgets.utils.get_ajaxselect_options',
-        new=lambda *args, **kwargs: None,
-    )
-    @mock.patch(
         'plone.app.widgets.utils.get_date_options',
         new=lambda *args, **kwargs: None,
     )
@@ -1141,7 +1137,7 @@ class QueryStringWidgetTests(unittest.TestCase):
                     'indexOptionsUrl': '/@@qsOptions',
                     'previewCountURL': '/@@querybuildernumberofresults',
                     'previewURL': '/@@querybuilder_html_results',
-                    'patternAjaxSelectOptions': None,
+                    'patternAjaxSelectOptions': {'separator': ';'},
                     'patternDateOptions': None,
                     'patternRelateditemsOptions': None,
                 },

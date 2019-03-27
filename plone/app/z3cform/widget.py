@@ -485,7 +485,9 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
             allowNewItems = bool(
                 roles.intersection(roles_allowed_to_add_keywords),
             )
-            args['pattern_options']['allowNewItems'] = allowNewItems
+            args['pattern_options']['allowNewItems'] = str(
+                allowNewItems,
+            ).lower()
 
         return args
 

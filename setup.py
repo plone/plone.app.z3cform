@@ -8,7 +8,7 @@ def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
 
-version = '3.0.10.dev0'
+version = '3.1.0.dev0'
 
 long_description = (
     read('README.rst') +
@@ -30,10 +30,7 @@ setup(
     classifiers=[
         "Framework :: Plone",
         "Framework :: Plone :: Core",
-        "Framework :: Plone :: 5.1",
         "Framework :: Plone :: 5.2",
-        "Framework :: Zope2",
-        "Framework :: Zope :: 2",
         "Framework :: Zope :: 4",
         "License :: OSI Approved :: GNU General Public License (GPL)",
         "Programming Language :: Python",

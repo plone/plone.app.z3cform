@@ -398,6 +398,22 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
             if factory:
                 return factory(self._view_context())
 
+    def display_items(self):
+        if self.value:
+            tokens = self.value.split(self.separator)
+            vocabulary = self.get_vocabulary()
+            for token in tokens:
+                item = {'token': token, 'title': token}
+                if vocabulary is not None:
+                    try:
+                        item['title'] = vocabulary.getTermByToken(token).title
+                    except LookupError:
+                        pass
+                yield item
+
+    def has_multiple_values(self):
+        return self.value and self.value.split(self.separator)
+
     def _ajaxselect_options(self):
         options = {
             'separator': self.separator,

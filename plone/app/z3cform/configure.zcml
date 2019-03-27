@@ -115,6 +115,13 @@
       template="templates/singlecheckboxbool_input.pt"
       />
   <z3c:widgetTemplate
+      mode="display"
+      field="*"
+      widget=".interfaces.IAjaxSelectWidget"
+      layer=".interfaces.IPloneFormLayer"
+      template="templates/ajaxselect_display.pt"
+      />
+  <z3c:widgetTemplate
       mode="hidden"
       field="zope.schema.interfaces.IBool"
       widget=".interfaces.ISingleCheckBoxBoolWidget"

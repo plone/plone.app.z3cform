@@ -3,6 +3,7 @@ from Acquisition import aq_base
 from Acquisition import ImplicitAcquisitionWrapper
 from lxml import etree
 from OFS.interfaces import ISimpleItem
+from plone.app.event.base import first_weekday
 from plone.app.textfield.value import RichTextValue
 from plone.app.textfield.widget import RichTextWidget as patext_RichTextWidget
 from plone.app.vocabularies.terms import TermWithDescription
@@ -10,7 +11,6 @@ from plone.app.widgets.base import dict_merge
 from plone.app.widgets.base import InputWidget
 from plone.app.widgets.base import SelectWidget as BaseSelectWidget
 from plone.app.widgets.base import TextareaWidget
-from plone.app.widgets.utils import first_weekday
 from plone.app.widgets.utils import get_context_url
 from plone.app.widgets.utils import get_date_options
 from plone.app.widgets.utils import get_datetime_options

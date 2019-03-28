@@ -221,4 +221,10 @@
            for="z3c.form.interfaces.ITextWidget
                 plone.app.z3cform.interfaces.IPloneFormLayer"/>
 
+  <utility
+    name="ZPublisher.HTTPRequest.FileUpload"
+    provides="plone.namedfile.interfaces.IStorage"
+    factory=".factories.Zope2FileUploadStorable"
+  />
+
 </configure>

@@ -13,6 +13,9 @@ New features:
 - Add display template for AjaxSelectWidget showing the actual vocabularies term title.
   [jensens]
 
+- ``IFieldPermissionChecker`` was moved here from plone.app.widgets.
+  [jensens]
+
 Bug fixes:
 
 - Fixes AjaxSelectWidget to respect tokens different from values in vocabularies.

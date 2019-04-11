@@ -1,8 +1,8 @@
 Changelog
 =========
 
-3.0.10 (unreleased)
--------------------
+3.1.0 (unreleased)
+------------------
 
 Breaking changes:
 
@@ -10,9 +10,20 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Add display template for AjaxSelectWidget showing the actual vocabularies term title.
+  [jensens]
+
+- ``IFieldPermissionChecker`` was moved here from plone.app.widgets.
+  [jensens]
 
 Bug fixes:
+
+- Fixes AjaxSelectWidget to respect tokens different from values in vocabularies.
+  This includes changes in both, the converter and the widget itself.
+  A test was added too.
+  ``get_ajaxselect_options`` from ``plone.app.widgets.utils`` is assimilated by the widget now too simplify the whole code,
+  so the one in the other package is dead code now and will be deprecated there.
+  [jensens]
 
 - LinkFieldWidget: added converter method toFieldValue [ksuess]
 

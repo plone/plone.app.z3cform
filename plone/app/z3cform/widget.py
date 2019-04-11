@@ -1,24 +1,24 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_base
 from Acquisition import ImplicitAcquisitionWrapper
-from OFS.interfaces import ISimpleItem
 from lxml import etree
+from OFS.interfaces import ISimpleItem
+from plone.app.event.base import first_weekday
 from plone.app.textfield.value import RichTextValue
 from plone.app.textfield.widget import RichTextWidget as patext_RichTextWidget
 from plone.app.vocabularies.terms import TermWithDescription
-from plone.app.widgets.base import SelectWidget as BaseSelectWidget
 from plone.app.widgets.base import dict_merge
 from plone.app.widgets.base import InputWidget
+from plone.app.widgets.base import SelectWidget as BaseSelectWidget
 from plone.app.widgets.base import TextareaWidget
-from plone.app.widgets.utils import NotImplemented as PatternNotImplemented
-from plone.app.widgets.utils import first_weekday
-from plone.app.widgets.utils import get_ajaxselect_options
+from plone.app.widgets.utils import get_context_url
 from plone.app.widgets.utils import get_date_options
 from plone.app.widgets.utils import get_datetime_options
 from plone.app.widgets.utils import get_querystring_options
 from plone.app.widgets.utils import get_relateditems_options
 from plone.app.widgets.utils import get_tinymce_options
 from plone.app.widgets.utils import get_widget_form
+from plone.app.widgets.utils import NotImplemented as PatternNotImplemented
 from plone.app.z3cform.converters import DatetimeWidgetConverter
 from plone.app.z3cform.converters import DateWidgetConverter
 from plone.app.z3cform.interfaces import IAjaxSelectWidget
@@ -38,11 +38,11 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IEditingSchema
 from Products.CMFPlone.utils import safe_unicode
 from six.moves import UserDict
+from z3c.form import interfaces as form_ifaces
 from z3c.form.browser.checkbox import SingleCheckBoxWidget
 from z3c.form.browser.select import SelectWidget as z3cform_SelectWidget
 from z3c.form.browser.text import TextWidget as z3cform_TextWidget
 from z3c.form.browser.widget import HTMLInputWidget
-from z3c.form import interfaces as form_ifaces
 from z3c.form.interfaces import IEditForm
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.interfaces import IForm
@@ -54,6 +54,7 @@ from z3c.form.widget import Widget
 from zope.component import adapter
 from zope.component import ComponentLookupError
 from zope.component import getUtility
+from zope.component import queryUtility
 from zope.component.hooks import getSite
 from zope.i18n import translate
 from zope.interface import implementer
@@ -63,11 +64,12 @@ from zope.schema.interfaces import IBool
 from zope.schema.interfaces import IChoice
 from zope.schema.interfaces import ICollection
 from zope.schema.interfaces import ISequence
+from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
-import json
 import collections
+import json
 import six
 
 
@@ -372,11 +374,75 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
     vocabulary_view = '@@getVocabulary'
     orderable = False
 
+    def _view_context(self):
+        view_context = get_widget_form(self)
+        # For EditForms and non-Forms (in tests), the vocabulary is looked
+        # up on the context, otherwise on the view
+        if IEditForm.providedBy(view_context):
+            if self.is_subform_widget():
+                view_context = self.form.parentForm.context
+            elif not ISimpleItem.providedBy(self.context):
+                view_context = self.form.context
+            else:
+                view_context = self.context
+        elif not IForm.providedBy(view_context):
+            view_context = self.context
+        return view_context
+
+    def get_vocabulary(self):
+        if self.vocabulary:
+            factory = queryUtility(
+                IVocabularyFactory,
+                self.vocabulary,
+            )
+            if factory:
+                return factory(self._view_context())
+
+    def display_items(self):
+        if self.value:
+            tokens = self.value.split(self.separator)
+            vocabulary = self.get_vocabulary()
+            for token in tokens:
+                item = {'token': token, 'title': token}
+                if vocabulary is not None:
+                    try:
+                        item['title'] = vocabulary.getTermByToken(token).title
+                    except LookupError:
+                        pass
+                yield item
+
+    def has_multiple_values(self):
+        return self.value and self.value.split(self.separator)
+
+    def _ajaxselect_options(self):
+        options = {
+            'separator': self.separator,
+        }
+        if self.vocabulary:
+            options['vocabularyUrl'] = '{0}/{1}?name={2}'.format(
+                get_context_url(self._view_context()),
+                self.vocabulary_view,
+                self.vocabulary,
+            )
+            field_name = self.field and self.field.__name__ or None
+            if field_name:
+                options['vocabularyUrl'] += '&field={0}'.format(field_name)
+            vocabulary = self.get_vocabulary()
+            if vocabulary is not None and self.value:
+                options['initialValues'] = dict()
+                for token in self.value.split(self.separator):
+                    try:
+                        term = vocabulary.getTermByToken(token)
+                        options['initialValues'][term.token] = term.title
+                    except LookupError:
+                        options['initialValues'][token] = token
+
+        return options
+
     def update(self):
         super(AjaxSelectWidget, self).update()
         field = getattr(self, 'field', None)
-        if ICollection.providedBy(self.field):
-            field = self.field.value_type
+        field = getattr(field, 'value_type', field)
         if (not self.vocabulary and field is not None and
                 getattr(field, 'vocabularyName', None)):
             self.vocabulary = field.vocabularyName
@@ -393,28 +459,13 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
         :returns: Arguments which will be passed to _base
         :rtype: dict
         """
-
         args = super(AjaxSelectWidget, self)._base_args()
-
         args['name'] = self.name
         args['value'] = self.value
-
         args.setdefault('pattern_options', {})
-
-        field_name = self.field and self.field.__name__ or None
-
         context = self.context
-        view_context = get_widget_form(self)
-        # For EditForms and non-Forms (in tests), the vocabulary is looked
-        # up on the context, otherwise on the view
-        if (
-            IEditForm.providedBy(view_context) or
-            not IForm.providedBy(view_context)
-        ):
-            view_context = context
-
-        vocabulary_name = self.vocabulary
         field = None
+
         if IChoice.providedBy(self.field):
             args['pattern_options']['maximumSelectionSize'] = 1
             field = self.field
@@ -424,9 +475,7 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
             args['pattern_options']['allowNewItems'] = 'false'
 
         args['pattern_options'] = dict_merge(
-            get_ajaxselect_options(view_context, args['value'], self.separator,
-                                   vocabulary_name, self.vocabulary_view,
-                                   field_name),
+            self._ajaxselect_options(),
             args['pattern_options'])
 
         if field and getattr(field, 'vocabulary', None):
@@ -447,13 +496,14 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
 
             registry = getUtility(IRegistry)
             roles_allowed_to_add_keywords = registry.get(
-                'plone.roles_allowed_to_add_keywords', [])
+                'plone.roles_allowed_to_add_keywords', set())
             roles = set(user.getRolesInContext(context))
-
-            allowNewItems = 'false'
-            if roles.intersection(roles_allowed_to_add_keywords):
-                allowNewItems = 'true'
-            args['pattern_options']['allowNewItems'] = allowNewItems
+            allowNewItems = bool(
+                roles.intersection(roles_allowed_to_add_keywords),
+            )
+            args['pattern_options']['allowNewItems'] = str(
+                allowNewItems,
+            ).lower()
 
         return args
 

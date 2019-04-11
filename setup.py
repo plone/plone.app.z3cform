@@ -8,7 +8,7 @@ def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
 
-version = '3.0.10.dev0'
+version = '3.1.0.dev0'
 
 long_description = (
     read('README.rst') +
@@ -29,9 +29,8 @@ setup(
     long_description=long_description,
     classifiers=[
         "Framework :: Plone",
-        "Framework :: Plone :: 5.1",
+        "Framework :: Plone :: Core",
         "Framework :: Plone :: 5.2",
-        "Framework :: Zope2",
         "Framework :: Zope :: 4",
         "License :: OSI Approved :: GNU General Public License (GPL)",
         "Programming Language :: Python",
@@ -49,14 +48,14 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'setuptools',
         'Acquisition',
-        'Products.CMFCore',
-        'Products.CMFPlone',
-        'Zope2',  # Products.Five
-        'plone.app.widgets>=2.0.0.dev0',
+        'plone.app.textfield',
+        'plone.app.widgets>=2.4.2.dev0',
         'plone.protect',
         'plone.z3cform>=0.5.11dev',
+        'Products.CMFCore',
+        'Products.CMFPlone',
+        'setuptools',
         'six',
         'z3c.form >= 3.0',
         'z3c.formwidget.query',
@@ -69,7 +68,7 @@ setup(
         'zope.interface',
         'zope.schema',
         'zope.traversing',
-        'plone.app.textfield'
+        'Zope2',
     ],
     extras_require={
         'tests': [

@@ -2,8 +2,8 @@
 from datetime import date
 from datetime import datetime
 from json import loads
-from mock import Mock
 from lxml import html
+from mock import Mock
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.widgets.utils import NotImplemented as PatternNotImplemented
@@ -27,9 +27,9 @@ from zope.component import provideUtility
 from zope.component.globalregistry import base
 from zope.globalrequest import setRequest
 from zope.interface import alsoProvides
-from zope.interface import implementer
 from zope.interface import Interface
-from zope.publisher.browser import TestRequest as BaseTestRequest
+from zope.interface import provider
+from zope.publisher.browser import TestRequest
 from zope.schema import BytesLine
 from zope.schema import Choice
 from zope.schema import Date
@@ -50,22 +50,22 @@ import six
 import unittest
 
 
-@implementer(IVocabularyFactory)
-class ExampleVocabulary(object):
-
-    def __call__(self, context, query=None):
-        items = [u'One', u'Two', u'Three']
-        tmp = SimpleVocabulary([
-            SimpleTerm(it.lower(), it.lower(), it)
-            for it in items
-            if query is None or query.lower() in it.lower()
-        ])
-        tmp.test = 1
-        return tmp
-
-
-class TestRequest(BaseTestRequest):
-    pass
+@provider(IVocabularyFactory)
+def example_vocabulary_factory(context, query=None):
+    items = [u'One', u'Two', u'Three']
+    tmp = SimpleVocabulary(
+        [
+            SimpleTerm(
+                item.lower(),  # value
+                token='token_{0}'.format(item.lower()),
+                title=item,
+            )
+            for item in items
+            if query is None or query.lower() in item.lower()
+        ],
+    )
+    tmp.test = 1
+    return tmp
 
 
 class BaseWidgetTests(unittest.TestCase):
@@ -157,7 +157,7 @@ class BaseWidgetTests(unittest.TestCase):
         observed_attrib = html.fromstring(output).attrib
         self.assertEqual(
             sorted(observed_attrib),
-            ['class', 'data-pat-example', 'type']
+            ['class', 'data-pat-example', 'type'],
         )
         self.assertEqual(observed_attrib['class'], 'pat-example')
         self.assertEqual(observed_attrib['type'], 'text')
@@ -167,8 +167,8 @@ class BaseWidgetTests(unittest.TestCase):
                 'subdict': {
                     'subsubnormal': 789,
                     'subsublist': [7, 8, 9, 'testcontext'],
-                    'subsubtuple': [7, 8, 9, 'testcontext']
-                }
+                    'subsubtuple': [7, 8, 9, 'testcontext'],
+                },
             },
         )
 
@@ -805,7 +805,7 @@ class AjaxSelectWidgetTests(unittest.TestCase):
 
     def setUp(self):
         self.request = TestRequest(environ={'HTTP_ACCEPT_LANGUAGE': 'en'})
-        provideUtility(ExampleVocabulary(), name=u'example')
+        provideUtility(example_vocabulary_factory, name=u'example')
 
     def test_widget(self):
         from plone.app.z3cform.widget import AjaxSelectWidget
@@ -835,19 +835,22 @@ class AjaxSelectWidgetTests(unittest.TestCase):
             },
         )
 
-        widget.value = 'three;two'
-        self.assertEqual(
-            widget._base_args(),
+        widget.value = 'token_three;token_two'
+        self.assertDictEqual(
             {
                 'name': None,
-                'value': 'three;two',
+                'value': 'token_three;token_two',
                 'pattern': 'select2',
                 'pattern_options': {
                     'vocabularyUrl': '/@@getVocabulary?name=example',
-                    'initialValues': {'three': u'Three', 'two': u'Two'},
+                    'initialValues': {
+                        'token_three': u'Three',
+                        'token_two': u'Two',
+                    },
                     'separator': ';',
                 },
             },
+            widget._base_args(),
         )
 
     def test_widget_list_orderable(self):
@@ -979,6 +982,40 @@ class AjaxSelectWidgetTests(unittest.TestCase):
             '123;456;789',
         )
 
+    def test_data_converter_collection_with_vocabulary(self):
+        from plone.app.z3cform.widget import AjaxSelectWidget
+        from plone.app.z3cform.converters import AjaxSelectWidgetConverter
+
+        field = Tuple(
+            __name__='listfield',
+            value_type=Choice(
+                vocabulary='example',
+            ),
+        )
+        widget = AjaxSelectWidget(self.request)
+        widget.field = field
+        converter = AjaxSelectWidgetConverter(field, widget)
+
+        self.assertEqual(
+            converter.toFieldValue(''),
+            field.missing_value,
+        )
+
+        self.assertEqual(
+            converter.toFieldValue('token_one;token_two;token_three'),
+            ('one', 'two', 'three'),
+        )
+
+        self.assertEqual(
+            converter.toWidgetValue([]),
+            None,
+        )
+
+        self.assertEqual(
+            converter.toWidgetValue(['123', '456', '789']),
+            '123;456;789',
+        )
+
     def test_data_converter_tuple(self):
         from plone.app.z3cform.widget import AjaxSelectWidget
         from plone.app.z3cform.converters import AjaxSelectWidgetConverter
@@ -1081,10 +1118,6 @@ class QueryStringWidgetTests(unittest.TestCase):
         self.assertEqual(converter.toFieldValue(u'[]'), None)
 
     @mock.patch(
-        'plone.app.widgets.utils.get_ajaxselect_options',
-        new=lambda *args, **kwargs: None,
-    )
-    @mock.patch(
         'plone.app.widgets.utils.get_date_options',
         new=lambda *args, **kwargs: None,
     )
@@ -1104,7 +1137,7 @@ class QueryStringWidgetTests(unittest.TestCase):
                     'indexOptionsUrl': '/@@qsOptions',
                     'previewCountURL': '/@@querybuildernumberofresults',
                     'previewURL': '/@@querybuilder_html_results',
-                    'patternAjaxSelectOptions': None,
+                    'patternAjaxSelectOptions': {'separator': ';'},
                     'patternDateOptions': None,
                     'patternRelateditemsOptions': None,
                 },

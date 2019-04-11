@@ -115,6 +115,13 @@
       template="templates/singlecheckboxbool_input.pt"
       />
   <z3c:widgetTemplate
+      mode="display"
+      field="*"
+      widget=".interfaces.IAjaxSelectWidget"
+      layer=".interfaces.IPloneFormLayer"
+      template="templates/ajaxselect_display.pt"
+      />
+  <z3c:widgetTemplate
       mode="hidden"
       field="zope.schema.interfaces.IBool"
       widget=".interfaces.ISingleCheckBoxBoolWidget"
@@ -213,5 +220,11 @@
   <adapter factory=".widget.LinkFieldWidget"
            for="z3c.form.interfaces.ITextWidget
                 plone.app.z3cform.interfaces.IPloneFormLayer"/>
+
+  <utility
+    name="ZPublisher.HTTPRequest.FileUpload"
+    provides="plone.namedfile.interfaces.IStorage"
+    factory=".factories.Zope2FileUploadStorable"
+  />
 
 </configure>

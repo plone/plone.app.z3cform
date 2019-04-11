@@ -141,14 +141,20 @@ class SelectWidgetConverterBase(object):
 
 @adapter(IField, ISelectWidget)
 class SequenceSelectWidgetConverter(
-        SelectWidgetConverterBase, SequenceDataConverter):
-    pass
+        SelectWidgetConverterBase,
+        SequenceDataConverter,
+):
+    """Data converter for IField fields using the SelectWidget.
+    """
 
 
 @adapter(ICollection, ISelectWidget)
 class SelectWidgetConverter(
-        SelectWidgetConverterBase, CollectionSequenceDataConverter):
-    pass
+    SelectWidgetConverterBase,
+    CollectionSequenceDataConverter,
+):
+    """Data converter for ICollection fields using the SelectWidget.
+    """
 
 
 @adapter(ICollection, IAjaxSelectWidget)
@@ -157,7 +163,7 @@ class AjaxSelectWidgetConverter(BaseDataConverter):
     """
 
     def toWidgetValue(self, value):
-        """Converts from field value to widget.
+        """Converts from field value to widget tokenized widget value.
 
         :param value: Field value.
         :type value: list |tuple | set
@@ -167,8 +173,18 @@ class AjaxSelectWidgetConverter(BaseDataConverter):
         """
         if not value:
             return self.field.missing_value
-        separator = getattr(self.widget, 'separator', ';')
-        return separator.join(six.text_type(v) for v in value)
+        vocabulary = self.widget.get_vocabulary()
+        tokenized_value = []
+        for term_value in value:
+            if vocabulary is not None:
+                try:
+                    term = vocabulary.getTerm(term_value)
+                    tokenized_value.append(term.token)
+                    continue
+                except LookupError:
+                    pass
+            tokenized_value.append(six.text_type(term_value))
+        return getattr(self.widget, 'separator', ';').join(tokenized_value)
 
     def toFieldValue(self, value):
         """Converts from widget value to field.
@@ -188,8 +204,22 @@ class AjaxSelectWidgetConverter(BaseDataConverter):
         if isinstance(valueType, tuple):
             valueType = valueType[0]
         separator = getattr(self.widget, 'separator', ';')
-        return collectionType(valueType and valueType(v) or v
-                              for v in value.split(separator))
+        self.widget.update()  # needed to have a vocabulary
+        vocabulary = self.widget.get_vocabulary()
+        untokenized_value = []
+        for token in value.split(separator):
+            if vocabulary is not None:
+                try:
+                    term = vocabulary.getTermByToken(token)
+                    untokenized_value.append(term.value)
+                    continue
+                except LookupError:
+                    pass
+            untokenized_value.append(
+                valueType(token) if valueType else token,
+            )
+
+        return collectionType(untokenized_value)
 
 
 @adapter(IRelationChoice, IRelatedItemsWidget)

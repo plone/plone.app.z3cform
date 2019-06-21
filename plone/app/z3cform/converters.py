@@ -211,14 +211,16 @@ class AjaxSelectWidgetConverter(BaseDataConverter):
             if vocabulary is not None:
                 try:
                     term = vocabulary.getTermByToken(token)
-                    untokenized_value.append(term.value)
+                    if valueType:
+                        untokenized_value.append(valueType(term.value))
+                    else:
+                        untokenized_value.append(term.value)
                     continue
                 except LookupError:
                     pass
             untokenized_value.append(
                 valueType(token) if valueType else token,
             )
-
         return collectionType(untokenized_value)
 
 

@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+3.1.1 (2019-06-27)
+------------------
+
+Bug fixes:
+
+
+- - Fixes: Keywords broken plone/Products.CMFPlone#2885
+    [jensens] (#105)
+
 
 3.1.0 (2019-05-01)
 ------------------

@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+3.1.2 (2019-08-29)
+------------------
+
+Bug fixes:
+
+
+- Fix wrong default for method attribute in pt
+  [mamico] (#107)
+
+
 3.1.1 (2019-06-27)
 ------------------
 

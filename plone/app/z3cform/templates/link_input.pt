@@ -4,37 +4,43 @@
     <div class="linkTypes pat-autotoc autotabs"
          data-pat-autotoc="section:span.linkType;levels:span.linkLabel;">
 
-      <span class="linkType internal" data-linkType="internal">
+      <span class="linkType internal" data-linkType="internal"
+            tal:define="value view/value/internal | nothing"
+            tal:attributes="class python:'linkType internal' + (' active' if value else '')">
         <span class="linkLabel" i18n:translate="label_internal_url">Internal</span>
         <div>
           <div class="form-group main">
             <!-- this gives the name to the "linkType" -->
             <input type="text" name="internal" class="pat-relateditems"
                     tal:attributes="data-pat-relateditems view/pattern_data;
-                                    value view/value/internal | nothing;
+                                    value value;
                                     name string:${view/name}.internal" />
           </div>
         </div>
       </span>
 
-      <span class="linkType external" data-linkType="external">
+      <span class="linkType external" data-linkType="external"
+            tal:define="value view/value/external | nothing"
+            tal:attributes="class python:'linkType external' + (' active' if value else '')">
         <span class="linkLabel" i18n:translate="label_external_url">External</span>
         <div class="form-group main">
           <label for="external" i18n:translate="help_external_url">External URL (can be relative within this site or absolute if it starts with http:// or https://)</label>
           <input type="text" name="external" placeholder="https://domain.com"
                  tal:attributes="name string:${view/name}.external;
-                                 value view/value/external | nothing" />
+                                 value value" />
         </div>
       </span>
 
-      <span class="linkType email" data-linkType="email">
+      <span class="linkType email" data-linkType="email"
+            tal:define="value view/value/email | nothing"
+            tal:attributes="class python:'linkType email' + (' active' if value else '')">
         <span class="linkLabel" i18n:translate="label_email_url">Email</span>
         <div class="form-inline">
           <div class="form-group main">
             <label i18n:translate="help_email_url">Email Address</label>
             <input type="text" name="email" placeholder="name@domain.com"
                    tal:attributes="name string:${view/name}.email;
-                                   value view/value/email | nothing" />
+                                   value value" />
           </div>
           <div class="form-group">
             <label i18n:translate="help_email_url_subject">Email Subject (optional)</label>

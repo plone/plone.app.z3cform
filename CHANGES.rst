@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+3.1.3 (2019-10-12)
+------------------
+
+Bug fixes:
+
+
+- - Fix LinkWidget selected tab on edit #108
+    [mamico] (#108)
+
+
 3.1.2 (2019-08-29)
 ------------------
 

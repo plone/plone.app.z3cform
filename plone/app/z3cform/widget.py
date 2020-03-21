@@ -3,6 +3,7 @@ from Acquisition import aq_base
 from Acquisition import ImplicitAcquisitionWrapper
 from lxml import etree
 from OFS.interfaces import ISimpleItem
+from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.event.base import first_weekday
 from plone.app.textfield.value import RichTextValue
 from plone.app.textfield.widget import RichTextWidget as patext_RichTextWidget
@@ -618,6 +619,34 @@ class RelatedItemsWidget(BaseWidget, z3cform_TextWidget):
             args['pattern_options']['vocabularyUrl'] = source_url
 
         return args
+
+    def items(self):
+        """Return item for the widget values for the display template
+
+        Query the catalog for the widget-value (uuids) to only display items
+        that the user is allowed to see. Accessing the value with e.g.
+        getattr(self.context, self.__name__) would yield the items unfiltered.
+        To keep the order intact query each uuid individually.
+        Uses IContentListing for easy access to MimeTypeIcon and more.
+        """
+        results = []
+        if not self.value:
+            return results
+        separator = getattr(self, 'separator', ';')
+        uuids = self.value.split(separator)
+        if not isinstance(uuids, (list, tuple, set)):
+            uuids = [uuids]
+
+        try:
+            catalog = getToolByName(self.context, 'portal_catalog')
+        except AttributeError:
+            catalog = getToolByName(getSite(), 'portal_catalog')
+
+        for uuid in uuids:
+            brains = catalog(UID=uuid)
+            if brains:
+                results.append(brains[0])
+        return IContentListing(results)
 
 
 @implementer_only(IQueryStringWidget)

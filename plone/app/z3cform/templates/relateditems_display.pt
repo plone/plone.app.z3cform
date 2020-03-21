@@ -1,0 +1,41 @@
+<span id="form-widgets-fieldname"
+      class="relateditems-widget textline-field"
+      i18n:domain="plone"
+      tal:define="plone_view nocall:context/@@plone;
+                  normalizeString python:plone_view.normalizeString;
+                  items python: view.items();
+                  "
+      tal:condition="items"
+      tal:attributes="id python:'form-widgets-{}'.format(view.__name__);
+                      class python: 'relateditems-widget {}-field'.format(normalizeString(view.field.__class__.__name__));
+                      ">
+    <div>
+        <ul>
+          <li tal:repeat="item items">
+            <span tal:define="item_type           python:item.portal_type;
+                              item_type_class     python:item.ContentTypeClass();
+                              item_wf_state_class python:item.ReviewStateClass();
+                              appendViewAction    python:item.appendViewAction();
+                              item_url            python:item.getURL();
+                              item_url            python:item_url+'/view' if appendViewAction else item_url;"
+                  tal:attributes="title item_type">
+
+              <a tal:attributes="href item_url">
+                <img class="mime-icon"
+                     tal:condition="python:item_type =='File'"
+                     tal:attributes="src python:item.MimeTypeIcon();">
+
+                <span tal:attributes="class string:$item_type_class $item_wf_state_class url;"
+                      tal:content="python:item.Title()">
+                    Title
+                </span>
+                <span class="discreet"
+                      tal:content="python:item.Description()">
+                    Description
+                </span>
+              </a>
+            </span>
+          </li>
+        </ul>
+    </div>
+</span>

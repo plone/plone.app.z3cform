@@ -642,11 +642,8 @@ class RelatedItemsWidget(BaseWidget, z3cform_TextWidget):
         brains = catalog(UID=uuids)
         # restore original order
         brains = {i.UID: i for i in brains}
-        for uuid in uuids:
-            brain = brains.get(uuid, None)
-            if brain:
-                results.append(brain)
-        return IContentListing(results)
+        brains = [brains[uuid] for uuid in uuids if brains.get(uuid)]
+        return IContentListing(brains)
 
 
 @implementer_only(IQueryStringWidget)

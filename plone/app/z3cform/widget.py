@@ -626,7 +626,6 @@ class RelatedItemsWidget(BaseWidget, z3cform_TextWidget):
         Query the catalog for the widget-value (uuids) to only display items
         that the user is allowed to see. Accessing the value with e.g.
         getattr(self.context, self.__name__) would yield the items unfiltered.
-        To keep the order intact query each uuid individually.
         Uses IContentListing for easy access to MimeTypeIcon and more.
         """
         results = []
@@ -634,18 +633,19 @@ class RelatedItemsWidget(BaseWidget, z3cform_TextWidget):
             return results
         separator = getattr(self, 'separator', ';')
         uuids = self.value.split(separator)
-        if not isinstance(uuids, (list, tuple, set)):
-            uuids = [uuids]
 
         try:
             catalog = getToolByName(self.context, 'portal_catalog')
         except AttributeError:
             catalog = getToolByName(getSite(), 'portal_catalog')
 
+        brains = catalog(UID=uuids)
+        # restore original order
+        brains = {i.UID: i for i in brains}
         for uuid in uuids:
-            brains = catalog(UID=uuid)
-            if brains:
-                results.append(brains[0])
+            brain = brains.get(uuid, None)
+            if brain:
+                results.append(brain)
         return IContentListing(results)
 
 

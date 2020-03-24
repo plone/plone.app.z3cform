@@ -150,6 +150,13 @@
       template="templates/link_input.pt"
       />
 
+  <z3c:widgetTemplate
+      mode="display"
+      widget=".interfaces.IRelatedItemsWidget"
+      layer=".interfaces.IPloneFormLayer"
+      template="templates/relateditems_display.pt"
+      />
+
   <browser:page
       name="z3cform_validate_field"
       for="*"

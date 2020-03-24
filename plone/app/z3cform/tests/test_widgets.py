@@ -4,12 +4,14 @@ from datetime import datetime
 from json import loads
 from lxml import html
 from mock import Mock
+from plone.app.contentlisting.contentlisting import ContentListing
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.widgets.utils import NotImplemented as PatternNotImplemented
 from plone.app.z3cform.tests.layer import PAZ3CForm_INTEGRATION_TESTING
 from plone.app.z3cform.widget import BaseWidget
 from plone.app.z3cform.widget import DateWidget
+from plone.app.z3cform.widget import RelatedItemsWidget
 from plone.autoform.directives import widget
 from plone.autoform.form import AutoExtensibleForm
 from plone.dexterity.fti import DexterityFTI
@@ -22,6 +24,10 @@ from z3c.form.form import EditForm
 from z3c.form.form import Form
 from z3c.form.interfaces import IFormLayer
 from z3c.form.widget import FieldWidget
+from z3c.relationfield.relation import RelationValue
+from z3c.relationfield.schema import RelationChoice
+from z3c.relationfield.schema import RelationList
+from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.component import provideUtility
 from zope.component.globalregistry import base
@@ -29,6 +35,8 @@ from zope.globalrequest import setRequest
 from zope.interface import alsoProvides
 from zope.interface import Interface
 from zope.interface import provider
+from zope.intid.interfaces import IIntIds
+from zope.pagetemplate.interfaces import IPageTemplate
 from zope.publisher.browser import TestRequest
 from zope.schema import BytesLine
 from zope.schema import Choice
@@ -1227,6 +1235,80 @@ class RelatedItemsWidgetIntegrationTests(unittest.TestCase):
             EXPECTED_VOCAB_URL,
             result['pattern_options']['vocabularyUrl'],
         )
+
+
+class IRelationsType(Interface):
+    single = RelationChoice(title=u'Single',
+                            required=False, values=[])
+    multiple = RelationList(title=u'Multiple (Relations field)',
+                            required=False)
+
+
+class RelatedItemsWidgetTemplateIntegrationTests(unittest.TestCase):
+
+    layer = PAZ3CForm_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer['portal']
+        self.request = self.layer['request']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+
+    def test_related_items_widget_display_template(self):
+        rel_fti = DexterityFTI(
+            'RelationsType',
+            schema=IRelationsType.__identifier__
+        )
+        self.portal.portal_types._setObject('RelationsType', rel_fti)
+
+        intids = getUtility(IIntIds)
+
+        self.portal.invokeFactory('RelationsType', 'source', title=u'A Source')
+        self.portal.invokeFactory('RelationsType', 'target', title=u'A Target')
+        self.portal.invokeFactory('Document', 'doc', title=u'A Document')
+        source = self.portal['source']
+        target = self.portal['target']
+        doc = self.portal['doc']
+
+        # Add some relations
+        source.single = RelationValue(intids.getId(target))
+        source.multiple = [RelationValue(intids.getId(target)), RelationValue(intids.getId(doc))]
+
+        # Update relations
+        from zope.lifecycleevent import ObjectModifiedEvent
+        from zope.event import notify
+        notify(ObjectModifiedEvent(source))
+        default_view = source.restrictedTraverse('@@view')
+        default_view.update()
+
+        single = default_view.w['single']
+        self.assertIsInstance(single, RelatedItemsWidget)
+        self.assertTrue(single.value, target.UID())
+        items = single.items()
+        self.assertIsInstance(items, ContentListing)
+        self.assertTrue(items[0].UID, target.UID())
+
+        template = getMultiAdapter(
+            (source, self.request, single.form, single.field, single),
+            IPageTemplate, name=single.mode)
+        self.assertTrue(template.filename.endswith('relateditems_display.pt'))
+        html = template(single)
+        self.assertIn('<span class="contenttype-relationstype state-missing-value url">A Target</span>', html)
+
+        multiple = default_view.w['multiple']
+        self.assertIsInstance(multiple, RelatedItemsWidget)
+        self.assertTrue(multiple.value, ';'.join([target.UID(), doc.UID()]))
+        items = multiple.items()
+        self.assertIsInstance(items, ContentListing)
+        self.assertTrue(items[0].UID, target.UID())
+        self.assertTrue(items[1].UID, doc.UID())
+
+        template = getMultiAdapter(
+            (source, self.request, multiple.form, multiple.field, multiple),
+            IPageTemplate, name=multiple.mode)
+        self.assertTrue(template.filename.endswith('relateditems_display.pt'))
+        html = template(multiple)
+        self.assertIn('<span class="contenttype-relationstype state-missing-value url">A Target</span>', html)
+        self.assertIn('<span class="contenttype-document state-missing-value url">A Document</span>', html)
 
 
 class RelatedItemsWidgetTests(unittest.TestCase):

@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+3.2.0 (2020-04-20)
+------------------
+
+New features:
+
+
+- Add display template for RelatedItemsWidget. No longer only render uuids.
+  [pbauer] (#111)
+
+
 3.1.3 (2019-10-12)
 ------------------
 

@@ -767,7 +767,7 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
                 del base_args['pattern']
                 del base_args['pattern_options']
                 textarea_widget = self._base(None, None, **base_args)
-                textarea_widget.klass = ''
+                textarea_widget.klass = 'form-control'
                 mt_pattern_name = '{0}{1}'.format(
                     self._base._klass_prefix,
                     'textareamimetypeselector',
@@ -781,7 +781,8 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
                 mt_select = etree.Element('select')
                 mt_select.attrib['id'] = '{0}_text_format'.format(self.id)
                 mt_select.attrib['name'] = '{0}.mimeType'.format(self.name)
-                mt_select.attrib['class'] = mt_pattern_name
+                mt_select.attrib['class'] = 'custom-select {0}'.format(
+                    mt_pattern_name)
                 mt_select.attrib[
                     'data-{0}'.format(mt_pattern_name)
                 ] = json.dumps(

@@ -12,22 +12,23 @@
               <h3 tal:condition="view/label | nothing" tal:content="view/label" />
             </metal:title-slot>
 
-            <metal:define define-macro="titlelessform">
+            <metal:define define-macro="titlelessform"
+                          tal:define="status view/status;
+                                      has_error python:view.widgets.errors or status == getattr(view, 'formErrorsMessage', None)">
 
-                <tal:status define="status view/status;
-                                    has_error python:view.widgets.errors or status == getattr(view, 'formErrorsMessage', None)" condition="status">
-                    <dl class="portalMessage error" tal:condition="has_error" role="alert">
-                        <dt i18n:translate="" i18n:domain="plone">
+                <tal:status condition="status">
+                    <div class="alert alert-danger" tal:condition="has_error" role="alert">
+                        <strong i18n:translate="">
                             Error
-                        </dt>
-                        <dd tal:content="status" />
-                    </dl>
-                    <dl class="portalMessage info" tal:condition="not:has_error" role="status">
-                        <dt i18n:translate="" i18n:domain="plone">
+                        </strong>
+                        <span tal:replace="status" />
+                    </div>
+                    <div class="alert alert-info" tal:condition="not:has_error" role="alert">
+                        <strong i18n:translate="">
                             Info
-                        </dt>
-                        <dd tal:content="status" />
-                    </dl>
+                        </strong>
+                        <span tal:replace="status" />
+                    </div>
                 </tal:status>
 
                 <tal:errors define="errors view/widgets/errors" condition="errors">
@@ -63,10 +64,11 @@
                                   show_default_label python:has_groups and default_fieldset_label and len(view.widgets);
                                   form_view_name_raw python:view.__name__ or request.getURL().split('/')[-1];
                                   form_view_name python:'-'.join(['view', 'name'] + [x for x in form_view_name_raw.split('++') if x]);
+                                  was_validated python:has_error and 'was-validated' or '';
                                   "
                       tal:attributes="action view/action|request/getURL;
                                       enctype view/enctype;
-                                      class python:'rowlike {0} {1} {2} kssattr-formname-{3} {4}'.format(unload_protection, form_tabbing, form_class, form_view_name_raw, form_view_name);
+                                      class string:rowlike $unload_protection $form_tabbing $form_class $form_view_name_raw $form_view_name $was_validated;
                                       id view/id;
                                       method view/method|string:post">
 
@@ -146,15 +148,16 @@
 
                     <metal:block define-slot="belowfields" />
 
-                    <metal:actions-slot define-slot="actions">
-                        <metal:define define-macro="actions">
-                            <div class="formControls" tal:condition="view/actions/values|nothing">
-                                <tal:block repeat="action view/actions/values">
-                                    <input type="submit" tal:replace="structure action/render" />
-                                </tal:block>
-                            </div>
-                        </metal:define>
-                    </metal:actions-slot>
+                    <metal:actions define-slot="actions">
+                      <metal:define define-macro="actions">
+                        <tal:block repeat="action view/actions/values">
+                          <tal:define tal:define="data action/json_data;
+                                                  btn_class python:'primary' if 'save' in action.name else 'secondary'">
+                            <button class="btn btn-${btn_class}" type="${data/type}" name="${data/name}" tal:content="action/value">action</button>
+                          </tal:define>
+                        </tal:block>
+                      </metal:define>
+                    </metal:actions>
 
                     <tal:block tal:condition="view/enableCSRFProtection|nothing"
                       tal:replace="structure context/@@authenticator/authenticator" />

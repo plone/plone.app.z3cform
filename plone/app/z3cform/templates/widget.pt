@@ -31,7 +31,7 @@
         </small>
     </label>
 
-    <div class="invalid-feedback"
+    <div class="fieldErrorBox"
          tal:condition="error"
          tal:content="structure error/render|nothing">
         Error

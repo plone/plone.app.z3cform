@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
-from Products.Five.browser import BrowserView
-from Products.Five.browser.metaconfigure import ViewMixinForTemplates
-from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
-
 import os.path
 import plone.app.z3cform
 import plone.app.z3cform.interfaces
 import plone.z3cform.interfaces
 import plone.z3cform.templates
 import z3c.form.interfaces
-import zope.deprecation
+
+from Products.Five.browser import BrowserView
+from Products.Five.browser.metaconfigure import ViewMixinForTemplates
+from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 
 
 def path(filepart):
@@ -46,11 +45,6 @@ class Macros(BrowserView):
 # The widget rendering templates need to be Zope 3 templates
 class RenderWidget(ViewMixinForTemplates, BrowserView):
     index = ViewPageTemplateFile('templates/widget.pt')
-
-
-@zope.deprecation.deprecate('No longer used, see widget.py for new solution')
-class RenderSingleCheckboxWidget(ViewMixinForTemplates, BrowserView):
-    index = ViewPageTemplateFile('templates/singlecheckbox.pt')
 
 
 class RenderContentProvider(ViewMixinForTemplates, BrowserView):

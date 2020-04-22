@@ -198,6 +198,13 @@
       template="templates/orderedselect_input.pt"
       />
 
+  <z3c:widgetTemplate
+      mode="input"
+      widget="z3c.form.interfaces.ISubmitWidget"
+      layer=".interfaces.IPloneFormLayer"
+      template="templates/submit_input.pt"
+      />
+
   <!-- plone.formwidget.namedfile -->
   <z3c:widgetTemplate
       mode="input"

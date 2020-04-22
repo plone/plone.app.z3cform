@@ -33,6 +33,5 @@
                            size view/size;
                            maxlength view/maxlength;
                            placeholder view/placeholder;
-                           autocapitalize view/autocapitalize;
-                           required python:view.required and 'required' or None" />
+                           autocapitalize view/autocapitalize" />
 </html>

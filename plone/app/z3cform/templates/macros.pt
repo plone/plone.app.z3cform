@@ -64,11 +64,10 @@
                                   show_default_label python:has_groups and default_fieldset_label and len(view.widgets);
                                   form_view_name_raw python:view.__name__ or request.getURL().split('/')[-1];
                                   form_view_name python:'-'.join(['view', 'name'] + [x for x in form_view_name_raw.split('++') if x]);
-                                  was_validated python:has_error and 'was-validated' or '';
                                   "
                       tal:attributes="action view/action|request/getURL;
                                       enctype view/enctype;
-                                      class string:rowlike $unload_protection $form_tabbing $form_class $form_view_name_raw $form_view_name $was_validated;
+                                      class string:rowlike $unload_protection $form_tabbing $form_class $form_view_name_raw $form_view_name;
                                       id view/id;
                                       method view/method|string:post">
 
@@ -152,12 +151,7 @@
                       <metal:define define-macro="actions">
                         <div class="formControls" tal:condition="view/actions/values|nothing">
                           <tal:block repeat="action view/actions/values">
-                            <tal:define tal:define="data action/json_data;
-                                                    btn_class python:'primary' if 'save' in action.name else 'secondary'">
-                              <input class="btn btn-${btn_class}" type="${data/type}" name="${data/name}"
-                                     tal:attributes="id action/id;
-                                                     value action/value" />
-                            </tal:define>
+                            <input tal:replace="structure action/render" />
                           </tal:block>
                        </div>
                       </metal:define>

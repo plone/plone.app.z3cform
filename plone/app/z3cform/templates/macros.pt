@@ -14,7 +14,8 @@
 
             <metal:define define-macro="titlelessform"
                           tal:define="status view/status;
-                                      has_error python:view.widgets.errors or status == getattr(view, 'formErrorsMessage', None)">
+                                      has_error python:view.widgets.errors or status == getattr(view, 'formErrorsMessage', None)"
+                          i18n:domain="plone">
 
                 <tal:status condition="status">
                     <div class="alert alert-danger" tal:condition="has_error" role="alert">

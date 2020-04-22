@@ -66,10 +66,17 @@
   <!-- widgets -->
   <include file="widget.zcml" />
 
+  <!-- error snippet -->
+  <adapter
+      factory=".views.ErrorViewTemplate"
+      for="z3c.form.interfaces.IErrorViewSnippet .interfaces.IPloneFormLayer"
+      provides="zope.pagetemplate.interfaces.IPageTemplate"
+      />
+
   <utility
-    name="ZPublisher.HTTPRequest.FileUpload"
-    provides="plone.namedfile.interfaces.IStorage"
-    factory=".factories.Zope2FileUploadStorable"
-  />
+      name="ZPublisher.HTTPRequest.FileUpload"
+      provides="plone.namedfile.interfaces.IStorage"
+      factory=".factories.Zope2FileUploadStorable"
+      />
 
 </configure>

@@ -8,6 +8,7 @@ import z3c.form.interfaces
 
 from Products.Five.browser import BrowserView
 from Products.Five.browser.metaconfigure import ViewMixinForTemplates
+from z3c.form.error import ErrorViewTemplateFactory
 from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 
 
@@ -49,3 +50,8 @@ class RenderWidget(ViewMixinForTemplates, BrowserView):
 
 class RenderContentProvider(ViewMixinForTemplates, BrowserView):
     index = ViewPageTemplateFile('templates/contentprovider-widget.pt')
+
+
+ErrorViewTemplate = ErrorViewTemplateFactory(
+    os.path.join(os.path.dirname(__file__), 'templates/error.pt'),
+    'text/html')

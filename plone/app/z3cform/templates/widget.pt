@@ -31,13 +31,12 @@
         </small>
     </label>
 
-    <div class="fieldErrorBox"
-         tal:condition="error"
-         tal:content="structure error/render|nothing">
-        Error
-    </div>
-
     <input type="text" tal:replace="structure widget/render"
            metal:define-slot="widget" />
+
+    <div tal:condition="error"
+         tal:replace="structure error/render|nothing">
+        Error
+    </div>
 
 </div>

@@ -150,12 +150,16 @@
 
                     <metal:actions define-slot="actions">
                       <metal:define define-macro="actions">
-                        <tal:block repeat="action view/actions/values">
-                          <tal:define tal:define="data action/json_data;
-                                                  btn_class python:'primary' if 'save' in action.name else 'secondary'">
-                            <button class="btn btn-${btn_class}" type="${data/type}" name="${data/name}" tal:content="action/value">action</button>
-                          </tal:define>
-                        </tal:block>
+                        <div class="formControls" tal:condition="view/actions/values|nothing">
+                          <tal:block repeat="action view/actions/values">
+                            <tal:define tal:define="data action/json_data;
+                                                    btn_class python:'primary' if 'save' in action.name else 'secondary'">
+                              <input class="btn btn-${btn_class}" type="${data/type}" name="${data/name}"
+                                     tal:attributes="id action/id;
+                                                     value action/value" />
+                            </tal:define>
+                          </tal:block>
+                       </div>
                       </metal:define>
                     </metal:actions>
 

@@ -10,7 +10,7 @@
          wrapper_css_class  widget/wrapper_css_class|nothing;
                fieldname_class string:kssattr-fieldname-${widget/name};"
    data-pat-inlinevalidation='{"type":"z3c.form"}'
-   tal:attributes="class string:form-group pat-inlinevalidation ${fieldname_class}${error_class}${empty_class} ${wrapper_css_class};
+   tal:attributes="class string:form-group field pat-inlinevalidation ${fieldname_class}${error_class}${empty_class} ${wrapper_css_class};
                    data-fieldname widget/name;
                    id string:formfield-${widget/id};">
     <label for=""

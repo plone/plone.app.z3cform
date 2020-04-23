@@ -205,6 +205,13 @@
       template="templates/submit_input.pt"
       />
 
+  <z3c:widgetTemplate
+      mode="input"
+      widget="z3c.form.interfaces.ICheckBoxWidget"
+      layer=".interfaces.IPloneFormLayer"
+      template="templates/checkbox_input.pt"
+      />
+
   <!-- plone.formwidget.namedfile -->
   <z3c:widgetTemplate
       mode="input"

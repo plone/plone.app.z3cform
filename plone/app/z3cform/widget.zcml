@@ -168,7 +168,6 @@
                 plone.app.z3cform.interfaces.IPloneFormLayer"/>
 
   <!-- z3c.form overrides -->
-  <include package="plone.app.z3cform" />
 
   <z3c:widgetTemplate
       mode="input"
@@ -210,6 +209,13 @@
       widget="z3c.form.interfaces.ICheckBoxWidget"
       layer=".interfaces.IPloneFormLayer"
       template="templates/checkbox_input.pt"
+      />
+
+  <z3c:widgetTemplate
+      mode="input"
+      widget="z3c.form.interfaces.IPasswordWidget"
+      layer=".interfaces.IPloneFormLayer"
+      template="templates/password_input.pt"
       />
 
   <!-- plone.formwidget.namedfile -->

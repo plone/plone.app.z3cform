@@ -19,15 +19,9 @@
 
                 <tal:status condition="status">
                     <div class="alert alert-danger" tal:condition="has_error" role="alert">
-                        <strong i18n:translate="">
-                            Error
-                        </strong>
                         <span tal:replace="status" />
                     </div>
                     <div class="alert alert-info" tal:condition="not:has_error" role="alert">
-                        <strong i18n:translate="">
-                            Info
-                        </strong>
                         <span tal:replace="status" />
                     </div>
                 </tal:status>

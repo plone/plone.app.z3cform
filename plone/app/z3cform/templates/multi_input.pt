@@ -4,7 +4,8 @@
              tal:define="hidden python:widget.mode == 'hidden';
                          showLabel view/showLabel;
                          checkbox_disabled python:not view.allowRemoving and 'disabled' or nothing;
-                         key_widget python:view.key_widgets[repeat['widget'].index()];
+                         index repeat/widget/index;
+                         key_widget python:view.key_widgets[index];
                          error widget/error;
                          key_error key_widget/error|nothing;
                          error_class python:(error or key_error) and ' error' or '';

@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+3.2.2 (2020-08-21)
+------------------
+
+Bug fixes:
+
+
+- Fixed repeat syntax in multi input to also work in Zope 4.5.
+  [maurits] (#116)
+
+
 3.2.1 (2020-06-30)
 ------------------
 

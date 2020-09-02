@@ -21,18 +21,18 @@
         <span class="required" title="Required"
               tal:condition="python:widget.required and widget.mode == 'input'"
               i18n:attributes="title title_required;"></span>
-
-        <small tal:define="description python: getattr(widget, 'description', widget.field.description)"
-               i18n:translate=""
-               tal:content="structure description"
-               tal:condition="python:description and not hidden"
-               class="form-text text-muted">
-          help text
-        </small>
     </label>
 
     <input type="text" tal:replace="structure widget/render"
            metal:define-slot="widget" />
+
+    <small tal:define="description python: getattr(widget, 'description', widget.field.description)"
+           i18n:translate=""
+           tal:content="structure description"
+           tal:condition="python:description and not hidden"
+           class="form-text text-muted">
+      help text
+    </small>
 
     <div tal:condition="error"
          tal:replace="structure error/render|nothing">

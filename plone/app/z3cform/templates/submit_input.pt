@@ -2,10 +2,10 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       tal:omit-tag="">
 <button type="submit"
-        tal:define="bsClass python:'primary' if 'save' in view.name else 'secondary'"
+        tal:define="bsFallback python:'btn-secondary ' if not 'btn-' in view.klass else ''"
         tal:attributes="id view/id;
                         name view/name;
-                        class string:btn btn-${bsClass} ${view/klass};
+                        class string:btn ${bsFallback}${view/klass};
                         value view/value;
                         style view/style;
                         lang view/lang;
@@ -27,6 +27,7 @@
                         readonly view/readonly;
                         alt view/alt;
                         accesskey view/accesskey;
-                        onselect view/onselect"
+                        onselect view/onselect;
+                        formnovalidate python:view.ignoreRequiredOnValidation or None"
         tal:content="view/value">value</button>
 </html>

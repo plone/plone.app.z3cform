@@ -8,8 +8,14 @@ import z3c.form.interfaces
 
 from Products.Five.browser import BrowserView
 from Products.Five.browser.metaconfigure import ViewMixinForTemplates
+from plone.dexterity.browser.add import DefaultAddForm
+from plone.dexterity.browser.add import DefaultAddView
+from plone.dexterity.browser.edit import DefaultEditForm
+from plone.dexterity.interfaces import IDexterityEditForm
+from plone.z3cform import layout
 from z3c.form.error import ErrorViewTemplateFactory
 from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
+from zope.interface import classImplements
 
 
 def path(filepart):
@@ -55,3 +61,35 @@ class RenderContentProvider(ViewMixinForTemplates, BrowserView):
 ErrorViewTemplate = ErrorViewTemplateFactory(
     os.path.join(os.path.dirname(__file__), 'templates/error.pt'),
     'text/html')
+
+
+# Dexterity Add/Edit Form overrides
+class BootstrapAddForm(DefaultAddForm):
+
+    def updateActions(self):
+        super(BootstrapAddForm, self).updateActions()
+        if 'save' in self.actions:
+            self.actions["save"].addClass("btn-primary")
+
+        if 'cancel' in self.actions:
+            self.actions["cancel"].ignoreRequiredOnValidation = True
+
+
+class BootstrapAddView(DefaultAddView):
+    form = BootstrapAddForm
+
+
+class BootstrapEditForm(DefaultEditForm):
+
+    def updateActions(self):
+        super(BootstrapEditForm, self).updateActions()
+
+        if 'save' in self.actions:
+            self.actions["save"].addClass("btn-primary")
+
+        if 'cancel' in self.actions:
+            self.actions["cancel"].ignoreRequiredOnValidation = True
+
+
+BootstrapEditView = layout.wrap_form(BootstrapEditForm)
+classImplements(BootstrapEditView, IDexterityEditForm)

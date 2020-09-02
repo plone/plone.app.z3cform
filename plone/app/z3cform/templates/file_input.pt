@@ -98,6 +98,7 @@
         tal:define="is_invalid python:view.error and 'is-invalid' or ''"
         tal:attributes="id string:${view/id}-input;
                         name view/name;
+                        required python:view.required and 'required' or None;
                         size view/size;
                         disabled view/disabled;
                         maxlength view/maxlength;

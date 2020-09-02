@@ -16,6 +16,7 @@
          tal:condition="item/checked"
          tal:attributes="id item/id;
                          name item/name;
+                         required python:view.required and 'required' or None;
                          class string:custom-control-input ${view/klass};
                          value item/value;
                          style view/style;
@@ -46,6 +47,7 @@
          tal:condition="not:item/checked"
          tal:attributes="id item/id;
                          name item/name;
+                         required python:view.required and 'required' or None;
                          class string:custom-control-input ${view/klass};
                          value item/value;
                          style view/style;

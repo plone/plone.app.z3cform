@@ -50,6 +50,24 @@
       permission="zope.Public"
       />
 
+  <!-- dexterity add/edit overrides -->
+  <include package="plone.dexterity" />
+  <adapter
+      for="Products.CMFCore.interfaces.IFolderish
+           plone.app.z3cform.interfaces.IPloneFormLayer
+           plone.dexterity.interfaces.IDexterityFTI"
+      provides="zope.publisher.interfaces.browser.IBrowserPage"
+      factory=".views.BootstrapAddView"
+      />
+
+  <browser:page
+      for="plone.dexterity.interfaces.IDexterityContent"
+      name="edit"
+      class=".views.BootstrapEditView"
+      permission="cmf.ModifyPortalContent"
+      layer="plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
   <!-- Use a custom actions manager that knows how to do CSRF token authentication. -->
   <adapter factory=".csrf.AuthenticatedButtonActions" />
 

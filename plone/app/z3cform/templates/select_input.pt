@@ -4,6 +4,7 @@
 <select id="" name="" class="" tabindex="" disabled="" multiple="" size=""
         tal:attributes="id view/id;
                         name string:${view/name}:list;
+                        required python:view.required and 'required' or None;
                         class string:custom-select ${view/klass};
                         style view/style;
                         title view/title;

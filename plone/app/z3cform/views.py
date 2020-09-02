@@ -72,6 +72,8 @@ class BootstrapAddForm(DefaultAddForm):
             self.actions["save"].addClass("btn-primary")
 
         if 'cancel' in self.actions:
+            # this sets 'formnovalidate' attribute in markup
+            # to ignore HTML5 validation when clicking 'Cancel'
             self.actions["cancel"].ignoreRequiredOnValidation = True
 
 

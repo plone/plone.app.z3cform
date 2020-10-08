@@ -79,8 +79,8 @@
           title="Required"
           tal:condition="item/required"
           i18n:attributes="title title_required;">&nbsp;</span>
-    <span class="formHelp" tal:content="structure item/description">Description</span>
   </label>
+    <small class="form-text text-muted" tal:content="structure item/description">Description</small>
  </div>
 
 </div>

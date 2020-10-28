@@ -12,3 +12,5 @@ dist
 /lib*
 .*.swp
 pip-selfcheck.json
+.idea
+.vscode

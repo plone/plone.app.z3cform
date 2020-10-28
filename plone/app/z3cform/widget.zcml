@@ -199,6 +199,20 @@
 
   <z3c:widgetTemplate
       mode="input"
+      widget="z3c.form.interfaces.IRadioWidget"
+      layer=".interfaces.IPloneFormLayer"
+      template="templates/radio_input.pt"
+      />
+
+  <z3c:widgetTemplate
+      mode="input_single"
+      widget="z3c.form.interfaces.IRadioWidget"
+      layer=".interfaces.IPloneFormLayer"
+      template="templates/radio_input_single.pt"
+      />
+
+  <z3c:widgetTemplate
+      mode="input"
       widget="z3c.form.interfaces.ISubmitWidget"
       layer=".interfaces.IPloneFormLayer"
       template="templates/submit_input.pt"

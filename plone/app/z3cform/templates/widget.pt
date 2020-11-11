@@ -26,13 +26,13 @@
     <input type="text" tal:replace="structure widget/render"
            metal:define-slot="widget" />
 
-    <small tal:define="description python: getattr(widget, 'description', widget.field.description)"
+    <div tal:define="description python: getattr(widget, 'description', widget.field.description)"
            i18n:translate=""
            tal:content="structure description"
            tal:condition="python:description and not hidden"
-           class="form-text text-muted">
+           class="form-text">
       help text
-    </small>
+    </div>
 
     <div tal:condition="error"
          tal:replace="structure error/render|nothing">

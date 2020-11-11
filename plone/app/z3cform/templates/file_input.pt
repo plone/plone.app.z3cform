@@ -94,7 +94,7 @@
 
     <input
         type="file"
-        class="form-control-file"
+        class="form-control"
         tal:define="is_invalid python:view.error and 'is-invalid' or ''"
         tal:attributes="id string:${view/id}-input;
                         name view/name;
@@ -102,7 +102,7 @@
                         size view/size;
                         disabled view/disabled;
                         maxlength view/maxlength;
-                        class string:form-control-file $is_invalid"
+                        class string:form-control $is_invalid"
         />
 
     <script tal:condition="python:allow_nochange and action != 'replace'" type="text/javascript"

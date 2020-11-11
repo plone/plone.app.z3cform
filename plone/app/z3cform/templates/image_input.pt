@@ -98,7 +98,7 @@
 
     <input
         type="file"
-        class="form-control-file"
+        class="form-control"
         tal:attributes="id string:${view/id}-input;
                         name view/name;
                         required python:view.required and 'required' or None;

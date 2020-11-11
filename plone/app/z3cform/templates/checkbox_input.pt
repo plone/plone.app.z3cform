@@ -7,7 +7,7 @@
 <div tal:attributes="id view/id"
      tal:omit-tag="single_checkbox"
      tal:condition="python:len(items) > 0">
- <div class="custom-control custom-checkbox"
+ <div class="form-check"
        tal:repeat="item items"
        tal:attributes="id python:single_checkbox and view.id or None">
   <input type="checkbox" id="" name="" class="" alt="" title=""
@@ -17,7 +17,7 @@
          tal:attributes="id item/id;
                          name item/name;
                          required python:view.required and 'required' or None;
-                         class string:custom-control-input ${view/klass};
+                         class string:form-check-input ${view/klass};
                          value item/value;
                          style view/style;
                          title view/title;
@@ -48,7 +48,7 @@
          tal:attributes="id item/id;
                          name item/name;
                          required python:view.required and 'required' or None;
-                         class string:custom-control-input ${view/klass};
+                         class string:form-check-input ${view/klass};
                          value item/value;
                          style view/style;
                          title view/title;

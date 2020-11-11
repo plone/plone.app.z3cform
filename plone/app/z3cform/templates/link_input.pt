@@ -25,7 +25,7 @@
         <span class="linkLabel d-none" i18n:translate="label_external_url">External</span>
         <div class="mb-3 main">
           <label class="form-label" for="external" i18n:translate="help_external_url">External URL (can be relative within this site or absolute if it starts with http:// or https://)</label>
-          <input type="text" name="external" placeholder="https://domain.com"
+          <input class="form-control" type="text" name="external" placeholder="https://domain.com"
                  tal:attributes="name string:${view/name}.external;
                                  value value" />
         </div>

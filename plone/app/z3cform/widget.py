@@ -781,7 +781,7 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
                 mt_select = etree.Element('select')
                 mt_select.attrib['id'] = '{0}_text_format'.format(self.id)
                 mt_select.attrib['name'] = '{0}.mimeType'.format(self.name)
-                mt_select.attrib['class'] = 'custom-select {0}'.format(
+                mt_select.attrib['class'] = 'form-select {0}'.format(
                     mt_pattern_name)
                 mt_select.attrib[
                     'data-{0}'.format(mt_pattern_name)

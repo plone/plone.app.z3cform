@@ -13,7 +13,7 @@
    tal:attributes="class string:mb-3 field pat-inlinevalidation ${fieldname_class}${error_class}${empty_class} ${wrapper_css_class};
                    data-fieldname widget/name;
                    id string:formfield-${widget/id};">
-    <label for=""
+    <label for="" class="form-label"
         tal:attributes="for widget/id"
         tal:condition="python: not hidden and widget.label">
         <span i18n:translate="" tal:replace="widget/label">label</span>

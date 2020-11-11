@@ -24,7 +24,7 @@
             tal:attributes="class python:'linkType external' + (' active' if value else '')">
         <span class="linkLabel" i18n:translate="label_external_url">External</span>
         <div class="mb-3 main">
-          <label for="external" i18n:translate="help_external_url">External URL (can be relative within this site or absolute if it starts with http:// or https://)</label>
+          <label class="form-label" for="external" i18n:translate="help_external_url">External URL (can be relative within this site or absolute if it starts with http:// or https://)</label>
           <input type="text" name="external" placeholder="https://domain.com"
                  tal:attributes="name string:${view/name}.external;
                                  value value" />
@@ -37,13 +37,13 @@
         <span class="linkLabel" i18n:translate="label_email_url">Email</span>
         <div class="form-inline">
           <div class="mb-3 main">
-            <label i18n:translate="help_email_url">Email Address</label>
+            <label class="form-label" i18n:translate="help_email_url">Email Address</label>
             <input type="text" name="email" placeholder="name@domain.com"
                    tal:attributes="name string:${view/name}.email;
                                    value value" />
           </div>
           <div class="mb-3">
-            <label i18n:translate="help_email_url_subject">Email Subject (optional)</label>
+            <label class="form-label" i18n:translate="help_email_url_subject">Email Subject (optional)</label>
             <input type="text" name="subject"
                    tal:attributes="name string:${view/name}.subject;
                                    value view/value/email_subject | nothing" />

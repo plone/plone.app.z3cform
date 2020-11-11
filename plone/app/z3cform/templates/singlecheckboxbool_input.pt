@@ -72,7 +72,7 @@
                          alt view/alt;
                          accesskey view/accesskey;
                          onselect view/onselect" />
-  <label for="" class="custom-control-label"
+  <label for="" class="form-check-label"
          tal:attributes="for item/id">
     <span tal:content="item/label">Label</span>
     <span class="required horizontal"

@@ -181,7 +181,7 @@ class AjaxSelectWidgetConverter(BaseDataConverter):
                     term = vocabulary.getTerm(term_value)
                     tokenized_value.append(term.token)
                     continue
-                except LookupError:
+                except (LookupError, AttributeError):
                     pass
             tokenized_value.append(six.text_type(term_value))
         return getattr(self.widget, 'separator', ';').join(tokenized_value)
@@ -216,7 +216,7 @@ class AjaxSelectWidgetConverter(BaseDataConverter):
                     else:
                         untokenized_value.append(term.value)
                     continue
-                except LookupError:
+                except (LookupError, AttributeError):
                     pass
             untokenized_value.append(
                 valueType(token) if valueType else token,

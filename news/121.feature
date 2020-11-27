@@ -1,1 +1,1 @@
-- Added Exception for AttributeError if value is (None,) and term_value can't be set [wkbkhard] (#121)
+- Added Exception for ValueError if value is (None,) and term_value can't be set [wkbkhard] (#121)

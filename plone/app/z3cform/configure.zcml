@@ -57,9 +57,9 @@
            plone.theme.interfaces.IDefaultPloneLayer
            plone.dexterity.interfaces.IDexterityFTI"
       provides="zope.publisher.interfaces.browser.IBrowserPage"
-      factory=".views.BootstrapAddView"
+      factory=".views.AddView"
       />
-  <class class=".views.BootstrapAddView">
+  <class class=".views.AddView">
       <require
           permission="cmf.AddPortalContent"
           interface="zope.publisher.interfaces.browser.IBrowserPage"
@@ -69,7 +69,7 @@
   <browser:page
       for="plone.dexterity.interfaces.IDexterityContent"
       name="edit"
-      class=".views.BootstrapEditView"
+      class=".views.EditView"
       permission="cmf.ModifyPortalContent"
       layer="plone.app.z3cform.interfaces.IPloneFormLayer"
       />

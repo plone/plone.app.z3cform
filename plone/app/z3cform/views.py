@@ -63,35 +63,32 @@ ErrorViewTemplate = ErrorViewTemplateFactory(
     'text/html')
 
 
+class BootstrapActions(object):
+
+    def updateActions(self):
+        super(BootstrapActions, self).updateActions()
+
+        for a in self.actions:
+            if a == "save":
+                self.actions[a].addClass("btn-primary")
+            else:
+                # this sets 'formnovalidate' attribute in markup
+                # to ignore HTML5 validation when clicking buttons other than "save"
+                self.actions[a].ignoreRequiredOnValidation = True
+
+
 # Dexterity Add/Edit Form overrides
-class BootstrapAddForm(DefaultAddForm):
-
-    def updateActions(self):
-        super(BootstrapAddForm, self).updateActions()
-        if 'save' in self.actions:
-            self.actions["save"].addClass("btn-primary")
-
-        if 'cancel' in self.actions:
-            # this sets 'formnovalidate' attribute in markup
-            # to ignore HTML5 validation when clicking 'Cancel'
-            self.actions["cancel"].ignoreRequiredOnValidation = True
+class AddForm(BootstrapActions, DefaultAddForm):
+    """ with bootstrap actions """
 
 
-class BootstrapAddView(DefaultAddView):
-    form = BootstrapAddForm
+class AddView(DefaultAddView):
+    form = AddForm
 
 
-class BootstrapEditForm(DefaultEditForm):
-
-    def updateActions(self):
-        super(BootstrapEditForm, self).updateActions()
-
-        if 'save' in self.actions:
-            self.actions["save"].addClass("btn-primary")
-
-        if 'cancel' in self.actions:
-            self.actions["cancel"].ignoreRequiredOnValidation = True
+class EditForm(BootstrapActions, DefaultEditForm):
+    """ with bootstrap actions """
 
 
-BootstrapEditView = layout.wrap_form(BootstrapEditForm)
-classImplements(BootstrapEditView, IDexterityEditForm)
+EditView = layout.wrap_form(EditForm)
+classImplements(EditView, IDexterityEditForm)

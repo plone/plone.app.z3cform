@@ -84,7 +84,11 @@
   <adapter factory=".converters.AjaxSelectWidgetConverter" />
   <adapter factory=".converters.QueryStringDataConverter" />
   <adapter factory=".converters.RelationChoiceRelatedItemsWidgetConverter" />
+  <adapter factory=".converters.RelatedItemsDataConverter"
+           for="z3c.relationfield.interfaces.IRelationList .interfaces.ISelectWidget"/>
   <adapter factory=".converters.RelatedItemsDataConverter" />
+  <adapter factory=".converters.RelationChoiceRelatedItemsWidgetConverter"
+           for="z3c.relationfield.interfaces.IRelationChoice .interfaces.ISelectWidget"/>
   <adapter factory=".converters.LinkWidgetDataConverter" />
 
   <!-- widgets -->

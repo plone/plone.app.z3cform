@@ -391,13 +391,14 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
         return view_context
 
     def get_vocabulary(self):
-        if self.vocabulary:
+        if self.vocabulary and isinstance(self.vocabulary, six.text_type):
             factory = queryUtility(
                 IVocabularyFactory,
                 self.vocabulary,
             )
             if factory:
                 return factory(self._view_context())
+        return self.vocabulary
 
     def display_items(self):
         if self.value:

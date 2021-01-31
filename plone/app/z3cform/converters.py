@@ -17,7 +17,8 @@ from six.moves import urllib
 from z3c.form.converter import BaseDataConverter
 from z3c.form.converter import CollectionSequenceDataConverter
 from z3c.form.converter import SequenceDataConverter
-from z3c.relationfield.interfaces import IRelationChoice
+from z3c.form.interfaces import ISequenceWidget
+from z3c.relationfield.interfaces import IRelation
 from z3c.relationfield.interfaces import IRelationList
 from zope.component import adapter
 from zope.component.hooks import getSite
@@ -224,7 +225,7 @@ class AjaxSelectWidgetConverter(BaseDataConverter):
         return collectionType(untokenized_value)
 
 
-@adapter(IRelationChoice, IRelatedItemsWidget)
+@adapter(IRelation, IRelatedItemsWidget)
 class RelationChoiceRelatedItemsWidgetConverter(BaseDataConverter):
     """Data converter for RelationChoice fields using the RelatedItemsWidget.
     """
@@ -247,6 +248,19 @@ class RelationChoiceRelatedItemsWidgetConverter(BaseDataConverter):
             return res[0].getObject()
         else:
             return self.field.missing_value
+
+
+@adapter(IRelation, ISequenceWidget)
+class RelationChoiceSelectWidgetConverter(RelationChoiceRelatedItemsWidgetConverter):
+    """Data converter for RelationChoice fields using with SequenceWidgets,
+    which expect sequence values.
+    """
+
+    def toWidgetValue(self, value):
+        if not value:
+            missing = self.field.missing_value
+            return [] if missing is None else missing
+        return [IUUID(value)]
 
 
 @adapter(ICollection, IRelatedItemsWidget)
@@ -287,7 +301,9 @@ class RelatedItemsDataConverter(BaseDataConverter):
             collectionType = collectionType[-1]
 
         separator = getattr(self.widget, 'separator', ';')
-        value = value.split(separator)
+        # Some widgets (like checkbox) return lists
+        if isinstance(value, six.string_types):
+            value = value.split(separator)
 
         if IRelationList.providedBy(self.field):
             try:
@@ -309,6 +325,30 @@ class RelatedItemsDataConverter(BaseDataConverter):
                 return collectionType(
                     valueType(v, encoding='utf8') for v in value)
             return collectionType(valueType(v) for v in value)
+
+
+@adapter(IRelationList, ISequenceWidget)
+class RelationListSelectWidgetDataConverter(RelatedItemsDataConverter):
+    """Data converter for RelationChoice fields using with SequenceWidgets,
+    which expect sequence values.
+    """
+
+    def toWidgetValue(self, value):
+        """Converts from field value to widget.
+
+        :param value: List of catalog brains.
+        :type value: list
+
+        :returns: List of of UID.
+        :rtype: list
+        """
+        if not value:
+            missing = self.field.missing_value
+            return [] if missing is None else missing
+        if IRelationList.providedBy(self.field):
+            return [IUUID(o) for o in value if o]
+        else:
+            return [v for v in value if v]
 
 
 @adapter(IList, IQueryStringWidget)

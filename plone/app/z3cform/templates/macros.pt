@@ -37,7 +37,7 @@
                 </tal:errors>
 
                 <form data-pat-autotoc="levels: legend; section: fieldset; className: autotabs"
-                      class="rowlike ${'pat-formunloadalert' if enable_unload_protection else None}" action="." method="post"
+                      class="rowlike ${'pat-formunloadalert' if enable_unload_protection else None} pat-validation" action="." method="post"
                       tal:define="groups view/groups | nothing;
                                   form_name view/form_name | nothing;
                                   form_class view/css_class | string:;

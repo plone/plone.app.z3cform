@@ -1,0 +1,2 @@
+Change `enableUnloadProtection` form class to `pat-formunloadalert` and only conditionally load it.
+[thet]

@@ -10,10 +10,6 @@
   <h1 class="documentFirstHeading" tal:content="view/label|nothing" />
 </metal:content-title>
 
-<metal:content-title fill-slot="content-description">
-  <div class="text-muted" tal:content="view/description|nothing" />
-</metal:content-title>
-
 <metal:content-core fill-slot="content-core">
   <metal:block use-macro="context/@@ploneform-macros/titlelessform" />
 </metal:content-core>

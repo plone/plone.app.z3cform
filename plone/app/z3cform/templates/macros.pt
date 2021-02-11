@@ -36,6 +36,15 @@
                     </tal:error>
                 </tal:errors>
 
+                <metal:description-slot define-slot="description">
+                  <p  class="text-muted"
+                      tal:define="description view/description | nothing"
+                      tal:condition="description"
+                      tal:content="structure description">
+                          Description
+                  </p>
+                </metal:description-slot>
+
                 <form data-pat-autotoc="levels: legend; section: fieldset; className: autotabs"
                       class="rowlike enableUnloadProtection" action="." method="post"
                       tal:define="groups view/groups | nothing;

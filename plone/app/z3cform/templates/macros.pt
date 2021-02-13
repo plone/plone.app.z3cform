@@ -12,22 +12,18 @@
               <h3 tal:condition="view/label | nothing" tal:content="view/label" />
             </metal:title-slot>
 
-            <metal:define define-macro="titlelessform">
+            <metal:define define-macro="titlelessform"
+                          tal:define="status view/status;
+                                      has_error python:view.widgets.errors or status == getattr(view, 'formErrorsMessage', None)"
+                          i18n:domain="plone">
 
-                <tal:status define="status view/status;
-                                    has_error python:view.widgets.errors or status == getattr(view, 'formErrorsMessage', None)" condition="status">
-                    <dl class="portalMessage error" tal:condition="has_error" role="alert">
-                        <dt i18n:translate="" i18n:domain="plone">
-                            Error
-                        </dt>
-                        <dd tal:content="status" />
-                    </dl>
-                    <dl class="portalMessage info" tal:condition="not:has_error" role="status">
-                        <dt i18n:translate="" i18n:domain="plone">
-                            Info
-                        </dt>
-                        <dd tal:content="status" />
-                    </dl>
+                <tal:status condition="status">
+                    <div class="alert alert-danger" tal:condition="has_error" role="alert">
+                        <span tal:replace="status" />
+                    </div>
+                    <div class="alert alert-info" tal:condition="not:has_error" role="alert">
+                        <span tal:replace="status" />
+                    </div>
                 </tal:status>
 
                 <tal:errors define="errors view/widgets/errors" condition="errors">
@@ -40,17 +36,8 @@
                     </tal:error>
                 </tal:errors>
 
-                <metal:description-slot define-slot="description">
-                  <p  class="discreet"
-                      tal:define="description view/description | nothing"
-                      tal:condition="description"
-                      tal:content="structure description">
-                          Description
-                  </p>
-                </metal:description-slot>
-
                 <form data-pat-autotoc="levels: legend; section: fieldset; className: autotabs"
-                      class="rowlike enableUnloadProtection" action="." method="post"
+                      class="rowlike enableUnloadProtection" action="." method="post" novalidate
                       tal:define="groups view/groups | nothing;
                                   form_name view/form_name | nothing;
                                   form_class view/css_class | string:;
@@ -66,7 +53,7 @@
                                   "
                       tal:attributes="action view/action|request/getURL;
                                       enctype view/enctype;
-                                      class python:'rowlike {0} {1} {2} kssattr-formname-{3} {4}'.format(unload_protection, form_tabbing, form_class, form_view_name_raw, form_view_name);
+                                      class string:rowlike $unload_protection $form_tabbing $form_class $form_view_name_raw $form_view_name;
                                       id view/id;
                                       method view/method|string:post">
 
@@ -146,15 +133,15 @@
 
                     <metal:block define-slot="belowfields" />
 
-                    <metal:actions-slot define-slot="actions">
-                        <metal:define define-macro="actions">
-                            <div class="formControls" tal:condition="view/actions/values|nothing">
-                                <tal:block repeat="action view/actions/values">
-                                    <input type="submit" tal:replace="structure action/render" />
-                                </tal:block>
-                            </div>
-                        </metal:define>
-                    </metal:actions-slot>
+                    <metal:actions define-slot="actions">
+                      <metal:define define-macro="actions">
+                        <div class="formControls" tal:condition="view/actions/values|nothing">
+                          <tal:block repeat="action view/actions/values">
+                            <input tal:replace="structure action/render" />
+                          </tal:block>
+                       </div>
+                      </metal:define>
+                    </metal:actions>
 
                     <tal:block tal:condition="view/enableCSRFProtection|nothing"
                       tal:replace="structure context/@@authenticator/authenticator" />

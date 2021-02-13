@@ -9,7 +9,7 @@
              data-fieldname widget/name;
                              id string:formfield-${widget/id};">
 
-            <label for="" class="horizontal"
+            <label class="form-label horizontal" for=""
                 tal:attributes="for widget/id"
                 tal:condition="not:hidden">
                 <span i18n:translate="" tal:replace="widget/label">label</span>

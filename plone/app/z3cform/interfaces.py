@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from plone.app.textfield.widget import IRichTextWidget as patextfield_IRichTextWidget  # noqa
 from z3c.form.interfaces import IFormLayer
+from z3c.form.interfaces import IRadioWidget
 from z3c.form.interfaces import ISelectWidget as IBaseSelectWidget
 from z3c.form.interfaces import ISingleCheckBoxWidget
 from z3c.form.interfaces import ITextWidget
@@ -68,3 +69,14 @@ class ILinkWidget(ITextWidget):
 
 class ISingleCheckBoxBoolWidget(ISingleCheckBoxWidget):
     """Marker interface for the SingleCheckboxBoolWidget."""
+
+
+class IRadioWidget(IRadioWidget):
+    """Radio widget."""
+
+    def renderForValue(value):
+        """Render a single radio button element for a given value.
+
+        Here the word ``value`` is used in the HTML sense, in other
+        words it is a term token.
+        """

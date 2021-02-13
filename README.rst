@@ -25,7 +25,7 @@ Plone 4.1 and later include *plone.app.z3cform* in Plone core. Older versions ne
 the addon separately as your own add-on dependency.
 
 Features
-============
+========
 
 The following Plone and z3c.form integration is added
 
@@ -40,7 +40,7 @@ The following Plone and z3c.form integration is added
 * CRUD forms
 
 Out of the box form templates
-==================================
+=============================
 
 The form and widget templates are applied in the following order
 
@@ -64,10 +64,10 @@ and the result of ``widget.render()``.  This view may be overridden for
 particular widget types in order to customize this widget chrome.
 
 Customizing form behavior
-============================
+=========================
 
 Form method
--------------
+-----------
 
 If your form instance defines a property called ``method`` it allows
 you to set whether form is HTTP POST or HTTP GET. The default is POST.
@@ -84,7 +84,7 @@ Example::
             method = "get"
 
 Form action
-------------
+-----------
 
 Form ``action`` property defines HTTP target where the form is posted. The default is
 the same page where the form was rendered, ``request.getURL()``.
@@ -109,15 +109,13 @@ Example::
                 return self.context.absolute_url() + "/holidayservice_view" + "#searched"
 
 Fieldsets and tabs
---------------------
+------------------
 
 You can fieldsets to your form if you subclass the form from z3c.form.group.GroupForm.
 The default behavior of Plone is to turn these fieldsets to tabs (as seen on
 any *Edit* view of content item).
 
 You can disable this behavior for your form::
-
-
 
     class ReportForm(z3c.form.group.GroupForm, z3c.form.form.Form):
 
@@ -146,8 +144,6 @@ This attack occurs when the user of your site visits a third-party site that
 uses Javascript to post to a URL on your site without the user's knowledge,
 taking advantage of the user's active session.
 
-
-
 plone.app.z3cform can protect against this type of attack by adding a unique
 token as a hidden input when rendering the form, and checking to make sure it
 is present as a request parameter when form actions are executed.
@@ -160,7 +156,7 @@ Example::
         enableCSRFProtection = True
 
 Form main template override
-=============================
+===========================
 
 Forms are framed by *FormWrapper* views. It places rendered
 form inside Plone page frame. The default *FormWrapper* is supplied automatically,
@@ -285,7 +281,7 @@ Example ``templates/reporter.html``::
     </html>
 
 Widget frame override
-=============================
+=====================
 
 You can override widget templates as instructed for ``z3c.form``.
 ``plone.app.z3cform`` renders `a frame around each widget <https://github.com/plone/plone.app.z3cform/blob/master/plone/app/z3cform/templates/widget.pt>`_
@@ -337,7 +333,7 @@ Below is an example how to do it.
                 alsoProvides(widget, IDemoWidget)
 
 Hide fields that have no value
-==================================
+==============================
 
 The ``.empty`` css class marks the fields that have no value. If you don't want
 to display these fields in view mode, add the following css in your theme::
@@ -348,7 +344,7 @@ to display these fields in view mode, add the following css in your theme::
 
 
 Add additional parameters to widgets
-=====================================
+====================================
 
 You can add additional parameters to widgets defined in this package
 via the `plone.autoform.widgets.ParameterizedWidget` ::
@@ -375,7 +371,7 @@ or via directives ::
 
 
 Testing
-===============
+=======
 
 To test ``plone.app.z3form`` it is recommended to use
 `plone.app.testing <https://pypi.python.org/pypi/plone.app.testing/>`_
@@ -411,12 +407,12 @@ Below is an example::
 
 
 Troubleshooting
-================
+===============
 
 Here are some common errors you might encounter with plone.app.z3cform.
 
 ComponentLookupError in updateWidgets()
-----------------------------------------
+---------------------------------------
 
 ::
 
@@ -438,7 +434,7 @@ product's configuration.zcml. See *Installation* above.
 
 
 KSS inline validation (deprecated)
-====================================
+==================================
 
 .. note ::
 

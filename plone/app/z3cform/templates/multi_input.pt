@@ -20,7 +20,7 @@
                    tal:attributes="id string:${widget/id}-remove;
                                    name string:${widget/name}.remove;
                                    disabled checkbox_disabled;"/>
-            <label for="" class="horizontal"
+            <label for="" class="form-label horizontal"
                 tal:attributes="for key_widget/id"
                 tal:condition="python:key_widget is not None and showLabel and not hidden"
                 ><span i18n:translate="" tal:replace="key_widget/label">label</span>
@@ -46,7 +46,7 @@
 
             <br/>
 
-            <label for="" class="horizontal"
+            <label for="" class="form-label horizontal"
                 tal:attributes="for widget/id"
                 tal:condition="python:showLabel and not hidden">
                 <span i18n:translate="" tal:replace="widget/label">label</span>

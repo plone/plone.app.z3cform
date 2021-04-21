@@ -8,6 +8,29 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0a1 (2021-04-21)
+--------------------
+
+Breaking changes:
+
+
+- Update form widget implementation for Plone 6 with Bootstrap markup
+  [petschki, balavec, agitator] (#127)
+
+
+New features:
+
+
+- - Added Exception for ValueError if value is (None,) and term_value can't be set [wkbkhard] (#121) (#121)
+
+
+Bug fixes:
+
+
+- Clean up rst documentation titles, spacing, add .vscode and .idea to gitignore.
+  [balavec] (#0)
+
+
 3.2.2 (2020-08-21)
 ------------------
 

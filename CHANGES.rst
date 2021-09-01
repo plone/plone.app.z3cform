@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0a2 (2021-09-01)
+--------------------
+
+New features:
+
+
+- Add support for more widget options when working with relation fields. (#125)
+
+
 4.0.0a1 (2021-04-21)
 --------------------
 

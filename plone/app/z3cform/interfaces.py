@@ -68,3 +68,7 @@ class ILinkWidget(ITextWidget):
 
 class ISingleCheckBoxBoolWidget(ISingleCheckBoxWidget):
     """Marker interface for the SingleCheckboxBoolWidget."""
+
+
+class IRichTextWidgetInputModeRenderer(Interface):
+    """Marker interface to render multiple wysiwyg editors"""

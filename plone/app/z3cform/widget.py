@@ -30,13 +30,13 @@ from plone.app.z3cform.interfaces import IPloneFormLayer
 from plone.app.z3cform.interfaces import IQueryStringWidget
 from plone.app.z3cform.interfaces import IRelatedItemsWidget
 from plone.app.z3cform.interfaces import IRichTextWidget
+from plone.app.z3cform.interfaces import IRichTextWidgetInputModeRenderer
 from plone.app.z3cform.interfaces import ISelectWidget
 from plone.app.z3cform.interfaces import ISingleCheckBoxBoolWidget
 from plone.app.z3cform.utils import call_callables
 from plone.app.z3cform.utils import closest_content
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces import IEditingSchema
 from Products.CMFPlone.utils import safe_unicode
 from six.moves import UserDict
 from z3c.form import interfaces as form_ifaces
@@ -707,23 +707,7 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
         """dynamically grab the actual pattern name so it will
            work with custom visual editors"""
         if self._pattern is None:
-            registry = getUtility(IRegistry)
-            try:
-                records = registry.forInterface(IEditingSchema, check=False,
-                                                prefix='plone')
-                default = records.default_editor.lower()
-                available = records.available_editors
-            except AttributeError:
-                default = 'tinymce'
-                available = ['TinyMCE']
-            tool = getToolByName(self.wrapped_context(), 'portal_membership')
-            member = tool.getAuthenticatedMember()
-            editor = member.getProperty('wysiwyg_editor')
-            if editor in available:
-                self._pattern = editor.lower()
-            elif editor in ('None', None):
-                self._pattern = 'plaintexteditor'
-            return default
+            self._pattern = self.getWysiwygEditor()
         return self._pattern
 
     def _base_args(self):
@@ -753,6 +737,22 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
         :rtype: string
         """
         if self.mode != 'display':
+            renderer = queryUtility(
+                IRichTextWidgetInputModeRenderer,
+                name=self.getWysiwygEditor(),
+                default=tinymce_richtextwidget_render
+            )
+            return renderer(self)
+
+        if not self.value:
+            return ''
+
+        if isinstance(self.value, RichTextValue):
+            return self.value.output_relative_to(self.context)
+
+        return super(RichTextWidget, self).render()
+
+    def render_input_mode(self):
             # MODE "INPUT"
             rendered = ''
             allowed_mime_types = self.allowedMimeTypes()
@@ -816,13 +816,9 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
                 )
             return rendered
 
-        if not self.value:
-            return ''
 
-        if isinstance(self.value, RichTextValue):
-            return self.value.output_relative_to(self.context)
-
-        return super(RichTextWidget, self).render()
+def tinymce_richtextwidget_render(widget):
+    return RichTextWidget.render_input_mode(widget)
 
 
 @implementer_only(ILinkWidget)

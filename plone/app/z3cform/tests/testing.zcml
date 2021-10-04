@@ -22,4 +22,10 @@
         class=".example.MyMultiFormWrapper"
         permission="zope.Public" />
 
+    <utility
+       component=".example.dummy_richtextwidget_render"
+       provides="..interfaces.IRichTextWidgetInputModeRenderer"
+       name="dummy"
+       />
+
 </configure>

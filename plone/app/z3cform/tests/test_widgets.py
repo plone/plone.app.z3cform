@@ -1556,6 +1556,30 @@ class RichTextWidgetTests(unittest.TestCase):
             )
             self.assertTrue('pat-tinymce' not in rendered)
 
+    def test_use_default_editor_value(self):
+        """ Use dummy utility registered in testing.zcml """
+        if IMarkupSchema:
+            # if not, don't run this test
+            self._set_mimetypes(allowed=('text/html',))
+            registry = getUtility(IRegistry)
+            from Products.CMFPlone.interfaces import IEditingSchema
+            proxy = registry.forInterface(IEditingSchema, check=False,
+                                            prefix='plone')
+            proxy.available_editors = [u'dummy', u'TinyMCE']
+            proxy.default_editor = u'dummy'
+            from plone.app.z3cform.widget import RichTextWidget
+            widget = FieldWidget(self.field, RichTextWidget(self.request))
+            widget.context = self.portal
+            rendered = widget.render()
+            self.assertTrue('<p>dummy</p>' in rendered)
+
+            proxy.default_editor = u'TinyMCE'
+            from plone.app.z3cform.widget import RichTextWidget
+            widget = FieldWidget(self.field, RichTextWidget(self.request))
+            widget.context = self.portal
+            rendered = widget.render()
+            self.assertTrue('pat-tinymce' in rendered)
+
 
 class LinkWidgetIntegrationTests(unittest.TestCase):
 

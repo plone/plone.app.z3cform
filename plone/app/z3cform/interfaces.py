@@ -4,6 +4,7 @@ from z3c.form.interfaces import ISelectWidget as IBaseSelectWidget
 from z3c.form.interfaces import IFormLayer
 from z3c.form.interfaces import ISingleCheckBoxWidget
 from z3c.form.interfaces import ITextWidget
+from zope.interface import Interface
 from zope.schema.interfaces import IDate
 from zope.schema.interfaces import IDatetime
 
@@ -54,3 +55,7 @@ class ILinkWidget(ITextWidget):
 
 class ISingleCheckBoxBoolWidget(ISingleCheckBoxWidget):
     """Marker interface for the SingleCheckboxBoolWidget."""
+
+
+class IRichTextWidgetInputModeRenderer(Interface):
+    """Marker interface to render multiple wysiwyg editors"""

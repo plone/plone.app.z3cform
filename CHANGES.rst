@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0a3 (2021-10-13)
+--------------------
+
+Bug fixes:
+
+
+- Fix form-error alert for BS5 (including invariants errors). [jensens] (#129)
+- Fix widget display mode for Bootstrap 5. [jensens] (#130)
+
+
 4.0.0a2 (2021-09-01)
 --------------------
 

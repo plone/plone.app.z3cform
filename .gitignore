@@ -12,3 +12,4 @@ dist
 /lib*
 .*.swp
 pip-selfcheck.json
+pyvenv.cfg

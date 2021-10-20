@@ -121,25 +121,22 @@
     <require permission="zope.Public"
              interface=".interfaces.IDateWidget" />
   </class>
-  <class class="zope.schema._field.Date">
-    <implements interface=".interfaces.IDateField"/>
-  </class>
+
   <adapter
       factory=".widget.DateFieldWidget"
-      for=".interfaces.IDateField
+      for="zope.schema.interfaces.IDate
            plone.app.z3cform.interfaces.IPloneFormLayer" />
 
   <class class=".widget.DatetimeWidget">
     <require permission="zope.Public"
              interface=".interfaces.IDatetimeWidget" />
   </class>
-  <class class="zope.schema._field.Datetime">
-    <implements interface=".interfaces.IDatetimeField"/>
-  </class>
 
-  <adapter factory=".widget.DatetimeFieldWidget"
-           for=".interfaces.IDatetimeField
-                plone.app.z3cform.interfaces.IPloneFormLayer" />
+  <adapter
+      factory=".widget.DatetimeFieldWidget"
+      for="zope.schema.interfaces.IDatetime
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
 
   <adapter factory=".widget.RelatedItemsFieldWidget"
            for="z3c.relationfield.interfaces.IRelationChoice
@@ -172,6 +169,14 @@
   <z3c:widgetTemplate
       mode="input"
       widget="z3c.form.interfaces.ITextWidget"
+      layer=".interfaces.IPloneFormLayer"
+      template="templates/text_input.pt"
+      />
+
+  <z3c:widgetTemplate
+      mode="input"
+      field="zope.schema.interfaces.IDatetime"
+      widget=".interfaces.IDatetimeWidget"
       layer=".interfaces.IPloneFormLayer"
       template="templates/text_input.pt"
       />

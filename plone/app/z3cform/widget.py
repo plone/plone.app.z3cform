@@ -4,7 +4,6 @@ from Acquisition import ImplicitAcquisitionWrapper
 from lxml import etree
 from OFS.interfaces import ISimpleItem
 from plone.app.contentlisting.interfaces import IContentListing
-from plone.app.event.base import first_weekday
 from plone.app.textfield.value import RichTextValue
 from plone.app.textfield.widget import RichTextWidget as patext_RichTextWidget
 from plone.app.vocabularies.terms import TermWithDescription
@@ -133,15 +132,21 @@ class BaseWidget(Widget):
 
 
 @implementer_only(IDateWidget)
-class DateWidget(BaseWidget, HTMLInputWidget):
+class DateWidget(BaseWidget, z3cform_TextWidget):
     """Date widget for z3c.form."""
 
-    _base = InputWidget
+    _base_type = 'date'
     _converter = DateWidgetConverter
     _formater = 'date'
 
-    pattern = 'pickadate'
+    pattern = 'date-picker'
     pattern_options = BaseWidget.pattern_options.copy()
+
+    def _base(self, **kw):
+        return InputWidget(
+            type=self._base_type,
+            **kw,
+        )
 
     def _base_args(self):
         """Method which will calculate _base class arguments.
@@ -177,6 +182,7 @@ class DateWidget(BaseWidget, HTMLInputWidget):
         :rtype: string
         """
         if self.mode != 'display':
+            self.addClass("form-control")
             return super(DateWidget, self).render()
 
         if not self.value:
@@ -200,7 +206,7 @@ class DateWidget(BaseWidget, HTMLInputWidget):
 
 
 @implementer_only(IDatetimeWidget)
-class DatetimeWidget(DateWidget, HTMLInputWidget):
+class DatetimeWidget(DateWidget):
     """Datetime widget for z3c.form.
 
     :param default_timezone: A Olson DB/pytz timezone identifier or a callback
@@ -208,43 +214,11 @@ class DatetimeWidget(DateWidget, HTMLInputWidget):
     :type default_timezone: String or callback
 
     """
-
+    _base_type = 'datetime-local'
     _converter = DatetimeWidgetConverter
     _formater = 'dateTime'
 
-    pattern_options = DateWidget.pattern_options.copy()
-
     default_timezone = None
-
-    def _base_args(self):
-        """Method which will calculate _base class arguments.
-
-        Returns (as python dictionary):
-            - `pattern`: pattern name
-            - `pattern_options`: pattern options
-            - `name`: field name
-            - `value`: field value
-
-        :returns: Arguments which will be passed to _base
-        :rtype: dict
-        """
-        args = super(DatetimeWidget, self)._base_args()
-
-        if args['value'] and len(args['value'].split(' ')) == 1:
-            args['value'] += ' 00:00'
-
-        args.setdefault('pattern_options', {})
-        if 'time' in args['pattern_options']:
-            # Time gets set in parent class to false. Remove.
-            del args['pattern_options']['time']
-        if 'time' in self.pattern_options:
-            # Re-apply custom set time options.
-            args['pattern_options']['time'] = self.pattern_options['time']
-        args['pattern_options'] = dict_merge(
-            get_datetime_options(self.request),
-            args['pattern_options'])
-
-        return args
 
 
 @implementer_only(ISelectWidget)
@@ -866,13 +840,7 @@ class LinkWidget(z3cform_TextWidget):
 
 @implementer(IFieldWidget)
 def DateFieldWidget(field, request):
-    widget = FieldWidget(field, DateWidget(request))
-    widget.pattern_options.setdefault('date', {})
-    try:
-        widget.pattern_options['date']['firstDay'] = first_weekday()
-    except ComponentLookupError:
-        pass
-    return widget
+    return FieldWidget(field, DateWidget(request))
 
 
 @implementer(IFieldWidget)

@@ -197,34 +197,15 @@ class DateWidgetTests(unittest.TestCase):
         current_year = datetime.today().year
         self.assertEqual(
             {
-                'pattern': 'pickadate',
-                'value': u'',
                 'name': None,
-                'pattern_options': {
-                    'date': {
-                        'firstDay': 0,
-                        'min': [current_year - 100, 1, 1],
-                        'max': [current_year + 20, 1, 1],
-                        'format': 'mmmm d, yyyy',
-                        'monthsFull': [u'January', u'February', u'March',
-                                       u'April', u'May', u'June', u'July',
-                                       u'August', u'September', u'October',
-                                       u'November', u'December'],
-                        'weekdaysShort': [u'Sun', u'Mon', u'Tue', u'Wed',
-                                          u'Thu', u'Fri', u'Sat'],
-                        'weekdaysFull': [u'Sunday', u'Monday', u'Tuesday',
-                                         u'Wednesday', u'Thursday', u'Friday',
-                                         u'Saturday'],
-                        'selectYears': 200,
-                        'placeholder': u'Enter date...',
-                        'monthsShort': [u'Jan', u'Feb', u'Mar', u'Apr', u'May',
-                                        u'Jun', u'Jul', u'Aug', u'Sep', u'Oct',
-                                        u'Nov', u'Dec'],
-                    },
-                    'time': False,
-                    'today': u'Today',
-                    'clear': u'Clear',
-                },
+                'pattern': 'date-picker',
+                'pattern_options': {'behavior': 'native',
+                                    'clear': 'Clear',
+                                    'date': {'firstDay': 0},
+                                    'first-day': 0,
+                                    'today': 'Today',
+                                    'week-numbers': 'show'},
+                'value': '',
             },
             self.widget._base_args(),
         )
@@ -300,38 +281,16 @@ class DatetimeWidgetTests(unittest.TestCase):
         current_year = datetime.today().year
         self.assertEqual(
             {
-                'pattern': 'pickadate',
-                'value': u'',
                 'name': None,
-                'pattern_options': {
-                    'date': {
-                        'firstDay': 0,
-                        'min': [current_year - 100, 1, 1],
-                        'max': [current_year + 20, 1, 1],
-                        'format': 'mmmm d, yyyy',
-                        'monthsFull': [u'January', u'February', u'March',
-                                       u'April', u'May', u'June', u'July',
-                                       u'August', u'September', u'October',
-                                       u'November', u'December'],
-                        'weekdaysShort': [u'Sun', u'Mon', u'Tue', u'Wed',
-                                          u'Thu', u'Fri', u'Sat'],
-                        'weekdaysFull': [u'Sunday', u'Monday', u'Tuesday',
-                                         u'Wednesday', u'Thursday', u'Friday',
-                                         u'Saturday'],
-                        'selectYears': 200,
-                        'placeholder': u'Enter date...',
-                        'monthsShort': [u'Jan', u'Feb', u'Mar', u'Apr', u'May',
-                                        u'Jun', u'Jul', u'Aug', u'Sep', u'Oct',
-                                        u'Nov', u'Dec'],
-                    },
-                    'time': {
-                        'placeholder': u'Enter time...',
-                        'format': 'h:i a',
-                        'interval': 15,
-                    },
-                    'today': u'Today',
-                    'clear': u'Clear',
-                },
+                'pattern': 'datetime-picker',
+                'pattern_options': {'behavior': 'native',
+                                    'clear': 'Clear',
+                                    'date': {'firstDay': 0},
+                                    'first-day': 0,
+                                    'time': {'interval': 15},
+                                    'today': 'Today',
+                                    'week-numbers': 'show'},
+                'value': '',
             },
             self.widget._base_args(),
         )
@@ -353,12 +312,12 @@ class DatetimeWidgetTests(unittest.TestCase):
         )
 
         self.assertEqual(
-            converter.toFieldValue('2000-10-30 15:40'),
+            converter.toFieldValue('2000-10-30T15:40'),
             datetime(2000, 10, 30, 15, 40),
         )
 
         self.assertEqual(
-            converter.toFieldValue('21-10-30 15:40'),
+            converter.toFieldValue('21-10-30T15:40'),
             datetime(21, 10, 30, 15, 40),
         )
 
@@ -369,12 +328,12 @@ class DatetimeWidgetTests(unittest.TestCase):
 
         self.assertEqual(
             converter.toWidgetValue(datetime(2000, 10, 30, 15, 40)),
-            '2000-10-30 15:40',
+            '2000-10-30T15:40',
         )
 
         self.assertEqual(
             converter.toWidgetValue(datetime(21, 10, 30, 15, 40)),
-            '21-10-30 15:40',
+            '21-10-30T15:40',
         )
 
     def test_data_converter__no_timezone(self):
@@ -390,7 +349,7 @@ class DatetimeWidgetTests(unittest.TestCase):
 
         converter = DatetimeWidgetConverter(self.field, self.widget)
         self.assertEqual(
-            converter.toFieldValue('2013-11-13 10:20'),
+            converter.toFieldValue('2013-11-13T10:20'),
             datetime(2013, 11, 13, 10, 20),
         )
 
@@ -412,7 +371,7 @@ class DatetimeWidgetTests(unittest.TestCase):
 
         converter = DatetimeWidgetConverter(self.field, self.widget)
         self.assertEqual(
-            converter.toFieldValue('2013-11-13 10:20'),
+            converter.toFieldValue('2013-11-13T10:20'),
             tz.localize(datetime(2013, 11, 13, 10, 20)),
         )
 
@@ -435,7 +394,7 @@ class DatetimeWidgetTests(unittest.TestCase):
 
         converter = DatetimeWidgetConverter(self.field, self.widget)
         self.assertEqual(
-            converter.toFieldValue('2013-11-13 10:20'),
+            converter.toFieldValue('2013-11-13T10:20'),
             tz.localize(datetime(2013, 11, 13, 10, 20)),
         )
 

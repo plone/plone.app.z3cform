@@ -218,6 +218,7 @@ class DatetimeWidget(DateWidget):
     _converter = DatetimeWidgetConverter
     _formater = 'dateTime'
 
+    pattern = 'datetime-picker'
     default_timezone = None
 
 

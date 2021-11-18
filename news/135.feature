@@ -1,0 +1,1 @@
+- enable formautofocus for plone forms disabable for specific forms [jmevissen]

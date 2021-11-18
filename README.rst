@@ -115,6 +115,19 @@ You can disable this behavior for your form::
         # Disable unload protection behavior
         enable_unload_protection  = False
 
+Autofocus
+---------
+
+The default behaviour on Plone Forms is to use the formautofocus pattern to focus the "first" input field.
+
+You can disable this behavior for your form::
+
+    class SearchForm(z3c.form.group.GroupForm, z3c.form.form.Form):
+
+        # Disable autofocus behavior
+        enable_autofocus = False
+
+
 
 CSRF Protection
 ===============

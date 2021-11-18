@@ -65,7 +65,7 @@ setup(
         'zope.interface',
         'zope.schema',
         'zope.traversing',
-        'plone.app.textfield'
+        'plone.app.textfield>=1.2.12'
     ],
     extras_require={
         'tests': [

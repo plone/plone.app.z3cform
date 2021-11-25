@@ -1,0 +1,1 @@
+Enable multiple wysiwyg editors (use default editor registry setting) [duchenean, gotcha]

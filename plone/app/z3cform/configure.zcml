@@ -214,4 +214,10 @@
            for="z3c.form.interfaces.ITextWidget
                 plone.app.z3cform.interfaces.IPloneFormLayer"/>
 
+
+  <utility
+       component=".widget.tinymce_richtextwidget_render"
+       provides=".interfaces.IRichTextWidgetInputModeRenderer"
+       name="tinymce"
+       />
 </configure>

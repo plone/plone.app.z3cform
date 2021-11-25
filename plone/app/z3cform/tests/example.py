@@ -84,3 +84,7 @@ class MyMultiForm(form.Form):
 
 class MyMultiFormWrapper(FormWrapper):
     form = MyMultiForm
+
+
+def dummy_richtextwidget_render(widget):
+    return "<p>dummy</p>"

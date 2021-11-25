@@ -1,1 +1,3 @@
-- enable formautofocus for plone forms disabable for specific forms [jmevissen]
+Enable formautofocus for Plone forms.
+Allow disabling for specific forms with ``enable_autofocus = False``.
+[jmevissen]

@@ -28,6 +28,7 @@ setup(
                 "for use with z3c.form and Plone",
     long_description=long_description,
     classifiers=[
+        "Development Status :: 5 - Production/Stable",
         "Framework :: Plone",
         "Framework :: Plone :: 5.1",
         "Framework :: Zope2",

@@ -234,4 +234,10 @@
     factory=".factories.Zope2FileUploadStorable"
   />
 
+  <utility
+       component=".widget.tinymce_richtextwidget_render"
+       provides=".interfaces.IRichTextWidgetInputModeRenderer"
+       name="tinymce"
+       />
+
 </configure>

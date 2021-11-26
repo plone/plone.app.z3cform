@@ -8,6 +8,18 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0a4 (2021-11-26)
+--------------------
+
+New features:
+
+
+- Enable multiple wysiwyg editors (use default editor registry setting) [duchenean, gotcha] (#45)
+- Enable formautofocus for Plone forms.
+  Allow disabling for specific forms with ``enable_autofocus = False``.
+  [jmevissen] (#135)
+
+
 4.0.0a3 (2021-10-13)
 --------------------
 

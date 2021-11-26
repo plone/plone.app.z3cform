@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+3.2.3 (2021-11-26)
+------------------
+
+New features:
+
+
+- Enable multiple wysiwyg editors (use default editor registry setting) [duchenean, gotcha] (#45)
+
+
 3.2.2 (2020-08-21)
 ------------------
 

@@ -52,7 +52,7 @@ setup(
     zip_safe=False,
     install_requires=[
         'Acquisition',
-        'plone.app.textfield',
+        'plone.app.textfield>=1.3.6',
         'plone.app.widgets>=2.4.2.dev0',
         'plone.protect',
         'plone.z3cform>=0.5.11dev',

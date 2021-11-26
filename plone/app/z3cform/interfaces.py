@@ -80,3 +80,6 @@ class IRadioWidget(IRadioWidget):
         Here the word ``value`` is used in the HTML sense, in other
         words it is a term token.
         """
+
+class IRichTextWidgetInputModeRenderer(Interface):
+    """Marker interface to render multiple wysiwyg editors"""

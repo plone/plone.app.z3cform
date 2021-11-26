@@ -14,3 +14,4 @@ dist
 pip-selfcheck.json
 .idea
 .vscode
+pyvenv.cfg

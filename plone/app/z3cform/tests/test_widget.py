@@ -41,10 +41,12 @@ class TestWidget(unittest.TestCase):
         widget.form = TestForm()
         widget.form.context = obj
         widget.update()
-        self.assertTrue(hasattr(widget.form.context, 'aq_chain'))
+        self.assertTrue(hasattr(widget.form.context, "aq_chain"))
 
 
 def test_suite():
-    return unittest.TestSuite([
-        unittest.makeSuite(TestWidget),
-    ])
+    return unittest.TestSuite(
+        [
+            unittest.makeSuite(TestWidget),
+        ]
+    )

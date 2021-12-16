@@ -9,13 +9,12 @@ import json
 
 
 class InlineValidationView(BrowserView):
-    """Validate a form and return the error message for a particular field as JSON.
-    """
+    """Validate a form and return the error message for a particular field as JSON."""
 
     def __call__(self, fname=None, fset=None):
-        self.request.response.setHeader('Content-Type', 'application/json')
+        self.request.response.setHeader("Content-Type", "application/json")
 
-        res = {'errmsg': ''}
+        res = {"errmsg": ""}
 
         if fname is None:
             return json.dumps(res)
@@ -29,7 +28,7 @@ class InlineValidationView(BrowserView):
         except (AttributeError, TypeError):
             return json.dumps(res)
 
-        if getattr(form, 'extractData', None):
+        if getattr(form, "extractData", None):
             data, errors = form.extractData()
         else:
             return json.dumps(res)
@@ -42,13 +41,16 @@ class InlineValidationView(BrowserView):
             except (ValueError, TypeError):
                 # try to match fieldset on group name
                 def _name(group):
-                    return getattr(group, '__name__', group.label)
-                group_match = list(filter(
-                    lambda group: normalizeString(_name(group)) == fset,
-                    form.groups,
-                ))
+                    return getattr(group, "__name__", group.label)
+
+                group_match = list(
+                    filter(
+                        lambda group: normalizeString(_name(group)) == fset,
+                        form.groups,
+                    )
+                )
                 if not group_match:
-                    raise ValueError('Fieldset specified, but not found.')
+                    raise ValueError("Fieldset specified, but not found.")
                 form = group_match[0]
 
         index = len(form.prefix) + len(form.widgets.prefix)
@@ -62,5 +64,5 @@ class InlineValidationView(BrowserView):
         if isinstance(validationError, Message):
             validationError = translate(validationError, context=self.request)
 
-        res['errmsg'] = validationError or ''
+        res["errmsg"] = validationError or ""
         return json.dumps(res)

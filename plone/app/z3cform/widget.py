@@ -79,10 +79,7 @@ class BaseWidget(Widget):
 
     pattern = None
     pattern_options = {}
-    _adapterValueAttributes = (
-        Widget._adapterValueAttributes +
-        ('pattern_options',)
-    )
+    _adapterValueAttributes = Widget._adapterValueAttributes + ("pattern_options",)
 
     def _base(self, pattern, pattern_options={}):
         """Base widget class."""
@@ -101,8 +98,8 @@ class BaseWidget(Widget):
         if self.pattern is None:
             raise PatternNotImplemented("'pattern' option is not provided.")
         return {
-            'pattern': self.pattern,
-            'pattern_options': self.pattern_options.copy(),
+            "pattern": self.pattern,
+            "pattern_options": self.pattern_options.copy(),
         }
 
     def render(self):
@@ -111,25 +108,25 @@ class BaseWidget(Widget):
         :returns: Widget's HTML.
         :rtype: string
         """
-        if self.mode != 'input':
+        if self.mode != "input":
             return super(BaseWidget, self).render()
 
         _base_args = self._base_args()
-        _base_args['pattern_options'] = call_callables(
-            _base_args['pattern_options'],
+        _base_args["pattern_options"] = call_callables(
+            _base_args["pattern_options"],
             self.context,
         )
 
         pattern_widget = self._base(**_base_args)
-        if getattr(self, 'klass', False):
-            pattern_widget.klass = u'{0} {1}'.format(
+        if getattr(self, "klass", False):
+            pattern_widget.klass = u"{0} {1}".format(
                 pattern_widget.klass,
                 self.klass,
             )
         return pattern_widget.render()
 
     def is_subform_widget(self):
-        return getattr(aq_base(self.form), 'parentForm', None) is not None
+        return getattr(aq_base(self.form), "parentForm", None) is not None
 
 
 @implementer_only(IDateWidget)
@@ -138,9 +135,9 @@ class DateWidget(BaseWidget, HTMLInputWidget):
 
     _base = InputWidget
     _converter = DateWidgetConverter
-    _formater = 'date'
+    _formater = "date"
 
-    pattern = 'pickadate'
+    pattern = "pickadate"
     pattern_options = BaseWidget.pattern_options.copy()
 
     def _base_args(self):
@@ -156,17 +153,16 @@ class DateWidget(BaseWidget, HTMLInputWidget):
         :rtype: dict
         """
         args = super(DateWidget, self)._base_args()
-        args['name'] = self.name
-        args['value'] = (self.request.get(self.name,
-                                          self.value) or u'').strip()
+        args["name"] = self.name
+        args["value"] = (self.request.get(self.name, self.value) or u"").strip()
 
-        args.setdefault('pattern_options', {})
+        args.setdefault("pattern_options", {})
         if self.field.required:
             # Required fields should not have a "Clear" button
-            args['pattern_options']['clear'] = False
-        args['pattern_options'] = dict_merge(
-            get_date_options(self.request),
-            args['pattern_options'])
+            args["pattern_options"]["clear"] = False
+        args["pattern_options"] = dict_merge(
+            get_date_options(self.request), args["pattern_options"]
+        )
 
         return args
 
@@ -176,20 +172,19 @@ class DateWidget(BaseWidget, HTMLInputWidget):
         :returns: Widget's HTML.
         :rtype: string
         """
-        if self.mode != 'display':
+        if self.mode != "display":
             return super(DateWidget, self).render()
 
         if not self.value:
-            return ''
+            return ""
 
-        field_value = self._converter(
-            self.field, self).toFieldValue(self.value)
+        field_value = self._converter(self.field, self).toFieldValue(self.value)
         if field_value is self.field.missing_value:
-            return u''
+            return u""
 
         formatter = self.request.locale.dates.getFormatter(
             self._formater,
-            'short',
+            "short",
         )
         if field_value.year > 1900:
             return formatter.format(field_value)
@@ -210,7 +205,7 @@ class DatetimeWidget(DateWidget, HTMLInputWidget):
     """
 
     _converter = DatetimeWidgetConverter
-    _formater = 'dateTime'
+    _formater = "dateTime"
 
     pattern_options = DateWidget.pattern_options.copy()
 
@@ -230,19 +225,19 @@ class DatetimeWidget(DateWidget, HTMLInputWidget):
         """
         args = super(DatetimeWidget, self)._base_args()
 
-        if args['value'] and len(args['value'].split(' ')) == 1:
-            args['value'] += ' 00:00'
+        if args["value"] and len(args["value"].split(" ")) == 1:
+            args["value"] += " 00:00"
 
-        args.setdefault('pattern_options', {})
-        if 'time' in args['pattern_options']:
+        args.setdefault("pattern_options", {})
+        if "time" in args["pattern_options"]:
             # Time gets set in parent class to false. Remove.
-            del args['pattern_options']['time']
-        if 'time' in self.pattern_options:
+            del args["pattern_options"]["time"]
+        if "time" in self.pattern_options:
             # Re-apply custom set time options.
-            args['pattern_options']['time'] = self.pattern_options['time']
-        args['pattern_options'] = dict_merge(
-            get_datetime_options(self.request),
-            args['pattern_options'])
+            args["pattern_options"]["time"] = self.pattern_options["time"]
+        args["pattern_options"] = dict_merge(
+            get_datetime_options(self.request), args["pattern_options"]
+        )
 
         return args
 
@@ -253,12 +248,12 @@ class SelectWidget(BaseWidget, z3cform_SelectWidget):
 
     _base = BaseSelectWidget
 
-    pattern = 'select2'
+    pattern = "select2"
     pattern_options = BaseWidget.pattern_options.copy()
 
-    separator = ';'
-    noValueToken = u''
-    noValueMessage = u''
+    separator = ";"
+    noValueToken = u""
+    noValueMessage = u""
     multiple = None
     orderable = False
     required = True
@@ -277,8 +272,7 @@ class SelectWidget(BaseWidget, z3cform_SelectWidget):
             for group_term, option_terms in terms.items():
                 group_widget = type(self)(self.request)
                 group_widget.terms = option_terms
-                group_label = (
-                    group_term.title or group_term.value or group_term.token)
+                group_label = group_term.title or group_term.value or group_term.token
                 groups[group_label] = super(SelectWidget, group_widget).items
             return groups
         else:
@@ -299,26 +293,26 @@ class SelectWidget(BaseWidget, z3cform_SelectWidget):
         :rtype: dict
         """
         args = super(SelectWidget, self)._base_args()
-        args['name'] = self.name
-        args['value'] = self.value
-        args['multiple'] = self.multiple
+        args["name"] = self.name
+        args["value"] = self.value
+        args["multiple"] = self.multiple
 
         self.required = self.field.required
 
-        options = args.setdefault('pattern_options', {})
+        options = args.setdefault("pattern_options", {})
         if self.multiple or ICollection.providedBy(self.field):
-            options['multiple'] = args['multiple'] = self.multiple = True
+            options["multiple"] = args["multiple"] = self.multiple = True
 
         # ISequence represents an orderable collection
         if ISequence.providedBy(self.field) or self.orderable:
-            options['orderable'] = True
+            options["orderable"] = True
 
         if self.multiple:
-            options['separator'] = self.separator
+            options["separator"] = self.separator
 
         # Allow to clear field value if it is not required
         if not self.required:
-            options['allowClear'] = True
+            options["allowClear"] = True
 
         base_items = self.items
         if callable(base_items):
@@ -333,21 +327,20 @@ class SelectWidget(BaseWidget, z3cform_SelectWidget):
             """
             Gather the information needed by the widget for the given term.
             """
-            if not isinstance(item['content'], six.string_types):
-                item['content'] = translate(
-                    item['content'],
-                    context=self.request,
-                    default=item['value'])
-            return (item['value'], item['content'])
+            if not isinstance(item["content"], six.string_types):
+                item["content"] = translate(
+                    item["content"], context=self.request, default=item["value"]
+                )
+            return (item["value"], item["content"])
 
         if isinstance(base_items, dict):
             items = collections.OrderedDict(
-                (group_label, [
-                    makeItem(base_item) for base_item in group_options])
-                for group_label, group_options in base_items.items())
+                (group_label, [makeItem(base_item) for base_item in group_options])
+                for group_label, group_options in base_items.items()
+            )
         else:
             items = [makeItem(item) for item in base_items]
-        args['items'] = items
+        args["items"] = items
 
         return args
 
@@ -355,8 +348,10 @@ class SelectWidget(BaseWidget, z3cform_SelectWidget):
         """Override extract to handle delimited response values.
         Skip the vocabulary validation provided in the parent
         method, since it's not ever done for single selects."""
-        if (self.name not in self.request and
-                self.name + '-empty-marker' in self.request):
+        if (
+            self.name not in self.request
+            and self.name + "-empty-marker" in self.request
+        ):
             return []
         return self.request.get(self.name, default)
 
@@ -367,12 +362,12 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
 
     _base = InputWidget
 
-    pattern = 'select2'
+    pattern = "select2"
     pattern_options = BaseWidget.pattern_options.copy()
 
-    separator = ';'
+    separator = ";"
     vocabulary = None
-    vocabulary_view = '@@getVocabulary'
+    vocabulary_view = "@@getVocabulary"
     orderable = False
 
     def _view_context(self):
@@ -405,10 +400,10 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
             tokens = self.value.split(self.separator)
             vocabulary = self.get_vocabulary()
             for token in tokens:
-                item = {'token': token, 'title': token}
+                item = {"token": token, "title": token}
                 if vocabulary is not None:
                     try:
-                        item['title'] = vocabulary.getTermByToken(token).title
+                        item["title"] = vocabulary.getTermByToken(token).title
                     except LookupError:
                         pass
                 yield item
@@ -418,35 +413,38 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
 
     def _ajaxselect_options(self):
         options = {
-            'separator': self.separator,
+            "separator": self.separator,
         }
         if self.vocabulary:
-            options['vocabularyUrl'] = '{0}/{1}?name={2}'.format(
+            options["vocabularyUrl"] = "{0}/{1}?name={2}".format(
                 get_context_url(self._view_context()),
                 self.vocabulary_view,
                 self.vocabulary,
             )
             field_name = self.field and self.field.__name__ or None
             if field_name:
-                options['vocabularyUrl'] += '&field={0}'.format(field_name)
+                options["vocabularyUrl"] += "&field={0}".format(field_name)
             vocabulary = self.get_vocabulary()
             if vocabulary is not None and self.value:
-                options['initialValues'] = dict()
+                options["initialValues"] = dict()
                 for token in self.value.split(self.separator):
                     try:
                         term = vocabulary.getTermByToken(token)
-                        options['initialValues'][term.token] = term.title
+                        options["initialValues"][term.token] = term.title
                     except LookupError:
-                        options['initialValues'][token] = token
+                        options["initialValues"][token] = token
 
         return options
 
     def update(self):
         super(AjaxSelectWidget, self).update()
-        field = getattr(self, 'field', None)
-        field = getattr(field, 'value_type', field)
-        if (not self.vocabulary and field is not None and
-                getattr(field, 'vocabularyName', None)):
+        field = getattr(self, "field", None)
+        field = getattr(field, "value_type", field)
+        if (
+            not self.vocabulary
+            and field is not None
+            and getattr(field, "vocabularyName", None)
+        ):
             self.vocabulary = field.vocabularyName
 
     def _base_args(self):
@@ -462,48 +460,49 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
         :rtype: dict
         """
         args = super(AjaxSelectWidget, self)._base_args()
-        args['name'] = self.name
-        args['value'] = self.value
-        args.setdefault('pattern_options', {})
+        args["name"] = self.name
+        args["value"] = self.value
+        args.setdefault("pattern_options", {})
         context = self.context
         field = None
 
         if IChoice.providedBy(self.field):
-            args['pattern_options']['maximumSelectionSize'] = 1
+            args["pattern_options"]["maximumSelectionSize"] = 1
             field = self.field
         elif ICollection.providedBy(self.field):
             field = self.field.value_type
         if IChoice.providedBy(field):
-            args['pattern_options']['allowNewItems'] = 'false'
+            args["pattern_options"]["allowNewItems"] = "false"
 
-        args['pattern_options'] = dict_merge(
-            self._ajaxselect_options(),
-            args['pattern_options'])
+        args["pattern_options"] = dict_merge(
+            self._ajaxselect_options(), args["pattern_options"]
+        )
 
-        if field and getattr(field, 'vocabulary', None):
+        if field and getattr(field, "vocabulary", None):
             form_url = self.request.getURL()
-            source_url = '{0:s}/++widget++{1:s}/@@getSource'.format(
+            source_url = "{0:s}/++widget++{1:s}/@@getSource".format(
                 form_url,
                 self.name,
             )
-            args['pattern_options']['vocabularyUrl'] = source_url
+            args["pattern_options"]["vocabularyUrl"] = source_url
 
         # ISequence represents an orderable collection
         if ISequence.providedBy(self.field) or self.orderable:
-            args['pattern_options']['orderable'] = True
+            args["pattern_options"]["orderable"] = True
 
-        if self.vocabulary == 'plone.app.vocabularies.Keywords':
-            membership = getToolByName(context, 'portal_membership')
+        if self.vocabulary == "plone.app.vocabularies.Keywords":
+            membership = getToolByName(context, "portal_membership")
             user = membership.getAuthenticatedMember()
 
             registry = getUtility(IRegistry)
             roles_allowed_to_add_keywords = registry.get(
-                'plone.roles_allowed_to_add_keywords', set())
+                "plone.roles_allowed_to_add_keywords", set()
+            )
             roles = set(user.getRolesInContext(context))
             allowNewItems = bool(
                 roles.intersection(roles_allowed_to_add_keywords),
             )
-            args['pattern_options']['allowNewItems'] = str(
+            args["pattern_options"]["allowNewItems"] = str(
                 allowNewItems,
             ).lower()
 
@@ -516,29 +515,29 @@ class RelatedItemsWidget(BaseWidget, z3cform_TextWidget):
 
     _base = InputWidget
 
-    pattern = 'relateditems'
+    pattern = "relateditems"
     pattern_options = BaseWidget.pattern_options.copy()
 
-    separator = ';'
+    separator = ";"
     vocabulary = None
     vocabulary_override = False
-    vocabulary_view = '@@getVocabulary'
+    vocabulary_view = "@@getVocabulary"
     orderable = False
 
     def update(self):
         super(RelatedItemsWidget, self).update()
-        field = getattr(self, 'field', None)
+        field = getattr(self, "field", None)
         if ICollection.providedBy(self.field):
             field = self.field.value_type
         if (
-            not self.vocabulary and
-            field is not None and
-            getattr(field, 'vocabularyName', None)
+            not self.vocabulary
+            and field is not None
+            and getattr(field, "vocabularyName", None)
         ):
             self.vocabulary = field.vocabularyName
             self.vocabulary_override = True
         else:
-            self.vocabulary = 'plone.app.vocabularies.Catalog'
+            self.vocabulary = "plone.app.vocabularies.Catalog"
 
     def _base_args(self):
         """Method which will calculate _base class arguments.
@@ -554,13 +553,13 @@ class RelatedItemsWidget(BaseWidget, z3cform_TextWidget):
         """
         args = super(RelatedItemsWidget, self)._base_args()
 
-        args['name'] = self.name
-        args['value'] = self.value
-        args.setdefault('pattern_options', {})
+        args["name"] = self.name
+        args["value"] = self.value
+        args.setdefault("pattern_options", {})
 
         field = None
         if IChoice.providedBy(self.field):
-            args['pattern_options']['maximumSelectionSize'] = 1
+            args["pattern_options"]["maximumSelectionSize"] = 1
             field = self.field
         elif ICollection.providedBy(self.field):
             field = self.field.value_type
@@ -587,37 +586,37 @@ class RelatedItemsWidget(BaseWidget, z3cform_TextWidget):
             # view_context is defined above already
 
         root_search_mode = (
-            args['pattern_options'].get('mode', None) and
-            'basePath' not in args['pattern_options']
+            args["pattern_options"].get("mode", None)
+            and "basePath" not in args["pattern_options"]
         )
 
-        args['pattern_options'] = dict_merge(
+        args["pattern_options"] = dict_merge(
             get_relateditems_options(
                 view_context,
-                args['value'],
+                args["value"],
                 self.separator,
                 vocabulary_name,
                 self.vocabulary_view,
                 field_name,
             ),
-            args['pattern_options'],
+            args["pattern_options"],
         )
         if root_search_mode:
             # Delete default basePath option in search mode, when no basePath
             # was explicitly set.
-            del args['pattern_options']['basePath']
+            del args["pattern_options"]["basePath"]
         if (
-            not self.vocabulary_override and
-            field and
-            getattr(field, 'vocabulary', None)
+            not self.vocabulary_override
+            and field
+            and getattr(field, "vocabulary", None)
         ):
             # widget vocab takes precedence over field
             form_url = self.request.getURL()
-            source_url = '{0:s}/++widget++{1:s}/@@getSource'.format(
+            source_url = "{0:s}/++widget++{1:s}/@@getSource".format(
                 form_url,
                 self.name,
             )
-            args['pattern_options']['vocabularyUrl'] = source_url
+            args["pattern_options"]["vocabularyUrl"] = source_url
 
         return args
 
@@ -632,13 +631,13 @@ class RelatedItemsWidget(BaseWidget, z3cform_TextWidget):
         results = []
         if not self.value:
             return results
-        separator = getattr(self, 'separator', ';')
+        separator = getattr(self, "separator", ";")
         uuids = self.value.split(separator)
 
         try:
-            catalog = getToolByName(self.context, 'portal_catalog')
+            catalog = getToolByName(self.context, "portal_catalog")
         except AttributeError:
-            catalog = getToolByName(getSite(), 'portal_catalog')
+            catalog = getToolByName(getSite(), "portal_catalog")
 
         brains = catalog(UID=uuids)
         # restore original order
@@ -652,10 +651,10 @@ class QueryStringWidget(BaseWidget, z3cform_TextWidget):
 
     _base = InputWidget
 
-    pattern = 'querystring'
+    pattern = "querystring"
     pattern_options = BaseWidget.pattern_options.copy()
 
-    querystring_view = '@@qsOptions'
+    querystring_view = "@@qsOptions"
 
     def _base_args(self):
         """Method which will calculate _base class arguments.
@@ -670,13 +669,14 @@ class QueryStringWidget(BaseWidget, z3cform_TextWidget):
         :rtype: dict
         """
         args = super(QueryStringWidget, self)._base_args()
-        args['name'] = self.name
-        args['value'] = self.value
+        args["name"] = self.name
+        args["value"] = self.value
 
-        args.setdefault('pattern_options', {})
-        args['pattern_options'] = dict_merge(
+        args.setdefault("pattern_options", {})
+        args["pattern_options"] = dict_merge(
             get_querystring_options(self.context, self.querystring_view),
-            args['pattern_options'])
+            args["pattern_options"],
+        )
 
         return args
 
@@ -694,8 +694,8 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
         self._pattern = None
 
     def wrapped_context(self):
-        """"We need to wrap the context to be able to acquire the root
-            of the site to get tools, as done in plone.app.textfield"""
+        """ "We need to wrap the context to be able to acquire the root
+        of the site to get tools, as done in plone.app.textfield"""
         context = self.context
         content = closest_content(context)
         if context.__class__ == dict:
@@ -705,28 +705,28 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
     @property
     def pattern(self):
         """dynamically grab the actual pattern name so it will
-           work with custom visual editors"""
+        work with custom visual editors"""
         if self._pattern is None:
             self._pattern = self.getWysiwygEditor()
         return self._pattern
 
     def _base_args(self):
         args = super(RichTextWidget, self)._base_args()
-        args['name'] = self.name
-        value = self.value and self.value.raw or u''
+        args["name"] = self.name
+        value = self.value and self.value.raw or u""
         value = self.request.get(self.name, value)
-        args['value'] = value
+        args["value"] = value
 
-        args.setdefault('pattern_options', {})
+        args.setdefault("pattern_options", {})
         merged_options = dict_merge(
             get_tinymce_options(
                 self.wrapped_context(),
                 self.field,
                 self.request,
             ),
-            args['pattern_options'],
+            args["pattern_options"],
         )
-        args['pattern_options'] = merged_options
+        args["pattern_options"] = merged_options
 
         return args
 
@@ -736,16 +736,16 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
         :returns: Widget's HTML.
         :rtype: string
         """
-        if self.mode != 'display':
+        if self.mode != "display":
             renderer = queryUtility(
                 IRichTextWidgetInputModeRenderer,
                 name=self.getWysiwygEditor(),
-                default=tinymce_richtextwidget_render
+                default=tinymce_richtextwidget_render,
             )
             return renderer(self)
 
         if not self.value:
-            return ''
+            return ""
 
         if isinstance(self.value, RichTextValue):
             return self.value.output_relative_to(self.context)
@@ -753,68 +753,66 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
         return super(RichTextWidget, self).render()
 
     def render_input_mode(self):
-            # MODE "INPUT"
-            rendered = ''
-            allowed_mime_types = self.allowedMimeTypes()
-            if not allowed_mime_types or len(allowed_mime_types) <= 1:
-                # Display textarea with default widget
-                rendered = super(RichTextWidget, self).render()
-            else:
-                # Let pat-textarea-mimetype-selector choose the widget
+        # MODE "INPUT"
+        rendered = ""
+        allowed_mime_types = self.allowedMimeTypes()
+        if not allowed_mime_types or len(allowed_mime_types) <= 1:
+            # Display textarea with default widget
+            rendered = super(RichTextWidget, self).render()
+        else:
+            # Let pat-textarea-mimetype-selector choose the widget
 
-                # Initialize the widget without a pattern
-                base_args = self._base_args()
-                pattern_options = base_args['pattern_options']
-                del base_args['pattern']
-                del base_args['pattern_options']
-                textarea_widget = self._base(None, None, **base_args)
-                textarea_widget.klass = 'form-control'
-                mt_pattern_name = '{0}{1}'.format(
-                    self._base._klass_prefix,
-                    'textareamimetypeselector',
-                )
+            # Initialize the widget without a pattern
+            base_args = self._base_args()
+            pattern_options = base_args["pattern_options"]
+            del base_args["pattern"]
+            del base_args["pattern_options"]
+            textarea_widget = self._base(None, None, **base_args)
+            textarea_widget.klass = "form-control"
+            mt_pattern_name = "{0}{1}".format(
+                self._base._klass_prefix,
+                "textareamimetypeselector",
+            )
 
-                # Initialize mimetype selector pattern
-                # TODO: default_mime_type returns 'text/html', regardless of
-                # settings. fix in plone.app.textfield
-                value_mime_type = self.value.mimeType if self.value\
-                    else self.field.default_mime_type
-                mt_select = etree.Element('select')
-                mt_select.attrib['id'] = '{0}_text_format'.format(self.id)
-                mt_select.attrib['name'] = '{0}.mimeType'.format(self.name)
-                mt_select.attrib['class'] = 'form-select {0}'.format(
-                    mt_pattern_name)
-                mt_select.attrib[
-                    'data-{0}'.format(mt_pattern_name)
-                ] = json.dumps(
-                    {
-                        'textareaName': self.name,
-                        'widgets': {
-                            'text/html': {  # TODO: currently, we only support
-                                            # richtext widget config for
-                                            # 'text/html', no other mimetypes.
-                                'pattern': self.pattern,
-                                'patternOptions': pattern_options,
-                            },
+            # Initialize mimetype selector pattern
+            # TODO: default_mime_type returns 'text/html', regardless of
+            # settings. fix in plone.app.textfield
+            value_mime_type = (
+                self.value.mimeType if self.value else self.field.default_mime_type
+            )
+            mt_select = etree.Element("select")
+            mt_select.attrib["id"] = "{0}_text_format".format(self.id)
+            mt_select.attrib["name"] = "{0}.mimeType".format(self.name)
+            mt_select.attrib["class"] = "form-select {0}".format(mt_pattern_name)
+            mt_select.attrib["data-{0}".format(mt_pattern_name)] = json.dumps(
+                {
+                    "textareaName": self.name,
+                    "widgets": {
+                        "text/html": {  # TODO: currently, we only support
+                            # richtext widget config for
+                            # 'text/html', no other mimetypes.
+                            "pattern": self.pattern,
+                            "patternOptions": pattern_options,
                         },
                     },
-                )
+                },
+            )
 
-                # Create a list of allowed mime types
-                for mt in allowed_mime_types:
-                    opt = etree.Element('option')
-                    opt.attrib['value'] = mt
-                    if value_mime_type == mt:
-                        opt.attrib['selected'] = 'selected'
-                    opt.text = mt
-                    mt_select.append(opt)
+            # Create a list of allowed mime types
+            for mt in allowed_mime_types:
+                opt = etree.Element("option")
+                opt.attrib["value"] = mt
+                if value_mime_type == mt:
+                    opt.attrib["selected"] = "selected"
+                opt.text = mt
+                mt_select.append(opt)
 
-                # Render the combined widget
-                rendered = u'{0}\n{1}'.format(
-                    textarea_widget.render(),
-                    etree.tostring(mt_select, encoding='unicode'),
-                )
-            return rendered
+            # Render the combined widget
+            rendered = u"{0}\n{1}".format(
+                textarea_widget.render(),
+                etree.tostring(mt_select, encoding="unicode"),
+            )
+        return rendered
 
 
 def tinymce_richtextwidget_render(widget):
@@ -832,33 +830,33 @@ class LinkWidget(z3cform_TextWidget):
 
     def pattern_data(self):
         pattern_data = {
-            'vocabularyUrl': '{0}/@@getVocabulary?name=plone.app.vocabularies.Catalog'.format(  # noqa
+            "vocabularyUrl": "{0}/@@getVocabulary?name=plone.app.vocabularies.Catalog".format(  # noqa
                 getSite().absolute_url(0),
             ),
-            'maximumSelectionSize': 1,
+            "maximumSelectionSize": 1,
         }
         return json.dumps(pattern_data)
 
     def extract(self, default=NO_VALUE):
         form = self.request.form
-        internal = form.get(self.name + '.internal')
-        external = form.get(self.name + '.external')
-        email = form.get(self.name + '.email')
+        internal = form.get(self.name + ".internal")
+        external = form.get(self.name + ".external")
+        email = form.get(self.name + ".email")
         if internal:
-            url = '${portal_url}/resolveuid/' + internal
+            url = "${portal_url}/resolveuid/" + internal
         elif email:
-            subject = form.get(self.name + '.subject')
-            if email[:7] != 'mailto:':
-                email = 'mailto:' + email
+            subject = form.get(self.name + ".subject")
+            if email[:7] != "mailto:":
+                email = "mailto:" + email
             if not subject:
                 url = email
             else:
-                url = '{email}?subject={subject}'.format(
+                url = "{email}?subject={subject}".format(
                     email=email,
                     subject=subject,
                 )
         else:
-            url = external   # the default is `http://` so we land here
+            url = external  # the default is `http://` so we land here
         if url:
             self.request.form[self.name] = safe_unicode(url)
         return super(LinkWidget, self).extract(default=default)
@@ -867,9 +865,9 @@ class LinkWidget(z3cform_TextWidget):
 @implementer(IFieldWidget)
 def DateFieldWidget(field, request):
     widget = FieldWidget(field, DateWidget(request))
-    widget.pattern_options.setdefault('date', {})
+    widget.pattern_options.setdefault("date", {})
     try:
-        widget.pattern_options['date']['firstDay'] = first_weekday()
+        widget.pattern_options["date"]["firstDay"] = first_weekday()
     except ComponentLookupError:
         pass
     return widget
@@ -920,13 +918,13 @@ def LinkFieldWidget(field, request):
 class SingleCheckBoxBoolWidget(SingleCheckBoxWidget):
     """Single Input type checkbox widget implementation."""
 
-    klass = u'single-checkbox-bool-widget'
+    klass = u"single-checkbox-bool-widget"
 
     @property
     def label(self):
-        if self.mode == 'input':
-            return u''
-        return getattr(self, '_label', u'')
+        if self.mode == "input":
+            return u""
+        return getattr(self, "_label", u"")
 
     @label.setter
     def label(self, value):
@@ -934,38 +932,42 @@ class SingleCheckBoxBoolWidget(SingleCheckBoxWidget):
 
     @property
     def description(self):
-        if self.mode == 'input':
-            return u''
-        return getattr(self, '_description', u'')
+        if self.mode == "input":
+            return u""
+        return getattr(self, "_description", u"")
 
     @description.setter
     def description(self, value):
         self._description = value
 
     def updateTerms(self):
-        if self.mode == 'input':
+        if self.mode == "input":
             # in input mode use only one checkbox with true
             self.terms = Terms()
-            self.terms.terms = SimpleVocabulary((
-                TermWithDescription(
-                    True,
-                    'selected',
-                    getattr(self, '_label', None) or self.field.title,
-                    getattr(
-                        self,
-                        '_description',
-                        None,
-                    ) or self.field.description,
-                ),
-            ))
+            self.terms.terms = SimpleVocabulary(
+                (
+                    TermWithDescription(
+                        True,
+                        "selected",
+                        getattr(self, "_label", None) or self.field.title,
+                        getattr(
+                            self,
+                            "_description",
+                            None,
+                        )
+                        or self.field.description,
+                    ),
+                )
+            )
             return self.terms
         if not self.terms:
             self.terms = Terms()
             self.terms.terms = SimpleVocabulary(
                 [
-                    SimpleTerm(*args) for args in [
-                        (True, 'selected', BoolTerms.trueLabel),
-                        (False, 'unselected', BoolTerms.falseLabel),
+                    SimpleTerm(*args)
+                    for args in [
+                        (True, "selected", BoolTerms.trueLabel),
+                        (False, "unselected", BoolTerms.falseLabel),
                     ]
                 ],
             )
@@ -975,9 +977,9 @@ class SingleCheckBoxBoolWidget(SingleCheckBoxWidget):
     def items(self):
         result = super(SingleCheckBoxBoolWidget, self).items
         for record in result:
-            term = self.terms.terms.getTermByToken(record['value'])
-            record['description'] = getattr(term, 'description', '')
-            record['required'] = self.required
+            term = self.terms.terms.getTermByToken(record["value"])
+            record["description"] = getattr(term, "description", "")
+            record["required"] = self.required
         return result
 
 

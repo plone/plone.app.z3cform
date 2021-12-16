@@ -16,7 +16,7 @@ class AuthenticatedButtonActions(ButtonActions):
     """
 
     def execute(self):
-        if getattr(self.form, 'enableCSRFProtection', False):
+        if getattr(self.form, "enableCSRFProtection", False):
             if self.executedActions:
                 CheckAuthenticator(self.request)
         super(AuthenticatedButtonActions, self).execute()

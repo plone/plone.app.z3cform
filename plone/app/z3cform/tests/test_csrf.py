@@ -3,7 +3,6 @@ from plone.protect.tests.case import KeyringTestCase
 
 
 class TestAuthenticatedButtonActions(KeyringTestCase):
-
     def test_execute(self):
         from Acquisition import Implicit
         from Testing.makerequest import makerequest
@@ -14,7 +13,6 @@ class TestAuthenticatedButtonActions(KeyringTestCase):
             enableCSRFProtection = True
 
         class DummyAction(object):
-
             def isExecuted(self):
                 return True
 
@@ -23,10 +21,10 @@ class TestAuthenticatedButtonActions(KeyringTestCase):
 
         form = DummyForm()
         request = makerequest(Implicit()).REQUEST
-        request.form['_authenticator'] = createToken()
+        request.form["_authenticator"] = createToken()
         actions = AuthenticatedButtonActions(form, request, None)
-        actions._data['foo'] = action = DummyAction()
-        actions._data_keys = ['foo']
+        actions._data["foo"] = action = DummyAction()
+        actions._data_keys = ["foo"]
         actions._data_values = [action]
 
         actions.execute()

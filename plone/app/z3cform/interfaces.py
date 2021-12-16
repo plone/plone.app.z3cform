@@ -81,5 +81,6 @@ class IRadioWidget(IRadioWidget):
         words it is a term token.
         """
 
+
 class IRichTextWidgetInputModeRenderer(Interface):
     """Marker interface to render multiple wysiwyg editors"""

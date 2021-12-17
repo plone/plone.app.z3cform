@@ -2,51 +2,105 @@
   <div class="linkModal">
 
     <div class="pat-autotoc autotabs"
-         data-pat-autotoc="section:span.linkType;levels:span.linkLabel;">
+         data-pat-autotoc="section:span.linkType;levels:span.linkLabel;"
+    >
 
-      <span class="linkType internal" data-linkType="internal"
-            tal:define="value view/value/internal | nothing"
-            tal:attributes="class python:'linkType internal' + (' active' if value else '')">
-        <span class="linkLabel d-none" i18n:translate="label_internal_url">Internal</span>
+      <span class="linkType internal"
+            data-linktype="internal"
+            tal:define="
+              value view/value/internal | nothing;
+            "
+            tal:attributes="
+              class python:'linkType internal' + (' active' if value else '');
+            "
+      >
+        <span class="linkLabel d-none"
+              i18n:translate="label_internal_url"
+        >Internal</span>
         <div>
           <div class="mb-3 main">
             <!-- this gives the name to the "linkType" -->
-            <input type="text" name="internal" class="pat-relateditems"
-                    tal:attributes="data-pat-relateditems view/pattern_data;
-                                    value value;
-                                    name string:${view/name}.internal" />
+            <input class="pat-relateditems"
+                   name="internal"
+                   type="text"
+                   tal:attributes="
+                     data-pat-relateditems view/pattern_data;
+                     value value;
+                     name string:${view/name}.internal;
+                   "
+            />
           </div>
         </div>
       </span>
 
-      <span class="linkType external" data-linkType="external"
-            tal:define="value view/value/external | nothing"
-            tal:attributes="class python:'linkType external' + (' active' if value else '')">
-        <span class="linkLabel d-none" i18n:translate="label_external_url">External</span>
+      <span class="linkType external"
+            data-linktype="external"
+            tal:define="
+              value view/value/external | nothing;
+            "
+            tal:attributes="
+              class python:'linkType external' + (' active' if value else '');
+            "
+      >
+        <span class="linkLabel d-none"
+              i18n:translate="label_external_url"
+        >External</span>
         <div class="mb-3 main">
-          <label class="form-label" for="external" i18n:translate="help_external_url">External URL (can be relative within this site or absolute if it starts with http:// or https://)</label>
-          <input class="form-control" type="text" name="external" placeholder="https://domain.com"
-                 tal:attributes="name string:${view/name}.external;
-                                 value value" />
+          <label class="form-label"
+                 for="external"
+                 i18n:translate="help_external_url"
+          >External URL (can be relative within this site or absolute if it starts with http:// or https://)</label>
+          <input class="form-control"
+                 name="external"
+                 placeholder="https://domain.com"
+                 type="text"
+                 tal:attributes="
+                   name string:${view/name}.external;
+                   value value;
+                 "
+          />
         </div>
       </span>
 
-      <span class="linkType email" data-linkType="email"
-            tal:define="value view/value/email | nothing"
-            tal:attributes="class python:'linkType email' + (' active' if value else '')">
-        <span class="linkLabel d-none" i18n:translate="label_email_url">Email</span>
+      <span class="linkType email"
+            data-linktype="email"
+            tal:define="
+              value view/value/email | nothing;
+            "
+            tal:attributes="
+              class python:'linkType email' + (' active' if value else '');
+            "
+      >
+        <span class="linkLabel d-none"
+              i18n:translate="label_email_url"
+        >Email</span>
         <div class="form-inline">
           <div class="mb-3 main">
-            <label class="form-label" i18n:translate="help_email_url">Email Address</label>
-            <input class="form-control" type="text" name="email" placeholder="name@domain.com"
-                   tal:attributes="name string:${view/name}.email;
-                                   value value" />
+            <label class="form-label"
+                   i18n:translate="help_email_url"
+            >Email Address</label>
+            <input class="form-control"
+                   name="email"
+                   placeholder="name@domain.com"
+                   type="text"
+                   tal:attributes="
+                     name string:${view/name}.email;
+                     value value;
+                   "
+            />
           </div>
           <div class="mb-3">
-            <label class="form-label" i18n:translate="help_email_url_subject">Email Subject (optional)</label>
-            <input class="form-control" type="text" name="subject"
-                   tal:attributes="name string:${view/name}.subject;
-                                   value view/value/email_subject | nothing" />
+            <label class="form-label"
+                   i18n:translate="help_email_url_subject"
+            >Email Subject (optional)</label>
+            <input class="form-control"
+                   name="subject"
+                   type="text"
+                   tal:attributes="
+                     name string:${view/name}.subject;
+                     value view/value/email_subject | nothing;
+                   "
+            />
           </div>
         </div>
       </span>

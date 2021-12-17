@@ -1,80 +1,131 @@
-<div i18n:domain="plone" class="multi-widget" tal:attributes="class view/klass">
-    <tal:block repeat="widget view/widgets">
-        <div metal:define-macro="widget-row"
-             tal:define="hidden python:widget.mode == 'hidden';
-                         showLabel view/showLabel;
-                         checkbox_disabled python:not view.allowRemoving and 'disabled' or nothing;
-                         index repeat/widget/index;
-                         key_widget python:view.key_widgets[index];
-                         error widget/error;
-                         key_error key_widget/error|nothing;
-                         error_class python:(error or key_error) and ' error' or '';
-                         fieldname_class string:kssattr-fieldname-${widget/name};"
-             data-pat-inlinevalidation='{"type":"z3c.form"}'
-             tal:attributes="class string:multi-widget-field field pat-inlinevalidation ${fieldname_class}${error_class};
-                             id string:formfield-${widget/id};">
+<div class="multi-widget"
+     tal:attributes="
+       class view/klass;
+     "
+     i18n:domain="plone"
+>
+  <tal:block repeat="widget view/widgets">
+    <div metal:define-macro="widget-row"
+         data-pat-inlinevalidation="{'type':'z3c.form'}"
+         tal:define="
+           hidden python:widget.mode == 'hidden';
+           showLabel view/showLabel;
+           checkbox_disabled python:not view.allowRemoving and 'disabled' or nothing;
+           index repeat/widget/index;
+           key_widget python:view.key_widgets[index];
+           error widget/error;
+           key_error key_widget/error|nothing;
+           error_class python:(error or key_error) and ' error' or '';
+           fieldname_class string:kssattr-fieldname-${widget/name};
+         "
+         tal:attributes="
+           class string:multi-widget-field field pat-inlinevalidation ${fieldname_class}${error_class};
+           id string:formfield-${widget/id};
+         "
+    >
 
-            <input id="" name=""
-                   class="multi-widget-checkbox checkbox-widget"
-                   type="checkbox" value="1"
-                   tal:attributes="id string:${widget/id}-remove;
-                                   name string:${widget/name}.remove;
-                                   disabled checkbox_disabled;"/>
-            <label for="" class="form-label horizontal"
-                tal:attributes="for key_widget/id"
-                tal:condition="python:key_widget is not None and showLabel and not hidden"
-                ><span i18n:translate="" tal:replace="key_widget/label">label</span>
-                <span class="multi-widget-number" tal:content="repeat/widget/number">1</span>
-                <span class="required horizontal" title="Required"
-                      tal:condition="python:key_widget.required and not hidden"
-                      i18n:attributes="title title_required;">&nbsp;</span>
-                <span class="formHelp"
-                    tal:define="description key_widget/field/description"
-                    i18n:translate=""
-                    tal:content="description"
-                    tal:condition="python:description and showLabel and not hidden"
-                    >field description
-                </span>
-            </label>
+      <input class="multi-widget-checkbox checkbox-widget"
+             id=""
+             name=""
+             type="checkbox"
+             value="1"
+             tal:attributes="
+               id string:${widget/id}-remove;
+               name string:${widget/name}.remove;
+               disabled checkbox_disabled;
+             "
+      />
+      <label class="form-label horizontal"
+             for=""
+             tal:condition="python:key_widget is not None and showLabel and not hidden"
+             tal:attributes="
+               for key_widget/id;
+             "
+      ><span tal:replace="key_widget/label"
+              i18n:translate=""
+        >label</span>
+        <span class="multi-widget-number"
+              tal:content="repeat/widget/number"
+        >1</span>
+        <span class="required horizontal"
+              title="Required"
+              tal:condition="python:key_widget.required and not hidden"
+              i18n:attributes="title title_required;"
+        >&nbsp;</span>
+        <span class="formHelp"
+              tal:define="
+                description key_widget/field/description;
+              "
+              tal:condition="python:description and showLabel and not hidden"
+              tal:content="description"
+              i18n:translate=""
+        >field description
+        </span>
+      </label>
 
-            <div class="fieldErrorBox"
-                tal:content="structure key_error/render|nothing">
+      <div class="fieldErrorBox"
+           tal:content="structure key_error/render|nothing"
+      >
                 Error
-            </div>
+      </div>
 
-            <input type="text" tal:condition="python:key_widget is not None" tal:replace="structure key_widget/render" />
+      <input type="text"
+             tal:condition="python:key_widget is not None"
+             tal:replace="structure key_widget/render"
+      />
 
-            <br/>
+      <br />
 
-            <label for="" class="form-label horizontal"
-                tal:attributes="for widget/id"
-                tal:condition="python:showLabel and not hidden">
-                <span i18n:translate="" tal:replace="widget/label">label</span>
-                <span class="multi-widget-number" tal:content="repeat/widget/number">1</span>
-                <span class="required horizontal" title="Required"
-                      tal:condition="python:widget.required and not hidden"
-                      i18n:attributes="title title_required;">&nbsp;</span>
-                <span class="formHelp"
-                    tal:define="description widget/field/description"
-                    i18n:translate=""
-                    tal:content="description"
-                    tal:condition="python:description and showLabel and not hidden"
-                    >field description
-                </span>
-            </label>
+      <label class="form-label horizontal"
+             for=""
+             tal:condition="python:showLabel and not hidden"
+             tal:attributes="
+               for widget/id;
+             "
+      >
+        <span tal:replace="widget/label"
+              i18n:translate=""
+        >label</span>
+        <span class="multi-widget-number"
+              tal:content="repeat/widget/number"
+        >1</span>
+        <span class="required horizontal"
+              title="Required"
+              tal:condition="python:widget.required and not hidden"
+              i18n:attributes="title title_required;"
+        >&nbsp;</span>
+        <span class="formHelp"
+              tal:define="
+                description widget/field/description;
+              "
+              tal:condition="python:description and showLabel and not hidden"
+              tal:content="description"
+              i18n:translate=""
+        >field description
+        </span>
+      </label>
 
-            <div class="fieldErrorBox"
-                tal:content="structure error/render|nothing">
+      <div class="fieldErrorBox"
+           tal:content="structure error/render|nothing"
+      >
                 Error
-            </div>
+      </div>
 
-            <input type="text" tal:replace="structure widget/render" />
-        </div>
-    </tal:block>
-    <div class="formControls multi-widget-buttons" tal:condition="view/actions/values|nothing">
-        <tal:block repeat="action view/actions/values">
-            <input type="submit" tal:replace="structure action/render" />
-        </tal:block>
+      <input type="text"
+             tal:replace="structure widget/render"
+      />
     </div>
-    <input type="hidden" tal:replace="structure view/counterMarker" />
+  </tal:block>
+  <div class="formControls multi-widget-buttons"
+       tal:condition="view/actions/values|nothing"
+  >
+    <tal:block repeat="action view/actions/values">
+      <input type="submit"
+             tal:replace="structure action/render"
+      />
+    </tal:block>
+  </div>
+  <input type="hidden"
+         tal:replace="structure view/counterMarker"
+  />
 </div>

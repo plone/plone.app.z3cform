@@ -52,8 +52,10 @@ from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
 import json
+import lxml
 import mock
 import pytz
+import re
 import six
 import unittest
 
@@ -488,9 +490,8 @@ class DatetimeWidgetTests(unittest.TestCase):
         self.widget.default_timezone = None
 
     def test_data_converter__timezone_callback(self):
-        """When a timezone callback is set, returning a (pytz) timezone id,
-        use that.
-        """
+        """When a timezone callback is set, returning a (pytz) timezone id, use
+        that."""
         from plone.app.z3cform.widget import DatetimeWidgetConverter
 
         context = Mock()
@@ -854,9 +855,7 @@ class SelectWidgetTests(unittest.TestCase):
         )
 
     def test_widget_optgroup(self):
-        """
-        If the widget vocabulary is a mapping <optgroup>'s are rendered.
-        """
+        """If the widget vocabulary is a mapping <optgroup>'s are rendered."""
         from z3c.form import term
         from plone.app.z3cform.widget import SelectWidget
 
@@ -1273,6 +1272,7 @@ class RelatedItemsWidgetIntegrationTests(unittest.TestCase):
 
     def assertDictContainsSubsetReplacement(self, actual, expected):
         """assertDictContainsSubset was removed in Python 3.2, see:
+
         https://bugs.python.org/issue9424
         To not introduce a forward incompatibility, here is a replacement based
         on: http://stackoverflow.com/a/21058312
@@ -1402,6 +1402,9 @@ class RelatedItemsWidgetTemplateIntegrationTests(unittest.TestCase):
         )
         self.assertTrue(template.filename.endswith("relateditems_display.pt"))
         html = template(single)
+        html = lxml.etree.tostring(
+            lxml.html.fromstring(html), encoding="unicode", pretty_print=True
+        )
         self.assertIn(
             '<span class="contenttype-relationstype state-missing-value url">A Target</span>',
             html,
@@ -1422,6 +1425,9 @@ class RelatedItemsWidgetTemplateIntegrationTests(unittest.TestCase):
         )
         self.assertTrue(template.filename.endswith("relateditems_display.pt"))
         html = template(multiple)
+        html = lxml.etree.tostring(
+            lxml.html.fromstring(html), encoding="unicode", pretty_print=True
+        )
         self.assertIn(
             '<span class="contenttype-relationstype state-missing-value url">A Target</span>',
             html,
@@ -1441,8 +1447,8 @@ class RelatedItemsWidgetTests(unittest.TestCase):
         new=Mock(return_value=Mock(return_value="testuser")),
     )
     def test_single_selection(self):
-        """The pattern_options value for maximumSelectionSize should
-        be 1 when the field only allows a single selection."""
+        """The pattern_options value for maximumSelectionSize should be 1 when
+        the field only allows a single selection."""
         from plone.app.z3cform.widget import RelatedItemsFieldWidget
 
         context = Mock(
@@ -1464,8 +1470,8 @@ class RelatedItemsWidgetTests(unittest.TestCase):
         new=Mock(return_value=Mock(return_value="testuser")),
     )
     def test_multiple_selection(self):
-        """The pattern_options key maximumSelectionSize shouldn't be
-        set when the field allows multiple selections"""
+        """The pattern_options key maximumSelectionSize shouldn't be set when
+        the field allows multiple selections."""
         from plone.app.z3cform.widget import RelatedItemsFieldWidget
         from zope.schema.interfaces import ISource
         from zope.schema.vocabulary import VocabularyRegistry
@@ -1739,8 +1745,7 @@ class RichTextWidgetTests(unittest.TestCase):
 
     def test_dx_tinymcewidget_single_mimetype(self):
         """A RichTextWidget with only one available mimetype should render the
-        pattern class directly on itself.
-        """
+        pattern class directly on itself."""
         if IMarkupSchema:
             # if not, don't run this test
             self._set_mimetypes(allowed=("text/html",))
@@ -1757,8 +1762,10 @@ class RichTextWidgetTests(unittest.TestCase):
 
     def test_dx_tinymcewidget_multiple_mimetypes_create(self):
         """A RichTextWidget with multiple available mimetypes should render a
-        mimetype selection widget along with the textfield. When there is no
-        field value, the default mimetype should be preselected.
+        mimetype selection widget along with the textfield.
+
+        When there is no field value, the default mimetype should be
+        preselected.
         """
         if IMarkupSchema:
             # if not, don't run this test
@@ -1780,8 +1787,10 @@ class RichTextWidgetTests(unittest.TestCase):
 
     def test_dx_tinymcewidget_multiple_mimetypes_edit(self):
         """A RichTextWidget with multiple available mimetypes should render a
-        mimetype selection widget along with the textfield. When there is
-        already a RichTextValue, it's mimetype should be preselected.
+        mimetype selection widget along with the textfield.
+
+        When there is already a RichTextValue, it's mimetype should be
+        preselected.
         """
         if IMarkupSchema:
             # if not, don't run this test
@@ -1804,7 +1813,7 @@ class RichTextWidgetTests(unittest.TestCase):
             self.assertTrue("pat-tinymce" not in rendered)
 
     def test_use_default_editor_value(self):
-        """Use dummy utility registered in testing.zcml"""
+        """Use dummy utility registered in testing.zcml."""
         if IMarkupSchema:
             # if not, don't run this test
             self._set_mimetypes(allowed=("text/html",))
@@ -1999,7 +2008,7 @@ class WidgetCustomizingIntegrationTests(unittest.TestCase):
             schema = ITestDateSchema
 
         render = TestForm(self.layer["portal"], self.layer["request"])
-        self.assertIn(
-            'empty foo" data-fieldname="form.widgets.my_date"',
-            render(),
+        html = render()
+        self.assertTrue(
+            re.search('empty foo".*data-fieldname="form.widgets.my_date', html) is not None
         )

@@ -46,9 +46,7 @@
     </span>
   </tal:if>
   <span tal:condition="python:exists and download_url and action=='nochange'">
-    <img alt=""
-         src=""
-         tal:condition="icon"
+    <img tal:condition="icon"
          tal:attributes="
            src icon;
            alt doc_type;

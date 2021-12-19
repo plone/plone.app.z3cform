@@ -5,13 +5,10 @@
          data-pat-autotoc="section:span.linkType;levels:span.linkLabel;"
     >
 
-      <span class="linkType internal"
+      <span class="linkType internal${python:' active' if value else ''}"
             data-linktype="internal"
             tal:define="
               value view/value/internal | nothing;
-            "
-            tal:attributes="
-              class python:'linkType internal' + (' active' if value else '');
             "
       >
         <span class="linkLabel d-none"
@@ -21,25 +18,19 @@
           <div class="mb-3 main">
             <!-- this gives the name to the "linkType" -->
             <input class="pat-relateditems"
-                   name="internal"
+                   name="${view/name}.internal"
                    type="text"
-                   tal:attributes="
-                     data-pat-relateditems view/pattern_data;
-                     value value;
-                     name string:${view/name}.internal;
-                   "
+                   data-pat-relateditems="${view/pattern_data}"
+                   value="${value}"
             />
           </div>
         </div>
       </span>
 
-      <span class="linkType external"
+      <span class="linkType external${python:' active' if value else ''}"
             data-linktype="external"
             tal:define="
               value view/value/external | nothing;
-            "
-            tal:attributes="
-              class python:'linkType external' + (' active' if value else '');
             "
       >
         <span class="linkLabel d-none"
@@ -51,24 +42,18 @@
                  i18n:translate="help_external_url"
           >External URL (can be relative within this site or absolute if it starts with http:// or https://)</label>
           <input class="form-control"
-                 name="external"
+                 name="${view/name}.external"
                  placeholder="https://domain.com"
                  type="text"
-                 tal:attributes="
-                   name string:${view/name}.external;
-                   value value;
-                 "
+                 value="${value}"
           />
         </div>
       </span>
 
-      <span class="linkType email"
+      <span class="linkType email${python:' active' if value else ''}"
             data-linktype="email"
             tal:define="
               value view/value/email | nothing;
-            "
-            tal:attributes="
-              class python:'linkType email' + (' active' if value else '');
             "
       >
         <span class="linkLabel d-none"
@@ -80,13 +65,10 @@
                    i18n:translate="help_email_url"
             >Email Address</label>
             <input class="form-control"
-                   name="email"
+                   name="${view/name}.email"
                    placeholder="name@domain.com"
                    type="text"
-                   tal:attributes="
-                     name string:${view/name}.email;
-                     value value;
-                   "
+                   value="${value}"
             />
           </div>
           <div class="mb-3">
@@ -94,12 +76,9 @@
                    i18n:translate="help_email_url_subject"
             >Email Subject (optional)</label>
             <input class="form-control"
-                   name="subject"
+                   name="${view/name}.subject"
                    type="text"
-                   tal:attributes="
-                     name string:${view/name}.subject;
-                     value view/value/email_subject | nothing;
-                   "
+                   value="${view/value/email_subject | nothing}"
             />
           </div>
         </div>

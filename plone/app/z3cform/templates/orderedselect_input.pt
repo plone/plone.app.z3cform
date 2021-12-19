@@ -15,9 +15,7 @@
   >
     <tr>
       <td>
-        <select class=""
-                id="from"
-                multiple
+        <select id="from"
                 name="from"
                 size="5"
                 tal:attributes="
@@ -77,9 +75,7 @@
         >&larr;</button>
       </td>
       <td>
-        <select class=""
-                id="to"
-                multiple
+        <select id="to"
                 name="to"
                 size="5"
                 tal:attributes="
@@ -131,10 +127,10 @@
           <script type="text/javascript"
                   tal:content="string:copyDataForSubmit('${view/id}');"
           >
-          /*  &lt;![CDATA[ */
-          // initial copying of field "field.to" --&gt; "field"
-          copyDataForSubmit("&lt;i tal:replace="${view/id}"/&gt;");
-          /* ]]&gt; */
+            /*  <![CDATA[ */
+            // initial copying of field "field.to" --> "field"
+            copyDataForSubmit("<i tal:replace="${view/id}"/>");
+            /* ]]> */
           </script>
         </span>
       </td>

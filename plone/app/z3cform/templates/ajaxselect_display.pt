@@ -2,9 +2,7 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       tal:omit-tag=""
 >
-  <span class=""
-        id=""
-        tal:attributes="
+  <span tal:attributes="
           id view/id;
           class view/klass;
           style view/style;

@@ -2,14 +2,7 @@
      xmlns:tal="http://xml.zope.org/namespaces/tal"
      tal:omit-tag=""
 >
-  <select class=""
-          id=""
-          disabled
-          multiple
-          name=""
-          size=""
-          tabindex=""
-          tal:attributes="
+  <select tal:attributes="
             id view/id;
             name string:${view/name}:list;
             required python:view.required and 'required' or None;
@@ -34,23 +27,11 @@
             onchange view/onchange;
             multiple view/multiple;
             size view/size;
-          "
-  >
-    <tal:block repeat="item view/items"><option id=""
-              selected="selected"
-              value=""
-              tal:condition="item/selected"
-              tal:content="item/content"
+          ">
+    <tal:block repeat="item view/items"><option tal:content="item/content"
               tal:attributes="
                 id item/id;
-                value item/value;
-              "
-      >label</option><option id=""
-              value=""
-              tal:condition="not:item/selected"
-              tal:content="item/content"
-              tal:attributes="
-                id item/id;
+                selected item/selected|nothing;
                 value item/value;
               "
       >label</option></tal:block>

@@ -1,46 +1,34 @@
-<div class="multi-widget"
-     tal:attributes="
-       class view/klass;
-     "
+<div class="${view/klass}"
      i18n:domain="plone"
 >
   <tal:block repeat="widget view/widgets">
-    <div metal:define-macro="widget-row"
+    <div class="multi-widget-field field pat-inlinevalidation ${fieldname_class}${error_class}"
+         id="formfield-${widget/id}"
+         metal:define-macro="widget-row"
          data-pat-inlinevalidation="{'type':'z3c.form'}"
          tal:define="
            hidden python:widget.mode == 'hidden';
            showLabel view/showLabel;
-           checkbox_disabled python:not view.allowRemoving and 'disabled' or nothing;
+           checkbox_disabled python:'disabled' if not view.allowRemoving else None;
            index repeat/widget/index;
            key_widget python:view.key_widgets[index];
            error widget/error;
            key_error key_widget/error|nothing;
-           error_class python:(error or key_error) and ' error' or '';
+           error_class python:' error' if (error or key_error) else '';
            fieldname_class string:kssattr-fieldname-${widget/name};
-         "
-         tal:attributes="
-           class string:multi-widget-field field pat-inlinevalidation ${fieldname_class}${error_class};
-           id string:formfield-${widget/id};
          "
     >
 
       <input class="multi-widget-checkbox checkbox-widget"
-             id=""
-             name=""
+             disabled="${checkbox_disabled}"
+             id="${widget/id}-remove"
+             name="${widget/name}.remove"
              type="checkbox"
              value="1"
-             tal:attributes="
-               id string:${widget/id}-remove;
-               name string:${widget/name}.remove;
-               disabled checkbox_disabled;
-             "
       />
       <label class="form-label horizontal"
-             for=""
+             for="${key_widget/id}"
              tal:condition="python:key_widget is not None and showLabel and not hidden"
-             tal:attributes="
-               for key_widget/id;
-             "
       ><span tal:replace="key_widget/label"
               i18n:translate=""
         >label</span>
@@ -77,11 +65,8 @@
       <br />
 
       <label class="form-label horizontal"
-             for=""
+             for="${widget/id}"
              tal:condition="python:showLabel and not hidden"
-             tal:attributes="
-               for widget/id;
-             "
       >
         <span tal:replace="widget/label"
               i18n:translate=""

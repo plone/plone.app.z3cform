@@ -73,9 +73,13 @@
         </tal:status>
 
 
-        <form class="rowlike enableUnloadProtection"
-              action="."
-              method="post"
+        <h1>check</h1>
+        <div tal:define="te python:False" disabled="${te|nothing}">test</div>
+        <form class="rowlike $unload_protection $autofocus $form_tabbing $form_class $form_view_name_raw $form_view_name"
+              id="${view/id}"
+              action="${view/action|request/getURL}"
+              enctype="${view/enctype}"
+              method="${view/method|string:post}"
               novalidate
               data-pat-autotoc="levels: legend; section: fieldset; className: autotabs"
               tal:define="
@@ -94,13 +98,6 @@
                 form_view_name_raw python:view.__name__ or request.getURL().split('/')[-1];
                 form_view_name python:'-'.join(['view', 'name'] + [x for x in form_view_name_raw.split('++') if x]);
               "
-              tal:attributes="
-                action view/action|request/getURL;
-                enctype view/enctype;
-                class string:rowlike $unload_protection $autofocus $form_tabbing $form_class $form_view_name_raw $form_view_name;
-                id view/id;
-                method view/method|string:post;
-              "
         >
 
           <metal:block define-slot="formtop" />
@@ -108,13 +105,11 @@
           <metal:fields-slot define-slot="fields">
             <input name="fieldset"
                    type="hidden"
+                   value="${current_fieldset}"
                    tal:define="
                      current_fieldset request/fieldset | python:None;
                    "
                    tal:condition="python:has_groups and enable_form_tabbing and current_fieldset is not None"
-                   tal:attributes="
-                     value current_fieldset;
-                   "
             />
 
             <!-- Default fieldset -->
@@ -129,11 +124,9 @@
                         tal:omit-tag="not:show_default_label"
               >
 
-                <legend tal:condition="show_default_label"
+                <legend id="fieldsetlegend-default"
+                        tal:condition="show_default_label"
                         tal:content="default_fieldset_label"
-                        tal:attributes="
-                          id string:fieldsetlegend-default;
-                        "
                 >Form name</legend>
 
                 <metal:define define-macro="widget_rendering">
@@ -151,24 +144,20 @@
               <tal:block condition="has_groups"
                          tal:repeat="group groups"
               >
-                <fieldset tal:define="
+                <fieldset id="fieldset-${fieldset_name}"
+                          class="kssattr-fieldset-${fieldset_name}"
+                          data-fieldset="${fieldset_name}"
+                          tal:define="
                             normalizeString nocall:context/@@plone/normalizeString;
                             fieldset_label group/label;
                             fieldset_name python:getattr(group, '__name__', False) or getattr(group.label, 'default', False) or fieldset_label;
                             fieldset_name python:normalizeString(fieldset_name);
                           "
-                          tal:attributes="
-                            id string:fieldset-${fieldset_name};
-                            class string:kssattr-fieldset-${fieldset_name};
-                            data-fieldset fieldset_name;
-                          "
                 >
 
-                  <legend tal:condition="fieldset_label"
+                  <legend class="fieldsetlegend-${fieldset_name}"
+                          tal:condition="fieldset_label"
                           tal:content="fieldset_label"
-                          tal:attributes="
-                            id string:fieldsetlegend-${fieldset_name};
-                          "
                   >Form name</legend>
 
                   <p tal:define="

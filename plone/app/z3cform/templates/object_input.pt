@@ -4,8 +4,7 @@
                          error widget/error;
                          error_class python:error and ' error' or '';
                          fieldname_class string:kssattr-fieldname-${widget/name};"
-             data-pat-inlinevalidation='{"type":"z3c.form"}'
-             tal:attributes="class string:object-widget-field field pat-inlinevalidation ${fieldname_class}${error_class};
+             tal:attributes="class string:object-widget-field field ${fieldname_class}${error_class};
              data-fieldname widget/name;
                              id string:formfield-${widget/id};">
 

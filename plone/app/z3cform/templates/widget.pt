@@ -8,9 +8,8 @@
                empty_class python: (widget.value in empty_values) and ' empty' or '';
                "
    id="formfield-${python:widget.id}"
-   class="mb-3 field pat-inlinevalidation fieldname-${python:widget.name} widget-mode-${python:widget.mode}${error_class}${empty_class} ${python:getattr(widget, 'wrapper_css_class', False) or False}"
-   data-fieldname="${widget/name}"
-   data-pat-inlinevalidation='{"type":"z3c.form"}'>
+   class="mb-3 field fieldname-${python:widget.name} widget-mode-${python:widget.mode}${error_class}${empty_class} ${python:getattr(widget, 'wrapper_css_class', False) or False}"
+   data-fieldname="${widget/name}">
     <label for="${python:widget.id}"
            class="form-label"
            tal:condition="python: widget.mode == 'input' and widget.label">

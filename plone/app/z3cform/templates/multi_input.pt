@@ -42,7 +42,10 @@
                 Error
             </div>
 
-            <input type="text" tal:condition="python:key_widget is not None" tal:replace="structure key_widget/render" />
+            <input
+                tal:condition="python:key_widget is not None"
+                tal:replace="structure key_widget/render"
+            />
 
             <br/>
 
@@ -68,7 +71,8 @@
                 Error
             </div>
 
-            <input type="text" tal:replace="structure widget/render" />
+            <input tal:replace="structure widget/render" />
+
         </div>
     </tal:block>
     <div class="formControls multi-widget-buttons" tal:condition="view/actions/values|nothing">

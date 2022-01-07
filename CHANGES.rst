@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0a5 (2022-01-07)
+--------------------
+
+Bug fixes:
+
+
+- Remove errorneous extra curly bracket in class name of the widget wrapper.
+  [thet] (#136)
+
+
 4.0.0a4 (2021-11-26)
 --------------------
 

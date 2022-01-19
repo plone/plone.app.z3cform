@@ -32,6 +32,7 @@ from plone.app.z3cform.interfaces import IRichTextWidget
 from plone.app.z3cform.interfaces import IRichTextWidgetInputModeRenderer
 from plone.app.z3cform.interfaces import ISelectWidget
 from plone.app.z3cform.interfaces import ISingleCheckBoxBoolWidget
+from plone.app.z3cform.interfaces import ITimeWidget
 from plone.app.z3cform.utils import call_callables
 from plone.app.z3cform.utils import closest_content
 from plone.registry.interfaces import IRegistry
@@ -221,6 +222,17 @@ class DatetimeWidget(DateWidget):
     pattern = 'datetime-picker'
     default_timezone = None
 
+
+@implementer_only(ITimeWidget)
+class TimeWidget(BaseWidget, z3cform_TextWidget):
+
+    pattern = ''
+
+    def _base(self, **kw):
+        return InputWidget(
+            type="time",
+            **kw,
+        )
 
 @implementer_only(ISelectWidget)
 class SelectWidget(BaseWidget, z3cform_SelectWidget):
@@ -847,6 +859,11 @@ def DateFieldWidget(field, request):
 @implementer(IFieldWidget)
 def DatetimeFieldWidget(field, request):
     return FieldWidget(field, DatetimeWidget(request))
+
+
+@implementer(IFieldWidget)
+def TimeFieldWidget(field, request):
+    return FieldWidget(field, TimeWidget(request))
 
 
 @implementer(IFieldWidget)

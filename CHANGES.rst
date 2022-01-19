@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0a6 (2022-01-19)
+--------------------
+
+Bug fixes:
+
+
+- re-enable HTML rendering in form description
+  [petschki] (#138)
+
+
 4.0.0a5 (2022-01-07)
 --------------------
 

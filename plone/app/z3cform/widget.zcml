@@ -138,6 +138,17 @@
            plone.app.z3cform.interfaces.IPloneFormLayer"
       />
 
+  <class class=".widget.TimeWidget">
+    <require permission="zope.Public"
+             interface=".interfaces.ITimeWidget" />
+  </class>
+
+  <adapter
+      factory=".widget.TimeFieldWidget"
+      for="zope.schema.interfaces.ITime
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
   <adapter factory=".widget.RelatedItemsFieldWidget"
            for="z3c.relationfield.interfaces.IRelationChoice
                 plone.app.z3cform.interfaces.IPloneFormLayer" />

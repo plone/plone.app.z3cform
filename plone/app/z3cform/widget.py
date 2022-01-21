@@ -294,7 +294,7 @@ class SelectWidget(BaseWidget, z3cform_SelectWidget):
 
         options = args.setdefault('pattern_options', {})
         if self.multiple or ICollection.providedBy(self.field):
-            options['multiple'] = args['multiple'] = self.multiple = True
+            args['multiple'] = self.multiple = True
 
         # ISequence represents an orderable collection
         if ISequence.providedBy(self.field) or self.orderable:

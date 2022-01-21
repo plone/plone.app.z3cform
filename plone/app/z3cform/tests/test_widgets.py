@@ -509,7 +509,7 @@ class SelectWidgetTests(unittest.TestCase):
             {
                 'multiple': True,
                 'name': None,
-                'pattern_options': {'separator': ';', 'multiple': True},
+                'pattern_options': {'separator': ';'},
                 'pattern': 'select2',
                 'value': (),
                 'items': [
@@ -527,9 +527,7 @@ class SelectWidgetTests(unittest.TestCase):
             {
                 'multiple': True,
                 'name': None,
-                'pattern_options': {'allowClear': True,
-                                    'separator': ';',
-                                    'multiple': True},
+                'pattern_options': {'allowClear': True, 'separator': ';'},
                 'pattern': 'select2',
                 'value': (),
                 'items': [
@@ -546,9 +544,7 @@ class SelectWidgetTests(unittest.TestCase):
             {
                 'multiple': True,
                 'name': None,
-                'pattern_options': {'allowClear': True,
-                                    'separator': ';',
-                                    'multiple': True},
+                'pattern_options': {'allowClear': True, 'separator': ';'},
                 'pattern': 'select2',
                 'value': ('one'),
                 'items': [
@@ -575,7 +571,7 @@ class SelectWidgetTests(unittest.TestCase):
                 'multiple': True,
                 'name': None,
                 'pattern_options': {
-                    'orderable': True, 'multiple': True, 'separator': '.'},
+                    'orderable': True, 'separator': '.'},
                 'pattern': 'select2',
                 'value': (),
                 'items': [
@@ -601,7 +597,7 @@ class SelectWidgetTests(unittest.TestCase):
                 'multiple': True,
                 'name': None,
                 'pattern_options': {
-                    'orderable': True, 'multiple': True, 'separator': ';'},
+                    'orderable': True, 'separator': ';'},
                 'pattern': 'select2',
                 'value': (),
                 'items': [
@@ -627,8 +623,7 @@ class SelectWidgetTests(unittest.TestCase):
             {
                 'multiple': True,
                 'name': None,
-                'pattern_options': {
-                    'multiple': True, 'separator': ';'},
+                'pattern_options': {'separator': ';'},
                 'pattern': 'select2',
                 'value': (),
                 'items': [

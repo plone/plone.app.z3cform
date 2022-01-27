@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import date
 from datetime import datetime
+from datetime import time
 from json import loads
 from lxml import html
 from mock import Mock
@@ -420,13 +421,37 @@ class TimeWidgetTests(unittest.TestCase):
         from plone.app.z3cform.widget import TimeWidget
 
         self.request = TestRequest(environ={'HTTP_ACCEPT_LANGUAGE': 'en'})
-        self.field = Time(__name__='datefield')
+        self.field = Time(__name__='timefield')
         self.field.required = False
         self.widget = TimeWidget(self.request)
         self.widget.field = self.field
 
     def test_widget(self):
         self.assertIn("<input type=\"time\"", self.widget.render())
+
+    def test_data_converter(self):
+        from plone.app.z3cform.converters import TimeWidgetConverter
+        converter = TimeWidgetConverter(self.field, self.widget)
+
+        self.assertEqual(
+            converter.toFieldValue(''),
+            converter.field.missing_value,
+        )
+
+        self.assertEqual(
+            converter.toFieldValue('15:40'),
+            time(15, 40),
+        )
+
+        self.assertEqual(
+            converter.toWidgetValue(converter.field.missing_value),
+            '',
+        )
+
+        self.assertEqual(
+            converter.toWidgetValue(time(15, 40)),
+            '15:40',
+        )
 
     def test_fieldwidget(self):
         from plone.app.z3cform.widget import TimeFieldWidget

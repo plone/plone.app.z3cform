@@ -231,8 +231,17 @@ class TimeWidget(BaseWidget, z3cform_TextWidget):
     def _base(self, **kw):
         return InputWidget(
             type="time",
+            name=self.name,
+            value=(self.request.get(self.name,
+                self.value) or u'').strip(),
             **kw,
         )
+
+    def render(self):
+        if self.mode != 'display':
+            self.addClass("form-control")
+        return super(TimeWidget, self).render()
+
 
 @implementer_only(ISelectWidget)
 class SelectWidget(BaseWidget, z3cform_SelectWidget):

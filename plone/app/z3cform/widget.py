@@ -234,6 +234,34 @@ class TimeWidget(BaseWidget, z3cform_TextWidget):
             **kw,
         )
 
+    def _base_args(self):
+        """Method which will calculate _base class arguments.
+
+        Returns (as python dictionary):
+            - `pattern`: pattern name
+            - `pattern_options`: pattern options
+            - `name`: field name
+            - `value`: field value
+
+        :returns: Arguments which will be passed to _base
+        :rtype: dict
+        """
+        args = super(TimeWidget, self)._base_args()
+        args['name'] = self.name
+        args['value'] = (self.request.get(self.name,
+                                          self.value) or u'').strip()
+
+        args.setdefault('pattern_options', {})
+        if self.field.required:
+            # Required fields should not have a "Clear" button
+            args['pattern_options']['clear'] = False
+        args['pattern_options'] = dict_merge(
+            get_date_options(self.request),
+            args['pattern_options'])
+
+        return args
+
+
 @implementer_only(ISelectWidget)
 class SelectWidget(BaseWidget, z3cform_SelectWidget):
     """Select widget for z3c.form."""

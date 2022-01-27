@@ -237,7 +237,12 @@ class TimeWidget(BaseWidget, z3cform_TextWidget):
             **kw,
         )
 
-    
+    def render(self):
+        if self.mode != 'display':
+            self.addClass("form-control")
+        return super(TimeWidget, self).render()
+
+
 @implementer_only(ISelectWidget)
 class SelectWidget(BaseWidget, z3cform_SelectWidget):
     """Select widget for z3c.form."""

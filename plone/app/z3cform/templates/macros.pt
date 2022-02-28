@@ -74,6 +74,7 @@
                                       enctype view/enctype;
                                       class string:rowlike $unload_protection $autofocus $form_tabbing $form_class $form_view_name_raw $form_view_name;
                                       id view/id;
+                                      name form_name;
                                       method view/method|string:post">
 
                     <metal:block define-slot="formtop" />

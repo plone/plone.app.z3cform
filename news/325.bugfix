@@ -1,0 +1,3 @@
+Add ``name`` attribute to form, if ``view.form_name`` is defined.
+See `easyform issue 325 <https://github.com/collective/collective.easyform/issues/325>`_.
+[maurits]

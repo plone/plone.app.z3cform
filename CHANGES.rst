@@ -8,6 +8,17 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0a7 (2022-03-09)
+--------------------
+
+Bug fixes:
+
+
+- Add ``name`` attribute to form, if ``view.form_name`` is defined.
+  See `easyform issue 325 <https://github.com/collective/collective.easyform/issues/325>`_.
+  [maurits] (#325)
+
+
 4.0.0a6 (2022-01-19)
 --------------------
 

@@ -60,7 +60,7 @@ setup(
         'Products.CMFPlone',
         'setuptools',
         'six',
-        'z3c.form >= 3.0',
+        'z3c.form >= 4.0',
         'z3c.formwidget.query',
         'zope.browserpage',
         'zope.component',

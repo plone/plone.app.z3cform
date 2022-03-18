@@ -25,7 +25,7 @@ class TestAuthenticatedButtonActions(KeyringTestCase):
         request = makerequest(Implicit()).REQUEST
         request.form['_authenticator'] = createToken()
         actions = AuthenticatedButtonActions(form, request, None)
-        actions['foo'] = action = DummyAction()
+        actions['foo'] = DummyAction()
 
         actions.execute()
         # If we got here without raising Unauthorized, the test passed.

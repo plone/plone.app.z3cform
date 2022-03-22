@@ -100,7 +100,7 @@
                                       tal:content="default_fieldset_label">Form name</legend>
 
                               <metal:define define-macro="widget_rendering">
-                                  <tal:widgets repeat="widget view/widgets/values">
+                                  <tal:widgets repeat="widget python:view.widgets.values()">
                                       <metal:field-slot define-slot="field">
                                           <metal:field define-macro="field">
                                               <tal:widget tal:replace="structure widget/@@ploneform-render-widget"/>

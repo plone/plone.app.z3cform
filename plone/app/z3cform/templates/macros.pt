@@ -54,7 +54,7 @@
 
 
                 <form data-pat-autotoc="levels: legend; section: fieldset; className: autotabs"
-                      class="rowlike enableUnloadProtection" action="." method="post" novalidate
+                      class="rowlike enableUnloadProtection" action="." method="post"
                       tal:define="groups view/groups | nothing;
                                   form_name view/form_name | nothing;
                                   form_class view/css_class | string:;
@@ -64,6 +64,7 @@
                                   unload_protection python:enable_unload_protection and 'pat-formunloadalert';
                                   enable_autofocus view/enable_autofocus|python:True;
                                   autofocus python:enable_autofocus and 'pat-formautofocus';
+                                  validation python:'pat-validation' if True else '';
                                   has_groups python:bool(groups);
                                   form_tabbing python:(has_groups and enable_form_tabbing) and 'enableFormTabbing pat-autotoc' or '';
                                   show_default_label python:has_groups and default_fieldset_label and len(view.widgets);

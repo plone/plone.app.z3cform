@@ -54,7 +54,7 @@
   <include package="plone.dexterity" />
   <adapter
       for="Products.CMFCore.interfaces.IFolderish
-           plone.theme.interfaces.IDefaultPloneLayer
+           plone.app.z3cform.interfaces.IPloneFormLayer
            plone.dexterity.interfaces.IDexterityFTI"
       provides="zope.publisher.interfaces.browser.IBrowserPage"
       factory=".views.AddView"
@@ -79,6 +79,7 @@
 
   <adapter factory=".converters.DatetimeWidgetConverter" />
   <adapter factory=".converters.DateWidgetConverter" />
+  <adapter factory=".converters.TimeWidgetConverter" />
   <adapter factory=".converters.SelectWidgetConverter" />
   <adapter factory=".converters.SequenceSelectWidgetConverter" />
   <adapter factory=".converters.AjaxSelectWidgetConverter" />

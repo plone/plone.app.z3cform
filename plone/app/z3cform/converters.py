@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import date
 from datetime import datetime
+from datetime import time
 from plone.app.z3cform import utils
 from plone.app.z3cform.interfaces import IAjaxSelectWidget
 from plone.app.z3cform.interfaces import IDatetimeWidget
@@ -10,6 +11,7 @@ from plone.app.z3cform.interfaces import IQueryStringWidget
 from plone.app.z3cform.interfaces import IRelatedItemsWidget
 from plone.app.z3cform.interfaces import ISelectWidget
 from plone.app.z3cform.interfaces import ISingleCheckBoxBoolWidget
+from plone.app.z3cform.interfaces import ITimeWidget
 from plone.uuid.interfaces import IUUID
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_callable
@@ -28,6 +30,7 @@ from zope.schema.interfaces import IDate
 from zope.schema.interfaces import IDatetime
 from zope.schema.interfaces import IField
 from zope.schema.interfaces import IList
+from zope.schema.interfaces import ITime
 
 import json
 import pytz
@@ -81,7 +84,7 @@ class DatetimeWidgetConverter(BaseDataConverter):
         """
         if value is self.field.missing_value:
             return u''
-        return ('{value.year:}-{value.month:02}-{value.day:02} '
+        return ('{value.year:}-{value.month:02}-{value.day:02}T'
                 '{value.hour:02}:{value.minute:02}').format(value=value)
 
     def toFieldValue(self, value):
@@ -95,7 +98,7 @@ class DatetimeWidgetConverter(BaseDataConverter):
         """
         if not value:
             return self.field.missing_value
-        tmp = value.split(' ')
+        tmp = value.split('T')
         if not tmp[0]:
             return self.field.missing_value
         value = tmp[0].split('-')
@@ -114,6 +117,23 @@ class DatetimeWidgetConverter(BaseDataConverter):
             tzinfo = pytz.timezone(zone)
             ret = tzinfo.localize(ret)
         return ret
+
+
+@adapter(ITime, ITimeWidget)
+class TimeWidgetConverter(BaseDataConverter):
+    """Data converter for datetime fields."""
+
+    type = "time"
+
+    def toWidgetValue(self, value):
+        if value == self.field.missing_value:
+            return u''
+        return value.strftime("%H:%M")
+
+    def toFieldValue(self, value):
+        if value == u'':
+            return self.field.missing_value
+        return time(*map(int, value.split(":")))
 
 
 class SelectWidgetConverterBase(object):

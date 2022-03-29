@@ -139,16 +139,13 @@ class DateWidget(BaseWidget, HTMLInputWidget):
     _base = InputWidget
     _converter = DateWidgetConverter
     _formater = 'date'
-
-    pattern = 'date-picker'
-    pattern_options = BaseWidget.pattern_options.copy()
+    pattern = ""
+    pattern_options = {}
 
     def _base_args(self):
         """Method which will calculate _base class arguments.
 
         Returns (as python dictionary):
-            - `pattern`: pattern name
-            - `pattern_options`: pattern options
             - `name`: field name
             - `value`: field value
 
@@ -160,15 +157,6 @@ class DateWidget(BaseWidget, HTMLInputWidget):
         val = self.request.get(self.name, self.value) or u''
         args['value'] = val.strip()
         args['type'] = 'date'
-
-        args.setdefault('pattern_options', {})
-        if self.field.required:
-            # Required fields should not have a "Clear" button
-            args['pattern_options']['clear'] = False
-        args['pattern_options'] = dict_merge(
-            get_date_options(self.request),
-            args['pattern_options']
-        )
 
         return args
 
@@ -213,9 +201,8 @@ class DatetimeWidget(DateWidget, HTMLInputWidget):
 
     _converter = DatetimeWidgetConverter
     _formater = 'dateTime'
-
-    pattern = 'datetime-picker'
-    pattern_options = DateWidget.pattern_options.copy()
+    pattern = ""
+    pattern_options = {}
 
     default_timezone = None
 
@@ -223,8 +210,6 @@ class DatetimeWidget(DateWidget, HTMLInputWidget):
         """Method which will calculate _base class arguments.
 
         Returns (as python dictionary):
-            - `pattern`: pattern name
-            - `pattern_options`: pattern options
             - `name`: field name
             - `value`: field value
 
@@ -233,17 +218,6 @@ class DatetimeWidget(DateWidget, HTMLInputWidget):
         """
         args = super(DatetimeWidget, self)._base_args()
         args['type'] = 'datetime-local'
-
-        args.setdefault('pattern_options', {})
-        if 'time' in args['pattern_options']:
-            # Time gets set in parent class to false. Remove.
-            del args['pattern_options']['time']
-        if 'time' in self.pattern_options:
-            # Re-apply custom set time options.
-            args['pattern_options']['time'] = self.pattern_options['time']
-        args['pattern_options'] = dict_merge(
-            get_datetime_options(self.request),
-            args['pattern_options'])
 
         return args
 

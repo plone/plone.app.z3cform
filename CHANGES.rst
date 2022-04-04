@@ -8,6 +8,33 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0a9 (2022-04-04)
+--------------------
+
+New features:
+
+
+- Use browser native date and datetime-local input
+  together with patternslib date-picker
+  [petschki] (#134)
+- Use better types for inputs.
+  [thet] (#134)
+- Remove inlinevalidation from templates.
+  [thet] (#134)
+- Implement TimeWidget which renders <input type="time" />
+  [petschki] (#134)
+- Use pat-validation in forms.
+  [thet] (#134)
+
+
+Bug fixes:
+
+
+- time widget supports 'name' and 'value' attributes now. [iham] (#134)
+- Register `AddView` to the correct browserlayer
+  [petschki] (#142)
+
+
 4.0.0a8 (2022-03-23)
 --------------------
 

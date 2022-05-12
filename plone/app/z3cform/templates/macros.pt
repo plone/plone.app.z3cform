@@ -73,7 +73,7 @@
                                   "
                       tal:attributes="action view/action|request/getURL;
                                       enctype view/enctype;
-                                      class string:rowlike $unload_protection $autofocus $form_tabbing $form_class $form_view_name_raw $form_view_name;
+                                      class string:rowlike $unload_protection $autofocus $validation $form_tabbing $form_class $form_view_name_raw $form_view_name;
                                       id view/id;
                                       name form_name;
                                       method view/method|string:post">

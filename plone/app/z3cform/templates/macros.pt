@@ -21,7 +21,7 @@
                                         icons nocall: context/@@iconresolver"
                             tal:condition="python: status">
                     <div tal:condition="python:not (has_error or errors)"
-                         class="portalMessage statusmessage statusmessage-info alter alert-info"
+                         class="portalMessage statusmessage statusmessage-info alert alert-info"
                          role="alert">
                         <tal:icon tal:replace="structure python:icons.tag('plone-statusmessage-info', tag_alt='Info', tag_class='statusmessage-icon mb-1 me-2')" i18n:attributes="alt"/>
                         <span class="content"

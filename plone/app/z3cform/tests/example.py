@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.z3cform.layout import FormWrapper
 from z3c.form import button
 from z3c.form import field
@@ -13,25 +12,24 @@ from zope.interface import Interface
 
 
 class MySchema(Interface):
-    age = schema.Int(title=u'Age')
+    age = schema.Int(title="Age")
 
 
 class MyContentProvider(ContentProviderBase):
-
     def render(self):
-        return 'My test content provider'
+        return "My test content provider"
 
 
 @implementer(IFieldsAndContentProvidersForm)
 class MyForm(form.Form):
     contentProviders = ContentProviders()
-    contentProviders['myContentProvider'] = MyContentProvider
+    contentProviders["myContentProvider"] = MyContentProvider
     # defining a contentProvider position is mandatory...
-    contentProviders['myContentProvider'].position = 0
-    label = u'Please enter your age'
+    contentProviders["myContentProvider"].position = 0
+    label = "Please enter your age"
     ignoreContext = True  # don't use context to get widget data
 
-    @button.buttonAndHandler(u'Apply')
+    @button.buttonAndHandler("Apply")
     def handleApply(self, action):
         data, errors = self.extractData()
 
@@ -41,23 +39,25 @@ class MyFormWrapper(FormWrapper):
 
 
 class MyGroupSchema(Interface):
-    name = schema.TextLine(title=u'name')
+    name = schema.TextLine(title="name")
 
 
 class MyGroup(group.Group):
-    label = u'Secondary Group'
-    __name__ = u'MyGroup'
+    label = "Secondary Group"
+    __name__ = "MyGroup"
     fields = field.Fields(MyGroupSchema)
 
 
 class MyGroupForm(group.GroupForm, form.Form):
     fields = field.Fields(MySchema)
-    label = u'Please enter your age and Name'
+    label = "Please enter your age and Name"
     ignoreContext = True  # don't use context to get widget data
 
-    groups = [MyGroup, ]
+    groups = [
+        MyGroup,
+    ]
 
-    @button.buttonAndHandler(u'Apply')
+    @button.buttonAndHandler("Apply")
     def handleApply(self, action):
         data, errors = self.extractData()
 
@@ -67,17 +67,19 @@ class MyGroupFormWrapper(FormWrapper):
 
 
 class MyMultiSchema(Interface):
-    ages = schema.Dict(title=u'ages',
-                       key_type=schema.TextLine(title=u'name'),
-                       value_type=schema.Int(title=u'age', default=38))
+    ages = schema.Dict(
+        title="ages",
+        key_type=schema.TextLine(title="name"),
+        value_type=schema.Int(title="age", default=38),
+    )
 
 
 class MyMultiForm(form.Form):
     fields = field.Fields(MyMultiSchema)
-    label = u'Please enter the names and ages for each person'
+    label = "Please enter the names and ages for each person"
     ignoreContext = True  # don't use context to get widget data
 
-    @button.buttonAndHandler(u'Apply')
+    @button.buttonAndHandler("Apply")
     def handleApply(self, action):
         data, errors = self.extractData()
 

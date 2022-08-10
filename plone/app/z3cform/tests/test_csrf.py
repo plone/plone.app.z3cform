@@ -1,20 +1,17 @@
-# -*- coding: utf-8 -*-
 from plone.protect.tests.case import KeyringTestCase
 
 
 class TestAuthenticatedButtonActions(KeyringTestCase):
-
     def test_execute(self):
         from Acquisition import Implicit
-        from Testing.makerequest import makerequest
         from plone.app.z3cform.csrf import AuthenticatedButtonActions
         from plone.protect import createToken
+        from Testing.makerequest import makerequest
 
-        class DummyForm(object):
+        class DummyForm:
             enableCSRFProtection = True
 
-        class DummyAction(object):
-
+        class DummyAction:
             def isExecuted(self):
                 return True
 
@@ -23,9 +20,9 @@ class TestAuthenticatedButtonActions(KeyringTestCase):
 
         form = DummyForm()
         request = makerequest(Implicit()).REQUEST
-        request.form['_authenticator'] = createToken()
+        request.form["_authenticator"] = createToken()
         actions = AuthenticatedButtonActions(form, request, None)
-        actions['foo'] = DummyAction()
+        actions["foo"] = DummyAction()
 
         actions.execute()
         # If we got here without raising Unauthorized, the test passed.

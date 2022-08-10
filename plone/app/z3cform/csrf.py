@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.z3cform.interfaces import IPloneFormLayer
 from plone.protect import CheckAuthenticator
 from z3c.form.button import ButtonActions
@@ -16,7 +15,7 @@ class AuthenticatedButtonActions(ButtonActions):
     """
 
     def execute(self):
-        if getattr(self.form, 'enableCSRFProtection', False):
+        if getattr(self.form, "enableCSRFProtection", False):
             if self.executedActions:
                 CheckAuthenticator(self.request)
-        super(AuthenticatedButtonActions, self).execute()
+        super().execute()

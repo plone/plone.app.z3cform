@@ -11,7 +11,7 @@
       description="Adds support for rendering z3c.form forms in Plone"
       directory="profiles/default"
       provides="Products.GenericSetup.interfaces.EXTENSION"
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      for="plone.base.interfaces.IPloneSiteRoot"
       />
 
 </configure>

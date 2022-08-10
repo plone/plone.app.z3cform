@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.z3cform.interfaces import IPloneFormLayer
 from plone.app.z3cform.tests.layer import PAZ3CForm_INTEGRATION_TESTING
 from plone.app.z3cform.wysiwyg.widget import WysiwygWidget
@@ -14,11 +13,11 @@ class TestRequest(publisher.browser.TestRequest):
     pass
 
 
-class TestForm(object):
+class TestForm:
     context = None
 
 
-class NoAcquisitionAware(object):
+class NoAcquisitionAware:
     context = None
     request = TestRequest()
 
@@ -41,10 +40,12 @@ class TestWidget(unittest.TestCase):
         widget.form = TestForm()
         widget.form.context = obj
         widget.update()
-        self.assertTrue(hasattr(widget.form.context, 'aq_chain'))
+        self.assertTrue(hasattr(widget.form.context, "aq_chain"))
 
 
 def test_suite():
-    return unittest.TestSuite([
-        unittest.makeSuite(TestWidget),
-    ])
+    return unittest.TestSuite(
+        [
+            unittest.defaultTestLoader.loadTestsFromTestCase(TestWidget),
+        ]
+    )

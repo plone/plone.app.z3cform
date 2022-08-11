@@ -127,11 +127,24 @@ class BaseWidget(Widget):
 
 @implementer_only(IDateWidget)
 class DateWidget(BaseWidget, z3cform_TextWidget):
-    """Date widget for z3c.form."""
+    """Date widget for z3c.form.
 
+    :param default_timezone: A Olson DB/pytz timezone identifier or a callback
+                             returning such an identifier.
+    :type default_timezone: String or callback
+
+    :param default_time: Time used by converter as fallback if no time was set in UI.
+    :type default_time: String or callback
+
+    The default_timezone and default_time arguments are only used if a datewidget is
+    used on a datetime field. If used on a date field they are ignored.
+    """
     _base_type = "date"
     _converter = DateWidgetConverter
     _formater = "date"
+
+    default_timezone = None
+    default_time = "00:00:00"
 
     pattern = "date-picker"
     pattern_options = BaseWidget.pattern_options.copy()
@@ -205,14 +218,18 @@ class DatetimeWidget(DateWidget):
                              returning such an identifier.
     :type default_timezone: String or callback
 
+    :param default_time: Time used by converter as fallback if no time was set in UI.
+    :type default_time: String or callback
     """
 
     _base_type = "datetime-local"
     _converter = DatetimeWidgetConverter
     _formater = "dateTime"
 
-    pattern = "datetime-picker"
     default_timezone = None
+    default_time = "00:00:00"
+
+    pattern = "datetime-picker"
 
 
 @implementer_only(ITimeWidget)

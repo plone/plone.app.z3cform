@@ -104,7 +104,13 @@ class DatetimeWidgetConverter(BaseDataConverter):
         if len(tmp) == 2 and ":" in tmp[1]:
             value += tmp[1].split(":")
         else:
-            value += ["00", "00"]
+            default_time = self.widget.default_time
+            default_time = (
+                default_time(self.widget.context)
+                if safe_callable(default_time)
+                else default_time
+            )
+            value += default_time.split(":")
 
         # TODO: respect the selected zone from the widget and just fall back
         # to default_zone
@@ -148,11 +154,17 @@ class DateWidgetToDatetimeConverter(BaseDataConverter):
         """
         if not value:
             return self.field.missing_value
-        tmp = value.split("T")
         value = value.split("-")
         if len(value) != 3:
             return self.field.missing_value
-        value += ["00", "00"]
+
+        default_time = self.widget.default_time
+        default_time = (
+            default_time(self.widget.context)
+            if safe_callable(default_time)
+            else default_time
+        )
+        value += default_time.split(":")
 
         # TODO: respect the selected zone from the widget and just fall back
         # to default_zone

@@ -202,12 +202,7 @@ class DateWidget(BaseWidget, z3cform_TextWidget):
             self._formater,
             "short",
         )
-        if field_value.year > 1900:
-            return formatter.format(field_value)
-
-        # due to fantastic datetime.strftime we need this hack
-        # for now ctime is default
-        return field_value.ctime()
+        return formatter.format(field_value)
 
 
 @implementer_only(IDatetimeWidget)

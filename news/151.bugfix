@@ -1,0 +1,1 @@
+Allow DateFieldWidget to be used on schema.datetime. See #151. [jensens]

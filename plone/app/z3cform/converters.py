@@ -82,9 +82,9 @@ class DatetimeWidgetConverter(BaseDataConverter):
         if value is self.field.missing_value:
             return ""
         return (
-            "{value.year:}-{value.month:02}-{value.day:02}T"
-            "{value.hour:02}:{value.minute:02}"
-        ).format(value=value)
+            f"{value.year:}-{value.month:02}-{value.day:02}T"
+            f"{value.hour:02}:{value.minute:02}"
+        )
 
     def toFieldValue(self, value):
         """Converts from widget value to field.
@@ -104,7 +104,13 @@ class DatetimeWidgetConverter(BaseDataConverter):
         if len(tmp) == 2 and ":" in tmp[1]:
             value += tmp[1].split(":")
         else:
-            value += ["00", "00"]
+            default_time = self.widget.default_time
+            default_time = (
+                default_time(self.widget.context)
+                if safe_callable(default_time)
+                else default_time
+            )
+            value += default_time.split(":")
 
         # TODO: respect the selected zone from the widget and just fall back
         # to default_zone
@@ -120,6 +126,59 @@ class DatetimeWidgetConverter(BaseDataConverter):
             ret = tzinfo.localize(ret)
         return ret
 
+@adapter(IDatetime, IDateWidget)
+class DateWidgetToDatetimeConverter(BaseDataConverter):
+    """Data converter for date widget on datetime fields."""
+
+    def toWidgetValue(self, value):
+        """Converts from field value to widget.
+
+        :param value: Field value.
+        :type value: datetime
+
+        :returns: Datetime in format `Y-m-d`
+        :rtype: string
+        """
+        if value is self.field.missing_value:
+            return ""
+        return f"{value.year:}-{value.month:02}-{value.day:02}"
+
+    def toFieldValue(self, value):
+        """Converts from widget value to field.
+
+        :param value: Value inserted by datetime widget.
+        :type value: string
+
+        :returns: `datetime.datetime` object.
+        :rtype: datetime
+        """
+        if not value:
+            return self.field.missing_value
+        value = value.split("-")
+        if len(value) != 3:
+            return self.field.missing_value
+
+        default_time = self.widget.default_time
+        default_time = (
+            default_time(self.widget.context)
+            if safe_callable(default_time)
+            else default_time
+        )
+        value += default_time.split(":")
+
+        # TODO: respect the selected zone from the widget and just fall back
+        # to default_zone
+        default_zone = self.widget.default_timezone
+        zone = (
+            default_zone(self.widget.context)
+            if safe_callable(default_zone)
+            else default_zone
+        )
+        ret = datetime(*map(int, value))
+        if zone:
+            tzinfo = pytz.timezone(zone)
+            ret = tzinfo.localize(ret)
+        return ret
 
 @adapter(ITime, ITimeWidget)
 class TimeWidgetConverter(BaseDataConverter):

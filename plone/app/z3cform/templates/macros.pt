@@ -122,9 +122,11 @@
                                                   class string:kssattr-fieldset-${fieldset_name};
                                                   data-fieldset fieldset_name">
 
-                                      <legend tal:condition="fieldset_label"
-                                              tal:attributes="id string:fieldsetlegend-${fieldset_name}"
-                                              tal:content="fieldset_label">Form name</legend>
+                                      <legend 
+                                          i18n:translate=""
+                                          tal:condition="fieldset_label"
+                                          tal:attributes="id string:fieldsetlegend-${fieldset_name}"
+                                          tal:content="fieldset_label">Form name</legend>
 
                                       <p i18n:translate=""
                                          tal:define="group_description group/description|nothing"

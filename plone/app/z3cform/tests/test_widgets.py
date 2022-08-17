@@ -263,6 +263,27 @@ class DateWidgetTests(unittest.TestCase):
         self.assertIs(widget.field, field)
         self.assertIs(widget.request, request)
 
+    def test_dateformatter(self):
+        self.widget.value = "2022-08-17"
+        self.assertIn(" value=\"2022-08-17\" ", self.widget.render())
+
+        self.widget.mode = "display"
+        self.assertEqual("8/17/22", self.widget.render())
+
+        self.widget._formater_length = "medium"
+        self.assertEqual("Aug 17, 2022", self.widget.render())
+
+        self.widget._formater_length = "long"
+        self.assertEqual("August 17, 2022", self.widget.render())
+
+        self.widget._formater_length = "full"
+        self.assertEqual("Wednesday, August 17, 2022", self.widget.render())
+
+        # unknown formater length
+        self.widget._formater_length = "foo"
+        with self.assertRaises(ValueError):
+            self.widget.render()
+
 
 class DatetimeWidgetTests(unittest.TestCase):
     def setUp(self):
@@ -416,6 +437,28 @@ class DatetimeWidgetTests(unittest.TestCase):
         self.assertTrue(isinstance(widget, DatetimeWidget))
         self.assertIs(widget.field, field)
         self.assertIs(widget.request, request)
+
+    def test_datetimeformatter(self):
+        self.widget.value = "2022-08-17T12:00"
+        print(self.widget.render())
+        self.assertIn(" value=\"2022-08-17T12:00\" ", self.widget.render())
+
+        self.widget.mode = "display"
+        self.assertEqual("8/17/22 12:00 PM", self.widget.render())
+
+        self.widget._formater_length = "medium"
+        self.assertEqual("Aug 17, 2022 12:00:00 PM", self.widget.render())
+
+        self.widget._formater_length = "long"
+        self.assertEqual("August 17, 2022 12:00:00 PM +000", self.widget.render())
+
+        self.widget._formater_length = "full"
+        self.assertEqual("Wednesday, August 17, 2022 12:00:00 PM +000", self.widget.render())
+
+        # unknown formater length
+        self.widget._formater_length = "foo"
+        with self.assertRaises(ValueError):
+            self.widget.render()
 
 
 class TimeWidgetTests(unittest.TestCase):

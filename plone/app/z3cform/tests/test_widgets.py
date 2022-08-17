@@ -440,7 +440,6 @@ class DatetimeWidgetTests(unittest.TestCase):
 
     def test_datetimeformatter(self):
         self.widget.value = "2022-08-17T12:00"
-        print(self.widget.render())
         self.assertIn(" value=\"2022-08-17T12:00\" ", self.widget.render())
 
         self.widget.mode = "display"

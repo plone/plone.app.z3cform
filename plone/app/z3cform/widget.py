@@ -142,6 +142,7 @@ class DateWidget(BaseWidget, z3cform_TextWidget):
     _base_type = "date"
     _converter = DateWidgetConverter
     _formater = "date"
+    _formater_length = "short"
 
     default_timezone = None
     default_time = "00:00:00"
@@ -200,7 +201,7 @@ class DateWidget(BaseWidget, z3cform_TextWidget):
 
         formatter = self.request.locale.dates.getFormatter(
             self._formater,
-            "short",
+            self._formater_length,
         )
         return formatter.format(field_value)
 

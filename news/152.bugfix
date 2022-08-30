@@ -1,3 +1,0 @@
-Removed formatting hack for dates before 1900. 
-This was fixed in Python 3.2. 
-[jensens]

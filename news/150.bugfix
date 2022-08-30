@@ -1,3 +1,0 @@
-Leftovers of Py 2 removed (with pyupgrade and manual edits). then run black & isort.
-Do not depend on CMFPlone any longer (circular dependency), but on plone.base.
-[jensens]

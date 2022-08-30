@@ -8,6 +8,33 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0b1 (2022-08-30)
+--------------------
+
+New features:
+
+
+- Add `default_time` attribute/argument to Date- and DatetimeWidget to allow the converter to set a custom time when nothing was given. [jensens] (#151)
+- Customizable DateWidget formatter length.
+  [petschki] (#154)
+
+
+Bug fixes:
+
+
+- Allow non-default fieldset labels to be translated
+  [mtrebron] (#87)
+- Fix CSS classname for statusmessage.
+  [petschki] (#149)
+- Leftovers of Py 2 removed (with pyupgrade and manual edits). then run black & isort.
+  Do not depend on CMFPlone any longer (circular dependency), but on plone.base.
+  [jensens] (#150)
+- Allow DateFieldWidget to be used on schema.datetime. See #151. [jensens] (#151)
+- Removed formatting hack for dates before 1900. 
+  This was fixed in Python 3.2. 
+  [jensens] (#152)
+
+
 4.0.0a10 (2022-05-24)
 ---------------------
 

@@ -1,2 +1,2 @@
-Include `required` attribute for `<textarea>` fields
+Include ``required`` attribute for ``<textarea>`` fields.
 [frapell]

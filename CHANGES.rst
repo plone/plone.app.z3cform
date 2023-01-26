@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.1 (2023-01-26)
+------------------
+
+Bug fixes:
+
+
+- Include ``required`` attribute for ``<textarea>`` fields.
+  [frapell] (#156)
+
+
 4.0.0 (2022-11-30)
 ------------------
 

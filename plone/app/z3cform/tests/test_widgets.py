@@ -13,12 +13,12 @@ from plone.app.z3cform.widget import DateWidget
 from plone.app.z3cform.widget import RelatedItemsWidget
 from plone.autoform.directives import widget
 from plone.autoform.form import AutoExtensibleForm
+from plone.base.interfaces import IMarkupSchema
 from plone.dexterity.fti import DexterityFTI
 from plone.registry.interfaces import IRegistry
 from plone.supermodel.model import Schema
 from plone.testing.zca import UNIT_TESTING
 from plone.uuid.interfaces import IUUID
-from plone.base.interfaces import IMarkupSchema
 from unittest import mock
 from unittest.mock import Mock
 from z3c.form.form import EditForm

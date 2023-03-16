@@ -11,9 +11,9 @@ from plone.app.z3cform.interfaces import IRelatedItemsWidget
 from plone.app.z3cform.interfaces import ISelectWidget
 from plone.app.z3cform.interfaces import ISingleCheckBoxBoolWidget
 from plone.app.z3cform.interfaces import ITimeWidget
+from plone.base.utils import safe_callable
 from plone.uuid.interfaces import IUUID
 from Products.CMFCore.utils import getToolByName
-from plone.base.utils import safe_callable
 from z3c.form.converter import BaseDataConverter
 from z3c.form.converter import CollectionSequenceDataConverter
 from z3c.form.converter import SequenceDataConverter

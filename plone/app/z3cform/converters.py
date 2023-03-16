@@ -493,7 +493,7 @@ class LinkWidgetDataConverter(BaseDataConverter):
             is_same_domain = utils.is_same_domain(value, portal.absolute_url())
             is_absolute = utils.is_absolute(value)
             if "/resolveuid/" in value and (not is_absolute or is_same_domain):
-                # Take the UUID part of a resolveuid url, but onl if it's on
+                # Take the UUID part of a resolveuid url, but only if it's on
                 # the same domain.
                 uuid = value.rsplit("/", 1)[-1]
             elif not is_absolute or is_absolute and is_same_domain:
@@ -502,7 +502,7 @@ class LinkWidgetDataConverter(BaseDataConverter):
                 if parsed.params or parsed.query or parsed.fragment:
                     # we don't want to loose query parameters
                     # so we don't convert URLs pointing to internal
-                    # objects with params, querys or fragments
+                    # objects with params, queries or fragments
                     # to uids
                     pass
                 else:

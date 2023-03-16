@@ -278,7 +278,7 @@ class DateWidgetTests(unittest.TestCase):
         self.widget._formater_length = "full"
         self.assertEqual("Wednesday, August 17, 2022", self.widget.render())
 
-        # unknown formater length
+        # unknown formatter length
         self.widget._formater_length = "foo"
         with self.assertRaises(ValueError):
             self.widget.render()
@@ -454,7 +454,7 @@ class DatetimeWidgetTests(unittest.TestCase):
             "Wednesday, August 17, 2022 12:00:00 PM +000", self.widget.render()
         )
 
-        # unknown formater length
+        # unknown formatter length
         self.widget._formater_length = "foo"
         with self.assertRaises(ValueError):
             self.widget.render()

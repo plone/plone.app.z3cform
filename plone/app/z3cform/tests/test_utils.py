@@ -136,7 +136,7 @@ class TestUtils(unittest.TestCase):
             )
         )
 
-        # These are two completly different URLs
+        # These are two completely different URLs
         self.assertTrue(
             not is_same_domain(
                 "https://domain1.com",

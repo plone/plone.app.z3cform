@@ -30,7 +30,7 @@ class TestWidget(unittest.TestCase):
         setRequest(self.request)
 
     def test_missing_aq_chain(self):
-        # testing support for contents witout Acquisiion chain (for avoid
+        # testing support for contents without Acquisition chain (for avoid
         # regression)
         # See
         # https://github.com/plone/plone.app.z3cform/commit/587e229e267705a4fd48c6c51a76f849196fceba#commitcomment-2630299

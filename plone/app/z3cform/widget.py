@@ -139,6 +139,7 @@ class DateWidget(BaseWidget, z3cform_TextWidget):
     The default_timezone and default_time arguments are only used if a datewidget is
     used on a datetime field. If used on a date field they are ignored.
     """
+
     _base_type = "date"
     _converter = DateWidgetConverter
     _formater = "date"
@@ -230,7 +231,6 @@ class DatetimeWidget(DateWidget):
 
 @implementer_only(ITimeWidget)
 class TimeWidget(BaseWidget, z3cform_TextWidget):
-
     pattern = ""
 
     def _base(self, **kw):

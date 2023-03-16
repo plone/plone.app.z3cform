@@ -23,7 +23,6 @@ class NoAcquisitionAware:
 
 
 class TestWidget(unittest.TestCase):
-
     layer = PAZ3CForm_INTEGRATION_TESTING
 
     def setUp(self):

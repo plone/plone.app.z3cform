@@ -265,7 +265,7 @@ class DateWidgetTests(unittest.TestCase):
 
     def test_dateformatter(self):
         self.widget.value = "2022-08-17"
-        self.assertIn(" value=\"2022-08-17\" ", self.widget.render())
+        self.assertIn(' value="2022-08-17" ', self.widget.render())
 
         self.widget.mode = "display"
         self.assertEqual("8/17/22", self.widget.render())
@@ -440,7 +440,7 @@ class DatetimeWidgetTests(unittest.TestCase):
 
     def test_datetimeformatter(self):
         self.widget.value = "2022-08-17T12:00"
-        self.assertIn(" value=\"2022-08-17T12:00\" ", self.widget.render())
+        self.assertIn(' value="2022-08-17T12:00" ', self.widget.render())
 
         self.widget.mode = "display"
         self.assertEqual("8/17/22 12:00 PM", self.widget.render())
@@ -452,7 +452,9 @@ class DatetimeWidgetTests(unittest.TestCase):
         self.assertEqual("August 17, 2022 12:00:00 PM +000", self.widget.render())
 
         self.widget._formater_length = "full"
-        self.assertEqual("Wednesday, August 17, 2022 12:00:00 PM +000", self.widget.render())
+        self.assertEqual(
+            "Wednesday, August 17, 2022 12:00:00 PM +000", self.widget.render()
+        )
 
         # unknown formater length
         self.widget._formater_length = "foo"
@@ -877,7 +879,6 @@ class SelectWidgetTests(unittest.TestCase):
 
 
 class AjaxSelectWidgetTests(unittest.TestCase):
-
     layer = UNIT_TESTING
     maxDiff = None
 
@@ -1153,7 +1154,6 @@ class AjaxSelectWidgetTests(unittest.TestCase):
 
 
 class AjaxSelectWidgetIntegrationTests(unittest.TestCase):
-
     layer = PAZ3CForm_INTEGRATION_TESTING
 
     def setUp(self):
@@ -1234,7 +1234,6 @@ class QueryStringWidgetTests(unittest.TestCase):
 
 
 class RelatedItemsWidgetIntegrationTests(unittest.TestCase):
-
     layer = PAZ3CForm_INTEGRATION_TESTING
 
     def setUp(self):
@@ -1324,7 +1323,6 @@ class IRelationsType(Interface):
 
 
 class RelatedItemsWidgetTemplateIntegrationTests(unittest.TestCase):
-
     layer = PAZ3CForm_INTEGRATION_TESTING
 
     def setUp(self):
@@ -1597,7 +1595,6 @@ def _custom_field_widget(field, request):
 
 
 class RichTextWidgetTests(unittest.TestCase):
-
     layer = PAZ3CForm_INTEGRATION_TESTING
 
     def setUp(self):
@@ -1803,7 +1800,6 @@ class RichTextWidgetTests(unittest.TestCase):
 
 
 class LinkWidgetIntegrationTests(unittest.TestCase):
-
     layer = PAZ3CForm_INTEGRATION_TESTING
 
     def setUp(self):
@@ -1956,17 +1952,14 @@ class LinkWidgetIntegrationTests(unittest.TestCase):
 
 
 class WidgetCustomizingIntegrationTests(unittest.TestCase):
-
     layer = PAZ3CForm_INTEGRATION_TESTING
 
     def test_widget_base_wrapper_css(self):
         class ITestDateSchema(Schema):
-
             widget("my_date", DateWidget, wrapper_css_class="foo")
             my_date = Date(title="My Date")
 
         class TestForm(AutoExtensibleForm, EditForm):
-
             ignoreContext = True
             schema = ITestDateSchema
 

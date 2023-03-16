@@ -22,7 +22,6 @@ class IWysiwygWidget(z3c.form.interfaces.ITextAreaWidget):
 
 @implementer_only(IWysiwygWidget)
 class WysiwygWidget(z3c.form.browser.textarea.TextAreaWidget):
-
     klass = "kupu-widget"
     value = ""
 

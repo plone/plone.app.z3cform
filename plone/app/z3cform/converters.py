@@ -126,6 +126,7 @@ class DatetimeWidgetConverter(BaseDataConverter):
             ret = tzinfo.localize(ret)
         return ret
 
+
 @adapter(IDatetime, IDateWidget)
 class DateWidgetToDatetimeConverter(BaseDataConverter):
     """Data converter for date widget on datetime fields."""
@@ -179,6 +180,7 @@ class DateWidgetToDatetimeConverter(BaseDataConverter):
             tzinfo = pytz.timezone(zone)
             ret = tzinfo.localize(ret)
         return ret
+
 
 @adapter(ITime, ITimeWidget)
 class TimeWidgetConverter(BaseDataConverter):

@@ -7,7 +7,6 @@ from z3c.form.interfaces import ITextWidget
 from zope.interface import Interface
 from zope.schema.interfaces import IDate
 from zope.schema.interfaces import IDatetime
-from zope.schema.interfaces import ITime
 
 
 class IPloneFormLayer(IFormLayer):

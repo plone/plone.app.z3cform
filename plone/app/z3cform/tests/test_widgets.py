@@ -193,7 +193,6 @@ class DateWidgetTests(unittest.TestCase):
         self.widget.pattern_options = {"date": {"firstDay": 0}}
 
     def test_widget(self):
-        current_year = datetime.today().year
         self.assertEqual(
             {
                 "name": None,
@@ -300,7 +299,6 @@ class DatetimeWidgetTests(unittest.TestCase):
         }
 
     def test_widget(self):
-        current_year = datetime.today().year
         self.assertEqual(
             {
                 "name": None,

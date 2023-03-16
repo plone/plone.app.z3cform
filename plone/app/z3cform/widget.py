@@ -13,7 +13,6 @@ from plone.app.widgets.base import SelectWidget as BaseSelectWidget
 from plone.app.widgets.base import TextareaWidget
 from plone.app.widgets.utils import get_context_url
 from plone.app.widgets.utils import get_date_options
-from plone.app.widgets.utils import get_datetime_options
 from plone.app.widgets.utils import get_querystring_options
 from plone.app.widgets.utils import get_relateditems_options
 from plone.app.widgets.utils import get_tinymce_options

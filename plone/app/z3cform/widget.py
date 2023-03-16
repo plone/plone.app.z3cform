@@ -788,7 +788,7 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
             mt_select = etree.Element("select")
             mt_select.attrib["id"] = f"{self.id}_text_format"
             mt_select.attrib["name"] = f"{self.name}.mimeType"
-            mt_select.attrib["class"] = "form-select {}".format(mt_pattern_name)
+            mt_select.attrib["class"] = f"form-select {mt_pattern_name}"
             mt_select.attrib[f"data-{mt_pattern_name}"] = json.dumps(
                 {
                     "textareaName": self.name,

@@ -1371,7 +1371,7 @@ class RelatedItemsWidgetTemplateIntegrationTests(unittest.TestCase):
         self.assertTrue(template.filename.endswith("relateditems_display.pt"))
         html = template(single)
         self.assertIn(
-            '<span class="contenttype-relationstype state-missing-value url">A Target</span>',
+            '<span class="contenttype-relationstype state-missing-value url" >A Target</span>',
             html,
         )
 
@@ -1391,11 +1391,11 @@ class RelatedItemsWidgetTemplateIntegrationTests(unittest.TestCase):
         self.assertTrue(template.filename.endswith("relateditems_display.pt"))
         html = template(multiple)
         self.assertIn(
-            '<span class="contenttype-relationstype state-missing-value url">A Target</span>',
+            '<span class="contenttype-relationstype state-missing-value url" >A Target</span>',
             html,
         )
         self.assertIn(
-            '<span class="contenttype-document state-missing-value url">A Document</span>',
+            '<span class="contenttype-document state-missing-value url" >A Document</span>',
             html,
         )
 
@@ -1963,6 +1963,6 @@ class WidgetCustomizingIntegrationTests(unittest.TestCase):
 
         render = TestForm(self.layer["portal"], self.layer["request"])
         self.assertIn(
-            'empty foo" data-fieldname="form.widgets.my_date"',
+            'empty foo" id="formfield-form-widgets-my_date" data-fieldname="form.widgets.my_date"',
             render(),
         )

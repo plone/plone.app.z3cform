@@ -6,9 +6,7 @@
             id=""
             accesskey=""
             cols=""
-            disabled
             name=""
-            readonly
             rows=""
             tabindex=""
             tal:content="structure view/value"

@@ -24,9 +24,7 @@
              accesskey=""
              alt=""
              checked="checked"
-             disabled
              name=""
-             readonly
              tabindex=""
              title=""
              type="checkbox"
@@ -65,9 +63,7 @@
              id=""
              accesskey=""
              alt=""
-             disabled
              name=""
-             readonly
              tabindex=""
              title=""
              type="checkbox"

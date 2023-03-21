@@ -4,8 +4,6 @@
 >
   <select class=""
           id=""
-          disabled
-          multiple
           name=""
           size=""
           tabindex=""

@@ -13,12 +13,12 @@ from plone.app.z3cform.widget import DateWidget
 from plone.app.z3cform.widget import RelatedItemsWidget
 from plone.autoform.directives import widget
 from plone.autoform.form import AutoExtensibleForm
+from plone.base.interfaces import IMarkupSchema
 from plone.dexterity.fti import DexterityFTI
 from plone.registry.interfaces import IRegistry
 from plone.supermodel.model import Schema
 from plone.testing.zca import UNIT_TESTING
 from plone.uuid.interfaces import IUUID
-from plone.base.interfaces import IMarkupSchema
 from unittest import mock
 from unittest.mock import Mock
 from z3c.form.form import EditForm
@@ -193,7 +193,6 @@ class DateWidgetTests(unittest.TestCase):
         self.widget.pattern_options = {"date": {"firstDay": 0}}
 
     def test_widget(self):
-        current_year = datetime.today().year
         self.assertEqual(
             {
                 "name": None,
@@ -265,7 +264,7 @@ class DateWidgetTests(unittest.TestCase):
 
     def test_dateformatter(self):
         self.widget.value = "2022-08-17"
-        self.assertIn(" value=\"2022-08-17\" ", self.widget.render())
+        self.assertIn(' value="2022-08-17" ', self.widget.render())
 
         self.widget.mode = "display"
         self.assertEqual("8/17/22", self.widget.render())
@@ -279,7 +278,7 @@ class DateWidgetTests(unittest.TestCase):
         self.widget._formater_length = "full"
         self.assertEqual("Wednesday, August 17, 2022", self.widget.render())
 
-        # unknown formater length
+        # unknown formatter length
         self.widget._formater_length = "foo"
         with self.assertRaises(ValueError):
             self.widget.render()
@@ -300,7 +299,6 @@ class DatetimeWidgetTests(unittest.TestCase):
         }
 
     def test_widget(self):
-        current_year = datetime.today().year
         self.assertEqual(
             {
                 "name": None,
@@ -440,7 +438,7 @@ class DatetimeWidgetTests(unittest.TestCase):
 
     def test_datetimeformatter(self):
         self.widget.value = "2022-08-17T12:00"
-        self.assertIn(" value=\"2022-08-17T12:00\" ", self.widget.render())
+        self.assertIn(' value="2022-08-17T12:00" ', self.widget.render())
 
         self.widget.mode = "display"
         self.assertEqual("8/17/22 12:00 PM", self.widget.render())
@@ -452,9 +450,11 @@ class DatetimeWidgetTests(unittest.TestCase):
         self.assertEqual("August 17, 2022 12:00:00 PM +000", self.widget.render())
 
         self.widget._formater_length = "full"
-        self.assertEqual("Wednesday, August 17, 2022 12:00:00 PM +000", self.widget.render())
+        self.assertEqual(
+            "Wednesday, August 17, 2022 12:00:00 PM +000", self.widget.render()
+        )
 
-        # unknown formater length
+        # unknown formatter length
         self.widget._formater_length = "foo"
         with self.assertRaises(ValueError):
             self.widget.render()
@@ -877,7 +877,6 @@ class SelectWidgetTests(unittest.TestCase):
 
 
 class AjaxSelectWidgetTests(unittest.TestCase):
-
     layer = UNIT_TESTING
     maxDiff = None
 
@@ -1153,7 +1152,6 @@ class AjaxSelectWidgetTests(unittest.TestCase):
 
 
 class AjaxSelectWidgetIntegrationTests(unittest.TestCase):
-
     layer = PAZ3CForm_INTEGRATION_TESTING
 
     def setUp(self):
@@ -1234,7 +1232,6 @@ class QueryStringWidgetTests(unittest.TestCase):
 
 
 class RelatedItemsWidgetIntegrationTests(unittest.TestCase):
-
     layer = PAZ3CForm_INTEGRATION_TESTING
 
     def setUp(self):
@@ -1324,7 +1321,6 @@ class IRelationsType(Interface):
 
 
 class RelatedItemsWidgetTemplateIntegrationTests(unittest.TestCase):
-
     layer = PAZ3CForm_INTEGRATION_TESTING
 
     def setUp(self):
@@ -1375,7 +1371,7 @@ class RelatedItemsWidgetTemplateIntegrationTests(unittest.TestCase):
         self.assertTrue(template.filename.endswith("relateditems_display.pt"))
         html = template(single)
         self.assertIn(
-            '<span class="contenttype-relationstype state-missing-value url">A Target</span>',
+            '<span class="contenttype-relationstype state-missing-value url" >A Target</span>',
             html,
         )
 
@@ -1395,11 +1391,11 @@ class RelatedItemsWidgetTemplateIntegrationTests(unittest.TestCase):
         self.assertTrue(template.filename.endswith("relateditems_display.pt"))
         html = template(multiple)
         self.assertIn(
-            '<span class="contenttype-relationstype state-missing-value url">A Target</span>',
+            '<span class="contenttype-relationstype state-missing-value url" >A Target</span>',
             html,
         )
         self.assertIn(
-            '<span class="contenttype-document state-missing-value url">A Document</span>',
+            '<span class="contenttype-document state-missing-value url" >A Document</span>',
             html,
         )
 
@@ -1597,7 +1593,6 @@ def _custom_field_widget(field, request):
 
 
 class RichTextWidgetTests(unittest.TestCase):
-
     layer = PAZ3CForm_INTEGRATION_TESTING
 
     def setUp(self):
@@ -1803,7 +1798,6 @@ class RichTextWidgetTests(unittest.TestCase):
 
 
 class LinkWidgetIntegrationTests(unittest.TestCase):
-
     layer = PAZ3CForm_INTEGRATION_TESTING
 
     def setUp(self):
@@ -1956,22 +1950,19 @@ class LinkWidgetIntegrationTests(unittest.TestCase):
 
 
 class WidgetCustomizingIntegrationTests(unittest.TestCase):
-
     layer = PAZ3CForm_INTEGRATION_TESTING
 
     def test_widget_base_wrapper_css(self):
         class ITestDateSchema(Schema):
-
             widget("my_date", DateWidget, wrapper_css_class="foo")
             my_date = Date(title="My Date")
 
         class TestForm(AutoExtensibleForm, EditForm):
-
             ignoreContext = True
             schema = ITestDateSchema
 
         render = TestForm(self.layer["portal"], self.layer["request"])
         self.assertIn(
-            'empty foo" data-fieldname="form.widgets.my_date"',
+            'empty foo" id="formfield-form-widgets-my_date" data-fieldname="form.widgets.my_date"',
             render(),
         )

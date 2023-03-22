@@ -1,7 +1,8 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:z3c="http://namespaces.zope.org/z3c"
-    i18n_domain="plone">
+    i18n_domain="plone"
+    >
 
   <!-- Make the default widget for sequence-of-text-lines a textlines
        widget; the default is too confusing -->
@@ -55,81 +56,84 @@
       for="zope.schema.interfaces.IBool
            .interfaces.IPloneFormLayer"
       />
-  <adapter
-      factory=".converters.BoolSingleCheckboxDataConverter"
-      />
+  <adapter factory=".converters.BoolSingleCheckboxDataConverter" />
 
   <z3c:widgetTemplate
-      mode="display"
       field="zope.schema.interfaces.IBool"
       widget=".interfaces.ISingleCheckBoxBoolWidget"
-      layer=".interfaces.IPloneFormLayer"
       template="templates/singlecheckboxbool_display.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="display"
       />
   <z3c:widgetTemplate
-      mode="input"
       field="zope.schema.interfaces.IBool"
       widget=".interfaces.ISingleCheckBoxBoolWidget"
-      layer=".interfaces.IPloneFormLayer"
       template="templates/singlecheckboxbool_input.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
       />
   <z3c:widgetTemplate
-      mode="display"
       field="*"
       widget=".interfaces.IAjaxSelectWidget"
-      layer=".interfaces.IPloneFormLayer"
       template="templates/ajaxselect_display.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="display"
       />
   <z3c:widgetTemplate
-      mode="hidden"
       field="zope.schema.interfaces.IBool"
       widget=".interfaces.ISingleCheckBoxBoolWidget"
-      layer=".interfaces.IPloneFormLayer"
       template="templates/singlecheckboxbool_hidden.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="hidden"
       />
 
   <z3c:widgetTemplate
-      mode="input"
       widget="z3c.form.interfaces.IMultiWidget"
-      layer=".interfaces.IPloneFormLayer"
       template="templates/multi_input.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
       />
 
   <z3c:widgetTemplate
-      mode="input"
       widget="z3c.form.interfaces.IObjectWidget"
-      layer=".interfaces.IPloneFormLayer"
       template="templates/object_input.pt"
-      />
-
-  <z3c:widgetTemplate
+      layer=".interfaces.IPloneFormLayer"
       mode="input"
-      widget=".interfaces.ILinkWidget"
-      layer=".interfaces.IPloneFormLayer"
-      template="templates/link_input.pt"
       />
 
   <z3c:widgetTemplate
-      mode="display"
-      widget=".interfaces.IRelatedItemsWidget"
+      widget=".interfaces.ILinkWidget"
+      template="templates/link_input.pt"
       layer=".interfaces.IPloneFormLayer"
+      mode="input"
+      />
+
+  <z3c:widgetTemplate
+      widget=".interfaces.IRelatedItemsWidget"
       template="templates/relateditems_display.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="display"
       />
 
   <!-- widget registration stuff -->
   <class class=".widget.DateWidget">
-    <require permission="zope.Public"
-             interface=".interfaces.IDateWidget" />
+    <require
+        permission="zope.Public"
+        interface=".interfaces.IDateWidget"
+        />
   </class>
 
   <adapter
       factory=".widget.DateFieldWidget"
       for="zope.schema.interfaces.IDate
-           plone.app.z3cform.interfaces.IPloneFormLayer" />
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
 
   <class class=".widget.DatetimeWidget">
-    <require permission="zope.Public"
-             interface=".interfaces.IDatetimeWidget" />
+    <require
+        permission="zope.Public"
+        interface=".interfaces.IDatetimeWidget"
+        />
   </class>
 
   <adapter
@@ -139,8 +143,10 @@
       />
 
   <class class=".widget.TimeWidget">
-    <require permission="zope.Public"
-             interface=".interfaces.ITimeWidget" />
+    <require
+        permission="zope.Public"
+        interface=".interfaces.ITimeWidget"
+        />
   </class>
 
   <adapter
@@ -149,134 +155,146 @@
            plone.app.z3cform.interfaces.IPloneFormLayer"
       />
 
-  <adapter factory=".widget.RelatedItemsFieldWidget"
-           for="z3c.relationfield.interfaces.IRelationChoice
-                plone.app.z3cform.interfaces.IPloneFormLayer" />
+  <adapter
+      factory=".widget.RelatedItemsFieldWidget"
+      for="z3c.relationfield.interfaces.IRelationChoice
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
 
-  <adapter factory=".widget.RelatedItemsFieldWidget"
-           for="z3c.relationfield.interfaces.IRelationList
-                plone.app.z3cform.interfaces.IPloneFormLayer" />
+  <adapter
+      factory=".widget.RelatedItemsFieldWidget"
+      for="z3c.relationfield.interfaces.IRelationList
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
 
-  <adapter factory=".widget.RelatedItemsFieldWidget"
-           for="zope.schema.interfaces.IChoice
-                plone.app.vocabularies.catalog.CatalogSource
-                plone.app.z3cform.interfaces.IPloneFormLayer" />
+  <adapter
+      factory=".widget.RelatedItemsFieldWidget"
+      for="zope.schema.interfaces.IChoice
+           plone.app.vocabularies.catalog.CatalogSource
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
 
-  <adapter factory=".widget.QueryStringFieldWidget"
-           for="zope.schema.interfaces.IList
-                zope.schema.interfaces.IDict
-                plone.app.z3cform.interfaces.IPloneFormLayer"/>
+  <adapter
+      factory=".widget.QueryStringFieldWidget"
+      for="zope.schema.interfaces.IList
+           zope.schema.interfaces.IDict
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
 
-  <adapter factory=".widget.RichTextFieldWidget"
-           for="plone.app.textfield.interfaces.IRichText
-                plone.app.z3cform.interfaces.IPloneFormLayer"/>
+  <adapter
+      factory=".widget.RichTextFieldWidget"
+      for="plone.app.textfield.interfaces.IRichText
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
 
-  <adapter factory=".widget.LinkFieldWidget"
-           for="z3c.form.interfaces.ITextWidget
-                plone.app.z3cform.interfaces.IPloneFormLayer"/>
+  <adapter
+      factory=".widget.LinkFieldWidget"
+      for="z3c.form.interfaces.ITextWidget
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
 
   <!-- z3c.form overrides -->
 
   <z3c:widgetTemplate
-      mode="input"
       widget="z3c.form.interfaces.ITextWidget"
-      layer=".interfaces.IPloneFormLayer"
       template="templates/text_input.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
       />
 
   <z3c:widgetTemplate
-      mode="input"
       field="zope.schema.interfaces.IDatetime"
       widget=".interfaces.IDatetimeWidget"
-      layer=".interfaces.IPloneFormLayer"
       template="templates/text_input.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
       />
 
   <z3c:widgetTemplate
-      mode="input"
       widget="z3c.form.interfaces.ITextAreaWidget"
-      layer=".interfaces.IPloneFormLayer"
       template="templates/textarea_input.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
       />
 
   <z3c:widgetTemplate
-      mode="input"
       widget="z3c.form.interfaces.ISelectWidget"
-      layer=".interfaces.IPloneFormLayer"
       template="templates/select_input.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
       />
 
   <z3c:widgetTemplate
-      mode="input"
       widget="z3c.form.interfaces.IOrderedSelectWidget"
-      layer=".interfaces.IPloneFormLayer"
       template="templates/orderedselect_input.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
       />
 
   <z3c:widgetTemplate
-      mode="input"
       widget="z3c.form.interfaces.IRadioWidget"
-      layer=".interfaces.IPloneFormLayer"
       template="templates/radio_input.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
       />
 
   <z3c:widgetTemplate
-      mode="input_single"
       widget="z3c.form.interfaces.IRadioWidget"
-      layer=".interfaces.IPloneFormLayer"
       template="templates/radio_input_single.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input_single"
       />
 
   <z3c:widgetTemplate
-      mode="input"
       widget="z3c.form.interfaces.ISubmitWidget"
-      layer=".interfaces.IPloneFormLayer"
       template="templates/submit_input.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
       />
 
   <z3c:widgetTemplate
-      mode="input"
       widget="z3c.form.interfaces.ICheckBoxWidget"
-      layer=".interfaces.IPloneFormLayer"
       template="templates/checkbox_input.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
       />
 
   <z3c:widgetTemplate
-      mode="input"
       widget="z3c.form.interfaces.IPasswordWidget"
-      layer=".interfaces.IPloneFormLayer"
       template="templates/password_input.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
       />
 
   <!-- plone.formwidget.namedfile -->
   <z3c:widgetTemplate
-      mode="input"
       widget="plone.formwidget.namedfile.interfaces.INamedFileWidget"
-      layer=".interfaces.IPloneFormLayer"
       template="templates/file_input.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
       />
 
   <z3c:widgetTemplate
-      mode="input"
       widget="plone.formwidget.namedfile.interfaces.INamedImageWidget"
-      layer=".interfaces.IPloneFormLayer"
       template="templates/image_input.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
       />
 
   <!-- plone.z3cform.textlines -->
   <z3c:widgetTemplate
-      mode="input"
       widget="plone.z3cform.textlines.textlines.ITextLinesWidget"
-      layer=".interfaces.IPloneFormLayer"
       template="templates/textlines_input.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
       />
 
   <!-- plone.app.textfield -->
   <z3c:widgetTemplate
-      mode="input"
       widget="plone.app.textfield.widget.IRichTextWidget"
-      layer=".interfaces.IPloneFormLayer"
       template="templates/textfield_widget_input.pt"
-  />
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
+      />
 
 </configure>

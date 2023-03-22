@@ -128,7 +128,7 @@ Bug fixes:
 Bug fixes:
 
 
-- Remove errorneous extra curly bracket in class name of the widget wrapper.
+- Remove erroneous extra curly bracket in class name of the widget wrapper.
   [thet] (#136)
 
 
@@ -399,7 +399,7 @@ Bug fixes:
 - Fixes #64: SingleCheckBoxFieldWidget does not render value in view mode.
   In order to fix this issue the hacky view was removed.
   It is replaced by a new widget to render a single checkbox with bool values.
-  An appropiate data converter was added as well.
+  An appropriate data converter was added as well.
   [jensens]
 
 
@@ -422,7 +422,7 @@ New features:
 
 Bug fixes:
 
-- Catch TypeError occuring on conflicting subrequests in inline validation
+- Catch TypeError occurring on conflicting subrequests in inline validation
   [tomgross]
 
 - Clean up: code-style, zca-decorators, replace lambda.
@@ -501,7 +501,7 @@ New features:
   whichever is specified by field.
   [seanupton]
 
-- Support functions as values in the ``pattern_options`` dictionary, whch gets then serialized to JSON.
+- Support functions as values in the ``pattern_options`` dictionary, which gets then serialized to JSON.
   Before that, walk recursively through ``pattern_options`` and call all functions with the widgets context.
   This allows for context-specific, runtime evaluated pattern option values.
   [thet]

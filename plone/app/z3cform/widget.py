@@ -13,7 +13,6 @@ from plone.app.widgets.base import SelectWidget as BaseSelectWidget
 from plone.app.widgets.base import TextareaWidget
 from plone.app.widgets.utils import get_context_url
 from plone.app.widgets.utils import get_date_options
-from plone.app.widgets.utils import get_datetime_options
 from plone.app.widgets.utils import get_querystring_options
 from plone.app.widgets.utils import get_relateditems_options
 from plone.app.widgets.utils import get_tinymce_options
@@ -139,6 +138,7 @@ class DateWidget(BaseWidget, z3cform_TextWidget):
     The default_timezone and default_time arguments are only used if a datewidget is
     used on a datetime field. If used on a date field they are ignored.
     """
+
     _base_type = "date"
     _converter = DateWidgetConverter
     _formater = "date"
@@ -230,7 +230,6 @@ class DatetimeWidget(DateWidget):
 
 @implementer_only(ITimeWidget)
 class TimeWidget(BaseWidget, z3cform_TextWidget):
-
     pattern = ""
 
     def _base(self, **kw):
@@ -788,7 +787,7 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
             mt_select = etree.Element("select")
             mt_select.attrib["id"] = f"{self.id}_text_format"
             mt_select.attrib["name"] = f"{self.name}.mimeType"
-            mt_select.attrib["class"] = "form-select {}".format(mt_pattern_name)
+            mt_select.attrib["class"] = f"form-select {mt_pattern_name}"
             mt_select.attrib[f"data-{mt_pattern_name}"] = json.dumps(
                 {
                     "textareaName": self.name,

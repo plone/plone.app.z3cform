@@ -8,7 +8,7 @@ import urllib
 
 
 def closest_content(context=None):
-    """Try to find a usable context, with increasing agression"""
+    """Try to find a usable context, with increasing aggression"""
     # Normally, we should be given a useful context (e.g the page)
     c = context
     c = _valid_context(c)

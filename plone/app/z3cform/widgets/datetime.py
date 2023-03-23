@@ -16,13 +16,13 @@ from zope.interface import implementer_only
 
 
 def get_date_options(request):
-    calendar = request.locale.dates.calendars['gregorian']
+    calendar = request.locale.dates.calendars["gregorian"]
     return {
-        'behavior': 'native',
-        'week-numbers': 'show',
-        'first-day': calendar.week.get('firstDay') == 1 and 1 or 0,
-        'today': translate(_(u"Today"), context=request),
-        'clear': translate(_(u"Clear"), context=request),
+        "behavior": "native",
+        "week-numbers": "show",
+        "first-day": calendar.week.get("firstDay") == 1 and 1 or 0,
+        "today": translate(_("Today"), context=request),
+        "clear": translate(_("Clear"), context=request),
     }
 
 
@@ -40,6 +40,7 @@ class DateWidget(BaseWidget, TextWidget):
     The default_timezone and default_time arguments are only used if a datewidget is
     used on a datetime field. If used on a date field they are ignored.
     """
+
     _base_type = "date"
     _converter = DateWidgetConverter
     _formater = "date"
@@ -141,7 +142,6 @@ def DatetimeFieldWidget(field, request):
 
 @implementer_only(ITimeWidget)
 class TimeWidget(BaseWidget, TextWidget):
-
     pattern = ""
 
     def _base(self, **kw):

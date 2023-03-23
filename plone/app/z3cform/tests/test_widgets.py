@@ -1185,12 +1185,12 @@ class AjaxSelectWidgetIntegrationTests(unittest.TestCase):
 
 def mock_querystring_options(context, querystring_view):
     return {
-        'indexOptionsUrl': '/{}'.format(querystring_view),
-        'previewURL': '/@@querybuilder_html_results',
-        'previewCountURL': '/@@querybuildernumberofresults',
-        'patternDateOptions': None,
-        'patternAjaxSelectOptions': {'separator': ';'},
-        'patternRelateditemsOptions': None,
+        "indexOptionsUrl": f"/{querystring_view}",
+        "previewURL": "/@@querybuilder_html_results",
+        "previewCountURL": "/@@querybuildernumberofresults",
+        "patternDateOptions": None,
+        "patternAjaxSelectOptions": {"separator": ";"},
+        "patternRelateditemsOptions": None,
     }
 
 
@@ -1468,8 +1468,9 @@ class RelatedItemsWidgetTests(unittest.TestCase):
         )
 
     def test_converter_RelationChoice(self):
-        from plone.app.z3cform.converters import \
-            RelationChoiceRelatedItemsWidgetConverter
+        from plone.app.z3cform.converters import (
+            RelationChoiceRelatedItemsWidgetConverter,
+        )
 
         brain = Mock(getObject=Mock(return_value="obj"))
         portal_catalog = Mock(return_value=[brain])

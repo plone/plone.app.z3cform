@@ -1,9 +1,7 @@
-from copy import deepcopy
 from lxml import etree
 
 import collections
 import json
-import six
 
 
 def el_attrib(name):
@@ -19,7 +17,7 @@ def el_attrib(name):
     def _get(self):
         if name in self.el.attrib:
             value = self.el.attrib[name]
-            if value.strip().startswith('[') or value.strip().startswith('{'):
+            if value.strip().startswith("[") or value.strip().startswith("{"):
                 value = json.loads(value)
             return value
 
@@ -27,11 +25,11 @@ def el_attrib(name):
         if value is None:
             return
         if isinstance(value, (list, tuple)):
-            value = ' '.join(value)
+            value = " ".join(value)
         if isinstance(value, (dict, set)):
             value = json.dumps(value)
-        if isinstance(value, six.binary_type):
-            value = value.decode('utf8')
+        if isinstance(value, bytes):
+            value = value.decode("utf8")
         self.el.attrib[name] = value
 
     def _del(self):
@@ -41,11 +39,11 @@ def el_attrib(name):
     return property(_get, _set, _del)
 
 
-class BaseWidget(object):
+class BaseWidget:
     """Basic patterns widget."""
 
-    _klass_prefix = 'pat-'
-    klass = el_attrib('class')
+    _klass_prefix = "pat-"
+    klass = el_attrib("class")
 
     def __init__(self, el, pattern, pattern_options={}):
         """
@@ -68,8 +66,9 @@ class BaseWidget(object):
     def update(self):
         """Updating pattern_options in element `data-*` attribute."""
         if self.pattern_options:
-            self.el.attrib['data-' + self._klass_prefix + self.pattern] = \
-                json.dumps(self.pattern_options)
+            self.el.attrib["data-" + self._klass_prefix + self.pattern] = json.dumps(
+                self.pattern_options
+            )
 
     def render(self):
         """Renders the widget
@@ -79,18 +78,17 @@ class BaseWidget(object):
         """
 
         self.update()
-        return etree.tostring(self.el, encoding=six.text_type)
+        return etree.tostring(self.el, encoding=str)
 
 
 class InputWidget(BaseWidget):
     """Widget with `input` element."""
 
-    type = el_attrib('type')
-    value = el_attrib('value')
-    name = el_attrib('name')
+    type = el_attrib("type")
+    value = el_attrib("value")
+    name = el_attrib("name")
 
-    def __init__(self, pattern, pattern_options={}, type='text', name=None,
-                 value=None):
+    def __init__(self, pattern, pattern_options={}, type="text", name=None, value=None):
         """
         :param pattern: [required] Pattern name.
         :type pattern: string
@@ -107,7 +105,7 @@ class InputWidget(BaseWidget):
         :param value: `value` attribute of element.
         :type value: string
         """
-        super().__init__('input', pattern, pattern_options)
+        super().__init__("input", pattern, pattern_options)
         self.type = type
         if name is not None:
             self.name = name
@@ -118,11 +116,18 @@ class InputWidget(BaseWidget):
 class SelectWidget(BaseWidget):
     """Widget with `select` element."""
 
-    name = el_attrib('name')
-    _multiple = el_attrib('multiple')
+    name = el_attrib("name")
+    _multiple = el_attrib("multiple")
 
-    def __init__(self, pattern, pattern_options={}, items=[], name=None,
-                 value=None, multiple=False):
+    def __init__(
+        self,
+        pattern,
+        pattern_options={},
+        items=[],
+        name=None,
+        value=None,
+        multiple=False,
+    ):
         """
         :param pattern: [required] Pattern name.
         :type pattern: string
@@ -143,8 +148,8 @@ class SelectWidget(BaseWidget):
         :param multiple: `multiple` attribute of element.
         :type multiple: bool
         """
-        super().__init__('select', pattern, pattern_options)
-        self.el.text = ''
+        super().__init__("select", pattern, pattern_options)
+        self.el.text = ""
         self.items = items
         self.multiple = multiple
         if name is not None:
@@ -158,16 +163,22 @@ class SelectWidget(BaseWidget):
         :returns: List of value and title pairs.
         :rtype: list
         """
-        if self.el.find('optgroup') is not None:
+        if self.el.find("optgroup") is not None:
             return collections.OrderedDict(
-                (group.attrib['label'], [
-                    (option.attrib['value'], option.text)
-                    for option in group.iter("option")])
-                for group in self.el.iter("optgroup"))
+                (
+                    group.attrib["label"],
+                    [
+                        (option.attrib["value"], option.text)
+                        for option in group.iter("option")
+                    ],
+                )
+                for group in self.el.iter("optgroup")
+            )
         else:
             return [
-                (option.attrib['value'], option.text)
-                for option in self.el.iter("option")]
+                (option.attrib["value"], option.text)
+                for option in self.el.iter("option")
+            ]
 
     def _set_items(self, value):
         """Set options for element.
@@ -176,24 +187,25 @@ class SelectWidget(BaseWidget):
                       options to choose from.
         :type value: list
         """
+
         def addOptions(el, options):
             """
             Add <option> elements for each vocab item.
             """
             for token, title in options:
-                option = etree.SubElement(el, 'option')
-                option.attrib['value'] = token
+                option = etree.SubElement(el, "option")
+                option.attrib["value"] = token
                 option.text = title
 
         if isinstance(value, dict):
             for group_label, options in value.items():
-                group = etree.SubElement(self.el, 'optgroup')
-                group.attrib['label'] = group_label
+                group = etree.SubElement(self.el, "optgroup")
+                group.attrib["label"] = group_label
                 addOptions(group, options)
         else:
             for token, title in value:
-                option = etree.SubElement(self.el, 'option')
-                option.attrib['value'] = token
+                option = etree.SubElement(self.el, "option")
+                option.attrib["value"] = token
                 option.text = title
 
     def _del_items(self):
@@ -213,9 +225,11 @@ class SelectWidget(BaseWidget):
         """
         value = []
         for element in self.el.iter("option"):
-            if 'selected' in element.attrib and \
-                    element.attrib['selected'] == 'selected':
-                value.append(element.attrib['value'])
+            if (
+                "selected" in element.attrib
+                and element.attrib["selected"] == "selected"
+            ):
+                value.append(element.attrib["value"])
         return value
 
     def _set_value(self, value):
@@ -224,23 +238,26 @@ class SelectWidget(BaseWidget):
         :param value: We are expecting option's value which should be selected.
         :type value: list or string
         """
-        if isinstance(value, six.string_types):
+        if isinstance(value, str):
             value = [value]
 
         for element in self.el.iter("option"):
-            if element.attrib['value'] in value:
-                element.attrib['selected'] = 'selected'
-            elif 'selected' in element.attrib and \
-                    element.attrib['selected'] == 'selected':
-                del element.attrib['selected']
+            if element.attrib["value"] in value:
+                element.attrib["selected"] = "selected"
+            elif (
+                "selected" in element.attrib
+                and element.attrib["selected"] == "selected"
+            ):
+                del element.attrib["selected"]
 
     def _del_value(self):
-        """Unselect all selected options.
-        """
+        """Unselect all selected options."""
         for element in self.el.iter("option"):
-            if 'selected' in element.attrib and \
-               element.attrib['selected'] == 'selected':
-                del element.attrib['selected']
+            if (
+                "selected" in element.attrib
+                and element.attrib["selected"] == "selected"
+            ):
+                del element.attrib["selected"]
 
     value = property(_get_value, _set_value, _del_value)
 
@@ -251,7 +268,7 @@ class SelectWidget(BaseWidget):
                   `False`.
         :rtype: bool
         """
-        if self._multiple == 'multiple':
+        if self._multiple == "multiple":
             return True
         return False
 
@@ -263,7 +280,7 @@ class SelectWidget(BaseWidget):
         :type value: bool
         """
         if value:
-            self._multiple = 'multiple'
+            self._multiple = "multiple"
         else:
             self._del_multiple()
 
@@ -277,7 +294,7 @@ class SelectWidget(BaseWidget):
 class TextareaWidget(BaseWidget):
     """Widget with `textarea` element."""
 
-    name = el_attrib('name')
+    name = el_attrib("name")
 
     def __init__(self, pattern, pattern_options={}, name=None, value=None):
         """
@@ -293,9 +310,8 @@ class TextareaWidget(BaseWidget):
         :param value: `value` of element.
         :type value: string
         """
-        super().__init__('textarea', pattern,
-                                             pattern_options)
-        self.el.text = ''
+        super().__init__("textarea", pattern, pattern_options)
+        self.el.text = ""
         if name is not None:
             self.name = name
         if value is not None:
@@ -317,6 +333,6 @@ class TextareaWidget(BaseWidget):
 
     def _del_value(self):
         """Set empty string as value of element."""
-        self.el.text = ''
+        self.el.text = ""
 
     value = property(_get_value, _set_value, _del_value)

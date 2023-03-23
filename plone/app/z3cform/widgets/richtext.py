@@ -20,6 +20,7 @@ from zope.interface import implementer_only
 import json
 import logging
 
+
 logger = logging.getLogger(__name__)
 
 
@@ -31,8 +32,8 @@ def get_tinymce_options(context, field, request):
     options = {}
     try:
         pattern_options = getMultiAdapter(
-            (context, request, field),
-            name="plone_settings").tinymce()['data-pat-tinymce']
+            (context, request, field), name="plone_settings"
+        ).tinymce()["data-pat-tinymce"]
         options = json.loads(pattern_options)
     except (ComponentLookupError, AttributeError):
         logger.warning("Can not load tinymce pattern options!", exc_info=True)
@@ -141,7 +142,7 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
             mt_select = etree.Element("select")
             mt_select.attrib["id"] = f"{self.id}_text_format"
             mt_select.attrib["name"] = f"{self.name}.mimeType"
-            mt_select.attrib["class"] = "form-select {}".format(mt_pattern_name)
+            mt_select.attrib["class"] = f"form-select {mt_pattern_name}"
             mt_select.attrib[f"data-{mt_pattern_name}"] = json.dumps(
                 {
                     "textareaName": self.name,
@@ -180,5 +181,3 @@ def tinymce_richtextwidget_render(widget):
 @implementer(IFieldWidget)
 def RichTextFieldWidget(field, request):
     return FieldWidget(field, RichTextWidget(request))
-
-

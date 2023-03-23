@@ -20,20 +20,20 @@ def get_querystring_options(context, querystring_view):
     except AttributeError:
         base_url = portal_url
     return {
-        'indexOptionsUrl': '{}/{}'.format(portal_url, querystring_view),
-        'previewURL': '%s/@@querybuilder_html_results' % base_url,
-        'previewCountURL': '%s/@@querybuildernumberofresults' % base_url,
-        'patternDateOptions': get_date_options(getRequest()),
-        'patternAjaxSelectOptions': {'separator': ';'},
-        'patternRelateditemsOptions': get_relateditems_options(
+        "indexOptionsUrl": f"{portal_url}/{querystring_view}",
+        "previewURL": "%s/@@querybuilder_html_results" % base_url,
+        "previewCountURL": "%s/@@querybuildernumberofresults" % base_url,
+        "patternDateOptions": get_date_options(getRequest()),
+        "patternAjaxSelectOptions": {"separator": ";"},
+        "patternRelateditemsOptions": get_relateditems_options(
             context,
             None,
-            ';',
-            'plone.app.vocabularies.Catalog',
-            '@@getVocabulary',
-            'relatedItems',
-            include_recently_added=False
-        )
+            ";",
+            "plone.app.vocabularies.Catalog",
+            "@@getVocabulary",
+            "relatedItems",
+            include_recently_added=False,
+        ),
     }
 
 
@@ -78,4 +78,3 @@ def QueryStringFieldWidget(field, request, extra=None):
     if extra is not None:
         request = extra
     return FieldWidget(field, QueryStringWidget(request))
-

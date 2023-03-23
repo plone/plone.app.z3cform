@@ -25,37 +25,44 @@ from zope.schema.interfaces import IChoice
 from zope.schema.interfaces import ICollection
 
 
-def get_relateditems_options(context, value, separator, vocabulary_name,
-                             vocabulary_view, field_name=None,
-                             include_recently_added=True):
-
+def get_relateditems_options(
+    context,
+    value,
+    separator,
+    vocabulary_name,
+    vocabulary_view,
+    field_name=None,
+    include_recently_added=True,
+):
     if IForm.providedBy(context):
         context = context.context
 
     request = getRequest()
     site = get_top_site_from_url(context, request)
     options = {
-        'separator': separator,
+        "separator": separator,
     }
     if not vocabulary_name:
         # we need a vocabulary!
-        raise ValueError('RelatedItems needs a vocabulary')
-    options['vocabularyUrl'] = '{0}/{1}?name={2}'.format(
-        get_context_url(site), vocabulary_view, vocabulary_name,
+        raise ValueError("RelatedItems needs a vocabulary")
+    options["vocabularyUrl"] = "{}/{}?name={}".format(
+        get_context_url(site),
+        vocabulary_view,
+        vocabulary_name,
     )
     if field_name:
-        options['vocabularyUrl'] += '&field={0}'.format(field_name)
+        options["vocabularyUrl"] += f"&field={field_name}"
     if value:
-        options['initialValues'] = {}
+        options["initialValues"] = {}
         catalog = False
-        if vocabulary_name == 'plone.app.vocabularies.Catalog':
-            catalog = getToolByName(getSite(), 'portal_catalog')
+        if vocabulary_name == "plone.app.vocabularies.Catalog":
+            catalog = getToolByName(getSite(), "portal_catalog")
         for value in value.split(separator):
             title = value
             if catalog:
                 result = catalog(UID=value)
                 title = result[0].Title if result else value
-            options['initialValues'][value] = title
+            options["initialValues"][value] = title
 
     nav_root = getNavigationRootObject(context, site)
 
@@ -68,38 +75,35 @@ def get_relateditems_options(context, value, separator, vocabulary_name,
         base_path_context = aq_parent(base_path_context)
     if not base_path_context:
         base_path_context = nav_root
-    options['basePath'] = '/'.join(base_path_context.getPhysicalPath())
+    options["basePath"] = "/".join(base_path_context.getPhysicalPath())
 
     # rootPath - Only display breadcrumb elements deeper than this path.
-    options['rootPath'] = '/'.join(site.getPhysicalPath()) if site else '/'
+    options["rootPath"] = "/".join(site.getPhysicalPath()) if site else "/"
 
     # rootUrl: Visible URL up to the rootPath. This is prepended to the
     # currentPath to generate submission URLs.
-    options['rootUrl'] = site.absolute_url() if site else ''
+    options["rootUrl"] = site.absolute_url() if site else ""
 
     # contextPath - current edited object. Will not be available to select.
-    options['contextPath'] = '/'.join(context.getPhysicalPath())
+    options["contextPath"] = "/".join(context.getPhysicalPath())
 
     if base_path_context != nav_root:
-        options['favorites'] = [
+        options["favorites"] = [
             {
-                'title': _(u'Current Content'),
-                'path': '/'.join(base_path_context.getPhysicalPath())
-            }, {
-                'title': _(u'Start Page'),
-                'path': '/'.join(nav_root.getPhysicalPath())
-            }
+                "title": _("Current Content"),
+                "path": "/".join(base_path_context.getPhysicalPath()),
+            },
+            {"title": _("Start Page"), "path": "/".join(nav_root.getPhysicalPath())},
         ]
 
     if include_recently_added:
         # Options for recently used key
-        tool = getToolByName(context, 'portal_membership')
+        tool = getToolByName(context, "portal_membership")
         user = tool.getAuthenticatedMember()
-        options['recentlyUsed'] = False  # Keep that off in Plone 5.1
-        options['recentlyUsedKey'] = (u'relateditems_recentlyused_%s_%s' % (
-            field_name or '',
-            user.id
-        ))  # use string substitution with %s here for automatic str casting.
+        options["recentlyUsed"] = False  # Keep that off in Plone 5.1
+        options["recentlyUsedKey"] = "relateditems_recentlyused_{}_{}".format(
+            field_name or "", user.id
+        )  # use string substitution with %s here for automatic str casting.
 
     return options
 

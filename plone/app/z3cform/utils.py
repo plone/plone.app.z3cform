@@ -135,15 +135,15 @@ def dict_merge(dict_a, dict_b):
     result = deepcopy(dict_a)
     for k, v in dict_b.items():
         if k in result and isinstance(result[k], dict):
-                result[k] = dict_merge(result[k], v)
+            result[k] = dict_merge(result[k], v)
         else:
             result[k] = deepcopy(v)
     return result
 
 
 def get_widget_form(widget):
-    form = getattr(widget, 'form', None)
-    if getattr(aq_base(form), 'parentForm', None) is not None:
+    form = getattr(widget, "form", None)
+    if getattr(aq_base(form), "parentForm", None) is not None:
         form = form.parentForm
     return form
 
@@ -167,14 +167,14 @@ def get_portal_url(context):
                 return portal.absolute_url()
         else:
             return portal.absolute_url()
-    return ''
+    return ""
 
 
 def get_context_url(context):
     if IForm.providedBy(context):
         # Use the request URL if we are looking at an addform
-        url = context.request.get('URL')
-    elif hasattr(context, 'absolute_url'):
+        url = context.request.get("URL")
+    elif hasattr(context, "absolute_url"):
         url = context.absolute_url
         if callable(url):
             url = url()

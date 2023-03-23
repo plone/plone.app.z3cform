@@ -8,6 +8,23 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.2 (2023-03-23)
+------------------
+
+Bug fixes:
+
+
+- Fix relative URLs validation in link widget
+  [laulaz] (#160)
+
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs] (243ca9ec)
+
+
 4.0.1 (2023-01-26)
 ------------------
 

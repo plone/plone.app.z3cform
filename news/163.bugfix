@@ -1,0 +1,3 @@
+Fixes transitive circular dependency to plone.schema.
+Inherit own Browserlayer from new intermediate browserlayer in plone.schema.
+[jensens]

@@ -64,6 +64,7 @@ setup(
         "plone.namedfile",
         "plone.protect",
         "plone.registry",
+        "plone.schema",
         "plone.uuid",
         "plone.z3cform",
         "Products.GenericSetup",

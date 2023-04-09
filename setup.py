@@ -20,6 +20,18 @@ long_description = (
     + read("CHANGES.rst")
     + "\n"
 )
+test_requirements = [
+    "plone.app.contenttypes[test]",
+    "plone.app.layout",
+    "plone.app.testing",
+    "plone.autoform",
+    "plone.browserlayer",
+    "plone.supermodel",
+    "plone.testing",
+    "zope.annotation",
+    "zope.intid",
+    "zope.publisher",
+]
 
 setup(
     name="plone.app.z3cform",
@@ -64,6 +76,7 @@ setup(
         "plone.namedfile",
         "plone.protect",
         "plone.registry",
+        "plone.schema",
         "plone.uuid",
         "plone.z3cform",
         "Products.GenericSetup",
@@ -78,17 +91,11 @@ setup(
         "Zope",
     ],
     extras_require={
-        "tests": [
-            "plone.app.contenttypes[test]",
-            "plone.app.layout",
-            "plone.app.testing",
-            "plone.autoform",
-            "plone.browserlayer",
-            "plone.supermodel",
-            "plone.testing",
-            "zope.annotation",
-            "zope.intid",
-            "zope.publisher",
-        ]
+        # Until plone.app.z3cform 4.0.2 we only had the 'tests' extra.
+        # In 4.0.3 we introduced the 'test' extra.
+        # Keep 'tests' for backwards compatibility.
+        # Remove it in Plone 7.
+        "test": test_requirements,
+        "tests": test_requirements,
     },
 )

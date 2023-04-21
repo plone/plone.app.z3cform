@@ -8,6 +8,44 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.3 (2023-04-14)
+------------------
+
+Bug fixes:
+
+
+- Fixes transitive circular dependency to plone.schema.
+  Inherit own Browserlayer from new intermediate browserlayer in plone.schema.
+  [jensens] (#163)
+- Add ``test`` extra with the same contents as the ``tests`` extra.
+  The ``tests`` extra will be removed in Plone 7.
+  [maurits] (#164)
+
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs] (3b8337e6)
+
+
+4.0.2 (2023-03-23)
+------------------
+
+Bug fixes:
+
+
+- Fix relative URLs validation in link widget
+  [laulaz] (#160)
+
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs] (243ca9ec)
+
+
 4.0.1 (2023-01-26)
 ------------------
 

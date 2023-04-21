@@ -8,7 +8,7 @@ def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
 
-version = "4.0.2.dev0"
+version = "4.0.4.dev0"
 
 long_description = (
     read("README.rst")
@@ -20,6 +20,18 @@ long_description = (
     + read("CHANGES.rst")
     + "\n"
 )
+test_requirements = [
+    "plone.app.contenttypes[test]",
+    "plone.app.layout",
+    "plone.app.testing",
+    "plone.autoform",
+    "plone.browserlayer",
+    "plone.supermodel",
+    "plone.testing",
+    "zope.annotation",
+    "zope.intid",
+    "zope.publisher",
+]
 
 setup(
     name="plone.app.z3cform",
@@ -56,6 +68,12 @@ setup(
         "plone.app.textfield>=1.3.6",
         "plone.base",
         "plone.protect",
+        "plone.registry",
+        "plone.schema",
+        "plone.uuid",
+        "plone.z3cform",
+        "Products.GenericSetup",
+        "pytz",
         "setuptools",
         "z3c.form >= 4.0",
         "z3c.formwidget.query",
@@ -64,17 +82,11 @@ setup(
         "Zope",
     ],
     extras_require={
-        "tests": [
-            "plone.app.contenttypes[test]",
-            "plone.app.layout",
-            "plone.app.testing",
-            "plone.autoform",
-            "plone.browserlayer",
-            "plone.supermodel",
-            "plone.testing",
-            "zope.annotation",
-            "zope.intid",
-            "zope.publisher",
-        ]
+        # Until plone.app.z3cform 4.0.2 we only had the 'tests' extra.
+        # In 4.0.3 we introduced the 'test' extra.
+        # Keep 'tests' for backwards compatibility.
+        # Remove it in Plone 7.
+        "test": test_requirements,
+        "tests": test_requirements,
     },
 )

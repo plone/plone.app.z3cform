@@ -1,5 +1,5 @@
 from plone.app.textfield.widget import IRichTextWidget as patextfield_IRichTextWidget
-from z3c.form.interfaces import IFormLayer
+from plone.schema.interfaces import IFormLayer
 from z3c.form.interfaces import IRadioWidget
 from z3c.form.interfaces import ISelectWidget as IBaseSelectWidget
 from z3c.form.interfaces import ISingleCheckBoxWidget

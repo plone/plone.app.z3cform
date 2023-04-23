@@ -1,7 +1,6 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:z3c="http://namespaces.zope.org/z3c"
-    i18n_domain="plone"
     >
 
   <!-- Make the default widget for sequence-of-text-lines a textlines
@@ -14,6 +13,7 @@
            zope.schema.interfaces.ITextLine
            plone.app.z3cform.interfaces.IPloneFormLayer"
       />
+
   <adapter
       factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
       provides="z3c.form.interfaces.IFieldWidget"
@@ -21,6 +21,7 @@
            zope.schema.interfaces.ITextLine
            plone.app.z3cform.interfaces.IPloneFormLayer"
       />
+
   <adapter
       factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
       provides="z3c.form.interfaces.IFieldWidget"
@@ -36,6 +37,7 @@
            zope.schema.interfaces.IASCIILine
            plone.app.z3cform.interfaces.IPloneFormLayer"
       />
+
   <adapter
       factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
       provides="z3c.form.interfaces.IFieldWidget"
@@ -51,12 +53,12 @@
            plone.app.z3cform.interfaces.IPloneFormLayer"
       />
 
+  <!-- single checkbox boolean -->
   <adapter
-      factory=".widget.SingleCheckBoxBoolFieldWidget"
+      factory=".widgets.singlecheckbox.SingleCheckBoxBoolFieldWidget"
       for="zope.schema.interfaces.IBool
            .interfaces.IPloneFormLayer"
       />
-  <adapter factory=".converters.BoolSingleCheckboxDataConverter" />
 
   <z3c:widgetTemplate
       field="zope.schema.interfaces.IBool"
@@ -65,6 +67,7 @@
       layer=".interfaces.IPloneFormLayer"
       mode="display"
       />
+
   <z3c:widgetTemplate
       field="zope.schema.interfaces.IBool"
       widget=".interfaces.ISingleCheckBoxBoolWidget"
@@ -72,6 +75,8 @@
       layer=".interfaces.IPloneFormLayer"
       mode="input"
       />
+
+  <!-- ajaxselect -->
   <z3c:widgetTemplate
       field="*"
       widget=".interfaces.IAjaxSelectWidget"
@@ -79,6 +84,7 @@
       layer=".interfaces.IPloneFormLayer"
       mode="display"
       />
+
   <z3c:widgetTemplate
       field="zope.schema.interfaces.IBool"
       widget=".interfaces.ISingleCheckBoxBoolWidget"
@@ -87,6 +93,7 @@
       mode="hidden"
       />
 
+  <!-- multi -->
   <z3c:widgetTemplate
       widget="z3c.form.interfaces.IMultiWidget"
       template="templates/multi_input.pt"
@@ -94,6 +101,7 @@
       mode="input"
       />
 
+  <!-- object -->
   <z3c:widgetTemplate
       widget="z3c.form.interfaces.IObjectWidget"
       template="templates/object_input.pt"
@@ -101,11 +109,65 @@
       mode="input"
       />
 
-  <z3c:widgetTemplate
-      widget=".interfaces.ILinkWidget"
-      template="templates/link_input.pt"
-      layer=".interfaces.IPloneFormLayer"
-      mode="input"
+  <!-- date/time -->
+  <class class=".widgets.datetime.DateWidget">
+    <require
+        permission="zope.Public"
+        interface=".interfaces.IDateWidget"
+        />
+  </class>
+
+  <adapter
+      factory=".widgets.datetime.DateFieldWidget"
+      for="zope.schema.interfaces.IDate
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <class class=".widgets.datetime.DatetimeWidget">
+    <require
+        permission="zope.Public"
+        interface=".interfaces.IDatetimeWidget"
+        />
+  </class>
+
+  <adapter
+      factory=".widgets.datetime.DatetimeFieldWidget"
+      for="zope.schema.interfaces.IDatetime
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <class class=".widgets.datetime.TimeWidget">
+    <require
+        permission="zope.Public"
+        interface=".interfaces.ITimeWidget"
+        />
+  </class>
+
+  <adapter
+      factory=".widgets.datetime.TimeFieldWidget"
+      for="zope.schema.interfaces.ITime
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <!-- relateditems -->
+
+  <adapter
+      factory=".widgets.relateditems.RelatedItemsFieldWidget"
+      for="z3c.relationfield.interfaces.IRelationChoice
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter
+      factory=".widgets.relateditems.RelatedItemsFieldWidget"
+      for="z3c.relationfield.interfaces.IRelationList
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter
+      factory=".widgets.relateditems.RelatedItemsFieldWidget"
+      for="zope.schema.interfaces.IChoice
+           plone.app.vocabularies.catalog.CatalogSource
+           plone.app.z3cform.interfaces.IPloneFormLayer"
       />
 
   <z3c:widgetTemplate
@@ -115,82 +177,33 @@
       mode="display"
       />
 
-  <!-- widget registration stuff -->
-  <class class=".widget.DateWidget">
-    <require
-        permission="zope.Public"
-        interface=".interfaces.IDateWidget"
-        />
-  </class>
-
+  <!-- querystring -->
   <adapter
-      factory=".widget.DateFieldWidget"
-      for="zope.schema.interfaces.IDate
-           plone.app.z3cform.interfaces.IPloneFormLayer"
-      />
-
-  <class class=".widget.DatetimeWidget">
-    <require
-        permission="zope.Public"
-        interface=".interfaces.IDatetimeWidget"
-        />
-  </class>
-
-  <adapter
-      factory=".widget.DatetimeFieldWidget"
-      for="zope.schema.interfaces.IDatetime
-           plone.app.z3cform.interfaces.IPloneFormLayer"
-      />
-
-  <class class=".widget.TimeWidget">
-    <require
-        permission="zope.Public"
-        interface=".interfaces.ITimeWidget"
-        />
-  </class>
-
-  <adapter
-      factory=".widget.TimeFieldWidget"
-      for="zope.schema.interfaces.ITime
-           plone.app.z3cform.interfaces.IPloneFormLayer"
-      />
-
-  <adapter
-      factory=".widget.RelatedItemsFieldWidget"
-      for="z3c.relationfield.interfaces.IRelationChoice
-           plone.app.z3cform.interfaces.IPloneFormLayer"
-      />
-
-  <adapter
-      factory=".widget.RelatedItemsFieldWidget"
-      for="z3c.relationfield.interfaces.IRelationList
-           plone.app.z3cform.interfaces.IPloneFormLayer"
-      />
-
-  <adapter
-      factory=".widget.RelatedItemsFieldWidget"
-      for="zope.schema.interfaces.IChoice
-           plone.app.vocabularies.catalog.CatalogSource
-           plone.app.z3cform.interfaces.IPloneFormLayer"
-      />
-
-  <adapter
-      factory=".widget.QueryStringFieldWidget"
+      factory=".widgets.querystring.QueryStringFieldWidget"
       for="zope.schema.interfaces.IList
            zope.schema.interfaces.IDict
            plone.app.z3cform.interfaces.IPloneFormLayer"
       />
 
+  <!-- richtext -->
   <adapter
-      factory=".widget.RichTextFieldWidget"
+      factory=".widgets.richtext.RichTextFieldWidget"
       for="plone.app.textfield.interfaces.IRichText
            plone.app.z3cform.interfaces.IPloneFormLayer"
       />
 
+  <!-- link -->
   <adapter
-      factory=".widget.LinkFieldWidget"
+      factory=".widgets.link.LinkFieldWidget"
       for="z3c.form.interfaces.ITextWidget
            plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <z3c:widgetTemplate
+      widget=".interfaces.ILinkWidget"
+      template="templates/link_input.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
       />
 
   <!-- z3c.form overrides -->
@@ -295,6 +308,12 @@
       template="templates/textfield_widget_input.pt"
       layer=".interfaces.IPloneFormLayer"
       mode="input"
+      />
+
+  <utility
+      provides="plone.app.z3cform.interfaces.IRichTextWidgetInputModeRenderer"
+      name="tinymce"
+      component=".widgets.richtext.tinymce_richtextwidget_render"
       />
 
 </configure>

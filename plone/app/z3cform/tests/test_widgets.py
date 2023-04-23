@@ -6,11 +6,11 @@ from lxml import html
 from plone.app.contentlisting.contentlisting import ContentListing
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
-from plone.app.widgets.utils import NotImplemented as PatternNotImplemented
 from plone.app.z3cform.tests.layer import PAZ3CForm_INTEGRATION_TESTING
-from plone.app.z3cform.widget import BaseWidget
-from plone.app.z3cform.widget import DateWidget
-from plone.app.z3cform.widget import RelatedItemsWidget
+from plone.app.z3cform.widgets.base import BaseWidget
+from plone.app.z3cform.widgets.base import PatternNotImplemented
+from plone.app.z3cform.widgets.datetime import DateWidget
+from plone.app.z3cform.widgets.relateditems import RelatedItemsWidget
 from plone.autoform.directives import widget
 from plone.autoform.form import AutoExtensibleForm
 from plone.base.interfaces import IMarkupSchema
@@ -102,8 +102,8 @@ class BaseWidgetTests(unittest.TestCase):
         )
 
     def test_widget_base_notimplemented(self):
-        from plone.app.widgets.base import InputWidget
-        from plone.app.z3cform.widget import BaseWidget
+        from plone.app.z3cform.widgets.base import BaseWidget
+        from plone.app.z3cform.widgets.patterns import InputWidget
 
         widget = BaseWidget(self.request)
         widget.field = self.field
@@ -122,8 +122,8 @@ class BaseWidgetTests(unittest.TestCase):
         )
 
     def test_widget_base_custom_css(self):
-        from plone.app.widgets.base import InputWidget
-        from plone.app.z3cform.widget import BaseWidget
+        from plone.app.z3cform.widgets.base import BaseWidget
+        from plone.app.z3cform.widgets.patterns import InputWidget
 
         widget = BaseWidget(self.request)
         widget.field = self.field
@@ -137,8 +137,8 @@ class BaseWidgetTests(unittest.TestCase):
         )
 
     def test_widget_base_pattern_options_with_functions(self):
-        from plone.app.widgets.base import InputWidget
-        from plone.app.z3cform.widget import BaseWidget
+        from plone.app.z3cform.widgets.base import BaseWidget
+        from plone.app.z3cform.widgets.patterns import InputWidget
 
         widget = BaseWidget(self.request)
         widget.context = "testcontext"
@@ -183,7 +183,7 @@ class BaseWidgetTests(unittest.TestCase):
 
 class DateWidgetTests(unittest.TestCase):
     def setUp(self):
-        from plone.app.z3cform.widget import DateWidget
+        from plone.app.z3cform.widgets.datetime import DateWidget
 
         self.request = TestRequest(environ={"HTTP_ACCEPT_LANGUAGE": "en"})
         self.field = Date(__name__="datefield")
@@ -217,7 +217,7 @@ class DateWidgetTests(unittest.TestCase):
         self.assertEqual(base_args["pattern_options"]["clear"], False)
 
     def test_data_converter(self):
-        from plone.app.z3cform.widget import DateWidgetConverter
+        from plone.app.z3cform.widgets.datetime import DateWidgetConverter
 
         converter = DateWidgetConverter(self.field, self.widget)
 
@@ -252,8 +252,8 @@ class DateWidgetTests(unittest.TestCase):
         )
 
     def test_fieldwidget(self):
-        from plone.app.z3cform.widget import DateFieldWidget
-        from plone.app.z3cform.widget import DateWidget
+        from plone.app.z3cform.widgets.datetime import DateFieldWidget
+        from plone.app.z3cform.widgets.datetime import DateWidget
 
         field = Mock(__name__="field", title="", required=True)
         request = Mock()
@@ -286,7 +286,7 @@ class DateWidgetTests(unittest.TestCase):
 
 class DatetimeWidgetTests(unittest.TestCase):
     def setUp(self):
-        from plone.app.z3cform.widget import DatetimeWidget
+        from plone.app.z3cform.widgets.datetime import DatetimeWidget
 
         self.request = TestRequest(environ={"HTTP_ACCEPT_LANGUAGE": "en"})
         self.field = Datetime(__name__="datetimefield")
@@ -324,7 +324,7 @@ class DatetimeWidgetTests(unittest.TestCase):
         self.assertEqual(base_args["pattern_options"]["clear"], False)
 
     def test_data_converter(self):
-        from plone.app.z3cform.widget import DatetimeWidgetConverter
+        from plone.app.z3cform.widgets.datetime import DatetimeWidgetConverter
 
         converter = DatetimeWidgetConverter(self.field, self.widget)
 
@@ -360,7 +360,7 @@ class DatetimeWidgetTests(unittest.TestCase):
 
     def test_data_converter__no_timezone(self):
         """When no timezone is set, don't apply one."""
-        from plone.app.z3cform.widget import DatetimeWidgetConverter
+        from plone.app.z3cform.widgets.datetime import DatetimeWidgetConverter
 
         context = Mock()
 
@@ -381,7 +381,7 @@ class DatetimeWidgetTests(unittest.TestCase):
 
     def test_data_converter__timezone_id(self):
         """When a (pytz) timezone id is set, use that."""
-        from plone.app.z3cform.widget import DatetimeWidgetConverter
+        from plone.app.z3cform.widgets.datetime import DatetimeWidgetConverter
 
         context = Mock()
 
@@ -405,7 +405,7 @@ class DatetimeWidgetTests(unittest.TestCase):
         """When a timezone callback is set, returning a (pytz) timezone id,
         use that.
         """
-        from plone.app.z3cform.widget import DatetimeWidgetConverter
+        from plone.app.z3cform.widgets.datetime import DatetimeWidgetConverter
 
         context = Mock()
 
@@ -426,8 +426,8 @@ class DatetimeWidgetTests(unittest.TestCase):
         self.widget.default_timezone = None
 
     def test_fieldwidget(self):
-        from plone.app.z3cform.widget import DatetimeFieldWidget
-        from plone.app.z3cform.widget import DatetimeWidget
+        from plone.app.z3cform.widgets.datetime import DatetimeFieldWidget
+        from plone.app.z3cform.widgets.datetime import DatetimeWidget
 
         field = Mock(__name__="field", title="", required=True)
         request = Mock()
@@ -462,7 +462,7 @@ class DatetimeWidgetTests(unittest.TestCase):
 
 class TimeWidgetTests(unittest.TestCase):
     def setUp(self):
-        from plone.app.z3cform.widget import TimeWidget
+        from plone.app.z3cform.widgets.datetime import TimeWidget
 
         self.request = TestRequest(environ={"HTTP_ACCEPT_LANGUAGE": "en"})
         self.field = Time(__name__="timefield")
@@ -499,8 +499,8 @@ class TimeWidgetTests(unittest.TestCase):
         )
 
     def test_fieldwidget(self):
-        from plone.app.z3cform.widget import TimeFieldWidget
-        from plone.app.z3cform.widget import TimeWidget
+        from plone.app.z3cform.widgets.datetime import TimeFieldWidget
+        from plone.app.z3cform.widgets.datetime import TimeWidget
 
         field = Mock(__name__="field", title="", required=True)
         request = Mock()
@@ -532,7 +532,7 @@ class SelectWidgetTests(unittest.TestCase):
         base.unregisterAdapter(term.CollectionTermsSource)
 
     def test_widget(self):
-        from plone.app.z3cform.widget import SelectWidget
+        from plone.app.z3cform.widgets.select import SelectWidget
 
         widget = SelectWidget(self.request)
         widget.id = "test-widget"
@@ -630,7 +630,7 @@ class SelectWidgetTests(unittest.TestCase):
         )
 
     def test_widget_list_orderable(self):
-        from plone.app.z3cform.widget import SelectWidget
+        from plone.app.z3cform.widgets.select import SelectWidget
 
         widget = SelectWidget(self.request)
         widget.id = "test-widget"
@@ -657,7 +657,7 @@ class SelectWidgetTests(unittest.TestCase):
         )
 
     def test_widget_tuple_orderable(self):
-        from plone.app.z3cform.widget import SelectWidget
+        from plone.app.z3cform.widgets.select import SelectWidget
 
         widget = SelectWidget(self.request)
         widget.id = "test-widget"
@@ -683,7 +683,7 @@ class SelectWidgetTests(unittest.TestCase):
         )
 
     def test_widget_set_not_orderable(self):
-        from plone.app.z3cform.widget import SelectWidget
+        from plone.app.z3cform.widgets.select import SelectWidget
 
         widget = SelectWidget(self.request)
         widget.id = "test-widget"
@@ -710,7 +710,7 @@ class SelectWidgetTests(unittest.TestCase):
         )
 
     def test_widget_extract(self):
-        from plone.app.z3cform.widget import SelectWidget
+        from plone.app.z3cform.widgets.select import SelectWidget
 
         widget = SelectWidget(self.request)
         widget.field = Choice(
@@ -726,7 +726,7 @@ class SelectWidgetTests(unittest.TestCase):
 
     def test_data_converter_list(self):
         from plone.app.z3cform.converters import SelectWidgetConverter
-        from plone.app.z3cform.widget import SelectWidget
+        from plone.app.z3cform.widgets.select import SelectWidget
 
         field = List(
             __name__="listfield",
@@ -773,7 +773,7 @@ class SelectWidgetTests(unittest.TestCase):
 
     def test_data_converter_tuple(self):
         from plone.app.z3cform.converters import SelectWidgetConverter
-        from plone.app.z3cform.widget import SelectWidget
+        from plone.app.z3cform.widgets.select import SelectWidget
 
         field = Tuple(
             __name__="tuplefield",
@@ -809,7 +809,7 @@ class SelectWidgetTests(unittest.TestCase):
 
     def test_data_converter_handles_empty_value(self):
         from plone.app.z3cform.converters import SelectWidgetConverter
-        from plone.app.z3cform.widget import SelectWidget
+        from plone.app.z3cform.widgets.select import SelectWidget
 
         field = Tuple(
             __name__="tuplefield",
@@ -829,7 +829,7 @@ class SelectWidgetTests(unittest.TestCase):
         """
         If the widget vocabulary is a mapping <optgroup>'s are rendered.
         """
-        from plone.app.z3cform.widget import SelectWidget
+        from plone.app.z3cform.widgets.select import SelectWidget
         from z3c.form import term
 
         widget = SelectWidget(self.request)
@@ -885,7 +885,7 @@ class AjaxSelectWidgetTests(unittest.TestCase):
         provideUtility(example_vocabulary_factory, name="example")
 
     def test_widget(self):
-        from plone.app.z3cform.widget import AjaxSelectWidget
+        from plone.app.z3cform.widgets.select import AjaxSelectWidget
 
         widget = AjaxSelectWidget(self.request)
         widget.update()
@@ -932,7 +932,7 @@ class AjaxSelectWidgetTests(unittest.TestCase):
         )
 
     def test_widget_list_orderable(self):
-        from plone.app.z3cform.widget import AjaxSelectWidget
+        from plone.app.z3cform.widgets.select import AjaxSelectWidget
 
         widget = AjaxSelectWidget(self.request)
         widget.field = List(__name__="selectfield")
@@ -947,7 +947,7 @@ class AjaxSelectWidgetTests(unittest.TestCase):
         )
 
     def test_widget_tuple_orderable(self):
-        from plone.app.z3cform.widget import AjaxSelectWidget
+        from plone.app.z3cform.widgets.select import AjaxSelectWidget
 
         widget = AjaxSelectWidget(self.request)
         widget.field = Tuple(__name__="selectfield")
@@ -962,7 +962,7 @@ class AjaxSelectWidgetTests(unittest.TestCase):
         )
 
     def test_widget_set_not_orderable(self):
-        from plone.app.z3cform.widget import AjaxSelectWidget
+        from plone.app.z3cform.widgets.select import AjaxSelectWidget
 
         widget = AjaxSelectWidget(self.request)
         # A set is not orderable
@@ -978,7 +978,7 @@ class AjaxSelectWidgetTests(unittest.TestCase):
         )
 
     def test_widget_choice(self):
-        from plone.app.z3cform.widget import AjaxSelectWidget
+        from plone.app.z3cform.widgets.select import AjaxSelectWidget
         from zope.schema.interfaces import ISource
 
         widget = AjaxSelectWidget(self.request)
@@ -1002,7 +1002,7 @@ class AjaxSelectWidgetTests(unittest.TestCase):
         )
 
     def test_widget_addform_url_on_addform(self):
-        from plone.app.z3cform.widget import AjaxSelectWidget
+        from plone.app.z3cform.widgets.select import AjaxSelectWidget
 
         widget = AjaxSelectWidget(self.request)
         form = Mock(parentForm=None)
@@ -1037,7 +1037,7 @@ class AjaxSelectWidgetTests(unittest.TestCase):
 
     def test_data_converter_list(self):
         from plone.app.z3cform.converters import AjaxSelectWidgetConverter
-        from plone.app.z3cform.widget import AjaxSelectWidget
+        from plone.app.z3cform.widgets.select import AjaxSelectWidget
 
         field = List(__name__="listfield", value_type=TextLine())
         widget = AjaxSelectWidget(self.request)
@@ -1066,7 +1066,7 @@ class AjaxSelectWidgetTests(unittest.TestCase):
 
     def test_data_converter_collection_with_vocabulary(self):
         from plone.app.z3cform.converters import AjaxSelectWidgetConverter
-        from plone.app.z3cform.widget import AjaxSelectWidget
+        from plone.app.z3cform.widgets.select import AjaxSelectWidget
 
         field = Tuple(
             __name__="listfield",
@@ -1100,7 +1100,7 @@ class AjaxSelectWidgetTests(unittest.TestCase):
 
     def test_data_converter_tuple(self):
         from plone.app.z3cform.converters import AjaxSelectWidgetConverter
-        from plone.app.z3cform.widget import AjaxSelectWidget
+        from plone.app.z3cform.widgets.select import AjaxSelectWidget
 
         field = Tuple(__name__="tuplefield", value_type=TextLine())
         widget = AjaxSelectWidget(self.request)
@@ -1128,8 +1128,8 @@ class AjaxSelectWidgetTests(unittest.TestCase):
         )
 
     def test_fieldwidget(self):
-        from plone.app.z3cform.widget import AjaxSelectFieldWidget
-        from plone.app.z3cform.widget import AjaxSelectWidget
+        from plone.app.z3cform.widgets.select import AjaxSelectFieldWidget
+        from plone.app.z3cform.widgets.select import AjaxSelectWidget
 
         field = Mock(__name__="field", title="", required=True)
         request = Mock()
@@ -1139,8 +1139,8 @@ class AjaxSelectWidgetTests(unittest.TestCase):
         self.assertIs(widget.request, request)
 
     def test_fieldwidget_sequence(self):
-        from plone.app.z3cform.widget import AjaxSelectFieldWidget
-        from plone.app.z3cform.widget import AjaxSelectWidget
+        from plone.app.z3cform.widgets.select import AjaxSelectFieldWidget
+        from plone.app.z3cform.widgets.select import AjaxSelectWidget
 
         field = Mock(__name__="field", title="", required=True)
         vocabulary = Mock()
@@ -1158,7 +1158,7 @@ class AjaxSelectWidgetIntegrationTests(unittest.TestCase):
         self.request = TestRequest(environ={"HTTP_ACCEPT_LANGUAGE": "en"})
 
     def test_keywords_can_add(self):
-        from plone.app.z3cform.widget import AjaxSelectWidget
+        from plone.app.z3cform.widgets.select import AjaxSelectWidget
 
         portal = self.layer["portal"]
         setRoles(portal, TEST_USER_ID, ["Manager"])
@@ -1171,7 +1171,7 @@ class AjaxSelectWidgetIntegrationTests(unittest.TestCase):
         )
 
     def test_keywords_cannot_add(self):
-        from plone.app.z3cform.widget import AjaxSelectWidget
+        from plone.app.z3cform.widgets.select import AjaxSelectWidget
 
         portal = self.layer["portal"]
         widget = AjaxSelectWidget(self.request)
@@ -1181,6 +1181,17 @@ class AjaxSelectWidgetIntegrationTests(unittest.TestCase):
             widget._base_args()["pattern_options"]["allowNewItems"],
             "false",
         )
+
+
+def mock_querystring_options(context, querystring_view):
+    return {
+        "indexOptionsUrl": f"/{querystring_view}",
+        "previewURL": "/@@querybuilder_html_results",
+        "previewCountURL": "/@@querybuildernumberofresults",
+        "patternDateOptions": None,
+        "patternAjaxSelectOptions": {"separator": ";"},
+        "patternRelateditemsOptions": None,
+    }
 
 
 class QueryStringWidgetTests(unittest.TestCase):
@@ -1202,15 +1213,11 @@ class QueryStringWidgetTests(unittest.TestCase):
         self.assertEqual(converter.toFieldValue("[]"), None)
 
     @mock.patch(
-        "plone.app.widgets.utils.get_date_options",
-        new=lambda *args, **kwargs: None,
-    )
-    @mock.patch(
-        "plone.app.widgets.utils.get_relateditems_options",
-        new=lambda *args, **kwargs: None,
+        "plone.app.z3cform.widgets.querystring.get_querystring_options",
+        new=mock_querystring_options,
     )
     def test_widget(self):
-        from plone.app.z3cform.widget import QueryStringWidget
+        from plone.app.z3cform.widgets.querystring import QueryStringWidget
 
         widget = QueryStringWidget(self.request)
         self.assertEqual(
@@ -1249,7 +1256,7 @@ class RelatedItemsWidgetIntegrationTests(unittest.TestCase):
         return set(expected.items()).issubset(set(actual.items()))
 
     def test_related_items_widget(self):
-        from plone.app.z3cform.widget import RelatedItemsWidget
+        from plone.app.z3cform.widgets.relateditems import RelatedItemsWidget
 
         EXPECTED_ROOT_PATH = "/plone"
         EXPECTED_ROOT_URL = "http://nohost/plone"
@@ -1281,7 +1288,7 @@ class RelatedItemsWidgetIntegrationTests(unittest.TestCase):
 
     def test_related_items_widget_nav_root(self):
         from plone.app.layout.navigation.interfaces import INavigationRoot
-        from plone.app.z3cform.widget import RelatedItemsWidget
+        from plone.app.z3cform.widgets.relateditems import RelatedItemsWidget
 
         EXPECTED_ROOT_PATH = "/plone"
         EXPECTED_ROOT_URL = "http://nohost/plone"
@@ -1405,13 +1412,13 @@ class RelatedItemsWidgetTests(unittest.TestCase):
         self.request = TestRequest(environ={"HTTP_ACCEPT_LANGUAGE": "en"})
 
     @mock.patch(
-        "plone.app.widgets.utils.getToolByName",
+        "Products.CMFCore.utils.getToolByName",
         new=Mock(return_value=Mock(return_value="testuser")),
     )
     def test_single_selection(self):
         """The pattern_options value for maximumSelectionSize should
         be 1 when the field only allows a single selection."""
-        from plone.app.z3cform.widget import RelatedItemsFieldWidget
+        from plone.app.z3cform.widgets.relateditems import RelatedItemsFieldWidget
 
         context = Mock(
             absolute_url=lambda: "fake_url", getPhysicalPath=lambda: ["", "site"]
@@ -1428,13 +1435,13 @@ class RelatedItemsWidgetTests(unittest.TestCase):
         self.assertEqual(pattern_options.get("maximumSelectionSize", 0), 1)
 
     @mock.patch(
-        "plone.app.widgets.utils.getToolByName",
+        "Products.CMFCore.utils.getToolByName",
         new=Mock(return_value=Mock(return_value="testuser")),
     )
     def test_multiple_selection(self):
         """The pattern_options key maximumSelectionSize shouldn't be
         set when the field allows multiple selections"""
-        from plone.app.z3cform.widget import RelatedItemsFieldWidget
+        from plone.app.z3cform.widgets.relateditems import RelatedItemsFieldWidget
         from zope.schema.interfaces import ISource
         from zope.schema.vocabulary import VocabularyRegistry
 
@@ -1562,8 +1569,8 @@ class RelatedItemsWidgetTests(unittest.TestCase):
             )
 
     def test_fieldwidget(self):
-        from plone.app.z3cform.widget import RelatedItemsFieldWidget
-        from plone.app.z3cform.widget import RelatedItemsWidget
+        from plone.app.z3cform.widgets.relateditems import RelatedItemsFieldWidget
+        from plone.app.z3cform.widgets.relateditems import RelatedItemsWidget
 
         field = Mock(__name__="field", title="", required=True)
         vocabulary = Mock()
@@ -1579,13 +1586,13 @@ def add_mock_fti(portal):
     fti = DexterityFTI("dx_mock")
     portal.portal_types._setObject("dx_mock", fti)
     fti.klass = "plone.dexterity.content.Item"
-    fti.schema = "plone.app.widgets.tests.test_dx.IMockSchema"
+    fti.schema = "plone.dexterity.tests.schemata.ITestSchema"
     fti.filter_content_types = False
     fti.behaviors = ("plone.app.dexterity.behaviors.metadata.IBasic",)
 
 
 def _custom_field_widget(field, request):
-    from plone.app.z3cform.widget import AjaxSelectWidget
+    from plone.app.z3cform.widgets.select import AjaxSelectWidget
 
     widget = FieldWidget(field, AjaxSelectWidget(request))
     widget.vocabulary = "plone.app.vocabularies.PortalTypes"
@@ -1611,7 +1618,7 @@ class RichTextWidgetTests(unittest.TestCase):
         self.field = IWithText["text"]
 
     def test_widget_params(self):
-        from plone.app.z3cform.widget import RichTextWidget
+        from plone.app.z3cform.widgets.richtext import RichTextWidget
 
         widget = FieldWidget(self.field, RichTextWidget(self.request))
         # set the context so we can get tinymce settings
@@ -1633,7 +1640,7 @@ class RichTextWidgetTests(unittest.TestCase):
         )
 
     def test_widget_params_different_contexts(self):
-        from plone.app.z3cform.widget import RichTextWidget
+        from plone.app.z3cform.widgets.richtext import RichTextWidget
 
         setRoles(self.portal, TEST_USER_ID, ["Contributor"])
 
@@ -1684,7 +1691,7 @@ class RichTextWidgetTests(unittest.TestCase):
 
     def test_widget_values(self):
         from plone.app.textfield.value import RichTextValue
-        from plone.app.z3cform.widget import RichTextWidget
+        from plone.app.z3cform.widgets.richtext import RichTextWidget
 
         widget = FieldWidget(self.field, RichTextWidget(self.request))
         # set the context so we can get tinymce settings
@@ -1711,7 +1718,7 @@ class RichTextWidgetTests(unittest.TestCase):
         if IMarkupSchema:
             # if not, don't run this test
             self._set_mimetypes(allowed=("text/html",))
-            from plone.app.z3cform.widget import RichTextWidget
+            from plone.app.z3cform.widgets.richtext import RichTextWidget
 
             widget = FieldWidget(self.field, RichTextWidget(self.request))
             # set the context so we can get tinymce settings
@@ -1730,7 +1737,7 @@ class RichTextWidgetTests(unittest.TestCase):
         if IMarkupSchema:
             # if not, don't run this test
             self._set_mimetypes(allowed=("text/html", "text/plain"))
-            from plone.app.z3cform.widget import RichTextWidget
+            from plone.app.z3cform.widgets.richtext import RichTextWidget
 
             widget = FieldWidget(self.field, RichTextWidget(self.request))
             # set the context so we can get tinymce settings
@@ -1754,7 +1761,7 @@ class RichTextWidgetTests(unittest.TestCase):
             # if not, don't run this test
             self._set_mimetypes(allowed=("text/html", "text/plain"))
             from plone.app.textfield.value import RichTextValue
-            from plone.app.z3cform.widget import RichTextWidget
+            from plone.app.z3cform.widgets.richtext import RichTextWidget
 
             widget = FieldWidget(self.field, RichTextWidget(self.request))
             # set the context so we can get tinymce settings
@@ -1781,7 +1788,7 @@ class RichTextWidgetTests(unittest.TestCase):
             proxy = registry.forInterface(IEditingSchema, check=False, prefix="plone")
             proxy.available_editors = ["dummy", "TinyMCE"]
             proxy.default_editor = "dummy"
-            from plone.app.z3cform.widget import RichTextWidget
+            from plone.app.z3cform.widgets.richtext import RichTextWidget
 
             widget = FieldWidget(self.field, RichTextWidget(self.request))
             widget.context = self.portal
@@ -1789,7 +1796,7 @@ class RichTextWidgetTests(unittest.TestCase):
             self.assertTrue("<p>dummy</p>" in rendered)
 
             proxy.default_editor = "TinyMCE"
-            from plone.app.z3cform.widget import RichTextWidget
+            from plone.app.z3cform.widgets.richtext import RichTextWidget
 
             widget = FieldWidget(self.field, RichTextWidget(self.request))
             widget.context = self.portal
@@ -1807,7 +1814,7 @@ class LinkWidgetIntegrationTests(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
 
     def test_link_widget__pattern_options(self):
-        from plone.app.z3cform.widget import LinkWidget
+        from plone.app.z3cform.widgets.link import LinkWidget
 
         widget = LinkWidget(self.request)
 
@@ -1819,7 +1826,7 @@ class LinkWidgetIntegrationTests(unittest.TestCase):
         self.assertEqual(pattern_data["maximumSelectionSize"], 1)
 
     def test_link_widget__extract_internal(self):
-        from plone.app.z3cform.widget import LinkWidget
+        from plone.app.z3cform.widgets.link import LinkWidget
 
         widget = LinkWidget(self.request)
         widget.context = self.portal
@@ -1833,7 +1840,7 @@ class LinkWidgetIntegrationTests(unittest.TestCase):
         )
 
     def test_link_widget__extract_external(self):
-        from plone.app.z3cform.widget import LinkWidget
+        from plone.app.z3cform.widgets.link import LinkWidget
 
         widget = LinkWidget(self.request)
         widget.context = self.portal
@@ -1847,7 +1854,7 @@ class LinkWidgetIntegrationTests(unittest.TestCase):
         )
 
     def test_link_widget__extract_email(self):
-        from plone.app.z3cform.widget import LinkWidget
+        from plone.app.z3cform.widgets.link import LinkWidget
 
         widget = LinkWidget(self.request)
         widget.context = self.portal
@@ -1861,7 +1868,7 @@ class LinkWidgetIntegrationTests(unittest.TestCase):
         )
 
     def test_link_widget__extract_email_including_mailto(self):
-        from plone.app.z3cform.widget import LinkWidget
+        from plone.app.z3cform.widgets.link import LinkWidget
 
         widget = LinkWidget(self.request)
         widget.context = self.portal
@@ -1876,7 +1883,7 @@ class LinkWidgetIntegrationTests(unittest.TestCase):
 
     def test_link_widget__data_converter(self):
         from plone.app.z3cform.converters import LinkWidgetDataConverter
-        from plone.app.z3cform.widget import LinkWidget
+        from plone.app.z3cform.widgets.link import LinkWidget
 
         field = TextLine(__name__="linkfield")
         widget = LinkWidget(self.request)

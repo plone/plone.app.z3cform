@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+4.1.0 (2023-04-26)
+------------------
+
+New features:
+
+
+- Merge utils and base classes from  ``plone.app.widgets`` and do not depend
+  on it anymore. [petschki] (#19)
+
+
 4.0.3 (2023-04-14)
 ------------------
 

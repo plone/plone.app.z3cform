@@ -91,10 +91,4 @@
            .interfaces.IPloneFormLayer"
       />
 
-  <utility
-      factory=".factories.Zope2FileUploadStorable"
-      provides="plone.namedfile.interfaces.IStorage"
-      name="ZPublisher.HTTPRequest.FileUpload"
-      />
-
 </configure>

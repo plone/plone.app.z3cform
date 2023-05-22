@@ -8,6 +8,24 @@ Changelog
 
 .. towncrier release notes start
 
+4.2.0 (2023-05-22)
+------------------
+
+New features:
+
+
+- Move storage utility to plone.namedfile
+  to break a dependency cycle between the two.
+  [gforcada] (#3764)
+
+
+Bug fixes:
+
+
+- Remove invalid unicode control characters for `TextareaWidget`
+  [petschki] (#167)
+
+
 4.1.0 (2023-04-26)
 ------------------
 

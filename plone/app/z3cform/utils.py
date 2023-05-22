@@ -182,6 +182,7 @@ def get_context_url(context):
         url = get_portal_url(context)
     return url
 
+
 # Invalid XML unicode control characters
 # NOTE: these control characters are allowed:
 # chr(9) = "\t"

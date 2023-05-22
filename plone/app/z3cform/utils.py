@@ -181,3 +181,13 @@ def get_context_url(context):
     else:
         url = get_portal_url(context)
     return url
+
+
+def remove_invalid_xml_characters(txt):
+    # remove occurrences of the unicode "control characters"
+    # as they are invalid XML characters
+    # see https://en.wikipedia.org/wiki/Valid_characters_in_XML and
+    # https://en.wikipedia.org/wiki/C0_and_C1_control_codes
+    #
+    invalid_keys = dict.fromkeys(range(32))
+    return txt.translate(invalid_keys)

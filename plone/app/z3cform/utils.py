@@ -189,7 +189,7 @@ def get_context_url(context):
 # chr(10) = "\n"
 # chr(13) = "\r"
 
-unicode_ctl_chr_map = dict.fromkeys([x for x in range(32) if x not in (9, 10, 13)])
+_unicode_ctl_chr_map = dict.fromkeys([x for x in range(32) if x not in (9, 10, 13)])
 
 
 def remove_invalid_xml_characters(txt):
@@ -197,4 +197,4 @@ def remove_invalid_xml_characters(txt):
     # as they are invalid XML characters
     # see https://en.wikipedia.org/wiki/Valid_characters_in_XML and
     # https://en.wikipedia.org/wiki/C0_and_C1_control_codes
-    return txt.translate(unicode_ctl_chr_map)
+    return txt.translate(_unicode_ctl_chr_map)

@@ -181,3 +181,20 @@ def get_context_url(context):
     else:
         url = get_portal_url(context)
     return url
+
+
+# Invalid XML unicode control characters
+# NOTE: these control characters are allowed:
+# chr(9) = "\t"
+# chr(10) = "\n"
+# chr(13) = "\r"
+
+_unicode_ctl_chr_map = dict.fromkeys([x for x in range(32) if x not in (9, 10, 13)])
+
+
+def remove_invalid_xml_characters(txt):
+    # remove occurrences of the unicode "control characters"
+    # as they are invalid XML characters
+    # see https://en.wikipedia.org/wiki/Valid_characters_in_XML and
+    # https://en.wikipedia.org/wiki/C0_and_C1_control_codes
+    return txt.translate(_unicode_ctl_chr_map)

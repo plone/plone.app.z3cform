@@ -1,4 +1,5 @@
 from lxml import etree
+from plone.app.z3cform.utils import remove_invalid_xml_characters
 
 import collections
 import json
@@ -329,7 +330,7 @@ class TextareaWidget(BaseWidget):
         :param value: Set value of element.
         :type value: string
         """
-        self.el.text = value
+        self.el.text = remove_invalid_xml_characters(value)
 
     def _del_value(self):
         """Set empty string as value of element."""

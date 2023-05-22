@@ -154,6 +154,7 @@ class TestUtils(unittest.TestCase):
 
     def test_unicode_control_character_removal(self):
         from plone.app.z3cform.utils import remove_invalid_xml_characters
+
         for x in range(32):
             if x in (9, 10, 13):
                 self.assertTrue(remove_invalid_xml_characters(chr(x)) == chr(x))

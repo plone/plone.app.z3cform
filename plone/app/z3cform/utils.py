@@ -188,6 +188,10 @@ def remove_invalid_xml_characters(txt):
     # as they are invalid XML characters
     # see https://en.wikipedia.org/wiki/Valid_characters_in_XML and
     # https://en.wikipedia.org/wiki/C0_and_C1_control_codes
-    #
-    invalid_keys = dict.fromkeys(range(32))
+    # NOTE: these control characters are allowed:
+    # chr(9) = "\t"
+    # chr(10) = "\n"
+    # chr(13) = "\r"
+
+    invalid_keys = dict.fromkeys([x for x in range(32) if x not in (9, 10, 13)])
     return txt.translate(invalid_keys)

@@ -1700,6 +1700,24 @@ class RichTextWidgetTests(unittest.TestCase):
         base_args = widget._base_args()
         self.assertEqual(base_args["value"], "Lorem ipsum \u2026")
 
+    def test_unicode_control_characters_value(self):
+        # lxml doesn't allow unicode control characters.
+        # see
+        from plone.app.textfield.value import RichTextValue
+        from plone.app.z3cform.widgets.richtext import RichTextWidget
+
+        widget = FieldWidget(self.field, RichTextWidget(self.request))
+        # set the context so we can get tinymce settings
+        widget.context = self.portal
+        widget.value = RichTextValue(
+            "Lorem \u0000 ip\u001Fsum \n\u0002 dolorem \uF600"
+        )
+        widget.mode = "input"
+        self.assertIn(
+            ">Lorem  ipsum  dolorem \uF600</textarea>",
+            widget.render(),
+        )
+
     def _set_mimetypes(self, default="text/html", allowed=("text/html")):
         """Set portal's mimetype settings."""
         if IMarkupSchema:

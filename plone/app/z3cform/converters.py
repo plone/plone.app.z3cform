@@ -211,11 +211,10 @@ class Select2WidgetConverterBase:
         :returns: List of items
         :rtype: list | tuple | set
         """
-        separator = getattr(self.widget, "separator", ";")
         if isinstance(value, str):
             value = value.strip()
             if value:
-                value = value.split(separator)
+                value = [value, ]
             else:
                 return self.field.missing_value
         elif value == ("",):
@@ -265,7 +264,7 @@ class AjaxSelectWidgetConverter(BaseDataConverter):
                 except (LookupError, ValueError):
                     pass
             tokenized_value.append(str(term_value))
-        return getattr(self.widget, "separator", ";").join(tokenized_value)
+        return tokenized_value
 
     def toFieldValue(self, value):
         """Converts from widget value to field.
@@ -284,11 +283,10 @@ class AjaxSelectWidgetConverter(BaseDataConverter):
         valueType = self.field.value_type._type
         if isinstance(valueType, tuple):
             valueType = valueType[0]
-        separator = getattr(self.widget, "separator", ";")
         self.widget.update()  # needed to have a vocabulary
         vocabulary = self.widget.get_vocabulary()
         untokenized_value = []
-        for token in value.split(separator):
+        for token in value:
             if vocabulary is not None:
                 try:
                     term = vocabulary.getTermByToken(token)

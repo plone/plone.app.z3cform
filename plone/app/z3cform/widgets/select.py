@@ -94,9 +94,6 @@ class Select2Widget(SelectWidget):
         if ISequence.providedBy(self.field) or self.orderable:
             pattern_options["orderable"] = True
 
-        if self.multiple:
-            pattern_options["separator"] = self.separator
-
         # Allow to clear field value if it is not required
         if not self.field.required:
             pattern_options["allowClear"] = True
@@ -107,12 +104,6 @@ class Select2Widget(SelectWidget):
         """Override extract to handle delimited response values.
         Skip the vocabulary validation provided in the parent
         method, since it's not ever done for single selects."""
-        if (
-            self.name not in self.request
-            and self.name + "-empty-marker" in self.request
-        ):
-            return []
-        return self.request.get(self.name, default)
 
 
 @implementer(IFieldWidget)
@@ -157,7 +148,7 @@ class AjaxSelectWidget(HTMLInputWidget, Widget):
 
     def display_items(self):
         if self.value:
-            tokens = self.value.split(self.separator)
+            tokens = self.value
             vocabulary = self.get_vocabulary()
             for token in tokens:
                 item = {"token": token, "title": token}
@@ -168,13 +159,8 @@ class AjaxSelectWidget(HTMLInputWidget, Widget):
                         pass
                 yield item
 
-    def has_multiple_values(self):
-        return self.value and self.value.split(self.separator)
-
     def _ajaxselect_options(self):
-        options = {
-            "separator": self.separator,
-        }
+        options = {}
         if self.vocabulary:
             options["vocabularyUrl"] = "{}/{}?name={}".format(
                 get_context_url(self._view_context()),
@@ -187,7 +173,7 @@ class AjaxSelectWidget(HTMLInputWidget, Widget):
             vocabulary = self.get_vocabulary()
             if vocabulary is not None and self.value:
                 options["initialValues"] = dict()
-                for token in self.value.split(self.separator):
+                for token in self.value:
                     try:
                         term = vocabulary.getTermByToken(token)
                         options["initialValues"][term.token] = term.title

@@ -80,6 +80,7 @@
                 id="to"
                 name="to"
                 size="5"
+                tal:define="required python: True if view.required else None"
                 tal:attributes="
                   id string:${view/id}-to;
                   name string:${view/name}.to;
@@ -104,6 +105,7 @@
                   onchange view/onchange;
                   multiple view/multiple;
                   size view/size;
+                  required required | nothing;
                 "
         >
           <option tal:repeat="entry view/selectedItems"

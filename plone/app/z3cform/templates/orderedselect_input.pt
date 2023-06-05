@@ -104,6 +104,7 @@
                   onchange view/onchange;
                   multiple view/multiple;
                   size view/size;
+                  required python:view.required and 'required' or None;
                 "
         >
           <option tal:repeat="entry view/selectedItems"

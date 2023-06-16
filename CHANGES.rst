@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+4.2.1 (2023-06-16)
+------------------
+
+Bug fixes:
+
+
+- Add `required` to orderedselect widget.
+  [petschki - original PR by szakitibi] (#170)
+
+
 4.2.0 (2023-05-22)
 ------------------
 

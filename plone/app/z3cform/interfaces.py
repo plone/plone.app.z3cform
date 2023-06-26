@@ -69,6 +69,9 @@ class IRichTextWidget(patextfield_IRichTextWidget):
 class ILinkWidget(ITextWidget):
     """Marker interface for the enhanced link widget."""
 
+class IEmailWidget(ITextWidget):
+    """Marker interface for the dumb email widget."""
+
 
 class ISingleCheckBoxBoolWidget(ISingleCheckBoxWidget):
     """Marker interface for the SingleCheckboxBoolWidget."""

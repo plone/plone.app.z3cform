@@ -5,13 +5,11 @@ from z3c.form.widget import FieldWidget
 from zope.interface import implementer
 from zope.interface import implementer_only
 
-import json
-
 
 @implementer_only(IEmailWidget)
 class EmailWidget(z3cform_TextWidget):
-    """Implementation of dumb email widget.
-    """
+    """Implementation of dumb email widget."""
+
 
 @implementer(IFieldWidget)
 def EmailFieldWidget(field, request):

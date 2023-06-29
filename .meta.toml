@@ -4,3 +4,6 @@
 [meta]
 template = "default"
 commit-id = "cfffba8c"
+
+[pyproject]
+dependencies_ignores = "['lxml']"

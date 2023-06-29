@@ -14,7 +14,6 @@ long_description = (
 
 test_requirements = [
     "plone.app.contenttypes[test]",
-    "plone.app.layout",
     "plone.app.testing",
     "plone.autoform",
     "plone.browserlayer",
@@ -62,6 +61,10 @@ setup(
     install_requires=[
         "plone.app.textfield>=1.3.6",
         "plone.base",
+        "plone.app.contentlisting",
+        "plone.app.vocabularies",
+        "plone.dexterity",
+        "plone.i18n",
         "plone.protect",
         "plone.registry",
         "plone.schema",
@@ -71,7 +74,7 @@ setup(
         "pytz",
         "setuptools",
         "z3c.form >= 4.0",
-        "z3c.formwidget.query",
+        "z3c.relationfield",
         "zope.deprecation",
         "zope.globalrequest",
         "Zope",

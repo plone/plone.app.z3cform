@@ -1287,8 +1287,8 @@ class RelatedItemsWidgetIntegrationTests(unittest.TestCase):
         )
 
     def test_related_items_widget_nav_root(self):
-        from plone.app.layout.navigation.interfaces import INavigationRoot
         from plone.app.z3cform.widgets.relateditems import RelatedItemsWidget
+        from plone.base.interfaces import INavigationRoot
 
         EXPECTED_ROOT_PATH = "/plone"
         EXPECTED_ROOT_URL = "http://nohost/plone"

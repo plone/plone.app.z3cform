@@ -1,28 +1,19 @@
+from pathlib import Path
 from setuptools import find_packages
 from setuptools import setup
-
-import os
-
-
-def read(*rnames):
-    return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
 
 version = "4.2.2.dev0"
 
 long_description = (
-    read("README.rst")
-    + "\n"
-    + read("plone", "app", "z3cform", "wysiwyg", "README.rst")
-    + "\n"
-    + read("plone", "app", "z3cform", "inline_validation.rst")
-    + "\n"
-    + read("CHANGES.rst")
-    + "\n"
+    f"{Path('README.rst').read_text()}\n"
+    f"{(Path('plone') / 'app' / 'z3cform' / 'wysiwyg' / 'README.rst').read_text()}\n"
+    f"{(Path('plone') / 'app' / 'z3cform' / 'inline_validation.rst').read_text()}\n"
+    f"{Path('CHANGES.rst').read_text()}"
 )
+
 test_requirements = [
     "plone.app.contenttypes[test]",
-    "plone.app.layout",
     "plone.app.testing",
     "plone.autoform",
     "plone.browserlayer",
@@ -39,6 +30,9 @@ setup(
     description="A collection of widgets, templates and other components "
     "for use with z3c.form and Plone",
     long_description=long_description,
+    long_description_content_type="text/x-rst",
+    # Get more strings from
+    # https://pypi.org/classifiers/
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
@@ -67,6 +61,9 @@ setup(
     install_requires=[
         "plone.app.textfield>=1.3.6",
         "plone.base",
+        "plone.app.contentlisting",
+        "plone.dexterity",
+        "plone.i18n",
         "plone.protect",
         "plone.registry",
         "plone.schema",
@@ -76,7 +73,7 @@ setup(
         "pytz",
         "setuptools",
         "z3c.form >= 4.0",
-        "z3c.formwidget.query",
+        "z3c.relationfield",
         "zope.deprecation",
         "zope.globalrequest",
         "Zope",

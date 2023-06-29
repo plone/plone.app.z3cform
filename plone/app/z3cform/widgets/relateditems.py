@@ -2,7 +2,6 @@ from Acquisition import aq_parent
 from OFS.interfaces import IFolder
 from OFS.interfaces import ISimpleItem
 from plone.app.contentlisting.interfaces import IContentListing
-from plone.app.layout.navigation.root import getNavigationRootObject
 from plone.app.z3cform.interfaces import IRelatedItemsWidget
 from plone.app.z3cform.utils import dict_merge
 from plone.app.z3cform.utils import get_context_url
@@ -10,6 +9,7 @@ from plone.app.z3cform.utils import get_widget_form
 from plone.app.z3cform.widgets.base import BaseWidget
 from plone.app.z3cform.widgets.patterns import InputWidget
 from plone.base import PloneMessageFactory as _
+from plone.base.navigationroot import get_navigation_root_object
 from plone.base.utils import get_top_site_from_url
 from Products.CMFCore.utils import getToolByName
 from z3c.form.browser.text import TextWidget as z3cform_TextWidget
@@ -64,7 +64,7 @@ def get_relateditems_options(
                 title = result[0].Title if result else value
             options["initialValues"][value] = title
 
-    nav_root = getNavigationRootObject(context, site)
+    nav_root = get_navigation_root_object(context, site)
 
     if not ISimpleItem.providedBy(context):
         context = nav_root

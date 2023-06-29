@@ -1,6 +1,6 @@
 from Acquisition import aq_base
 from copy import deepcopy
-from plone.app.layout.navigation.root import getNavigationRootObject
+from plone.base.navigationroot import get_navigation_root_object
 from Products.CMFCore.interfaces import IContentish
 from Products.CMFCore.interfaces import IFolderish
 from Products.CMFCore.interfaces import ISiteRoot
@@ -159,7 +159,7 @@ def get_portal():
 def get_portal_url(context):
     portal = get_portal()
     if portal:
-        root = getNavigationRootObject(context, portal)
+        root = get_navigation_root_object(context, portal)
         if root:
             try:
                 return root.absolute_url()

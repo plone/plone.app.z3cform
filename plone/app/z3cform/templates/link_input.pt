@@ -1,4 +1,12 @@
-<div i18n:domain="plone">
+<div xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+     xmlns:metal="http://xml.zope.org/namespaces/metal"
+     xmlns:tal="http://xml.zope.org/namespaces/tal"
+     lang="en"
+     xml:lang="en"
+     i18n:domain="plone"
+>
+
   <div class="linkModal">
 
     <div class="pat-autotoc autotabs"
@@ -51,13 +59,11 @@
                  i18n:translate="help_external_url"
           >External URL (can be relative within this site or absolute if it starts with http:// or https://)</label>
           <input class="form-control"
-                 name="external"
+                 name="${view/name}.external"
                  placeholder="https://domain.com"
                  type="text"
-                 tal:attributes="
-                   name string:${view/name}.external;
-                   value value;
-                 "
+                 value="${value}"
+                 i18n:attributes="placeholder"
           />
         </div>
       </span>
@@ -80,13 +86,11 @@
                    i18n:translate="help_email_url"
             >Email Address</label>
             <input class="form-control"
-                   name="email"
+                   name="${view/name}.email"
                    placeholder="name@domain.com"
                    type="email"
-                   tal:attributes="
-                     name string:${view/name}.email;
-                     value value;
-                   "
+                   value="${value}"
+                   i18n:attributes="placeholder"
             />
           </div>
           <div class="mb-3">
@@ -94,10 +98,10 @@
                    i18n:translate="help_email_url_subject"
             >Email Subject (optional)</label>
             <input class="form-control"
-                   name="subject"
+                   name="${view/name}.subject"
                    type="text"
-                   tal:attributes="
-                     name string:${view/name}.subject;
+                   value="${value}"
+                   tal:define="
                      value view/value/email_subject | nothing;
                    "
             />

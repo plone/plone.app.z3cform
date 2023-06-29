@@ -6,4 +6,9 @@ template = "default"
 commit-id = "cfffba8c"
 
 [pyproject]
-dependencies_ignores = "['lxml']"
+dependencies_ignores = "['lxml', 'plone.app.vocabularies']"
+
+[gitignore]
+extra_lines = """
+forest.*
+"""

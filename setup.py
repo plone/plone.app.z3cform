@@ -62,7 +62,6 @@ setup(
         "plone.app.textfield>=1.3.6",
         "plone.base",
         "plone.app.contentlisting",
-        "plone.app.vocabularies",
         "plone.dexterity",
         "plone.i18n",
         "plone.protect",

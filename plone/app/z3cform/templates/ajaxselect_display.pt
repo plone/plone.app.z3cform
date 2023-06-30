@@ -2,28 +2,25 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       tal:omit-tag=""
 >
-  <span class=""
-        id=""
-        tal:attributes="
-          id view/id;
-          class view/klass;
-          style view/style;
-          title view/title;
-          lang view/lang;
-          onclick view/onclick;
-          ondblclick view/ondblclick;
-          onmousedown view/onmousedown;
-          onmouseup view/onmouseup;
-          onmouseover view/onmouseover;
-          onmousemove view/onmousemove;
-          onmouseout view/onmouseout;
-          onkeypress view/onkeypress;
-          onkeydown view/onkeydown;
-          onkeyup view/onkeyup;
-        "
+  <span class="${view/klass}"
+        id="${view/id}"
+        lang="${view/lang}"
+        onclick="${view/onclick}"
+        ondblclick="${view/ondblclick}"
+        onkeydown="${view/onkeydown}"
+        onkeypress="${view/onkeypress}"
+        onkeyup="${view/onkeyup}"
+        onmousedown="${view/onmousedown}"
+        onmousemove="${view/onmousemove}"
+        onmouseout="${view/onmouseout}"
+        onmouseover="${view/onmouseover}"
+        onmouseup="${view/onmouseup}"
+        style="${view/style}"
+        title="${view/title}"
   ><tal:block condition="view/value" />
-    <tal:loop tal:repeat="item python:view.display_items()">
-      <span data-token="${python:item['token']}">${python:item['title']}</span><tal:if tal:condition="python: not repeat.item.end"
+    <tal:loop repeat="item python:view.display_items()">
+      <span data-token="${python:item['token']}">${python:item['title']}</span>
+      <tal:if tal:condition="python: not repeat.item.end"
               tal:replace="python:view.separator"
       />
     </tal:loop>

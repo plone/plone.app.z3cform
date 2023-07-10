@@ -1,7 +1,5 @@
-from plone.app.textfield.widget import (
-    IRichTextWidget as patextfield_IRichTextWidget,
-)  # noqa
-from z3c.form.interfaces import IFormLayer
+from plone.app.textfield.widget import IRichTextWidget as patextfield_IRichTextWidget
+from plone.schema.interfaces import IFormLayer
 from z3c.form.interfaces import IRadioWidget
 from z3c.form.interfaces import ISelectWidget as IBaseSelectWidget
 from z3c.form.interfaces import ISingleCheckBoxWidget
@@ -9,7 +7,6 @@ from z3c.form.interfaces import ITextWidget
 from zope.interface import Interface
 from zope.schema.interfaces import IDate
 from zope.schema.interfaces import IDatetime
-from zope.schema.interfaces import ITime
 
 
 class IPloneFormLayer(IFormLayer):
@@ -71,6 +68,10 @@ class IRichTextWidget(patextfield_IRichTextWidget):
 
 class ILinkWidget(ITextWidget):
     """Marker interface for the enhanced link widget."""
+
+
+class IEmailWidget(ITextWidget):
+    """Marker interface for the dumb email widget."""
 
 
 class ISingleCheckBoxBoolWidget(ISingleCheckBoxWidget):

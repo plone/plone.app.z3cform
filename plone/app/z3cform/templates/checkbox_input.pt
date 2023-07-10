@@ -1,81 +1,119 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-     xmlns:tal="http://xml.zope.org/namespaces/tal"
-     tal:omit-tag=""
-     tal:define="items view/items;
-                 items python:list(items);
-                 single_checkbox python:len(items) == 1">
-<div tal:attributes="id view/id"
-     tal:omit-tag="single_checkbox"
-     tal:condition="python:len(items) > 0">
- <div class="form-check"
-       tal:repeat="item items"
-       tal:attributes="id python:single_checkbox and view.id or None">
-  <input type="checkbox" id="" name="" class="" alt="" title=""
-         tabindex="" disabled="" readonly="" accesskey="" value=""
-         checked="checked"
-         tal:condition="item/checked"
-         tal:attributes="id item/id;
-                         name item/name;
-                         class string:form-check-input ${view/klass};
-                         value item/value;
-                         style view/style;
-                         title view/title;
-                         lang view/lang;
-                         onclick view/onclick;
-                         ondblclick view/ondblclick;
-                         onmousedown view/onmousedown;
-                         onmouseup view/onmouseup;
-                         onmouseover view/onmouseover;
-                         onmousemove view/onmousemove;
-                         onmouseout view/onmouseout;
-                         onkeypress view/onkeypress;
-                         onkeydown view/onkeydown;
-                         onkeyup view/onkeyup;
-                         disabled view/disabled;
-                         tabindex view/tabindex;
-                         onfocus view/onfocus;
-                         onblur view/onblur;
-                         onchange view/onchange;
-                         readonly view/readonly;
-                         alt view/alt;
-                         accesskey view/accesskey;
-                         onselect view/onselect"
-  /><input id="" name="" class="" alt="" title="" tabindex=""
-           disabled="" readonly="" accesskey="" value=""
-           type="checkbox"
-         tal:condition="not:item/checked"
-         tal:attributes="id item/id;
-                         name item/name;
-                         class string:form-check-input ${view/klass};
-                         value item/value;
-                         style view/style;
-                         title view/title;
-                         lang view/lang;
-                         onclick view/onclick;
-                         ondblclick view/ondblclick;
-                         onmousedown view/onmousedown;
-                         onmouseup view/onmouseup;
-                         onmouseover view/onmouseover;
-                         onmousemove view/onmousemove;
-                         onmouseout view/onmouseout;
-                         onkeypress view/onkeypress;
-                         onkeydown view/onkeydown;
-                         onkeyup view/onkeyup;
-                         disabled view/disabled;
-                         tabindex view/tabindex;
-                         onfocus view/onfocus;
-                         onblur view/onblur;
-                         onchange view/onchange;
-                         readonly view/readonly;
-                         alt view/alt;
-                         accesskey view/accesskey;
-                         onselect view/onselect" />
-  <label class="form-check-label" for=""
-         tal:attributes="for item/id">
-    <span class="label" tal:content="item/label">Label</span>
-  </label>
- </div>
-</div>
-<input name="field-empty-marker" type="hidden" value="1"
-       tal:attributes="name string:${view/name}-empty-marker" />
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      tal:define="
+        items view/items;
+        items python:list(items);
+        single_checkbox python:len(items) == 1;
+      "
+      tal:omit-tag=""
+>
+  <div tal:condition="python:len(items) &gt; 0"
+       tal:omit-tag="single_checkbox"
+       tal:attributes="
+         id view/id;
+       "
+  >
+    <div class="form-check"
+         tal:repeat="item items"
+         tal:attributes="
+           id python:single_checkbox and view.id or None;
+         "
+    >
+      <input class=""
+             id=""
+             accesskey=""
+             alt=""
+             checked="checked"
+             name=""
+             tabindex=""
+             title=""
+             type="checkbox"
+             value=""
+             tal:condition="item/checked"
+             tal:attributes="
+               id item/id;
+               name item/name;
+               class string:form-check-input ${view/klass};
+               value item/value;
+               style view/style;
+               title view/title;
+               lang view/lang;
+               onclick view/onclick;
+               ondblclick view/ondblclick;
+               onmousedown view/onmousedown;
+               onmouseup view/onmouseup;
+               onmouseover view/onmouseover;
+               onmousemove view/onmousemove;
+               onmouseout view/onmouseout;
+               onkeypress view/onkeypress;
+               onkeydown view/onkeydown;
+               onkeyup view/onkeyup;
+               disabled view/disabled;
+               tabindex view/tabindex;
+               onfocus view/onfocus;
+               onblur view/onblur;
+               onchange view/onchange;
+               readonly view/readonly;
+               alt view/alt;
+               accesskey view/accesskey;
+               onselect view/onselect;
+             "
+      /><input class=""
+             id=""
+             accesskey=""
+             alt=""
+             name=""
+             tabindex=""
+             title=""
+             type="checkbox"
+             value=""
+             tal:condition="not:item/checked"
+             tal:attributes="
+               id item/id;
+               name item/name;
+               class string:form-check-input ${view/klass};
+               value item/value;
+               style view/style;
+               title view/title;
+               lang view/lang;
+               onclick view/onclick;
+               ondblclick view/ondblclick;
+               onmousedown view/onmousedown;
+               onmouseup view/onmouseup;
+               onmouseover view/onmouseover;
+               onmousemove view/onmousemove;
+               onmouseout view/onmouseout;
+               onkeypress view/onkeypress;
+               onkeydown view/onkeydown;
+               onkeyup view/onkeyup;
+               disabled view/disabled;
+               tabindex view/tabindex;
+               onfocus view/onfocus;
+               onblur view/onblur;
+               onchange view/onchange;
+               readonly view/readonly;
+               alt view/alt;
+               accesskey view/accesskey;
+               onselect view/onselect;
+             "
+      />
+      <label class="form-check-label"
+             for=""
+             tal:attributes="
+               for item/id;
+             "
+      >
+        <span class="label"
+              tal:content="item/label"
+        >Label</span>
+      </label>
+    </div>
+  </div>
+  <input name="field-empty-marker"
+         type="hidden"
+         value="1"
+         tal:attributes="
+           name string:${view/name}-empty-marker;
+         "
+  />
 </html>

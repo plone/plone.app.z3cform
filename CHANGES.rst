@@ -8,6 +8,82 @@ Changelog
 
 .. towncrier release notes start
 
+4.2.1 (2023-06-16)
+------------------
+
+Bug fixes:
+
+
+- Add `required` to orderedselect widget.
+  [petschki - original PR by szakitibi] (#170)
+
+
+4.2.0 (2023-05-22)
+------------------
+
+New features:
+
+
+- Move storage utility to plone.namedfile
+  to break a dependency cycle between the two.
+  [gforcada] (#3764)
+
+
+Bug fixes:
+
+
+- Remove invalid unicode control characters for `TextareaWidget`
+  [petschki] (#167)
+
+
+4.1.0 (2023-04-26)
+------------------
+
+New features:
+
+
+- Merge utils and base classes from  ``plone.app.widgets`` and do not depend
+  on it anymore. [petschki] (#19)
+
+
+4.0.3 (2023-04-14)
+------------------
+
+Bug fixes:
+
+
+- Fixes transitive circular dependency to plone.schema.
+  Inherit own Browserlayer from new intermediate browserlayer in plone.schema.
+  [jensens] (#163)
+- Add ``test`` extra with the same contents as the ``tests`` extra.
+  The ``tests`` extra will be removed in Plone 7.
+  [maurits] (#164)
+
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs] (3b8337e6)
+
+
+4.0.2 (2023-03-23)
+------------------
+
+Bug fixes:
+
+
+- Fix relative URLs validation in link widget
+  [laulaz] (#160)
+
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs] (243ca9ec)
+
+
 4.0.1 (2023-01-26)
 ------------------
 
@@ -128,7 +204,7 @@ Bug fixes:
 Bug fixes:
 
 
-- Remove errorneous extra curly bracket in class name of the widget wrapper.
+- Remove erroneous extra curly bracket in class name of the widget wrapper.
   [thet] (#136)
 
 
@@ -399,7 +475,7 @@ Bug fixes:
 - Fixes #64: SingleCheckBoxFieldWidget does not render value in view mode.
   In order to fix this issue the hacky view was removed.
   It is replaced by a new widget to render a single checkbox with bool values.
-  An appropiate data converter was added as well.
+  An appropriate data converter was added as well.
   [jensens]
 
 
@@ -422,7 +498,7 @@ New features:
 
 Bug fixes:
 
-- Catch TypeError occuring on conflicting subrequests in inline validation
+- Catch TypeError occurring on conflicting subrequests in inline validation
   [tomgross]
 
 - Clean up: code-style, zca-decorators, replace lambda.
@@ -501,7 +577,7 @@ New features:
   whichever is specified by field.
   [seanupton]
 
-- Support functions as values in the ``pattern_options`` dictionary, whch gets then serialized to JSON.
+- Support functions as values in the ``pattern_options`` dictionary, which gets then serialized to JSON.
   Before that, walk recursively through ``pattern_options`` and call all functions with the widgets context.
   This allows for context-specific, runtime evaluated pattern option values.
   [thet]

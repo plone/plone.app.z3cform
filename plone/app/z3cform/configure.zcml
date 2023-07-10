@@ -2,12 +2,12 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:i18n="http://namespaces.zope.org/i18n"
-    xmlns:zcml="http://namespaces.zope.org/zcml"
     xmlns:z3c="http://namespaces.zope.org/z3c"
-    i18n_domain="plone">
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="plone"
+    >
 
   <include package="plone.z3cform" />
-  <include package="plone.app.widgets" />
   <include package=".wysiwyg" />
 
   <!-- Configuration installation profile -->
@@ -19,25 +19,25 @@
   <browser:page
       name="ploneform-macros"
       for="*"
-      layer=".interfaces.IPloneFormLayer"
       class=".views.Macros"
-      template="templates/macros.pt"
       allowed_interface="zope.interface.common.mapping.IItemMapping"
+      template="templates/macros.pt"
       permission="zope.Public"
+      layer=".interfaces.IPloneFormLayer"
       />
   <browser:page
       name="ploneform-render-widget"
       for="z3c.form.interfaces.IWidget"
-      layer="plone.app.z3cform.interfaces.IPloneFormLayer"
       class=".views.RenderWidget"
       permission="zope.Public"
+      layer="plone.app.z3cform.interfaces.IPloneFormLayer"
       />
   <browser:page
       name="ploneform-render-widget"
       for="zope.contentprovider.interfaces.IContentProvider"
-      layer="plone.app.z3cform.interfaces.IPloneFormLayer"
       class=".views.RenderContentProvider"
       permission="zope.Public"
+      layer="plone.app.z3cform.interfaces.IPloneFormLayer"
       />
 
   <adapter factory=".views.layout_factory" />
@@ -53,22 +53,22 @@
   <!-- dexterity add/edit overrides -->
   <include package="plone.dexterity" />
   <adapter
+      factory=".views.AddView"
+      provides="zope.publisher.interfaces.browser.IBrowserPage"
       for="Products.CMFCore.interfaces.IFolderish
            plone.app.z3cform.interfaces.IPloneFormLayer
            plone.dexterity.interfaces.IDexterityFTI"
-      provides="zope.publisher.interfaces.browser.IBrowserPage"
-      factory=".views.AddView"
       />
   <class class=".views.AddView">
-      <require
-          permission="cmf.AddPortalContent"
-          interface="zope.publisher.interfaces.browser.IBrowserPage"
-          />
+    <require
+        permission="cmf.AddPortalContent"
+        interface="zope.publisher.interfaces.browser.IBrowserPage"
+        />
   </class>
 
   <browser:page
-      for="plone.dexterity.interfaces.IDexterityContent"
       name="edit"
+      for="plone.dexterity.interfaces.IDexterityContent"
       class=".views.EditView"
       permission="cmf.ModifyPortalContent"
       layer="plone.app.z3cform.interfaces.IPloneFormLayer"
@@ -77,44 +77,18 @@
   <!-- Use a custom actions manager that knows how to do CSRF token authentication. -->
   <adapter factory=".csrf.AuthenticatedButtonActions" />
 
-  <adapter factory=".converters.DatetimeWidgetConverter" />
-  <adapter factory=".converters.DateWidgetConverter" />
-  <adapter factory=".converters.DateWidgetToDatetimeConverter" />
-  <adapter factory=".converters.TimeWidgetConverter" />
-  <adapter factory=".converters.SelectWidgetConverter" />
-  <adapter factory=".converters.SequenceSelectWidgetConverter" />
-  <adapter factory=".converters.AjaxSelectWidgetConverter" />
-  <adapter factory=".converters.QueryStringDataConverter" />
-  <adapter factory=".converters.RelationChoiceRelatedItemsWidgetConverter" />
-  <adapter factory=".converters.RelationChoiceRelatedItemsWidgetConverter"
-           for="z3c.relationfield.interfaces.IRelationChoice .interfaces.ITextWidget" />
-  <adapter factory=".converters.RelationChoiceSelectWidgetConverter" />
-  <adapter factory=".converters.RelatedItemsDataConverter" />
-  <adapter factory=".converters.RelatedItemsDataConverter"
-           for="z3c.relationfield.interfaces.IRelationList .interfaces.ITextWidget" />
-  <adapter factory=".converters.RelationListSelectWidgetDataConverter" />
-  <adapter factory=".converters.LinkWidgetDataConverter" />
+  <!-- converters -->
+  <include file="converters.zcml" />
 
   <!-- widgets -->
-  <include file="widget.zcml" />
+  <include file="widgets.zcml" />
 
   <!-- error snippet -->
   <adapter
       factory=".views.ErrorViewTemplate"
-      for="z3c.form.interfaces.IErrorViewSnippet .interfaces.IPloneFormLayer"
       provides="zope.pagetemplate.interfaces.IPageTemplate"
+      for="z3c.form.interfaces.IErrorViewSnippet
+           .interfaces.IPloneFormLayer"
       />
-
-  <utility
-      name="ZPublisher.HTTPRequest.FileUpload"
-      provides="plone.namedfile.interfaces.IStorage"
-      factory=".factories.Zope2FileUploadStorable"
-      />
-
-  <utility
-       component=".widget.tinymce_richtextwidget_render"
-       provides=".interfaces.IRichTextWidgetInputModeRenderer"
-       name="tinymce"
-       />
 
 </configure>

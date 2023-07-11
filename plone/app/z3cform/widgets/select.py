@@ -40,7 +40,6 @@ class SelectWidget(BaseWidget, z3cform_SelectWidget):
     pattern = "select2"
     pattern_options = BaseWidget.pattern_options.copy()
 
-    separator = ";"
     noValueToken = ""
     noValueMessage = ""
     multiple = None
@@ -95,9 +94,6 @@ class SelectWidget(BaseWidget, z3cform_SelectWidget):
         # ISequence represents an orderable collection
         if ISequence.providedBy(self.field) or self.orderable:
             options["orderable"] = True
-
-        if self.multiple:
-            options["separator"] = self.separator
 
         # Allow to clear field value if it is not required
         if not self.required:
@@ -154,7 +150,6 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
     pattern = "select2"
     pattern_options = BaseWidget.pattern_options.copy()
 
-    separator = ";"
     vocabulary = None
     vocabulary_view = "@@getVocabulary"
     orderable = False
@@ -186,7 +181,7 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
 
     def display_items(self):
         if self.value:
-            tokens = self.value.split(self.separator)
+            tokens = self.value
             vocabulary = self.get_vocabulary()
             for token in tokens:
                 item = {"token": token, "title": token}
@@ -197,13 +192,8 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
                         pass
                 yield item
 
-    def has_multiple_values(self):
-        return self.value and self.value.split(self.separator)
-
     def _ajaxselect_options(self):
-        options = {
-            "separator": self.separator,
-        }
+        options = {}
         if self.vocabulary:
             options["vocabularyUrl"] = "{}/{}?name={}".format(
                 get_context_url(self._view_context()),
@@ -216,7 +206,7 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
             vocabulary = self.get_vocabulary()
             if vocabulary is not None and self.value:
                 options["initialValues"] = dict()
-                for token in self.value.split(self.separator):
+                for token in self.value:
                     try:
                         term = vocabulary.getTermByToken(token)
                         options["initialValues"][term.token] = term.title

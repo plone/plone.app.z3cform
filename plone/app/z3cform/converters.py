@@ -274,7 +274,6 @@ class AjaxSelectWidgetConverter(BaseDataConverter):
         :returns: List of items
         :rtype: list | tuple | set
         """
-        breakpoint()
         collectionType = self.field._type
         if isinstance(collectionType, tuple):
             collectionType = collectionType[-1]

@@ -87,7 +87,7 @@
                 unload_protection python:enable_unload_protection and 'pat-formunloadalert';
                 enable_autofocus view/enable_autofocus|python:True;
                 autofocus python:enable_autofocus and 'pat-formautofocus';
-                validation python:'pat-validation' if True else '';
+                validation python:'pat-validation' if not view.ignoreRequiredOnExtract else '';
                 has_groups python:bool(groups);
                 form_tabbing python:(has_groups and enable_form_tabbing) and 'enableFormTabbing pat-autotoc' or '';
                 show_default_label python:has_groups and default_fieldset_label and len(view.widgets);

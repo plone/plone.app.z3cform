@@ -8,6 +8,33 @@ Changelog
 
 .. towncrier release notes start
 
+4.3.0 (2023-07-14)
+------------------
+
+New features:
+
+
+- Introduce new Email-Widget which is used for `plone.schema.email.IEmail` fields.
+  It uses the input type `email`.
+  [jensens] (#173)
+
+
+Bug fixes:
+
+
+- Fix OrdereSelectWidget browser validation when the input is required.
+  [petschki] (#178)
+- Ignore form validation when `ignoreRequiredOnExtract` is set.
+  [petschki] (#179)
+
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs] (cfffba8c)
+
+
 4.2.1 (2023-06-16)
 ------------------
 

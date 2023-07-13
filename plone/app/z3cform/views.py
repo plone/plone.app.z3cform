@@ -75,6 +75,7 @@ class BootstrapActions:
                 # this sets 'formnovalidate' attribute in markup
                 # to ignore HTML5 validation when clicking buttons other than "save"
                 self.actions[a].ignoreRequiredOnValidation = True
+                self.actions[a].attributes.update({"formnovalidate": "formnovalidate"})
 
 
 # Dexterity Add/Edit Form overrides

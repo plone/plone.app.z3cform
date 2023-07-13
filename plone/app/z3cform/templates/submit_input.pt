@@ -9,7 +9,6 @@
           tal:attributes="
             view/attributes;
             class string:btn ${bsFallback}${view/klass};
-            formnovalidate python:view.ignoreRequiredOnValidation or None;
           "
   >${view/value}</button>
 </html>

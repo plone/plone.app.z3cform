@@ -72,7 +72,7 @@ setup(
         "Products.GenericSetup",
         "pytz",
         "setuptools",
-        "z3c.form >= 4.0",
+        "z3c.form >= 5.1",
         "z3c.relationfield",
         "zope.deprecation",
         "zope.globalrequest",

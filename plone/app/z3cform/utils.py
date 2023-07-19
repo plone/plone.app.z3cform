@@ -5,9 +5,9 @@ from Products.CMFCore.interfaces import IFolderish
 from six.moves import urllib
 from zope.component.hooks import getSite
 
-
 try:
     from zope.globalrequest import getRequest
+
     getRequest  # pyflakes
 except ImportError:
     # Fake it
@@ -121,3 +121,20 @@ def is_same_domain(url1, url2):
     purl1 = urllib.parse.urlparse(url1)
     purl2 = urllib.parse.urlparse(url2)
     return purl1.scheme == purl2.scheme and purl1.netloc == purl2.netloc
+
+
+# Invalid XML unicode control characters
+# NOTE: these control characters are allowed:
+# chr(9) = "\t"
+# chr(10) = "\n"
+# chr(13) = "\r"
+
+_unicode_ctl_chr_map = dict.fromkeys([x for x in range(32) if x not in (9, 10, 13)])
+
+
+def remove_invalid_xml_characters(txt):
+    # remove occurrences of the unicode "control characters"
+    # as they are invalid XML characters
+    # see https://en.wikipedia.org/wiki/Valid_characters_in_XML and
+    # https://en.wikipedia.org/wiki/C0_and_C1_control_codes
+    return txt.translate(_unicode_ctl_chr_map)

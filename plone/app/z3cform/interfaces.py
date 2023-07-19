@@ -1,6 +1,6 @@
 from plone.app.textfield.widget import IRichTextWidget as patextfield_IRichTextWidget
 from plone.schema.interfaces import IFormLayer
-from z3c.form.interfaces import IRadioWidget
+from z3c.form.interfaces import IRadioWidget as IBaseRadioWidget
 from z3c.form.interfaces import ISelectWidget as IBaseSelectWidget
 from z3c.form.interfaces import ISingleCheckBoxWidget
 from z3c.form.interfaces import ITextWidget as IBaseTextWidget
@@ -82,7 +82,7 @@ class ISingleCheckBoxBoolWidget(ISingleCheckBoxWidget):
     """Marker interface for the SingleCheckboxBoolWidget."""
 
 
-class IRadioWidget(IRadioWidget):
+class IRadioWidget(IBaseRadioWidget):
     """Radio widget."""
 
     def renderForValue(value):

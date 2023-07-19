@@ -9,101 +9,20 @@
 >
   <div tal:condition="python:len(items) &gt; 0"
        tal:omit-tag="single_checkbox"
-       tal:attributes="
-         id view/id;
-       "
+       id="${view/id}"
   >
-    <div class="form-check"
+    <div class="form-check" id="${python:view.id if single_checkbox else None}"
          tal:repeat="item items"
-         tal:attributes="
-           id python:single_checkbox and view.id or None;
-         "
     >
-      <input class=""
-             id=""
-             accesskey=""
-             alt=""
-             checked="checked"
-             name=""
-             tabindex=""
-             title=""
+      <input class="${view/klass}"
+             id="${item/id}"
+             checked="${python:'checked' if item['checked'] else None}"
+             name="${item/name}"
              type="checkbox"
-             value=""
-             tal:condition="item/checked"
-             tal:attributes="
-               id item/id;
-               name item/name;
-               required python:view.required and 'required' or None;
-               class string:form-check-input ${view/klass};
-               value item/value;
-               style view/style;
-               title view/title;
-               lang view/lang;
-               onclick view/onclick;
-               ondblclick view/ondblclick;
-               onmousedown view/onmousedown;
-               onmouseup view/onmouseup;
-               onmouseover view/onmouseover;
-               onmousemove view/onmousemove;
-               onmouseout view/onmouseout;
-               onkeypress view/onkeypress;
-               onkeydown view/onkeydown;
-               onkeyup view/onkeyup;
-               disabled view/disabled;
-               tabindex view/tabindex;
-               onfocus view/onfocus;
-               onblur view/onblur;
-               onchange view/onchange;
-               readonly view/readonly;
-               alt view/alt;
-               accesskey view/accesskey;
-               onselect view/onselect;
-             "
-      /><input class=""
-             id=""
-             accesskey=""
-             alt=""
-             name=""
-             tabindex=""
-             title=""
-             type="checkbox"
-             value=""
-             tal:condition="not:item/checked"
-             tal:attributes="
-               id item/id;
-               name item/name;
-               required python:view.required and 'required' or None;
-               class string:form-check-input ${view/klass};
-               value item/value;
-               style view/style;
-               title view/title;
-               lang view/lang;
-               onclick view/onclick;
-               ondblclick view/ondblclick;
-               onmousedown view/onmousedown;
-               onmouseup view/onmouseup;
-               onmouseover view/onmouseover;
-               onmousemove view/onmousemove;
-               onmouseout view/onmouseout;
-               onkeypress view/onkeypress;
-               onkeydown view/onkeydown;
-               onkeyup view/onkeyup;
-               disabled view/disabled;
-               tabindex view/tabindex;
-               onfocus view/onfocus;
-               onblur view/onblur;
-               onchange view/onchange;
-               readonly view/readonly;
-               alt view/alt;
-               accesskey view/accesskey;
-               onselect view/onselect;
-             "
+             value="${item/value}"
       />
       <label class="form-check-label"
-             for=""
-             tal:attributes="
-               for item/id;
-             "
+             for="${item/id}"
       >
         <span tal:content="item/label">Label</span>
         <span class="required horizontal"

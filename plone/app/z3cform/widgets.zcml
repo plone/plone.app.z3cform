@@ -3,6 +3,71 @@
     xmlns:z3c="http://namespaces.zope.org/z3c"
     >
 
+  <!-- for base registrations see z3c.form.browser package -->
+
+  <!-- enhanced text widget -->
+  <adapter
+      factory=".widgets.text.TextFieldWidget"
+      for="zope.schema.TextLine
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+
+  <adapter
+      factory=".widgets.text.TextFieldWidget"
+      for="zope.schema.BytesLine
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter
+      factory=".widgets.text.TextFieldWidget"
+      for="zope.schema.ASCIILine
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter
+      factory=".widgets.text.TextFieldWidget"
+      for="zope.schema.interfaces.IId
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter
+      factory=".widgets.text.TextFieldWidget"
+      for="zope.schema.interfaces.IInt
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter
+      factory=".widgets.text.TextFieldWidget"
+      for="zope.schema.interfaces.IFloat
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter
+      factory=".widgets.text.TextFieldWidget"
+      for="zope.schema.interfaces.IDecimal
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter
+      factory=".widgets.text.TextFieldWidget"
+      for="zope.schema.interfaces.ITimedelta
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter
+      factory=".widgets.text.TextFieldWidget"
+      for="zope.schema.interfaces.IURI
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <z3c:widgetTemplate
+      widget=".interfaces.ITextWidget"
+      template="templates/text_input.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
+      />
+
   <!-- Make the default widget for sequence-of-text-lines a textlines
        widget; the default is too confusing -->
 

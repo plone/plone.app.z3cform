@@ -3,7 +3,7 @@ from plone.schema.interfaces import IFormLayer
 from z3c.form.interfaces import IRadioWidget
 from z3c.form.interfaces import ISelectWidget as IBaseSelectWidget
 from z3c.form.interfaces import ISingleCheckBoxWidget
-from z3c.form.interfaces import ITextWidget
+from z3c.form.interfaces import ITextWidget as IBaseTextWidget
 from zope.interface import Interface
 from zope.schema.interfaces import IDate
 from zope.schema.interfaces import IDatetime
@@ -24,6 +24,10 @@ class IFieldPermissionChecker(Interface):
         permission.  Raises and AttributeError if the field cannot be
         found.
         """
+
+
+class ITextWidget(IBaseTextWidget):
+    """ Marker interface for base text input """
 
 
 class IDateField(IDate):

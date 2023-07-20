@@ -174,40 +174,21 @@
       mode="input"
       />
 
-  <!-- date/time -->
-  <class class=".widgets.datetime.DateWidget">
-    <require
-        permission="zope.Public"
-        interface=".interfaces.IDateWidget"
-        />
-  </class>
-
+  <!-- date -->
   <adapter
       factory=".widgets.datetime.DateFieldWidget"
       for="zope.schema.interfaces.IDate
            plone.app.z3cform.interfaces.IPloneFormLayer"
       />
 
-  <class class=".widgets.datetime.DatetimeWidget">
-    <require
-        permission="zope.Public"
-        interface=".interfaces.IDatetimeWidget"
-        />
-  </class>
-
+  <!-- datetime -->
   <adapter
       factory=".widgets.datetime.DatetimeFieldWidget"
       for="zope.schema.interfaces.IDatetime
            plone.app.z3cform.interfaces.IPloneFormLayer"
       />
 
-  <class class=".widgets.datetime.TimeWidget">
-    <require
-        permission="zope.Public"
-        interface=".interfaces.ITimeWidget"
-        />
-  </class>
-
+  <!-- time -->
   <adapter
       factory=".widgets.datetime.TimeFieldWidget"
       for="zope.schema.interfaces.ITime
@@ -280,14 +261,6 @@
       />
 
   <!-- z3c.form overrides -->
-
-  <z3c:widgetTemplate
-      field="zope.schema.interfaces.IDatetime"
-      widget=".interfaces.IDatetimeWidget"
-      template="templates/text_input.pt"
-      layer=".interfaces.IPloneFormLayer"
-      mode="input"
-      />
 
   <z3c:widgetTemplate
       widget="z3c.form.interfaces.ITextAreaWidget"

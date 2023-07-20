@@ -1,0 +1,12 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      tal:omit-tag=""
+>
+  <input name="${view/name}"
+         value="${view/value}"
+         tal:attributes="
+           view/attributes;
+         "
+  />
+  <!--! NOTE: we generate the input type in widget attributes -->
+</html>

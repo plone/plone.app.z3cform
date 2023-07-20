@@ -17,7 +17,6 @@ from plone.base.interfaces import IMarkupSchema
 from plone.dexterity.fti import DexterityFTI
 from plone.registry.interfaces import IRegistry
 from plone.supermodel.model import Schema
-from plone.testing.zca import UNIT_TESTING
 from plone.uuid.interfaces import IUUID
 from unittest import mock
 from unittest.mock import Mock
@@ -77,8 +76,10 @@ def example_vocabulary_factory(context, query=None):
 
 
 class BaseWidgetTests(unittest.TestCase):
+    layer = PAZ3CForm_INTEGRATION_TESTING
+
     def setUp(self):
-        self.request = TestRequest(environ={"HTTP_ACCEPT_LANGUAGE": "en"})
+        self.request = self.layer["request"]
         self.field = TextLine(__name__="textlinefield")
         self.maxDiff = 999999
 
@@ -182,10 +183,12 @@ class BaseWidgetTests(unittest.TestCase):
 
 
 class DateWidgetTests(unittest.TestCase):
+    layer = PAZ3CForm_INTEGRATION_TESTING
+
     def setUp(self):
         from plone.app.z3cform.widgets.datetime import DateWidget
 
-        self.request = TestRequest(environ={"HTTP_ACCEPT_LANGUAGE": "en"})
+        self.request = self.layer["request"]
         self.field = Date(__name__="datefield")
         self.field.required = False
         self.widget = DateWidget(self.request)
@@ -195,7 +198,6 @@ class DateWidgetTests(unittest.TestCase):
     def test_widget(self):
         self.assertEqual(
             {
-                "name": None,
                 "pattern": "date-picker",
                 "pattern_options": {
                     "behavior": "native",
@@ -205,16 +207,18 @@ class DateWidgetTests(unittest.TestCase):
                     "today": "Today",
                     "week-numbers": "show",
                 },
-                "value": "",
             },
-            self.widget._base_args(),
+            {
+                "pattern": self.widget.pattern,
+                "pattern_options": self.widget.get_pattern_options(),
+            },
         )
 
     def test_widget_required(self):
         """Required fields should not have a "Clear" button."""
         self.field.required = True
-        base_args = self.widget._base_args()
-        self.assertEqual(base_args["pattern_options"]["clear"], False)
+        pattern_options = self.widget.get_pattern_options()
+        self.assertEqual(pattern_options["clear"], False)
 
     def test_data_converter(self):
         from plone.app.z3cform.widgets.datetime import DateWidgetConverter
@@ -285,10 +289,12 @@ class DateWidgetTests(unittest.TestCase):
 
 
 class DatetimeWidgetTests(unittest.TestCase):
+    layer = PAZ3CForm_INTEGRATION_TESTING
+
     def setUp(self):
         from plone.app.z3cform.widgets.datetime import DatetimeWidget
 
-        self.request = TestRequest(environ={"HTTP_ACCEPT_LANGUAGE": "en"})
+        self.request = self.layer["request"]
         self.field = Datetime(__name__="datetimefield")
         self.field.required = False
         self.widget = DatetimeWidget(self.request)
@@ -301,7 +307,6 @@ class DatetimeWidgetTests(unittest.TestCase):
     def test_widget(self):
         self.assertEqual(
             {
-                "name": None,
                 "pattern": "datetime-picker",
                 "pattern_options": {
                     "behavior": "native",
@@ -312,16 +317,18 @@ class DatetimeWidgetTests(unittest.TestCase):
                     "today": "Today",
                     "week-numbers": "show",
                 },
-                "value": "",
             },
-            self.widget._base_args(),
+            {
+                "pattern": self.widget.pattern,
+                "pattern_options": self.widget.get_pattern_options(),
+            },
         )
 
     def test_widget_required(self):
         """Required fields should not have a "Clear" button."""
         self.field.required = True
-        base_args = self.widget._base_args()
-        self.assertEqual(base_args["pattern_options"]["clear"], False)
+        pattern_options = self.widget.get_pattern_options()
+        self.assertEqual(pattern_options["clear"], False)
 
     def test_data_converter(self):
         from plone.app.z3cform.widgets.datetime import DatetimeWidgetConverter
@@ -461,17 +468,19 @@ class DatetimeWidgetTests(unittest.TestCase):
 
 
 class TimeWidgetTests(unittest.TestCase):
+    layer = PAZ3CForm_INTEGRATION_TESTING
+
     def setUp(self):
         from plone.app.z3cform.widgets.datetime import TimeWidget
 
-        self.request = TestRequest(environ={"HTTP_ACCEPT_LANGUAGE": "en"})
+        self.request = self.layer["request"]
         self.field = Time(__name__="timefield")
         self.field.required = False
         self.widget = TimeWidget(self.request)
         self.widget.field = self.field
 
     def test_widget(self):
-        self.assertIn('<input type="time"', self.widget.render())
+        self.assertIn(' type="time"', self.widget.render())
 
     def test_data_converter(self):
         from plone.app.z3cform.converters import TimeWidgetConverter
@@ -511,6 +520,8 @@ class TimeWidgetTests(unittest.TestCase):
 
 
 class SelectWidgetTests(unittest.TestCase):
+    layer = PAZ3CForm_INTEGRATION_TESTING
+
     def setUp(self):
         self.request = TestRequest(environ={"HTTP_ACCEPT_LANGUAGE": "en"})
         alsoProvides(self.request, IFormLayer)
@@ -877,7 +888,7 @@ class SelectWidgetTests(unittest.TestCase):
 
 
 class AjaxSelectWidgetTests(unittest.TestCase):
-    layer = UNIT_TESTING
+    layer = PAZ3CForm_INTEGRATION_TESTING
     maxDiff = None
 
     def setUp(self):
@@ -907,7 +918,7 @@ class AjaxSelectWidgetTests(unittest.TestCase):
                 "value": "",
                 "pattern": "select2",
                 "pattern_options": {
-                    "vocabularyUrl": "/@@getVocabulary?name=example",
+                    "vocabularyUrl": "http://nohost/plone/@@getVocabulary?name=example",
                     "separator": ";",
                 },
             },
@@ -920,7 +931,7 @@ class AjaxSelectWidgetTests(unittest.TestCase):
                 "value": "token_three;token_two",
                 "pattern": "select2",
                 "pattern_options": {
-                    "vocabularyUrl": "/@@getVocabulary?name=example",
+                    "vocabularyUrl": "http://nohost/plone/@@getVocabulary?name=example",
                     "initialValues": {
                         "token_three": "Three",
                         "token_two": "Two",
@@ -1234,7 +1245,7 @@ class QueryStringWidgetTests(unittest.TestCase):
             },
             {
                 "pattern": widget.pattern,
-                "pattern_options": widget.pattern_options(),
+                "pattern_options": widget.get_pattern_options(),
             },
         )
 

@@ -1,9 +1,10 @@
 from plone.app.z3cform.interfaces import ILinkWidget
+from plone.app.z3cform.widgets.base import HTMLTextInputWidget
 from plone.base.utils import safe_text
-from z3c.form.browser.text import TextWidget as z3cform_TextWidget
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.interfaces import NO_VALUE
 from z3c.form.widget import FieldWidget
+from z3c.form.widget import Widget
 from zope.component.hooks import getSite
 from zope.interface import implementer
 from zope.interface import implementer_only
@@ -12,7 +13,7 @@ import json
 
 
 @implementer_only(ILinkWidget)
-class LinkWidget(z3cform_TextWidget):
+class LinkWidget(HTMLTextInputWidget, Widget):
     """Implementation of enhanced link widget.
 
     .. note::

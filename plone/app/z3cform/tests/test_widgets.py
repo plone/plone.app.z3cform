@@ -1222,8 +1222,6 @@ class QueryStringWidgetTests(unittest.TestCase):
         widget = QueryStringWidget(self.request)
         self.assertEqual(
             {
-                "name": None,
-                "value": "",
                 "pattern": "querystring",
                 "pattern_options": {
                     "indexOptionsUrl": "/@@qsOptions",
@@ -1234,7 +1232,10 @@ class QueryStringWidgetTests(unittest.TestCase):
                     "patternRelateditemsOptions": None,
                 },
             },
-            widget._base_args(),
+            {
+                "pattern": widget.pattern,
+                "pattern_options": widget.pattern_options(),
+            },
         )
 
 

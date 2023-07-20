@@ -35,6 +35,7 @@ from plone.app.z3cform.interfaces import ISelectWidget
 from plone.app.z3cform.interfaces import ISingleCheckBoxBoolWidget
 from plone.app.z3cform.utils import call_callables
 from plone.app.z3cform.utils import closest_content
+from plone.app.z3cform.utils import remove_invalid_xml_characters
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
@@ -752,6 +753,10 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
         return super(RichTextWidget, self).render()
 
     def render_input_mode(self):
+            if self.value and self.value.raw:
+                raw = self.value.raw
+                raw = remove_invalid_xml_characters(raw)
+                self.value = RichTextValue(raw, mimeType=self.value.mimeType, encoding=self.value.encoding)
             # MODE "INPUT"
             rendered = ''
             allowed_mime_types = self.allowedMimeTypes()

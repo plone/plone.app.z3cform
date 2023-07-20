@@ -27,7 +27,7 @@ class IFieldPermissionChecker(Interface):
 
 
 class ITextWidget(IBaseTextWidget):
-    """ Marker interface for base text input """
+    """Marker interface for base text input"""
 
 
 class IDateField(IDate):

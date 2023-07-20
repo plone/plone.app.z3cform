@@ -2,5 +2,11 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       tal:omit-tag=""
 >
-  <input type="text" name="${view/name}" value="${view/value}" tal:attributes="view/attributes" />
+  <input name="${view/name}"
+         type="text"
+         value="${view/value}"
+         tal:attributes="
+           view/attributes;
+         "
+  />
 </html>

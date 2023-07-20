@@ -7,11 +7,12 @@
       "
       tal:omit-tag=""
 >
-  <div tal:condition="python:len(items) &gt; 0"
+  <div id="${view/id}"
+       tal:condition="python:len(items) &gt; 0"
        tal:omit-tag="single_checkbox"
-       id="${view/id}"
   >
-    <div class="form-check" id="${python:view.id if single_checkbox else None}"
+    <div class="form-check"
+         id="${python:view.id if single_checkbox else None}"
          tal:repeat="item items"
     >
       <input class="${view/klass}"

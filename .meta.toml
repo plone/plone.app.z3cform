@@ -3,7 +3,7 @@
 # See the inline comments on how to expand/tweak this configuration file
 [meta]
 template = "default"
-commit-id = "cfffba8c"
+commit-id = "b3ba013b"
 
 [pyproject]
 dependencies_ignores = "['lxml', 'plone.app.vocabularies']"
@@ -12,3 +12,6 @@ dependencies_ignores = "['lxml', 'plone.app.vocabularies']"
 extra_lines = """
 forest.*
 """
+
+[tox]
+constraints_file = "https://dist.plone.org/release/6.1-dev/constraints.txt"

@@ -258,12 +258,6 @@
       />
 
   <!-- link -->
-  <adapter
-      factory=".widgets.link.LinkFieldWidget"
-      for="z3c.form.interfaces.ITextWidget
-           plone.app.z3cform.interfaces.IPloneFormLayer"
-      />
-
   <z3c:widgetTemplate
       widget=".interfaces.ILinkWidget"
       template="templates/link_input.pt"
@@ -286,13 +280,6 @@
       />
 
   <!-- z3c.form overrides -->
-
-  <z3c:widgetTemplate
-      widget="z3c.form.interfaces.ITextWidget"
-      template="templates/text_input.pt"
-      layer=".interfaces.IPloneFormLayer"
-      mode="input"
-      />
 
   <z3c:widgetTemplate
       field="zope.schema.interfaces.IDatetime"

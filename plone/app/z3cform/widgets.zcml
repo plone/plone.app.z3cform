@@ -71,6 +71,13 @@
   <!-- Make the default widget for sequence-of-text-lines a textlines
        widget; the default is too confusing -->
 
+  <z3c:widgetTemplate
+      widget="plone.z3cform.textlines.textlines.ITextLinesWidget"
+      template="templates/textlines_input.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
+      />
+
   <adapter
       factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
       provides="z3c.form.interfaces.IFieldWidget"
@@ -141,6 +148,14 @@
       mode="input"
       />
 
+  <z3c:widgetTemplate
+      field="zope.schema.interfaces.IBool"
+      widget=".interfaces.ISingleCheckBoxBoolWidget"
+      template="templates/singlecheckboxbool_hidden.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="hidden"
+      />
+
   <!-- ajaxselect -->
   <z3c:widgetTemplate
       field="*"
@@ -148,14 +163,6 @@
       template="templates/ajaxselect_display.pt"
       layer=".interfaces.IPloneFormLayer"
       mode="display"
-      />
-
-  <z3c:widgetTemplate
-      field="zope.schema.interfaces.IBool"
-      widget=".interfaces.ISingleCheckBoxBoolWidget"
-      template="templates/singlecheckboxbool_hidden.pt"
-      layer=".interfaces.IPloneFormLayer"
-      mode="hidden"
       />
 
   <!-- multi -->
@@ -329,14 +336,6 @@
   <z3c:widgetTemplate
       widget="plone.formwidget.namedfile.interfaces.INamedImageWidget"
       template="templates/image_input.pt"
-      layer=".interfaces.IPloneFormLayer"
-      mode="input"
-      />
-
-  <!-- plone.z3cform.textlines -->
-  <z3c:widgetTemplate
-      widget="plone.z3cform.textlines.textlines.ITextLinesWidget"
-      template="templates/textlines_input.pt"
       layer=".interfaces.IPloneFormLayer"
       mode="input"
       />

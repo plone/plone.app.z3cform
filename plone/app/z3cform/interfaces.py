@@ -4,9 +4,21 @@ from z3c.form.interfaces import IRadioWidget as IBaseRadioWidget
 from z3c.form.interfaces import ISelectWidget as IBaseSelectWidget
 from z3c.form.interfaces import ISingleCheckBoxWidget
 from z3c.form.interfaces import ITextWidget as IBaseTextWidget
+from zope.deferredimport import deprecated
 from zope.interface import Interface
-from zope.schema.interfaces import IDate
-from zope.schema.interfaces import IDatetime
+
+
+# this should not be used anymore
+
+deprecated(
+    "Use zope.schema.interfaces.IDate instead (will be removed in Plone 7).",
+    IDateField="zope.schema.interfaces:IDate",
+)
+
+deprecated(
+    "Use zope.schema.interfaces.IDatetime instead (will be removed in Plone 7).",
+    IDatetimeField="zope.schema.interfaces:IDatetime",
+)
 
 
 class IPloneFormLayer(IFormLayer):
@@ -28,14 +40,6 @@ class IFieldPermissionChecker(Interface):
 
 class ITextWidget(IBaseTextWidget):
     """Marker interface for base text input"""
-
-
-class IDateField(IDate):
-    """Marker interface for the DateField."""
-
-
-class IDatetimeField(IDatetime):
-    """Marker interface for the DatetimeField."""
 
 
 class IDateWidget(ITextWidget):

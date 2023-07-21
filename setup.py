@@ -17,6 +17,7 @@ test_requirements = [
     "plone.app.testing",
     "plone.autoform",
     "plone.browserlayer",
+    "plone.dexterity",
     "plone.supermodel",
     "plone.testing",
     "zope.annotation",

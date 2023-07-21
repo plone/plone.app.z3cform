@@ -3,6 +3,7 @@ from plone.schema.interfaces import IFormLayer
 from z3c.form.interfaces import IRadioWidget as IBaseRadioWidget
 from z3c.form.interfaces import ISelectWidget as IBaseSelectWidget
 from z3c.form.interfaces import ISingleCheckBoxWidget
+from z3c.form.interfaces import ISubmitWidget as IBaseSubmitWidget
 from z3c.form.interfaces import ITextAreaWidget as IBaseTextAreaWidget
 from z3c.form.interfaces import ITextWidget as IBaseTextWidget
 from zope.deferredimport import deprecated
@@ -85,6 +86,10 @@ class ILinkWidget(ITextWidget):
 
 class IEmailWidget(ITextWidget):
     """Marker interface for the dumb email widget."""
+
+
+class ISubmitWidget(IBaseSubmitWidget):
+    """Marker interface for SubmitWidget."""
 
 
 class ISingleCheckBoxBoolWidget(ISingleCheckBoxWidget):

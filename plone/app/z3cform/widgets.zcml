@@ -280,6 +280,21 @@
       mode="input"
       />
 
+  <!-- submit -->
+  <adapter
+      factory=".widgets.submit.ButtonAction"
+      provides="z3c.form.interfaces.IButtonAction"
+      for="plone.app.z3cform.interfaces.IPloneFormLayer
+           z3c.form.interfaces.IButton"
+      />
+
+  <z3c:widgetTemplate
+      widget=".interfaces.ISubmitWidget"
+      template="templates/submit_input.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
+      />
+
   <!-- z3c.form overrides -->
 
   <z3c:widgetTemplate
@@ -308,13 +323,6 @@
       template="templates/radio_input_single.pt"
       layer=".interfaces.IPloneFormLayer"
       mode="input_single"
-      />
-
-  <z3c:widgetTemplate
-      widget="z3c.form.interfaces.ISubmitWidget"
-      template="templates/submit_input.pt"
-      layer=".interfaces.IPloneFormLayer"
-      mode="input"
       />
 
   <z3c:widgetTemplate

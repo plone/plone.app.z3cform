@@ -3,6 +3,7 @@ from plone.schema.interfaces import IFormLayer
 from z3c.form.interfaces import IRadioWidget as IBaseRadioWidget
 from z3c.form.interfaces import ISelectWidget as IBaseSelectWidget
 from z3c.form.interfaces import ISingleCheckBoxWidget
+from z3c.form.interfaces import ITextAreaWidget as IBaseTextAreaWidget
 from z3c.form.interfaces import ITextWidget as IBaseTextWidget
 from zope.deferredimport import deprecated
 from zope.interface import Interface
@@ -39,6 +40,10 @@ class IFieldPermissionChecker(Interface):
 
 
 class ITextWidget(IBaseTextWidget):
+    """Marker interface for base text input"""
+
+
+class ITextAreaWidget(IBaseTextAreaWidget):
     """Marker interface for base text input"""
 
 

@@ -68,18 +68,31 @@
       mode="input"
       />
 
-  <!-- Make the default widget for sequence-of-text-lines a textlines
-       widget; the default is too confusing -->
+  <!-- textarea -->
+  <adapter
+      factory=".widgets.text.TextAreaFieldWidget"
+      for="zope.schema.interfaces.IText
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter
+      factory=".widgets.text.TextAreaFieldWidget"
+      for="zope.schema.interfaces.IASCII
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
 
   <z3c:widgetTemplate
-      widget="plone.z3cform.textlines.textlines.ITextLinesWidget"
-      template="templates/textlines_input.pt"
+      widget=".interfaces.ITextAreaWidget"
+      template="templates/textarea_input.pt"
       layer=".interfaces.IPloneFormLayer"
       mode="input"
       />
 
+  <!-- Make the default widget for sequence-of-text-lines a textlines
+       widget; the default is too confusing -->
+
   <adapter
-      factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
+      factory="z3c.form.browser.textlines.TextLinesFieldWidgetFactory"
       provides="z3c.form.interfaces.IFieldWidget"
       for="zope.schema.interfaces.IList
            zope.schema.interfaces.ITextLine
@@ -87,7 +100,7 @@
       />
 
   <adapter
-      factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
+      factory="z3c.form.browser.textlines.TextLinesFieldWidgetFactory"
       provides="z3c.form.interfaces.IFieldWidget"
       for="zope.schema.interfaces.ITuple
            zope.schema.interfaces.ITextLine
@@ -95,7 +108,7 @@
       />
 
   <adapter
-      factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
+      factory="z3c.form.browser.textlines.TextLinesFieldWidgetFactory"
       provides="z3c.form.interfaces.IFieldWidget"
       for="zope.schema.interfaces.IAbstractSet
            zope.schema.interfaces.ITextLine
@@ -103,7 +116,7 @@
       />
 
   <adapter
-      factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
+      factory="z3c.form.browser.textlines.TextLinesFieldWidgetFactory"
       provides="z3c.form.interfaces.IFieldWidget"
       for="zope.schema.interfaces.IList
            zope.schema.interfaces.IASCIILine
@@ -111,14 +124,14 @@
       />
 
   <adapter
-      factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
+      factory="z3c.form.browser.textlines.TextLinesFieldWidgetFactory"
       provides="z3c.form.interfaces.IFieldWidget"
       for="zope.schema.interfaces.ITuple
            zope.schema.interfaces.IASCIILine
            plone.app.z3cform.interfaces.IPloneFormLayer"
       />
   <adapter
-      factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
+      factory="z3c.form.browser.textlines.TextLinesFieldWidgetFactory"
       provides="z3c.form.interfaces.IFieldWidget"
       for="zope.schema.interfaces.IAbstractSet
            zope.schema.interfaces.IASCIILine
@@ -270,13 +283,6 @@
   <!-- z3c.form overrides -->
 
   <z3c:widgetTemplate
-      widget="z3c.form.interfaces.ITextAreaWidget"
-      template="templates/textarea_input.pt"
-      layer=".interfaces.IPloneFormLayer"
-      mode="input"
-      />
-
-  <z3c:widgetTemplate
       widget="z3c.form.interfaces.ISelectWidget"
       template="templates/select_input.pt"
       layer=".interfaces.IPloneFormLayer"
@@ -321,6 +327,13 @@
   <z3c:widgetTemplate
       widget="z3c.form.interfaces.IPasswordWidget"
       template="templates/password_input.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
+      />
+
+  <z3c:widgetTemplate
+      widget="z3c.form.interfaces.ITextLinesWidget"
+      template="templates/textlines_input.pt"
       layer=".interfaces.IPloneFormLayer"
       mode="input"
       />

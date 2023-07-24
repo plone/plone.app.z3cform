@@ -11,6 +11,7 @@ from plone.app.z3cform.widgets.base import BaseWidget
 from plone.app.z3cform.widgets.base import PatternNotImplemented
 from plone.app.z3cform.widgets.datetime import DateWidget
 from plone.app.z3cform.widgets.relateditems import RelatedItemsWidget
+from plone.app.z3cform.widgets.text import TextFieldWidget
 from plone.autoform.directives import widget
 from plone.autoform.form import AutoExtensibleForm
 from plone.base.interfaces import IMarkupSchema
@@ -180,6 +181,41 @@ class BaseWidgetTests(unittest.TestCase):
                 },
             },
         )
+
+
+class TextWidgetTest(unittest.TestCase):
+    layer = PAZ3CForm_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.request = self.layer["request"]
+        self.field = TextLine(__name__="textlinefield")
+
+    def test_text_widget(self):
+        widget = TextFieldWidget(self.field, self.request)
+        widget.update()
+        self.assertEqual({}, widget.pattern_options)
+
+        # input mode (default)
+        self.assertIn(""" type="text" """, widget.render())
+        self.assertIn("form-control", widget.render())
+        self.assertIn("required", widget.render())
+
+        # input mode not required
+        self.field.required = False
+        widget = TextFieldWidget(self.field, self.request)
+        widget.update()
+        self.assertNotIn("required", widget.render())
+
+        # display mode
+        widget = TextFieldWidget(self.field, self.request)
+        widget.mode = "display"
+        widget.update()
+        self.assertIn("<span ", widget.render())
+        self.assertNotIn("form-control", widget.render())
+
+        widget = TextFieldWidget(self.field, self.request)
+        widget.pattern = "testpattern"
+        self.assertIn("pat-testpattern", widget.render())
 
 
 class DateWidgetTests(unittest.TestCase):

@@ -113,10 +113,25 @@ class HTMLInputWidget(PatternFormElement, widget.HTMLInputWidget):
 class HTMLTextInputWidget(PatternFormElement, widget.HTMLTextInputWidget):
     """TextInputWidget with pattern options"""
 
+    def update(self):
+        super().update()
+        if self.mode == "input":
+            self.addClass("form-control")
+
 
 class HTMLTextAreaWidget(PatternFormElement, widget.HTMLTextAreaWidget):
     """TextAreaWidget with pattern options"""
 
+    def update(self):
+        super().update()
+        if self.mode == "input":
+            self.addClass("form-control")
+
 
 class HTMLSelectWidget(PatternFormElement, widget.HTMLSelectWidget):
     """SelectWidget with pattern options"""
+
+    def update(self):
+        super().update()
+        if self.mode == "input":
+            self.addClass("form-select")

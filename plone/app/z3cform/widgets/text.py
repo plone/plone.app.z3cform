@@ -13,7 +13,7 @@ from zope.interface import implementer_only
 class TextWidget(HTMLTextInputWidget, Widget):
     """enhanced text widget"""
 
-    klass = "form-control text-widget"
+    klass = "text-widget"
 
 
 @implementer(IFieldWidget)
@@ -25,7 +25,7 @@ def TextFieldWidget(field, request):
 class TextAreaWidget(HTMLTextAreaWidget, Widget):
     """enhanced textarea widget"""
 
-    klass = "form-control textarea-widget"
+    klass = "textarea-widget"
 
 
 @implementer(IFieldWidget)

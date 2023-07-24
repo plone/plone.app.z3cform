@@ -87,7 +87,7 @@ class DateWidget(DateTimeWidgetBase):
     _formater_length = "short"
 
     pattern = "date-picker"
-    klass = "date-widget form-control"
+    klass = "date-widget"
 
 
 @implementer(IFieldWidget)
@@ -105,7 +105,7 @@ class DatetimeWidget(DateTimeWidgetBase):
     _formater_length = "short"
 
     pattern = "datetime-picker"
-    klass = "datetime-widget form-control"
+    klass = "datetime-widget"
 
 
 @implementer(IFieldWidget)
@@ -118,7 +118,7 @@ class TimeWidget(DateTimeWidgetBase):
     """TimeWidget for z3c.form."""
 
     _input_type = "time"
-    klass = "time-widget form-control"
+    klass = "time-widget"
 
     # no pattern set for time input
     pattern = ""

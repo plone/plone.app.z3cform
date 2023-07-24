@@ -1,5 +1,5 @@
 from plone.app.z3cform.interfaces import ISubmitWidget
-from plone.app.z3cform.widgets.base import HTMLTextInputWidget
+from plone.app.z3cform.widgets.base import HTMLInputWidget
 from z3c.form.button import ButtonAction as ButtonActionBase
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.widget import FieldWidget
@@ -12,7 +12,7 @@ PRIMARY_BUTTON_NAMES = ("add", "save")
 
 
 @implementer_only(ISubmitWidget)
-class SubmitWidget(HTMLTextInputWidget, Widget):
+class SubmitWidget(HTMLInputWidget, Widget):
     """submit widget"""
 
     klass = "submit-widget btn"

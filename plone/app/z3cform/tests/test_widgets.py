@@ -1482,8 +1482,8 @@ class RelatedItemsWidgetTests(unittest.TestCase):
         """The pattern_options key maximumSelectionSize shouldn't be
         set when the field allows multiple selections"""
         from plone.app.z3cform.widgets.relateditems import RelatedItemsFieldWidget
-        from zope.schema.interfaces import ISource
         from Zope2.App.schema import Zope2VocabularyRegistry
+        from zope.schema.interfaces import ISource
 
         field = List(
             __name__="selectfield",
@@ -1642,18 +1642,18 @@ class RichTextWidgetTests(unittest.TestCase):
         # set the context so we can get tinymce settings
         widget.context = self.portal
         widget.update()
-        base_args = widget._base_args()
-        self.assertEqual(base_args["name"], "text")
-        self.assertEqual(base_args["value"], "")
-        self.assertEqual(base_args["pattern"], "tinymce")
+        self.assertEqual(widget.name, "text")
+        self.assertEqual(widget.richtext_value, "")
+        self.assertEqual(widget.pattern, "tinymce")
 
         prependToUrl = "/plone/resolveuid/"
+        pattern_options = widget.get_pattern_options()
         self.assertEqual(
-            base_args["pattern_options"]["prependToUrl"],
+            pattern_options["prependToUrl"],
             prependToUrl,
         )
         self.assertEqual(
-            base_args["pattern_options"]["upload"]["relativePath"],
+            pattern_options["upload"]["relativePath"],
             "@@fileUpload",
         )
 
@@ -1670,40 +1670,40 @@ class RichTextWidgetTests(unittest.TestCase):
         # portal context
         widget.context = self.portal
         widget.update()
-        base_args = widget._base_args()
+        pattern_options = widget.get_pattern_options()
 
         self.assertEqual(
-            base_args["pattern_options"]["relatedItems"]["basePath"],
+            pattern_options["relatedItems"]["basePath"],
             "/plone",
         )
 
         # sub context
         widget.context = sub
         widget.update()
-        base_args = widget._base_args()
+        pattern_options = widget.get_pattern_options()
 
         self.assertEqual(
-            base_args["pattern_options"]["relatedItems"]["basePath"],
+            pattern_options["relatedItems"]["basePath"],
             "/plone/sub",
         )
 
         # form context
         widget.context = form
         widget.update()
-        base_args = widget._base_args()
+        pattern_options = widget.get_pattern_options()
 
         self.assertEqual(
-            base_args["pattern_options"]["relatedItems"]["basePath"],
+            pattern_options["relatedItems"]["basePath"],
             "/plone/sub",
         )
 
         # non-contentish context
         widget.context = None
         widget.update()
-        base_args = widget._base_args()
+        pattern_options = widget.get_pattern_options()
 
         self.assertEqual(
-            base_args["pattern_options"]["relatedItems"]["basePath"],
+            pattern_options["relatedItems"]["basePath"],
             "/plone",
         )
 
@@ -1715,8 +1715,7 @@ class RichTextWidgetTests(unittest.TestCase):
         # set the context so we can get tinymce settings
         widget.context = self.portal
         widget.value = RichTextValue("Lorem ipsum \u2026")
-        base_args = widget._base_args()
-        self.assertEqual(base_args["value"], "Lorem ipsum \u2026")
+        self.assertEqual(widget.richtext_value, "Lorem ipsum \u2026")
 
     def test_unicode_control_characters_value(self):
         # lxml doesn't allow unicode control characters.
@@ -1730,7 +1729,7 @@ class RichTextWidgetTests(unittest.TestCase):
         widget.value = RichTextValue("Lorem \u0000 ip\u001Fsum\n\u0002 dolorem\r\t")
         widget.mode = "input"
         self.assertIn(
-            ">Lorem  ipsum\n dolorem&#13;\t</textarea>",
+            ">Lorem  ipsum\n dolorem\r\t</textarea>",
             widget.render(),
         )
 

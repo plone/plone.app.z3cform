@@ -364,7 +364,7 @@
   <!-- plone.app.textfield -->
   <z3c:widgetTemplate
       widget="plone.app.textfield.widget.IRichTextWidget"
-      template="templates/textfield_widget_input.pt"
+      template="templates/richtext_input.pt"
       layer=".interfaces.IPloneFormLayer"
       mode="input"
       />

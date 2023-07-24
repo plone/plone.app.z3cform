@@ -8,7 +8,6 @@
     >
 
   <include package="plone.z3cform" />
-  <include package=".wysiwyg" />
 
   <!-- Configuration installation profile -->
 

@@ -7,7 +7,6 @@ version = "4.4.0.dev0"
 
 long_description = (
     f"{Path('README.rst').read_text()}\n"
-    f"{(Path('plone') / 'app' / 'z3cform' / 'wysiwyg' / 'README.rst').read_text()}\n"
     f"{(Path('plone') / 'app' / 'z3cform' / 'inline_validation.rst').read_text()}\n"
     f"{Path('CHANGES.rst').read_text()}"
 )

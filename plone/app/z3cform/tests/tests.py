@@ -50,12 +50,6 @@ def test_suite():
     suite = unittest.TestSuite(
         [
             unittest.defaultTestLoader.loadTestsFromTestCase(IntegrationTests),
-            doctest.DocFileSuite(
-                "wysiwyg/README.rst",
-                package="plone.app.z3cform",
-                setUp=zope.component.testing.setUp,
-                tearDown=zope.component.testing.tearDown,
-            ),
             doctest.DocTestSuite(
                 "plone.app.z3cform.wysiwyg.widget",
                 package="plone.app.z3cform",

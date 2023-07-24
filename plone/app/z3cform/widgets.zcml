@@ -61,6 +61,12 @@
            plone.app.z3cform.interfaces.IPloneFormLayer"
       />
 
+  <adapter
+      factory=".widgets.text.TextFieldWidget"
+      for="zope.schema.interfaces.IPassword
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
   <z3c:widgetTemplate
       widget=".interfaces.ITextWidget"
       template="templates/text_input.pt"

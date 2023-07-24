@@ -1315,23 +1315,23 @@ class RelatedItemsWidgetIntegrationTests(unittest.TestCase):
         widget.context = self.portal
         widget.update()
 
-        result = widget._base_args()
+        pattern_options = widget.get_pattern_options()
 
         self.assertEqual(
             EXPECTED_ROOT_PATH,
-            result["pattern_options"]["rootPath"],
+            pattern_options["rootPath"],
         )
         self.assertEqual(
             EXPECTED_ROOT_URL,
-            result["pattern_options"]["rootUrl"],
+            pattern_options["rootUrl"],
         )
         self.assertEqual(
             EXPECTED_BASE_PATH,
-            result["pattern_options"]["basePath"],
+            pattern_options["basePath"],
         )
         self.assertEqual(
             EXPECTED_VOCAB_URL,
-            result["pattern_options"]["vocabularyUrl"],
+            pattern_options["vocabularyUrl"],
         )
 
     def test_related_items_widget_nav_root(self):
@@ -1350,23 +1350,23 @@ class RelatedItemsWidgetIntegrationTests(unittest.TestCase):
         widget = RelatedItemsWidget(self.request)
         widget.context = subfolder
         widget.update()
-        result = widget._base_args()
+        pattern_options = widget.get_pattern_options()
 
         self.assertEqual(
             EXPECTED_ROOT_PATH,
-            result["pattern_options"]["rootPath"],
+            pattern_options["rootPath"],
         )
         self.assertEqual(
             EXPECTED_ROOT_URL,
-            result["pattern_options"]["rootUrl"],
+            pattern_options["rootUrl"],
         )
         self.assertEqual(
             EXPECTED_BASE_PATH,
-            result["pattern_options"]["basePath"],
+            pattern_options["basePath"],
         )
         self.assertEqual(
             EXPECTED_VOCAB_URL,
-            result["pattern_options"]["vocabularyUrl"],
+            pattern_options["vocabularyUrl"],
         )
 
 
@@ -1456,63 +1456,51 @@ class RelatedItemsWidgetTemplateIntegrationTests(unittest.TestCase):
 
 
 class RelatedItemsWidgetTests(unittest.TestCase):
-    def setUp(self):
-        self.request = TestRequest(environ={"HTTP_ACCEPT_LANGUAGE": "en"})
+    layer = PAZ3CForm_INTEGRATION_TESTING
 
-    @mock.patch(
-        "Products.CMFCore.utils.getToolByName",
-        new=Mock(return_value=Mock(return_value="testuser")),
-    )
+    def setUp(self):
+        self.portal = self.layer["portal"]
+        self.request = self.layer["request"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+
     def test_single_selection(self):
         """The pattern_options value for maximumSelectionSize should
         be 1 when the field only allows a single selection."""
         from plone.app.z3cform.widgets.relateditems import RelatedItemsFieldWidget
 
-        context = Mock(
-            absolute_url=lambda: "fake_url", getPhysicalPath=lambda: ["", "site"]
-        )
         field = Choice(
             __name__="selectfield",
             values=["one", "two", "three"],
         )
         widget = RelatedItemsFieldWidget(field, self.request)
-        widget.context = context
+        widget.context = self.portal
         widget.update()
-        base_args = widget._base_args()
-        pattern_options = base_args["pattern_options"]
+        pattern_options = widget.get_pattern_options()
         self.assertEqual(pattern_options.get("maximumSelectionSize", 0), 1)
 
-    @mock.patch(
-        "Products.CMFCore.utils.getToolByName",
-        new=Mock(return_value=Mock(return_value="testuser")),
-    )
     def test_multiple_selection(self):
         """The pattern_options key maximumSelectionSize shouldn't be
         set when the field allows multiple selections"""
         from plone.app.z3cform.widgets.relateditems import RelatedItemsFieldWidget
         from zope.schema.interfaces import ISource
-        from zope.schema.vocabulary import VocabularyRegistry
+        from Zope2.App.schema import Zope2VocabularyRegistry
 
-        context = Mock(
-            absolute_url=lambda: "fake_url", getPhysicalPath=lambda: ["", "site"]
-        )
         field = List(
             __name__="selectfield",
             value_type=Choice(vocabulary="foobar"),
         )
         widget = RelatedItemsFieldWidget(field, self.request)
-        widget.context = context
+        widget.context = self.portal
 
         vocab = Mock()
         alsoProvides(vocab, ISource)
-        with mock.patch.object(VocabularyRegistry, "get", return_value=vocab):
+        with mock.patch.object(Zope2VocabularyRegistry, "get", return_value=vocab):
             widget.update()
-            base_args = widget._base_args()
-        patterns_options = base_args["pattern_options"]
+            patterns_options = widget.get_pattern_options()
         self.assertFalse("maximumSelectionSize" in patterns_options)
         self.assertEqual(
             patterns_options["vocabularyUrl"],
-            "/@@getVocabulary?name=foobar&field=selectfield",
+            "http://nohost/plone/@@getVocabulary?name=foobar&field=selectfield",
         )
 
     def test_converter_RelationChoice(self):
@@ -1627,24 +1615,6 @@ class RelatedItemsWidgetTests(unittest.TestCase):
         self.assertTrue(isinstance(widget, RelatedItemsWidget))
         self.assertIs(widget.field, field)
         self.assertIs(widget.request, request)
-
-
-def add_mock_fti(portal):
-    # Fake DX Type
-    fti = DexterityFTI("dx_mock")
-    portal.portal_types._setObject("dx_mock", fti)
-    fti.klass = "plone.dexterity.content.Item"
-    fti.schema = "plone.dexterity.tests.schemata.ITestSchema"
-    fti.filter_content_types = False
-    fti.behaviors = ("plone.app.dexterity.behaviors.metadata.IBasic",)
-
-
-def _custom_field_widget(field, request):
-    from plone.app.z3cform.widgets.select import AjaxSelectWidget
-
-    widget = FieldWidget(field, AjaxSelectWidget(request))
-    widget.vocabulary = "plone.app.vocabularies.PortalTypes"
-    return widget
 
 
 class RichTextWidgetTests(unittest.TestCase):

@@ -105,6 +105,9 @@ class PatternFormElement(widget.HTMLFormElement):
             self.addClass(f"{self._klass_prefix}{self.pattern}")
         widget.addFieldClass(self)
 
+    def is_subform_widget(self):
+        return getattr(aq_base(self.form), "parentForm", None) is not None
+
 
 class HTMLInputWidget(PatternFormElement, widget.HTMLInputWidget):
     """InputWidget with pattern options"""

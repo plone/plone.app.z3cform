@@ -1,4 +1,5 @@
 from plone.app.z3cform.interfaces import ITextAreaWidget
+from plone.app.z3cform.interfaces import ITextLinesWidget
 from plone.app.z3cform.interfaces import ITextWidget
 from plone.app.z3cform.widgets.base import HTMLTextAreaWidget
 from plone.app.z3cform.widgets.base import HTMLTextInputWidget
@@ -31,3 +32,20 @@ class TextAreaWidget(HTMLTextAreaWidget, Widget):
 @implementer(IFieldWidget)
 def TextAreaFieldWidget(field, request):
     return FieldWidget(field, TextAreaWidget(request))
+
+
+@implementer_only(ITextLinesWidget)
+class TextLinesWidget(HTMLTextAreaWidget, Widget):
+    """enhanced textarea widget"""
+
+    klass = "textarea-widget"
+
+
+@implementer(IFieldWidget)
+def TextLinesFieldWidget(field, request):
+    return FieldWidget(field, TextLinesWidget(request))
+
+
+@implementer(IFieldWidget)
+def TextLinesFieldWidgetFactory(field, value_type, request):
+    return TextLinesFieldWidget(field, request)

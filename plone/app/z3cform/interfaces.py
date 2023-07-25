@@ -5,6 +5,7 @@ from z3c.form.interfaces import ISelectWidget as IBaseSelectWidget
 from z3c.form.interfaces import ISingleCheckBoxWidget
 from z3c.form.interfaces import ISubmitWidget as IBaseSubmitWidget
 from z3c.form.interfaces import ITextAreaWidget as IBaseTextAreaWidget
+from z3c.form.interfaces import ITextLinesWidget as IBaseTextLinesWidget
 from z3c.form.interfaces import ITextWidget as IBaseTextWidget
 from zope.deferredimport import deprecated
 from zope.interface import Interface
@@ -45,6 +46,10 @@ class ITextWidget(IBaseTextWidget):
 
 
 class ITextAreaWidget(IBaseTextAreaWidget):
+    """Marker interface for base text input"""
+
+
+class ITextLinesWidget(IBaseTextLinesWidget):
     """Marker interface for base text input"""
 
 

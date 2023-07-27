@@ -2,6 +2,7 @@ from Acquisition import aq_base
 from plone.app.z3cform.utils import call_callables
 from z3c.form.browser import widget
 from z3c.form.widget import Widget
+from zope.schema.interfaces import ICollection
 
 import json
 
@@ -103,7 +104,6 @@ class PatternFormElement(widget.HTMLFormElement):
         super().update()
         if self.pattern:
             self.addClass(f"{self._klass_prefix}{self.pattern}")
-        widget.addFieldClass(self)
 
     def is_subform_widget(self):
         return getattr(aq_base(self.form), "parentForm", None) is not None
@@ -136,5 +136,9 @@ class HTMLSelectWidget(PatternFormElement, widget.HTMLSelectWidget):
 
     def update(self):
         super().update()
+
+        if ICollection.providedBy(self.field):
+            self.multiple = "multiple"
+
         if self.mode == "input":
             self.addClass("form-select")

@@ -69,8 +69,12 @@ class ISelectWidget(IBaseSelectWidget):
     """Marker interface for the SelectWidget."""
 
 
-class IAjaxSelectWidget(ITextWidget):
+class ISelect2Widget(ISelectWidget):
     """Marker interface for the Select2Widget."""
+
+
+class IAjaxSelectWidget(ITextWidget):
+    """Marker interface for the AjaxSelectWidget."""
 
 
 class IQueryStringWidget(ITextWidget):

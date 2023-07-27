@@ -1,63 +1,35 @@
 <div xmlns="http://www.w3.org/1999/xhtml"
      xmlns:tal="http://xml.zope.org/namespaces/tal"
      tal:omit-tag=""
->
-  <select class=""
-          id=""
-          name=""
-          size=""
-          tabindex=""
-          tal:attributes="
-            id view/id;
-            name string:${view/name}:list;
-            required python:view.required and 'required' or None;
-            class string:form-select ${view/klass};
-            style view/style;
-            title view/title;
-            lang view/lang;
-            onclick view/onclick;
-            ondblclick view/ondblclick;
-            onmousedown view/onmousedown;
-            onmouseup view/onmouseup;
-            onmouseover view/onmouseover;
-            onmousemove view/onmousemove;
-            onmouseout view/onmouseout;
-            onkeypress view/onkeypress;
-            onkeydown view/onkeydown;
-            onkeyup view/onkeyup;
-            disabled view/disabled;
-            tabindex view/tabindex;
-            onfocus view/onfocus;
-            onblur view/onblur;
-            onchange view/onchange;
-            multiple view/multiple;
-            size view/size;
+><!--! NOTE: since this template is also used for Select2Widget
+       we have to make sure that the ":list" isn't set in that case.
+       "pat-select2" refactors the input value for multiple selects
+       to separator concated text input.
+       This behavior hopefully will be gone soon when "pat-select2"
+       is upgraded to Select2 >= 4.x -->
+  <select id="${view/id}"
+          name="${view/name}${python:':list' if view.pattern != 'select2' else ''}"
+          tal:define="
+            items view/items;
+            is_tree python:isinstance(items, dict);
           "
-  >
-    <tal:block repeat="item view/items"><option id=""
-              selected="selected"
-              value=""
-              tal:condition="item/selected"
-              tal:content="item/content"
-              tal:attributes="
-                id item/id;
-                value item/value;
-              "
-      >label</option><option id=""
-              value=""
-              tal:condition="not:item/selected"
-              tal:content="item/content"
-              tal:attributes="
-                id item/id;
-                value item/value;
-              "
-      >label</option></tal:block>
+          tal:attributes="
+            view/attributes;
+          "
+  ><tal:block repeat="item items"><optgroup label="${item}"
+                tal:condition="is_tree"
+      ><option id="${group_item/id}"
+                selected="${python:'selected' if group_item['selected'] else None}"
+                value="${group_item/value}"
+                tal:repeat="group_item python:items[item]"
+        >${group_item/content}</option></optgroup><option id="${item/id}"
+              selected="${python:'selected' if item['selected'] else None}"
+              value="${item/value}"
+              tal:condition="not:is_tree"
+      >${item/content}</option></tal:block>
   </select>
-  <input name="field-empty-marker"
+  <input name="${view/name}-empty-marker"
          type="hidden"
          value="1"
-         tal:attributes="
-           name string:${view/name}-empty-marker;
-         "
   />
 </div>

@@ -301,14 +301,29 @@
       mode="input"
       />
 
-  <!-- z3c.form overrides -->
+  <!-- select -->
+  <adapter
+      factory=".widgets.select.SelectFieldWidget"
+      for="zope.schema.interfaces.IChoice
+           zope.interface.Interface
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter
+      factory=".widgets.select.CollectionChoiceSelectFieldWidget"
+      for="zope.schema.interfaces.IUnorderedCollection
+           zope.schema.interfaces.IChoice
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
 
   <z3c:widgetTemplate
-      widget="z3c.form.interfaces.ISelectWidget"
+      widget=".interfaces.ISelectWidget"
       template="templates/select_input.pt"
       layer=".interfaces.IPloneFormLayer"
       mode="input"
       />
+
+  <!-- z3c.form overrides -->
 
   <z3c:widgetTemplate
       widget="z3c.form.interfaces.IOrderedSelectWidget"

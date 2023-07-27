@@ -4,8 +4,8 @@
   <adapter factory=".converters.DateWidgetConverter" />
   <adapter factory=".converters.DateWidgetToDatetimeConverter" />
   <adapter factory=".converters.TimeWidgetConverter" />
-  <adapter factory=".converters.SelectWidgetConverter" />
-  <adapter factory=".converters.SequenceSelectWidgetConverter" />
+  <adapter factory=".converters.Select2WidgetConverter" />
+  <adapter factory=".converters.SequenceSelect2WidgetConverter" />
   <adapter factory=".converters.AjaxSelectWidgetConverter" />
   <adapter factory=".converters.QueryStringDataConverter" />
   <adapter factory=".converters.RelationChoiceRelatedItemsWidgetConverter" />

@@ -10,6 +10,8 @@ from zope.interface import implementer_only
 class EmailWidget(TextWidget):
     """Implementation of dumb email widget."""
 
+    klass = "email-widget"
+
 
 @implementer(IFieldWidget)
 def EmailFieldWidget(field, request):

@@ -1,12 +1,14 @@
 from plone.app.textfield.widget import IRichTextWidget as patextfield_IRichTextWidget
 from plone.schema.interfaces import IFormLayer
-from z3c.form.interfaces import IRadioWidget as IBaseRadioWidget
-from z3c.form.interfaces import ISelectWidget as IBaseSelectWidget
+from z3c.form.interfaces import ICheckBoxWidget as ICheckBoxWidgetBase
+from z3c.form.interfaces import IOrderedSelectWidget as IOrderedSelectWidgetBase
+from z3c.form.interfaces import IRadioWidget as IRadioWidgetBase
+from z3c.form.interfaces import ISelectWidget as ISelectWidgetBase
 from z3c.form.interfaces import ISingleCheckBoxWidget
-from z3c.form.interfaces import ISubmitWidget as IBaseSubmitWidget
-from z3c.form.interfaces import ITextAreaWidget as IBaseTextAreaWidget
-from z3c.form.interfaces import ITextLinesWidget as IBaseTextLinesWidget
-from z3c.form.interfaces import ITextWidget as IBaseTextWidget
+from z3c.form.interfaces import ISubmitWidget as ISubmitWidgetBase
+from z3c.form.interfaces import ITextAreaWidget as ITextAreaWidgetBase
+from z3c.form.interfaces import ITextLinesWidget as ITextLinesWidgetBase
+from z3c.form.interfaces import ITextWidget as ITextWidgetBase
 from zope.deferredimport import deprecated
 from zope.interface import Interface
 
@@ -41,15 +43,15 @@ class IFieldPermissionChecker(Interface):
         """
 
 
-class ITextWidget(IBaseTextWidget):
+class ITextWidget(ITextWidgetBase):
     """Marker interface for base text input"""
 
 
-class ITextAreaWidget(IBaseTextAreaWidget):
+class ITextAreaWidget(ITextAreaWidgetBase):
     """Marker interface for base text input"""
 
 
-class ITextLinesWidget(IBaseTextLinesWidget):
+class ITextLinesWidget(ITextLinesWidgetBase):
     """Marker interface for base text input"""
 
 
@@ -65,7 +67,11 @@ class ITimeWidget(ITextWidget):
     """Marker interface for the TimeWidget"""
 
 
-class ISelectWidget(IBaseSelectWidget):
+class IOrderedSelectWidget(IOrderedSelectWidgetBase):
+    """Marker interface for the OrderedSelectWidget."""
+
+
+class ISelectWidget(ISelectWidgetBase):
     """Marker interface for the SelectWidget."""
 
 
@@ -97,15 +103,19 @@ class IEmailWidget(ITextWidget):
     """Marker interface for the dumb email widget."""
 
 
-class ISubmitWidget(IBaseSubmitWidget):
+class ISubmitWidget(ISubmitWidgetBase):
     """Marker interface for SubmitWidget."""
+
+
+class ICheckBoxWidget(ICheckBoxWidgetBase):
+    """Marker for CheckBoxWidget."""
 
 
 class ISingleCheckBoxBoolWidget(ISingleCheckBoxWidget):
     """Marker interface for the SingleCheckboxBoolWidget."""
 
 
-class IRadioWidget(IBaseRadioWidget):
+class IRadioWidget(IRadioWidgetBase):
     """Radio widget."""
 
     def renderForValue(value):

@@ -323,22 +323,51 @@
       mode="input"
       />
 
-  <!-- z3c.form overrides -->
+  <!-- orderedselect -->
+  <adapter
+      factory=".widgets.orderedselect.SequenceChoiceSelectFieldWidget"
+      for="zope.schema.interfaces.IList
+           zope.schema.interfaces.IChoice
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter
+      factory=".widgets.orderedselect.SequenceChoiceSelectFieldWidget"
+      for="zope.schema.interfaces.ITuple
+           zope.schema.interfaces.IChoice
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
 
   <z3c:widgetTemplate
-      widget="z3c.form.interfaces.IOrderedSelectWidget"
+      widget=".interfaces.IOrderedSelectWidget"
       template="templates/orderedselect_input.pt"
       layer=".interfaces.IPloneFormLayer"
       mode="input"
       />
 
+  <!-- radio
+       Note: the RadioFieldWidget isn't registered by default
+       If you like to use checkboxes you need to use them as custom widget
+       directive in your autoform -->
+  <z3c:widgetTemplate
+      widget=".interfaces.IRadioWidget"
+      template="templates/radio_input.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
+      />
+  <z3c:widgetTemplate
+      widget=".interfaces.IRadioWidget"
+      template="templates/radio_input_single.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input_single"
+      />
+  <!-- override original z3c.form.interfaces.IRadioWidget too -->
   <z3c:widgetTemplate
       widget="z3c.form.interfaces.IRadioWidget"
       template="templates/radio_input.pt"
       layer=".interfaces.IPloneFormLayer"
       mode="input"
       />
-
   <z3c:widgetTemplate
       widget="z3c.form.interfaces.IRadioWidget"
       template="templates/radio_input_single.pt"
@@ -346,12 +375,25 @@
       mode="input_single"
       />
 
+  <!-- checkbox
+       Note: the CheckBoxFieldWidget isn't registered by default
+       If you like to use checkboxes you need to use them as custom widget
+       directive in your autoform -->
+  <z3c:widgetTemplate
+      widget=".interfaces.ICheckBoxWidget"
+      template="templates/checkbox_input.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
+      />
+  <!-- override original z3c.form.interfaces.ICheckBoxWidget too -->
   <z3c:widgetTemplate
       widget="z3c.form.interfaces.ICheckBoxWidget"
       template="templates/checkbox_input.pt"
       layer=".interfaces.IPloneFormLayer"
       mode="input"
       />
+
+  <!-- z3c.form overrides -->
 
   <z3c:widgetTemplate
       widget="z3c.form.interfaces.IPasswordWidget"

@@ -5,10 +5,6 @@
       "
       tal:omit-tag=""
 ><!--! NOTE:
-           we cannot autoset the attributes here with "view/attributes",
-           because the "id" would get overwritten with the field_id
-           instead of the correct sequence_item_id -->
-  <!--! NOTE #2:
            Since most people import the "RadioFieldWidget"
            directly from z3c.form.browser.radio our adapter
            which sets the Bootstrap "form-check-input" css class
@@ -17,11 +13,14 @@
            When all imports are refactored to
            "plone.app.z3cform.widgets.radio.RadioFieldWidget"
            this can be cleaned up. -->
-  <input class="${view/attributes/class} form-check-input"
-         id="${item/id}"
-         checked="${python:'checked' if item['checked'] else None}"
+  <input checked="${python:'checked' if item['checked'] else None}"
          name="${item/name}"
          type="radio"
          value="${item/value}"
+         tal:attributes="
+           view/attributes;
+           class string:${view/attributes/class} form-check-input;
+           id item/id;
+         "
   />
 </html>

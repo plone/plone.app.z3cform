@@ -12,13 +12,12 @@
   >
     <tr>
       <td>
-        <!--! NOTE: tal:attributes="view/attributes" would override the
-              custom "<id>-from" here. We set the attributes explicitly. -->
-        <select class="${view/attributes/class}"
-                id="${view/id}-from"
-                multiple="${view/attributes/multiple}"
-                name="${view/name}.from"
-                size="${view/attributes/size}"
+        <select name="${view/name}.from"
+                tal:attributes="
+                  view/attributes;
+                  id string:${view/id}-from;
+                  required nothing;
+                "
         >
           <option value="${entry/value}"
                   tal:repeat="entry view/notselectedItems"
@@ -42,12 +41,11 @@
         >&larr;</button>
       </td>
       <td>
-        <select class="${view/attributes/class}"
-                id="${view/id}-to"
-                multiple="${view/attributes/multiple}"
-                name="${view/name}.to"
-                required="${python:'required' if view.attributes.get('required', view.required) else None}"
-                size="${view/attributes/size}"
+        <select name="${view/name}.to"
+                tal:attributes="
+                  view/attributes;
+                  id string:${view/id}-to;
+                "
         >
           <option selected="selected"
                   value="${entry/value}"

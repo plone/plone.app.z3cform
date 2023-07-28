@@ -101,9 +101,9 @@ class PatternFormElement(widget.HTMLFormElement):
                 pat_options,
                 self.context,
             )
-            attributes[f"data-{self._klass_prefix}{self.pattern}"] = json.dumps(
-                pat_options
-            ) if pat_options else ""
+            attributes[f"data-{self._klass_prefix}{self.pattern}"] = (
+                json.dumps(pat_options) if pat_options else ""
+            )
 
         return attributes
 

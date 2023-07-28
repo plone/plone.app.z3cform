@@ -1,5 +1,4 @@
-<div id="${view/id}"
-     tal:define="
+<div tal:define="
        download_url view/download_url;
        exists python: view.value is not None;
        action view/action;
@@ -24,7 +23,7 @@
     />
     <span>
       <tal:i18n i18n:translate="file_already_uploaded">File already uploaded:</tal:i18n>
-        ${view/value/filename}
+        ${filename}
     </span>
   </tal:if>
   <span tal:condition="python:exists and download_url and action=='nochange'">

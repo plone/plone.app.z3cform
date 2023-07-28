@@ -7,8 +7,6 @@ from plone.app.contentlisting.contentlisting import ContentListing
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.z3cform.tests.layer import PAZ3CForm_INTEGRATION_TESTING
-from plone.app.z3cform.widgets.base import BaseWidget
-from plone.app.z3cform.widgets.base import PatternNotImplemented
 from plone.app.z3cform.widgets.datetime import DateWidget
 from plone.app.z3cform.widgets.relateditems import RelatedItemsWidget
 from plone.app.z3cform.widgets.text import TextFieldWidget
@@ -75,7 +73,7 @@ def example_vocabulary_factory(context, query=None):
     return tmp
 
 
-class BaseWidgetTests(unittest.TestCase):
+class PatternFormElementTest(unittest.TestCase):
     layer = PAZ3CForm_INTEGRATION_TESTING
 
     def setUp(self):
@@ -83,102 +81,22 @@ class BaseWidgetTests(unittest.TestCase):
         self.field = TextLine(__name__="textlinefield")
         self.maxDiff = 999999
 
-    def test_widget_pattern_notimplemented(self):
-        widget = BaseWidget(self.request)
+    def test_base_widget(self):
+        from plone.app.z3cform.widgets.base import PatternFormElement
+        from z3c.form.widget import Widget
+
+        class TestBaseWidget(PatternFormElement, Widget):
+            pass
+
+        widget = TestBaseWidget(self.request)
         widget.field = self.field
 
-        self.assertRaises(
-            PatternNotImplemented,
-            widget._base_args,
-        )
+        self.assertIsNone(widget.pattern)
 
         widget.pattern = "example"
-
         self.assertEqual(
-            {
-                "pattern": "example",
-                "pattern_options": {},
-            },
-            widget._base_args(),
-        )
-
-    def test_widget_base_notimplemented(self):
-        from plone.app.z3cform.widgets.base import BaseWidget
-        from plone.app.z3cform.widgets.patterns import InputWidget
-
-        widget = BaseWidget(self.request)
-        widget.field = self.field
-        widget.pattern = "example"
-
-        self.assertRaises(
-            PatternNotImplemented,
-            widget.render,
-        )
-
-        widget._base = InputWidget
-
-        self.assertEqual(
-            '<input class="pat-example" type="text"/>',
-            widget.render(),
-        )
-
-    def test_widget_base_custom_css(self):
-        from plone.app.z3cform.widgets.base import BaseWidget
-        from plone.app.z3cform.widgets.patterns import InputWidget
-
-        widget = BaseWidget(self.request)
-        widget.field = self.field
-        widget.pattern = "example"
-        widget.klass = "very-custom-class"
-        widget._base = InputWidget
-
-        self.assertEqual(
-            '<input class="pat-example very-custom-class" type="text"/>',
-            widget.render(),
-        )
-
-    def test_widget_base_pattern_options_with_functions(self):
-        from plone.app.z3cform.widgets.base import BaseWidget
-        from plone.app.z3cform.widgets.patterns import InputWidget
-
-        widget = BaseWidget(self.request)
-        widget.context = "testcontext"
-        widget.field = self.field
-        widget.pattern = "example"
-        widget._base = InputWidget
-        widget.pattern_options = {
-            "subdict": {
-                "subsubnormal": 789,
-                "subsublist": [7, 8, 9, lambda x: x],
-                "subsubtuple": (7, 8, 9, lambda x: x),
-            },
-        }
-        output = widget.render()
-        # output is something like
-        #
-        # <input class="pat-example"
-        #        type="text"
-        #        data-pat-example="$JSON_ENCODED_OPTIONS" />'
-        self.assertRegex(widget.render(), "<input .*/>")
-        # We cannot foresee how the options are encoded
-        # so we will extract the attributes with lxml
-        # and be sure that they will match what we expect
-        observed_attrib = html.fromstring(output).attrib
-        self.assertEqual(
-            sorted(observed_attrib),
-            ["class", "data-pat-example", "type"],
-        )
-        self.assertEqual(observed_attrib["class"], "pat-example")
-        self.assertEqual(observed_attrib["type"], "text")
-        self.assertDictEqual(
-            loads(observed_attrib["data-pat-example"]),
-            {
-                "subdict": {
-                    "subsubnormal": 789,
-                    "subsublist": [7, 8, 9, "testcontext"],
-                    "subsubtuple": [7, 8, 9, "testcontext"],
-                },
-            },
+            ("example", {"required": "required", "data-pat-example": ""}),
+            (widget.pattern, widget.attributes),
         )
 
 
@@ -215,6 +133,59 @@ class TextWidgetTest(unittest.TestCase):
         widget = TextFieldWidget(self.field, self.request)
         widget.pattern = "testpattern"
         self.assertIn("pat-testpattern", widget.render())
+
+    def test_test_widget_custom_css(self):
+        widget = TextFieldWidget(self.field, self.request)
+        widget.pattern = "example"
+        widget.klass = "very-custom-class"
+        widget.update()
+
+        self.assertEqual(
+            '<input name="textlinefield" type="text" id="textlinefield" class="very-custom-class required pat-example form-control" required="required" data-pat-example="" />',
+            widget.render().strip(),
+        )
+
+    def test_test_widget_pattern_options_with_functions(self):
+        widget = TextFieldWidget(self.field, self.request)
+        widget.context = "testcontext"
+        widget.pattern = "example"
+        widget.pattern_options = {
+            "subdict": {
+                "subsubnormal": 789,
+                "subsublist": [7, 8, 9, lambda x: x],
+                "subsubtuple": (7, 8, 9, lambda x: x),
+            },
+        }
+        widget.update()
+        output = widget.render()
+        # output is something like
+        #
+        # <input class="pat-example"
+        #        type="text"
+        #        data-pat-example="$JSON_ENCODED_OPTIONS" />'
+        self.assertRegex(widget.render(), "<input .*/>")
+        # We cannot foresee how the options are encoded
+        # so we will extract the attributes with lxml
+        # and be sure that they will match what we expect
+        observed_attrib = html.fromstring(output).attrib
+        self.assertEqual(
+            sorted(observed_attrib),
+            ["class", "data-pat-example", "id", "name", "required", "type"],
+        )
+        self.assertEqual(
+            observed_attrib["class"], "text-widget required pat-example form-control"
+        )
+        self.assertEqual(observed_attrib["type"], "text")
+        self.assertDictEqual(
+            loads(observed_attrib["data-pat-example"]),
+            {
+                "subdict": {
+                    "subsubnormal": 789,
+                    "subsublist": [7, 8, 9, "testcontext"],
+                    "subsubtuple": [7, 8, 9, "testcontext"],
+                },
+            },
+        )
 
 
 class DateWidgetTests(unittest.TestCase):

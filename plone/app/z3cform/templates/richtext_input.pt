@@ -3,7 +3,7 @@
       tal:omit-tag=""
 >
   <textarea name="${view/name}"
-            tal:content="view/value"
+            tal:content="view/richtext_value"
             tal:attributes="
               view/attributes;
             "

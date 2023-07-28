@@ -1,12 +1,29 @@
 from plone.app.textfield.widget import IRichTextWidget as patextfield_IRichTextWidget
 from plone.schema.interfaces import IFormLayer
-from z3c.form.interfaces import IRadioWidget
-from z3c.form.interfaces import ISelectWidget as IBaseSelectWidget
+from z3c.form.interfaces import ICheckBoxWidget as ICheckBoxWidgetBase
+from z3c.form.interfaces import IOrderedSelectWidget as IOrderedSelectWidgetBase
+from z3c.form.interfaces import IRadioWidget as IRadioWidgetBase
+from z3c.form.interfaces import ISelectWidget as ISelectWidgetBase
 from z3c.form.interfaces import ISingleCheckBoxWidget
-from z3c.form.interfaces import ITextWidget
+from z3c.form.interfaces import ISubmitWidget as ISubmitWidgetBase
+from z3c.form.interfaces import ITextAreaWidget as ITextAreaWidgetBase
+from z3c.form.interfaces import ITextLinesWidget as ITextLinesWidgetBase
+from z3c.form.interfaces import ITextWidget as ITextWidgetBase
+from zope.deferredimport import deprecated
 from zope.interface import Interface
-from zope.schema.interfaces import IDate
-from zope.schema.interfaces import IDatetime
+
+
+# this should not be used anymore
+
+deprecated(
+    "Use zope.schema.interfaces.IDate instead (will be removed in Plone 7).",
+    IDateField="zope.schema.interfaces:IDate",
+)
+
+deprecated(
+    "Use zope.schema.interfaces.IDatetime instead (will be removed in Plone 7).",
+    IDatetimeField="zope.schema.interfaces:IDatetime",
+)
 
 
 class IPloneFormLayer(IFormLayer):
@@ -26,12 +43,16 @@ class IFieldPermissionChecker(Interface):
         """
 
 
-class IDateField(IDate):
-    """Marker interface for the DateField."""
+class ITextWidget(ITextWidgetBase):
+    """Marker interface for base text input"""
 
 
-class IDatetimeField(IDatetime):
-    """Marker interface for the DatetimeField."""
+class ITextAreaWidget(ITextAreaWidgetBase):
+    """Marker interface for base text input"""
+
+
+class ITextLinesWidget(ITextLinesWidgetBase):
+    """Marker interface for base text input"""
 
 
 class IDateWidget(ITextWidget):
@@ -46,12 +67,20 @@ class ITimeWidget(ITextWidget):
     """Marker interface for the TimeWidget"""
 
 
-class ISelectWidget(IBaseSelectWidget):
+class IOrderedSelectWidget(IOrderedSelectWidgetBase):
+    """Marker interface for the OrderedSelectWidget."""
+
+
+class ISelectWidget(ISelectWidgetBase):
     """Marker interface for the SelectWidget."""
 
 
-class IAjaxSelectWidget(ITextWidget):
+class ISelect2Widget(ISelectWidget):
     """Marker interface for the Select2Widget."""
+
+
+class IAjaxSelectWidget(ITextWidget):
+    """Marker interface for the AjaxSelectWidget."""
 
 
 class IQueryStringWidget(ITextWidget):
@@ -74,11 +103,19 @@ class IEmailWidget(ITextWidget):
     """Marker interface for the dumb email widget."""
 
 
+class ISubmitWidget(ISubmitWidgetBase):
+    """Marker interface for SubmitWidget."""
+
+
+class ICheckBoxWidget(ICheckBoxWidgetBase):
+    """Marker for CheckBoxWidget."""
+
+
 class ISingleCheckBoxBoolWidget(ISingleCheckBoxWidget):
     """Marker interface for the SingleCheckboxBoolWidget."""
 
 
-class IRadioWidget(IRadioWidget):
+class IRadioWidget(IRadioWidgetBase):
     """Radio widget."""
 
     def renderForValue(value):

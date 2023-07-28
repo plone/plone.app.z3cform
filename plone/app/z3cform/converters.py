@@ -199,7 +199,7 @@ class TimeWidgetConverter(BaseDataConverter):
         return time(*map(int, value.split(":")))
 
 
-class SelectWidgetConverterBase:
+class Select2WidgetConverterBase:
     def toFieldValue(self, value):
         """Converts from widget value to field.
 
@@ -223,19 +223,19 @@ class SelectWidgetConverterBase:
 
 
 @adapter(IField, ISelectWidget)
-class SequenceSelectWidgetConverter(
-    SelectWidgetConverterBase,
+class SequenceSelect2WidgetConverter(
+    Select2WidgetConverterBase,
     SequenceDataConverter,
 ):
-    """Data converter for IField fields using the SelectWidget."""
+    """Data converter for IField fields using the Select2Widget."""
 
 
 @adapter(ICollection, ISelectWidget)
-class SelectWidgetConverter(
-    SelectWidgetConverterBase,
+class Select2WidgetConverter(
+    Select2WidgetConverterBase,
     CollectionSequenceDataConverter,
 ):
-    """Data converter for ICollection fields using the SelectWidget."""
+    """Data converter for ICollection fields using the Select2Widget."""
 
 
 @adapter(ICollection, IAjaxSelectWidget)
@@ -252,7 +252,7 @@ class AjaxSelectWidgetConverter(BaseDataConverter):
         :rtype: string
         """
         if not value:
-            return self.field.missing_value
+            return ""
         vocabulary = self.widget.get_vocabulary()
         tokenized_value = []
         for term_value in value:

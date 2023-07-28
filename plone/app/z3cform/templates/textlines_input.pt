@@ -2,41 +2,10 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       tal:omit-tag=""
 >
-  <textarea class=""
-            id=""
-            accesskey=""
-            cols=""
-            name=""
-            rows=""
-            tabindex=""
+  <textarea name="${view/name}"
             tal:content="structure view/value"
             tal:attributes="
-              id view/id;
-              name view/name;
-              class string:form-control ${view/klass};
-              style view/style;
-              title view/title;
-              lang view/lang;
-              onclick view/onclick;
-              ondblclick view/ondblclick;
-              onmousedown view/onmousedown;
-              onmouseup view/onmouseup;
-              onmouseover view/onmouseover;
-              onmousemove view/onmousemove;
-              onmouseout view/onmouseout;
-              onkeypress view/onkeypress;
-              onkeydown view/onkeydown;
-              onkeyup view/onkeyup;
-              disabled view/disabled;
-              tabindex view/tabindex;
-              onfocus view/onfocus;
-              onblur view/onblur;
-              onchange view/onchange;
-              cols view/cols;
-              rows view/rows;
-              readonly view/readonly;
-              accesskey view/accesskey;
-              onselect view/onselect;
+              view/attributes;
             "
   ></textarea>
 </html>

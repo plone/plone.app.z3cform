@@ -1,14 +1,10 @@
-from Acquisition import ImplicitAcquisitionWrapper
-from collections import UserDict
 from lxml import etree
 from plone.app.textfield.value import RichTextValue
 from plone.app.textfield.widget import RichTextWidget as patext_RichTextWidget
 from plone.app.z3cform.interfaces import IRichTextWidget
 from plone.app.z3cform.interfaces import IRichTextWidgetInputModeRenderer
-from plone.app.z3cform.utils import closest_content
-from plone.app.z3cform.utils import dict_merge
-from plone.app.z3cform.widgets.base import BaseWidget
-from plone.app.z3cform.widgets.patterns import TextareaWidget
+from plone.app.z3cform.utils import remove_invalid_xml_characters
+from plone.app.z3cform.widgets.base import HTMLTextAreaWidget
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.widget import FieldWidget
 from zope.component import ComponentLookupError
@@ -40,26 +36,19 @@ def get_tinymce_options(context, field, request):
     return options
 
 
+class RichTextWidgetBase(HTMLTextAreaWidget, patext_RichTextWidget):
+    @property
+    def richtext_value(self):
+        return self.value and remove_invalid_xml_characters(self.value.raw) or ""
+
+
 @implementer_only(IRichTextWidget)
-class RichTextWidget(BaseWidget, patext_RichTextWidget):
-    """TinyMCE widget for z3c.form."""
-
-    _base = TextareaWidget
-
-    pattern_options = BaseWidget.pattern_options.copy()
+class RichTextWidget(RichTextWidgetBase):
+    klass = "richtext-widget"
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._pattern = None
-
-    def wrapped_context(self):
-        """ "We need to wrap the context to be able to acquire the root
-        of the site to get tools, as done in plone.app.textfield"""
-        context = self.context
-        content = closest_content(context)
-        if context.__class__ == dict:
-            context = UserDict(self.context)
-        return ImplicitAcquisitionWrapper(context, content)
 
     @property
     def pattern(self):
@@ -69,25 +58,12 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
             self._pattern = self.getWysiwygEditor()
         return self._pattern
 
-    def _base_args(self):
-        args = super()._base_args()
-        args["name"] = self.name
-        value = self.value and self.value.raw or ""
-        value = self.request.get(self.name, value)
-        args["value"] = value
-
-        args.setdefault("pattern_options", {})
-        merged_options = dict_merge(
-            get_tinymce_options(
-                self.wrapped_context(),
-                self.field,
-                self.request,
-            ),
-            args["pattern_options"],
+    def get_pattern_options(self):
+        return get_tinymce_options(
+            self.wrapped_context(),
+            self.field,
+            self.request,
         )
-        args["pattern_options"] = merged_options
-
-        return args
 
     def render(self):
         """Render widget.
@@ -121,15 +97,14 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
         else:
             # Let pat-textarea-mimetype-selector choose the widget
 
-            # Initialize the widget without a pattern
-            base_args = self._base_args()
-            pattern_options = base_args["pattern_options"]
-            del base_args["pattern"]
-            del base_args["pattern_options"]
-            textarea_widget = self._base(None, None, **base_args)
-            textarea_widget.klass = "form-control"
+            # create a copy of RichTextWidget
+            textarea_widget = RichTextWidgetBase(self.request)
+            textarea_widget.field = self.field
+            textarea_widget.name = self.name
+            textarea_widget.value = self.value
+
             mt_pattern_name = "{}{}".format(
-                self._base._klass_prefix,
+                self._klass_prefix,
                 "textareamimetypeselector",
             )
 
@@ -151,7 +126,7 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
                             # richtext widget config for
                             # 'text/html', no other mimetypes.
                             "pattern": self.pattern,
-                            "patternOptions": pattern_options,
+                            "patternOptions": self.get_pattern_options(),
                         },
                     },
                 },
@@ -167,6 +142,7 @@ class RichTextWidget(BaseWidget, patext_RichTextWidget):
                 mt_select.append(opt)
 
             # Render the combined widget
+            textarea_widget.update()
             rendered = "{}\n{}".format(
                 textarea_widget.render(),
                 etree.tostring(mt_select, encoding="unicode"),

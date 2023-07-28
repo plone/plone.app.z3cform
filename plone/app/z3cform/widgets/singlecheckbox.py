@@ -1,6 +1,7 @@
 from plone.app.vocabularies.terms import TermWithDescription
 from plone.app.z3cform.interfaces import IPloneFormLayer
 from plone.app.z3cform.interfaces import ISingleCheckBoxBoolWidget
+from plone.app.z3cform.widgets.base import HTMLInputWidget
 from z3c.form.browser.checkbox import SingleCheckBoxWidget
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.term import BoolTerms
@@ -15,10 +16,15 @@ from zope.schema.vocabulary import SimpleVocabulary
 
 
 @implementer_only(ISingleCheckBoxBoolWidget)
-class SingleCheckBoxBoolWidget(SingleCheckBoxWidget):
+class SingleCheckBoxBoolWidget(HTMLInputWidget, SingleCheckBoxWidget):
     """Single Input type checkbox widget implementation."""
 
     klass = "single-checkbox-bool-widget"
+
+    def update(self):
+        super().update()
+        if self.mode == "input":
+            self.addClass("form-check-input")
 
     @property
     def label(self):

@@ -6,17 +6,16 @@ from plone.app.z3cform.interfaces import IRelatedItemsWidget
 from plone.app.z3cform.utils import dict_merge
 from plone.app.z3cform.utils import get_context_url
 from plone.app.z3cform.utils import get_widget_form
-from plone.app.z3cform.widgets.base import BaseWidget
-from plone.app.z3cform.widgets.patterns import InputWidget
+from plone.app.z3cform.widgets.base import HTMLInputWidget
 from plone.base import PloneMessageFactory as _
 from plone.base.navigationroot import get_navigation_root_object
 from plone.base.utils import get_top_site_from_url
 from Products.CMFCore.utils import getToolByName
-from z3c.form.browser.text import TextWidget as z3cform_TextWidget
 from z3c.form.interfaces import IEditForm
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.interfaces import IForm
 from z3c.form.widget import FieldWidget
+from z3c.form.widget import Widget
 from zope.component.hooks import getSite
 from zope.globalrequest import getRequest
 from zope.interface import implementer
@@ -109,14 +108,10 @@ def get_relateditems_options(
 
 
 @implementer_only(IRelatedItemsWidget)
-class RelatedItemsWidget(BaseWidget, z3cform_TextWidget):
+class RelatedItemsWidget(HTMLInputWidget, Widget):
     """RelatedItems widget for z3c.form."""
 
-    _base = InputWidget
-
     pattern = "relateditems"
-    pattern_options = BaseWidget.pattern_options.copy()
-
     separator = ";"
     vocabulary = None
     vocabulary_override = False
@@ -138,27 +133,12 @@ class RelatedItemsWidget(BaseWidget, z3cform_TextWidget):
         else:
             self.vocabulary = "plone.app.vocabularies.Catalog"
 
-    def _base_args(self):
-        """Method which will calculate _base class arguments.
-
-        Returns (as python dictionary):
-            - `pattern`: pattern name
-            - `pattern_options`: pattern options
-            - `name`: field name
-            - `value`: field value
-
-        :returns: Arguments which will be passed to _base
-        :rtype: dict
-        """
-        args = super()._base_args()
-
-        args["name"] = self.name
-        args["value"] = self.value
-        args.setdefault("pattern_options", {})
-
+    def get_pattern_options(self):
         field = None
+        pattern_options = {}
+
         if IChoice.providedBy(self.field):
-            args["pattern_options"]["maximumSelectionSize"] = 1
+            pattern_options["maximumSelectionSize"] = 1
             field = self.field
         elif ICollection.providedBy(self.field):
             field = self.field.value_type
@@ -185,25 +165,24 @@ class RelatedItemsWidget(BaseWidget, z3cform_TextWidget):
             # view_context is defined above already
 
         root_search_mode = (
-            args["pattern_options"].get("mode", None)
-            and "basePath" not in args["pattern_options"]
+            pattern_options.get("mode", None) and "basePath" not in pattern_options
         )
 
-        args["pattern_options"] = dict_merge(
+        pattern_options = dict_merge(
             get_relateditems_options(
                 view_context,
-                args["value"],
+                self.value,
                 self.separator,
                 vocabulary_name,
                 self.vocabulary_view,
                 field_name,
             ),
-            args["pattern_options"],
+            pattern_options,
         )
         if root_search_mode:
             # Delete default basePath option in search mode, when no basePath
             # was explicitly set.
-            del args["pattern_options"]["basePath"]
+            del pattern_options["basePath"]
         if (
             not self.vocabulary_override
             and field
@@ -215,9 +194,9 @@ class RelatedItemsWidget(BaseWidget, z3cform_TextWidget):
                 form_url,
                 self.name,
             )
-            args["pattern_options"]["vocabularyUrl"] = source_url
+            pattern_options["vocabularyUrl"] = source_url
 
-        return args
+        return pattern_options
 
     def items(self):
         """Return item for the widget values for the display template

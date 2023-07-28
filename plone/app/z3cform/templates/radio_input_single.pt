@@ -4,47 +4,23 @@
         item python:args[0];
       "
       tal:omit-tag=""
->
-  <input class=""
-         id=""
-         accesskey=""
-         alt=""
-         name=""
-         tabindex=""
-         title=""
+><!--! NOTE:
+           Since most people import the "RadioFieldWidget"
+           directly from z3c.form.browser.radio our adapter
+           which sets the Bootstrap "form-check-input" css class
+           isn't invoked. For this reason we manually add the
+           class here in the template.
+           When all imports are refactored to
+           "plone.app.z3cform.widgets.radio.RadioFieldWidget"
+           this can be cleaned up. -->
+  <input checked="${python:'checked' if item['checked'] else None}"
+         name="${item/name}"
          type="radio"
-         value=""
-         tal:define="
-           checked item/checked;
-         "
+         value="${item/value}"
          tal:attributes="
+           view/attributes;
+           class string:${view/attributes/class} form-check-input;
            id item/id;
-           name item/name;
-           class string:form-check-input ${view/klass};
-           value item/value;
-           style view/style;
-           title view/title;
-           lang view/lang;
-           onclick view/onclick;
-           ondblclick view/ondblclick;
-           onmousedown view/onmousedown;
-           onmouseup view/onmouseup;
-           onmouseover view/onmouseover;
-           onmousemove view/onmousemove;
-           onmouseout view/onmouseout;
-           onkeypress view/onkeypress;
-           onkeydown view/onkeydown;
-           onkeyup view/onkeyup;
-           disabled view/disabled;
-           tabindex view/tabindex;
-           onfocus view/onfocus;
-           onblur view/onblur;
-           onchange view/onchange;
-           readonly view/readonly;
-           alt view/alt;
-           accesskey view/accesskey;
-           onselect view/onselect;
-           checked python: checked and 'checked' or None;
          "
   />
 </html>

@@ -13,13 +13,10 @@
          data-pat-autotoc="section:span.linkType;levels:span.linkLabel;"
     >
 
-      <span class="linkType internal"
+      <span class="${python:'linkType internal' + (' active' if value else '')}"
             data-linktype="internal"
             tal:define="
               value view/value/internal | nothing;
-            "
-            tal:attributes="
-              class python:'linkType internal' + (' active' if value else '');
             "
       >
         <span class="linkLabel d-none"
@@ -29,25 +26,19 @@
           <div class="mb-3 main">
             <!-- this gives the name to the "linkType" -->
             <input class="pat-relateditems"
-                   name="internal"
+                   name="${view/name}.internal"
                    type="text"
-                   tal:attributes="
-                     data-pat-relateditems view/pattern_data;
-                     value value;
-                     name string:${view/name}.internal;
-                   "
+                   value="${value}"
+                   data-pat-relateditems="${view/pattern_data}"
             />
           </div>
         </div>
       </span>
 
-      <span class="linkType external"
+      <span class="${python:'linkType external' + (' active' if value else '')}"
             data-linktype="external"
             tal:define="
               value view/value/external | nothing;
-            "
-            tal:attributes="
-              class python:'linkType external' + (' active' if value else '');
             "
       >
         <span class="linkLabel d-none"
@@ -68,13 +59,10 @@
         </div>
       </span>
 
-      <span class="linkType email"
+      <span class="${python:'linkType email' + (' active' if value else '')}"
             data-linktype="email"
             tal:define="
               value view/value/email | nothing;
-            "
-            tal:attributes="
-              class python:'linkType email' + (' active' if value else '');
             "
       >
         <span class="linkLabel d-none"

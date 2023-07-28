@@ -1,51 +1,58 @@
 from OFS.interfaces import ISimpleItem
 from plone.app.z3cform.interfaces import IAjaxSelectWidget
+from plone.app.z3cform.interfaces import ISelect2Widget
 from plone.app.z3cform.interfaces import ISelectWidget
 from plone.app.z3cform.utils import dict_merge
 from plone.app.z3cform.utils import get_context_url
 from plone.app.z3cform.utils import get_widget_form
-from plone.app.z3cform.widgets.base import BaseWidget
-from plone.app.z3cform.widgets.patterns import InputWidget
-from plone.app.z3cform.widgets.patterns import SelectWidget
+from plone.app.z3cform.widgets.base import HTMLInputWidget
+from plone.app.z3cform.widgets.base import HTMLSelectWidget
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
-from z3c.form import interfaces as form_ifaces
-from z3c.form.browser.select import SelectWidget as z3cform_SelectWidget
-from z3c.form.browser.text import TextWidget as z3cform_TextWidget
+from z3c.form.browser.select import SelectWidget as SelectWidgetBase
 from z3c.form.interfaces import IEditForm
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.interfaces import IForm
+from z3c.form.interfaces import ITerms
 from z3c.form.interfaces import NO_VALUE
 from z3c.form.widget import FieldWidget
+from z3c.form.widget import Widget
 from zope.component import getUtility
 from zope.component import queryUtility
-from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface import implementer_only
-from zope.schema import interfaces as schema_ifaces
 from zope.schema.interfaces import IChoice
 from zope.schema.interfaces import ICollection
 from zope.schema.interfaces import ISequence
+from zope.schema.interfaces import ITreeVocabulary
 from zope.schema.interfaces import IVocabularyFactory
-
-import collections
 
 
 @implementer_only(ISelectWidget)
-class SelectWidget(BaseWidget, z3cform_SelectWidget):
+class SelectWidget(HTMLSelectWidget, SelectWidgetBase):
+    klass = "select-widget"
+
+
+@implementer(IFieldWidget)
+def SelectFieldWidget(field, source, request):
+    return FieldWidget(field, SelectWidget(request))
+
+
+@implementer(IFieldWidget)
+def CollectionChoiceSelectFieldWidget(field, value_type, request):
+    """IFieldWidget factory for SelectWidget."""
+    return SelectFieldWidget(field, None, request)
+
+
+@implementer_only(ISelect2Widget)
+class Select2Widget(HTMLSelectWidget, SelectWidgetBase):
     """Select widget for z3c.form."""
 
-    _base = SelectWidget
-
     pattern = "select2"
-    pattern_options = BaseWidget.pattern_options.copy()
-
     separator = ";"
     noValueToken = ""
     noValueMessage = ""
-    multiple = None
     orderable = False
-    required = True
 
     @property
     def items(self):
@@ -53,85 +60,36 @@ class SelectWidget(BaseWidget, z3cform_SelectWidget):
         Optionally handle ITreeVocabulary vocabs as dicts.
         """
         terms = self.terms
-        if form_ifaces.ITerms.providedBy(terms):
+        if ITerms.providedBy(terms):
             terms = terms.terms
 
-        if schema_ifaces.ITreeVocabulary.providedBy(terms):
-            groups = collections.OrderedDict()
+        if ITreeVocabulary.providedBy(terms):
+            groups = {}
             for group_term, option_terms in terms.items():
                 group_widget = type(self)(self.request)
                 group_widget.terms = option_terms
+                group_widget.id = self.id
                 group_label = group_term.title or group_term.value or group_term.token
-                groups[group_label] = super(SelectWidget, group_widget).items
+                groups[group_label] = super(Select2Widget, group_widget).items
             return groups
         else:
             return super().items
 
-    def _base_args(self):
-        """Method which will calculate _base class arguments.
-
-        Returns (as python dictionary):
-            - `pattern`: pattern name
-            - `pattern_options`: pattern options
-            - `name`: field name
-            - `value`: field value
-            - `multiple`: field multiple
-            - `items`: field items from which we can select to
-
-        :returns: Arguments which will be passed to _base
-        :rtype: dict
-        """
-        args = super()._base_args()
-        args["name"] = self.name
-        args["value"] = self.value
-        args["multiple"] = self.multiple
-
-        self.required = self.field.required
-
-        options = args.setdefault("pattern_options", {})
-        if self.multiple or ICollection.providedBy(self.field):
-            args["multiple"] = self.multiple = True
+    def get_pattern_options(self):
+        pattern_options = {}
 
         # ISequence represents an orderable collection
         if ISequence.providedBy(self.field) or self.orderable:
-            options["orderable"] = True
+            pattern_options["orderable"] = True
 
         if self.multiple:
-            options["separator"] = self.separator
+            pattern_options["separator"] = self.separator
 
         # Allow to clear field value if it is not required
-        if not self.required:
-            options["allowClear"] = True
+        if not self.field.required:
+            pattern_options["allowClear"] = True
 
-        base_items = self.items
-        if callable(base_items):
-            # items used to be a property in all widgets, then in the select
-            # widget it became a method, then in a few others too, but never in
-            # all, so this was reverted to let it be a property again.  Let's
-            # support both here to avoid breaking on some z3c.form versions.
-            # See https://github.com/zopefoundation/z3c.form/issues/44
-            base_items = base_items()
-
-        def makeItem(item):
-            """
-            Gather the information needed by the widget for the given term.
-            """
-            if not isinstance(item["content"], str):
-                item["content"] = translate(
-                    item["content"], context=self.request, default=item["value"]
-                )
-            return (item["value"], item["content"])
-
-        if isinstance(base_items, dict):
-            items = collections.OrderedDict(
-                (group_label, [makeItem(base_item) for base_item in group_options])
-                for group_label, group_options in base_items.items()
-            )
-        else:
-            items = [makeItem(item) for item in base_items]
-        args["items"] = items
-
-        return args
+        return pattern_options
 
     def extract(self, default=NO_VALUE):
         """Override extract to handle delimited response values.
@@ -145,15 +103,16 @@ class SelectWidget(BaseWidget, z3cform_SelectWidget):
         return self.request.get(self.name, default)
 
 
+@implementer(IFieldWidget)
+def Select2FieldWidget(field, request):
+    return FieldWidget(field, Select2Widget(request))
+
+
 @implementer_only(IAjaxSelectWidget)
-class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
+class AjaxSelectWidget(HTMLInputWidget, Widget):
     """Ajax select widget for z3c.form."""
 
-    _base = InputWidget
-
     pattern = "select2"
-    pattern_options = BaseWidget.pattern_options.copy()
-
     separator = ";"
     vocabulary = None
     vocabulary_view = "@@getVocabulary"
@@ -236,36 +195,20 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
         ):
             self.vocabulary = field.vocabularyName
 
-    def _base_args(self):
-        """Method which will calculate _base class arguments.
-
-        Returns (as python dictionary):
-            - `pattern`: pattern name
-            - `pattern_options`: pattern options
-            - `name`: field name
-            - `value`: field value
-
-        :returns: Arguments which will be passed to _base
-        :rtype: dict
-        """
-        args = super()._base_args()
-        args["name"] = self.name
-        args["value"] = self.value
-        args.setdefault("pattern_options", {})
+    def get_pattern_options(self):
+        pattern_options = {}
         context = self.context
         field = None
 
         if IChoice.providedBy(self.field):
-            args["pattern_options"]["maximumSelectionSize"] = 1
+            pattern_options["maximumSelectionSize"] = 1
             field = self.field
         elif ICollection.providedBy(self.field):
             field = self.field.value_type
         if IChoice.providedBy(field):
-            args["pattern_options"]["allowNewItems"] = "false"
+            pattern_options["allowNewItems"] = "false"
 
-        args["pattern_options"] = dict_merge(
-            self._ajaxselect_options(), args["pattern_options"]
-        )
+        pattern_options = dict_merge(self._ajaxselect_options(), pattern_options)
 
         if field and getattr(field, "vocabulary", None):
             form_url = self.request.getURL()
@@ -273,11 +216,11 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
                 form_url,
                 self.name,
             )
-            args["pattern_options"]["vocabularyUrl"] = source_url
+            pattern_options["vocabularyUrl"] = source_url
 
         # ISequence represents an orderable collection
         if ISequence.providedBy(self.field) or self.orderable:
-            args["pattern_options"]["orderable"] = True
+            pattern_options["orderable"] = True
 
         if self.vocabulary == "plone.app.vocabularies.Keywords":
             membership = getToolByName(context, "portal_membership")
@@ -291,16 +234,11 @@ class AjaxSelectWidget(BaseWidget, z3cform_TextWidget):
             allowNewItems = bool(
                 roles.intersection(roles_allowed_to_add_keywords),
             )
-            args["pattern_options"]["allowNewItems"] = str(
+            pattern_options["allowNewItems"] = str(
                 allowNewItems,
             ).lower()
 
-        return args
-
-
-@implementer(IFieldWidget)
-def SelectFieldWidget(field, request):
-    return FieldWidget(field, SelectWidget(request))
+        return pattern_options
 
 
 @implementer(IFieldWidget)

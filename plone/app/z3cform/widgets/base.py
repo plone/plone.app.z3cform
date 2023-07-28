@@ -1,6 +1,11 @@
 from Acquisition import aq_base
 from plone.app.z3cform.utils import call_callables
+from plone.app.z3cform.utils import dict_merge
+from z3c.form.browser import widget
 from z3c.form.widget import Widget
+from zope.schema.interfaces import ICollection
+
+import json
 
 
 class PatternNotImplemented(Exception):
@@ -60,3 +65,88 @@ class BaseWidget(Widget):
 
     def is_subform_widget(self):
         return getattr(aq_base(self.form), "parentForm", None) is not None
+
+
+class PatternFormElement(widget.HTMLFormElement):
+    """New implementation of pattern widget with z3c.form extendable attributes"""
+
+    _klass_prefix = "pat-"
+
+    pattern = None
+    pattern_options = {}
+
+    def get_pattern_options(self):
+        """override this factory to inject the pattern options as
+        "data-<self._klass_prefix><self.pattern>" attribute
+        """
+        return self.pattern_options
+
+    @property
+    def attributes(self):
+        """add "required" attribute"""
+
+        attributes = super().attributes
+
+        if self.field.required:
+            attributes["required"] = "required"
+
+        if self.pattern:
+            # if self.pattern_options is injected include them
+            pat_options = dict_merge(
+                self.get_pattern_options().copy(),
+                self.pattern_options,
+            )
+            # if callables are injected resolve them
+            pat_options = call_callables(
+                pat_options,
+                self.context,
+            )
+            attributes[f"data-{self._klass_prefix}{self.pattern}"] = (
+                json.dumps(pat_options) if pat_options else ""
+            )
+
+        return attributes
+
+    def update(self):
+        super().update()
+        if self.pattern:
+            self.addClass(f"{self._klass_prefix}{self.pattern}")
+
+    def is_subform_widget(self):
+        return getattr(aq_base(self.form), "parentForm", None) is not None
+
+
+class HTMLInputWidget(PatternFormElement, widget.HTMLInputWidget):
+    """InputWidget with pattern options"""
+
+
+class HTMLTextInputWidget(PatternFormElement, widget.HTMLTextInputWidget):
+    """TextInputWidget with pattern options"""
+
+    def update(self):
+        super().update()
+        if self.mode == "input":
+            self.addClass("form-control")
+
+
+class HTMLTextAreaWidget(PatternFormElement, widget.HTMLTextAreaWidget):
+    """TextAreaWidget with pattern options"""
+
+    def update(self):
+        super().update()
+        if self.mode == "input":
+            self.addClass("form-control")
+
+
+class HTMLSelectWidget(PatternFormElement, widget.HTMLSelectWidget):
+    """SelectWidget with pattern options"""
+
+    def update(self):
+        super().update()
+
+        if ICollection.providedBy(self.field):
+            self.multiple = "multiple"
+
+        if self.mode == "input":
+            # if select2 pattern only add "display:block" and not "form-select"
+            self.addClass("form-select" if self.pattern != "select2" else "d-block")

@@ -4,7 +4,7 @@ Inline validation
 First, let's set up some infrastructure:
 
     >>> from zope.interface import alsoProvides
-    >>> from plone.testing.z2 import makeTestRequest
+    >>> from plone.testing.zope import makeTestRequest
     >>> from zope.annotation.interfaces import IAttributeAnnotatable
     >>> from z3c.form.interfaces import IFormLayer
 
@@ -22,7 +22,7 @@ Then we create a simple z3c form
 
     >>> from zope import interface, schema
     >>> from z3c.form import form, field, button
-    >>> from plone.app.z3cform.layout import FormWrapper
+    >>> from plone.z3cform.layout import FormWrapper
 
     >>> class MySchema(interface.Interface):
     ...     age = schema.Int(title=u"Age")

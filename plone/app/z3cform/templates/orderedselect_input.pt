@@ -9,110 +9,55 @@
 
   <table class="ordered-selection-field table table-borderless"
          id="${view/id}"
-         border="0"
   >
     <tr>
       <td>
-        <select class="form-control ${view/klass}"
-                id="${view/id}-from"
-                disabled="${view/disabled}"
-                lang="${view/lang}"
-                multiple="${view/multiple}"
-                name="${view/name}.from"
-                onblur="${view/onblur}"
-                onchange="${view/onchange}"
-                onclick="${view/onclick}"
-                ondblclick="${view/ondblclick}"
-                onfocus="${view/onfocus}"
-                onkeydown="${view/onkeydown}"
-                onkeypress="${view/onkeypress}"
-                onkeyup="${view/onkeyup}"
-                onmousedown="${view/onmousedown}"
-                onmousemove="${view/onmousemove}"
-                onmouseout="${view/onmouseout}"
-                onmouseover="${view/onmouseover}"
-                onmouseup="${view/onmouseup}"
-                size="${view/size}"
-                style="${view/style}"
-                tabindex="${view/tabindex}"
-                title="${view/title}"
+        <select name="${view/name}.from"
+                tal:attributes="
+                  view/attributes;
+                  id string:${view/id}-from;
+                  required nothing;
+                "
         >
-          <option tal:repeat="entry view/notselectedItems"
-                  tal:content="nocall:entry/content"
-                  tal:attributes="
-                    value entry/value;
-                  "
+          <option value="${entry/value}"
+                  tal:repeat="entry view/notselectedItems"
                   i18n:translate=""
-          ></option>
+          >${nocall:entry/content}</option>
         </select>
       </td>
       <td>
         <button class="btn btn-sm btn-outline-secondary"
                 name="from2toButton"
-                onclick="javascript:from2to()"
+                onclick="javascript:from2to('${view/id}')"
                 type="button"
                 value="&rarr;"
-                tal:attributes="
-                  onClick string:javascript:from2to('${view/id}');
-                "
         >&rarr;</button>
         <br />
         <button class="btn btn-sm btn-outline-secondary"
                 name="to2fromButton"
-                onclick="javascript:to2from()"
+                onclick="javascript:to2from('${view/id}')"
                 type="button"
                 value="&larr;"
-                tal:attributes="
-                  onClick string:javascript:to2from('${view/id}');
-                "
         >&larr;</button>
       </td>
       <td>
-        <select class="form-select ${view/klass}"
-                id="${view/id}-to"
-                disabled="${view/disabled}"
-                lang="${view/lang}"
-                multiple="${view/multiple}"
-                name="${view/name}.to"
-                onblur="${view/onblur}"
-                onchange="${view/onchange}"
-                onclick="${view/onclick}"
-                ondblclick="${view/ondblclick}"
-                onfocus="${view/onfocus}"
-                onkeydown="${view/onkeydown}"
-                onkeypress="${view/onkeypress}"
-                onkeyup="${view/onkeyup}"
-                onmousedown="${view/onmousedown}"
-                onmousemove="${view/onmousemove}"
-                onmouseout="${view/onmouseout}"
-                onmouseover="${view/onmouseover}"
-                onmouseup="${view/onmouseup}"
-                required="${python:view.required and 'required' or None}"
-                size="${view/size}"
-                style="${view/style}"
-                tabindex="${view/tabindex}"
-                title="${view/title}"
+        <select name="${view/name}.to"
+                tal:attributes="
+                  view/attributes;
+                  id string:${view/id}-to;
+                "
         >
           <option selected="selected"
+                  value="${entry/value}"
                   tal:repeat="entry view/selectedItems"
-                  tal:content="nocall:entry/content"
-                  tal:attributes="
-                    value entry/value;
-                  "
                   i18n:translate=""
-          ></option>
+          >${nocall:entry/content}</option>
         </select>
-        <input name="foo-empty-marker"
+        <input name="${view/name}-empty-marker"
                type="hidden"
-               tal:attributes="
-                 name string:${view/name}-empty-marker;
-               "
         />
-        <span id="toDataContainer"
+        <span id="${view/id}-toDataContainer"
               style="display: none"
-              tal:attributes="
-                id string:${view/id}-toDataContainer;
-              "
         >
           <script type="text/javascript"
                   tal:content="string:copyDataForSubmit('${view/id}');"
@@ -124,22 +69,16 @@
       <td>
         <button class="btn btn-sm btn-outline-secondary"
                 name="upButton"
-                onclick="javascript:moveUp()"
+                onclick="javascript:moveUp('${view/id}')"
                 type="button"
                 value="&uarr;"
-                tal:attributes="
-                  onClick string:javascript:moveUp('${view/id}');
-                "
         >&uarr;</button>
         <br />
         <button class="btn btn-sm btn-outline-secondary"
                 name="downButton"
-                onclick="javascript:moveDown()"
+                onclick="javascript:moveDown('${view/id}')"
                 type="button"
                 value="&darr;"
-                tal:attributes="
-                  onClick string:javascript:moveDown('${view/id}');
-                "
         >&darr;</button>
       </td>
     </tr>

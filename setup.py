@@ -3,11 +3,10 @@ from setuptools import find_packages
 from setuptools import setup
 
 
-version = "4.3.1.dev0"
+version = "4.4.0.dev0"
 
 long_description = (
     f"{Path('README.rst').read_text()}\n"
-    f"{(Path('plone') / 'app' / 'z3cform' / 'wysiwyg' / 'README.rst').read_text()}\n"
     f"{(Path('plone') / 'app' / 'z3cform' / 'inline_validation.rst').read_text()}\n"
     f"{Path('CHANGES.rst').read_text()}"
 )
@@ -17,6 +16,7 @@ test_requirements = [
     "plone.app.testing",
     "plone.autoform",
     "plone.browserlayer",
+    "plone.dexterity",
     "plone.supermodel",
     "plone.testing",
     "zope.annotation",
@@ -62,7 +62,6 @@ setup(
         "plone.app.textfield>=1.3.6",
         "plone.base",
         "plone.app.contentlisting",
-        "plone.dexterity",
         "plone.i18n",
         "plone.protect",
         "plone.registry",
@@ -72,7 +71,7 @@ setup(
         "Products.GenericSetup",
         "pytz",
         "setuptools",
-        "z3c.form >= 4.0",
+        "z3c.form >= 5.1",
         "z3c.relationfield",
         "zope.deprecation",
         "zope.globalrequest",

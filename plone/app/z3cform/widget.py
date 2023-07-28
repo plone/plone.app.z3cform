@@ -50,8 +50,8 @@ deprecated_import(
     "Import from plone.app.z3cform.widgets.select instead (will be removed in Plone 7)",
     AjaxSelectFieldWidget="plone.app.z3cform.widgets.select:AjaxSelectFieldWidget",
     AjaxSelectWidget="plone.app.z3cform.widgets.select:AjaxSelectWidget",
-    SelectFieldWidget="plone.app.z3cform.widgets.select:SelectFieldWidget",
-    SelectWidget="plone.app.z3cform.widgets.select:SelectWidget",
+    SelectFieldWidget="plone.app.z3cform.widgets.select:Select2FieldWidget",
+    SelectWidget="plone.app.z3cform.widgets.select:Select2Widget",
 )
 
 deprecated_import(

@@ -3,10 +3,10 @@
       tal:omit-tag=""
 >
   <input name="${view/name}"
-         type="text"
          value="${view/value}"
          tal:attributes="
            view/attributes;
          "
   />
+  <!--! NOTE: we generate the input type in widget attributes -->
 </html>

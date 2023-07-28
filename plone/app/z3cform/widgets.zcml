@@ -3,11 +3,102 @@
     xmlns:z3c="http://namespaces.zope.org/z3c"
     >
 
+  <!-- for base registrations see z3c.form.browser package -->
+
+  <!-- enhanced text widget -->
+  <adapter
+      factory=".widgets.text.TextFieldWidget"
+      for="zope.schema.TextLine
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+
+  <adapter
+      factory=".widgets.text.TextFieldWidget"
+      for="zope.schema.BytesLine
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter
+      factory=".widgets.text.TextFieldWidget"
+      for="zope.schema.ASCIILine
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter
+      factory=".widgets.text.TextFieldWidget"
+      for="zope.schema.interfaces.IId
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter
+      factory=".widgets.text.TextFieldWidget"
+      for="zope.schema.interfaces.IInt
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter
+      factory=".widgets.text.TextFieldWidget"
+      for="zope.schema.interfaces.IFloat
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter
+      factory=".widgets.text.TextFieldWidget"
+      for="zope.schema.interfaces.IDecimal
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter
+      factory=".widgets.text.TextFieldWidget"
+      for="zope.schema.interfaces.ITimedelta
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter
+      factory=".widgets.text.TextFieldWidget"
+      for="zope.schema.interfaces.IURI
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter
+      factory=".widgets.text.TextFieldWidget"
+      for="zope.schema.interfaces.IPassword
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <z3c:widgetTemplate
+      widget=".interfaces.ITextWidget"
+      template="templates/text_input.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
+      />
+
+  <!-- textarea -->
+  <adapter
+      factory=".widgets.text.TextAreaFieldWidget"
+      for="zope.schema.interfaces.IText
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter
+      factory=".widgets.text.TextAreaFieldWidget"
+      for="zope.schema.interfaces.IASCII
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <z3c:widgetTemplate
+      widget=".interfaces.ITextAreaWidget"
+      template="templates/textarea_input.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
+      />
+
   <!-- Make the default widget for sequence-of-text-lines a textlines
        widget; the default is too confusing -->
 
   <adapter
-      factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
+      factory=".widgets.text.TextLinesFieldWidgetFactory"
       provides="z3c.form.interfaces.IFieldWidget"
       for="zope.schema.interfaces.IList
            zope.schema.interfaces.ITextLine
@@ -15,7 +106,7 @@
       />
 
   <adapter
-      factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
+      factory=".widgets.text.TextLinesFieldWidgetFactory"
       provides="z3c.form.interfaces.IFieldWidget"
       for="zope.schema.interfaces.ITuple
            zope.schema.interfaces.ITextLine
@@ -23,7 +114,7 @@
       />
 
   <adapter
-      factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
+      factory=".widgets.text.TextLinesFieldWidgetFactory"
       provides="z3c.form.interfaces.IFieldWidget"
       for="zope.schema.interfaces.IAbstractSet
            zope.schema.interfaces.ITextLine
@@ -31,7 +122,7 @@
       />
 
   <adapter
-      factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
+      factory=".widgets.text.TextLinesFieldWidgetFactory"
       provides="z3c.form.interfaces.IFieldWidget"
       for="zope.schema.interfaces.IList
            zope.schema.interfaces.IASCIILine
@@ -39,14 +130,14 @@
       />
 
   <adapter
-      factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
+      factory=".widgets.text.TextLinesFieldWidgetFactory"
       provides="z3c.form.interfaces.IFieldWidget"
       for="zope.schema.interfaces.ITuple
            zope.schema.interfaces.IASCIILine
            plone.app.z3cform.interfaces.IPloneFormLayer"
       />
   <adapter
-      factory="plone.z3cform.textlines.textlines.TextLinesFieldWidgetFactory"
+      factory=".widgets.text.TextLinesFieldWidgetFactory"
       provides="z3c.form.interfaces.IFieldWidget"
       for="zope.schema.interfaces.IAbstractSet
            zope.schema.interfaces.IASCIILine
@@ -76,6 +167,14 @@
       mode="input"
       />
 
+  <z3c:widgetTemplate
+      field="zope.schema.interfaces.IBool"
+      widget=".interfaces.ISingleCheckBoxBoolWidget"
+      template="templates/singlecheckboxbool_hidden.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="hidden"
+      />
+
   <!-- ajaxselect -->
   <z3c:widgetTemplate
       field="*"
@@ -83,14 +182,6 @@
       template="templates/ajaxselect_display.pt"
       layer=".interfaces.IPloneFormLayer"
       mode="display"
-      />
-
-  <z3c:widgetTemplate
-      field="zope.schema.interfaces.IBool"
-      widget=".interfaces.ISingleCheckBoxBoolWidget"
-      template="templates/singlecheckboxbool_hidden.pt"
-      layer=".interfaces.IPloneFormLayer"
-      mode="hidden"
       />
 
   <!-- multi -->
@@ -109,40 +200,21 @@
       mode="input"
       />
 
-  <!-- date/time -->
-  <class class=".widgets.datetime.DateWidget">
-    <require
-        permission="zope.Public"
-        interface=".interfaces.IDateWidget"
-        />
-  </class>
-
+  <!-- date -->
   <adapter
       factory=".widgets.datetime.DateFieldWidget"
       for="zope.schema.interfaces.IDate
            plone.app.z3cform.interfaces.IPloneFormLayer"
       />
 
-  <class class=".widgets.datetime.DatetimeWidget">
-    <require
-        permission="zope.Public"
-        interface=".interfaces.IDatetimeWidget"
-        />
-  </class>
-
+  <!-- datetime -->
   <adapter
       factory=".widgets.datetime.DatetimeFieldWidget"
       for="zope.schema.interfaces.IDatetime
            plone.app.z3cform.interfaces.IPloneFormLayer"
       />
 
-  <class class=".widgets.datetime.TimeWidget">
-    <require
-        permission="zope.Public"
-        interface=".interfaces.ITimeWidget"
-        />
-  </class>
-
+  <!-- time -->
   <adapter
       factory=".widgets.datetime.TimeFieldWidget"
       for="zope.schema.interfaces.ITime
@@ -193,12 +265,6 @@
       />
 
   <!-- link -->
-  <adapter
-      factory=".widgets.link.LinkFieldWidget"
-      for="z3c.form.interfaces.ITextWidget
-           plone.app.z3cform.interfaces.IPloneFormLayer"
-      />
-
   <z3c:widgetTemplate
       widget=".interfaces.ILinkWidget"
       template="templates/link_input.pt"
@@ -220,51 +286,88 @@
       mode="input"
       />
 
-  <!-- z3c.form overrides -->
+  <!-- submit -->
+  <adapter
+      factory=".widgets.submit.ButtonAction"
+      provides="z3c.form.interfaces.IButtonAction"
+      for="plone.app.z3cform.interfaces.IPloneFormLayer
+           z3c.form.interfaces.IButton"
+      />
 
   <z3c:widgetTemplate
-      widget="z3c.form.interfaces.ITextWidget"
-      template="templates/text_input.pt"
+      widget=".interfaces.ISubmitWidget"
+      template="templates/submit_input.pt"
       layer=".interfaces.IPloneFormLayer"
       mode="input"
       />
 
-  <z3c:widgetTemplate
-      field="zope.schema.interfaces.IDatetime"
-      widget=".interfaces.IDatetimeWidget"
-      template="templates/text_input.pt"
-      layer=".interfaces.IPloneFormLayer"
-      mode="input"
+  <!-- select -->
+  <adapter
+      factory=".widgets.select.SelectFieldWidget"
+      for="zope.schema.interfaces.IChoice
+           zope.interface.Interface
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter
+      factory=".widgets.select.CollectionChoiceSelectFieldWidget"
+      for="zope.schema.interfaces.IUnorderedCollection
+           zope.schema.interfaces.IChoice
+           plone.app.z3cform.interfaces.IPloneFormLayer"
       />
 
   <z3c:widgetTemplate
-      widget="z3c.form.interfaces.ITextAreaWidget"
-      template="templates/textarea_input.pt"
-      layer=".interfaces.IPloneFormLayer"
-      mode="input"
-      />
-
-  <z3c:widgetTemplate
-      widget="z3c.form.interfaces.ISelectWidget"
+      widget=".interfaces.ISelectWidget"
       template="templates/select_input.pt"
       layer=".interfaces.IPloneFormLayer"
       mode="input"
       />
 
+  <!-- orderedselect -->
+  <adapter
+      factory=".widgets.orderedselect.SequenceChoiceSelectFieldWidget"
+      for="zope.schema.interfaces.IList
+           zope.schema.interfaces.IChoice
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter
+      factory=".widgets.orderedselect.SequenceChoiceSelectFieldWidget"
+      for="zope.schema.interfaces.ITuple
+           zope.schema.interfaces.IChoice
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
   <z3c:widgetTemplate
-      widget="z3c.form.interfaces.IOrderedSelectWidget"
+      widget=".interfaces.IOrderedSelectWidget"
       template="templates/orderedselect_input.pt"
       layer=".interfaces.IPloneFormLayer"
       mode="input"
       />
 
+  <!-- radio
+       Note: the RadioFieldWidget isn't registered by default
+       If you like to use checkboxes you need to use them as custom widget
+       directive in your autoform -->
+  <z3c:widgetTemplate
+      widget=".interfaces.IRadioWidget"
+      template="templates/radio_input.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
+      />
+  <z3c:widgetTemplate
+      widget=".interfaces.IRadioWidget"
+      template="templates/radio_input_single.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input_single"
+      />
+  <!-- override original z3c.form.interfaces.IRadioWidget too -->
   <z3c:widgetTemplate
       widget="z3c.form.interfaces.IRadioWidget"
       template="templates/radio_input.pt"
       layer=".interfaces.IPloneFormLayer"
       mode="input"
       />
-
   <z3c:widgetTemplate
       widget="z3c.form.interfaces.IRadioWidget"
       template="templates/radio_input_single.pt"
@@ -272,13 +375,17 @@
       mode="input_single"
       />
 
+  <!-- checkbox
+       Note: the CheckBoxFieldWidget isn't registered by default
+       If you like to use checkboxes you need to use them as custom widget
+       directive in your autoform -->
   <z3c:widgetTemplate
-      widget="z3c.form.interfaces.ISubmitWidget"
-      template="templates/submit_input.pt"
+      widget=".interfaces.ICheckBoxWidget"
+      template="templates/checkbox_input.pt"
       layer=".interfaces.IPloneFormLayer"
       mode="input"
       />
-
+  <!-- override original z3c.form.interfaces.ICheckBoxWidget too -->
   <z3c:widgetTemplate
       widget="z3c.form.interfaces.ICheckBoxWidget"
       template="templates/checkbox_input.pt"
@@ -286,9 +393,18 @@
       mode="input"
       />
 
+  <!-- z3c.form overrides -->
+
   <z3c:widgetTemplate
       widget="z3c.form.interfaces.IPasswordWidget"
       template="templates/password_input.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
+      />
+
+  <z3c:widgetTemplate
+      widget="z3c.form.interfaces.ITextLinesWidget"
+      template="templates/textlines_input.pt"
       layer=".interfaces.IPloneFormLayer"
       mode="input"
       />
@@ -308,18 +424,10 @@
       mode="input"
       />
 
-  <!-- plone.z3cform.textlines -->
-  <z3c:widgetTemplate
-      widget="plone.z3cform.textlines.textlines.ITextLinesWidget"
-      template="templates/textlines_input.pt"
-      layer=".interfaces.IPloneFormLayer"
-      mode="input"
-      />
-
   <!-- plone.app.textfield -->
   <z3c:widgetTemplate
       widget="plone.app.textfield.widget.IRichTextWidget"
-      template="templates/textfield_widget_input.pt"
+      template="templates/richtext_input.pt"
       layer=".interfaces.IPloneFormLayer"
       mode="input"
       />

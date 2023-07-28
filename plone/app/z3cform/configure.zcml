@@ -8,7 +8,6 @@
     >
 
   <include package="plone.z3cform" />
-  <include package=".wysiwyg" />
 
   <!-- Configuration installation profile -->
 
@@ -48,30 +47,6 @@
       for="*"
       class=".inline_validation.InlineValidationView"
       permission="zope.Public"
-      />
-
-  <!-- dexterity add/edit overrides -->
-  <include package="plone.dexterity" />
-  <adapter
-      factory=".views.AddView"
-      provides="zope.publisher.interfaces.browser.IBrowserPage"
-      for="Products.CMFCore.interfaces.IFolderish
-           plone.app.z3cform.interfaces.IPloneFormLayer
-           plone.dexterity.interfaces.IDexterityFTI"
-      />
-  <class class=".views.AddView">
-    <require
-        permission="cmf.AddPortalContent"
-        interface="zope.publisher.interfaces.browser.IBrowserPage"
-        />
-  </class>
-
-  <browser:page
-      name="edit"
-      for="plone.dexterity.interfaces.IDexterityContent"
-      class=".views.EditView"
-      permission="cmf.ModifyPortalContent"
-      layer="plone.app.z3cform.interfaces.IPloneFormLayer"
       />
 
   <!-- Use a custom actions manager that knows how to do CSRF token authentication. -->

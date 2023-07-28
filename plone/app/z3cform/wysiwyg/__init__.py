@@ -1,5 +1,8 @@
-# Convenience import
-from plone.app.z3cform.wysiwyg.widget import WysiwygFieldWidget
+from zope.deferredimport import deprecated
 
 
-WysiwygFieldWidget  # flake 8 happiness
+# do not break plone.autoform
+deprecated(
+    "Use plone.app.z3cform.widgets.richtext.RichTextFieldWidget instead (will be removed in Plone 7)",
+    WysiwygFieldWidget="plone.app.z3cform.widgets.richtext:RichTextFieldWidget",
+)

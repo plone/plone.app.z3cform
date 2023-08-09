@@ -87,6 +87,12 @@
            plone.app.z3cform.interfaces.IPloneFormLayer"
       />
 
+  <adapter
+      factory=".widgets.text.TextAreaFieldWidget"
+      for="plone.schema.jsonfield.IJSONField
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
   <z3c:widgetTemplate
       widget=".interfaces.ITextAreaWidget"
       template="templates/textarea_input.pt"

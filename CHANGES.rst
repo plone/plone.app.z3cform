@@ -821,7 +821,7 @@ Fixes:
 - Give fieldset legends ids based on their name, for compatibility with
   Archetypes.
   [davisagli]
-- Fixed chechbox inline validation.
+- Fixed checkbox inline validation.
   [kroman0]
 
 

@@ -8,6 +8,26 @@ Changelog
 
 .. towncrier release notes start
 
+4.4.0 (2023-10-18)
+------------------
+
+New features:
+
+
+- Add `row` container to enable column layouts for fields with `wrapper_css_class`.
+  [petschki] (#158)
+- Implement new ``z3c.form`` extensible attributes feature and cleanup
+  widget templates using Chameleon interpolation.
+  [petschki] (#181)
+
+
+Bug fixes:
+
+
+- Add missing widget configuration for `plone.schema.jsonfield.IJSONField`.
+  [petschki] (#185)
+
+
 4.3.0 (2023-07-14)
 ------------------
 

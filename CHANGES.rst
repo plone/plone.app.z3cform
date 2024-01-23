@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+3.2.5 (2024-01-23)
+------------------
+
+Bug fixes:
+
+
+- Make labels/legends of fieldsets translatable.
+  [ksuess] (#87)
+
+
 3.2.4 (2022-03-23)
 ------------------
 

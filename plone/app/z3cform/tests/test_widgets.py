@@ -100,8 +100,6 @@ class PatternFormElementTest(unittest.TestCase):
         self.widget.pattern = "example"
 
     def test_base_widget(self):
-        self.assertIsNone(self.widget.pattern)
-
         self.assertEqual(
             ("example", {"required": "required", "data-pat-example": ""}),
             (self.widget.pattern, self.widget.attributes),

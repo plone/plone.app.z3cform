@@ -3,6 +3,8 @@ from plone.app.z3cform.utils import call_callables
 from plone.app.z3cform.utils import dict_merge
 from z3c.form.browser import widget
 from z3c.form.widget import Widget
+from z3c.form.interfaces import IValue
+from zope.component import queryMultiAdapter
 from zope.schema.interfaces import ICollection
 
 import json
@@ -96,6 +98,17 @@ class PatternFormElement(widget.HTMLFormElement):
                 self.get_pattern_options().copy(),
                 self.pattern_options,
             )
+            # lookup named multiadapter "pattern_options"
+            # explicitely and merge it
+            pat_options_adapter = queryMultiAdapter(
+                (self.context, self.request, self.form, self.field, self),
+                IValue, name="pattern_options",
+            )
+            if pat_options_adapter:
+                pat_options = dict_merge(
+                    pat_options,
+                    pat_options_adapter.get(),
+                )
             # if callables are injected resolve them
             pat_options = call_callables(
                 pat_options,

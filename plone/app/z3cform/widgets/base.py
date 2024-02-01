@@ -2,8 +2,8 @@ from Acquisition import aq_base
 from plone.app.z3cform.utils import call_callables
 from plone.app.z3cform.utils import dict_merge
 from z3c.form.browser import widget
-from z3c.form.widget import Widget
 from z3c.form.interfaces import IValue
+from z3c.form.widget import Widget
 from zope.component import queryMultiAdapter
 from zope.schema.interfaces import ICollection
 
@@ -99,10 +99,11 @@ class PatternFormElement(widget.HTMLFormElement):
                 self.pattern_options,
             )
             # lookup named multiadapter "pattern_options"
-            # explicitely and merge it
+            # explicitly and merge it
             pat_options_adapter = queryMultiAdapter(
                 (self.context, self.request, self.form, self.field, self),
-                IValue, name="pattern_options",
+                IValue,
+                name="pattern_options",
             )
             if pat_options_adapter:
                 pat_options = dict_merge(

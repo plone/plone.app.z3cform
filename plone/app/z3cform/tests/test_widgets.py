@@ -7,6 +7,7 @@ from plone.app.contentlisting.contentlisting import ContentListing
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.z3cform.tests.layer import PAZ3CForm_INTEGRATION_TESTING
+from plone.app.z3cform.widgets.base import PatternFormElement
 from plone.app.z3cform.widgets.datetime import DateWidget
 from plone.app.z3cform.widgets.relateditems import RelatedItemsWidget
 from plone.app.z3cform.widgets.text import TextFieldWidget
@@ -21,7 +22,10 @@ from unittest import mock
 from unittest.mock import Mock
 from z3c.form.form import EditForm
 from z3c.form.form import Form
+from z3c.form.interfaces import IValue
+from z3c.form.interfaces import IWidget
 from z3c.form.widget import FieldWidget
+from z3c.form.widget import Widget
 from z3c.relationfield.relation import RelationValue
 from z3c.relationfield.schema import RelationChoice
 from z3c.relationfield.schema import RelationList
@@ -33,6 +37,7 @@ from zope.globalrequest import setRequest
 from zope.interface import alsoProvides
 from zope.interface import Interface
 from zope.interface import provider
+from zope.interface.declarations import implementer_only
 from zope.intid.interfaces import IIntIds
 from zope.pagetemplate.interfaces import IPageTemplate
 from zope.publisher.browser import TestRequest
@@ -73,6 +78,15 @@ def example_vocabulary_factory(context, query=None):
     return tmp
 
 
+class ITestBaseWidget(IWidget):
+    """marker"""
+
+
+@implementer_only(ITestBaseWidget)
+class TestBaseWidget(PatternFormElement, Widget):
+    pass
+
+
 class PatternFormElementTest(unittest.TestCase):
     layer = PAZ3CForm_INTEGRATION_TESTING
 
@@ -81,22 +95,47 @@ class PatternFormElementTest(unittest.TestCase):
         self.field = TextLine(__name__="textlinefield")
         self.maxDiff = 999999
 
+        self.widget = TestBaseWidget(self.request)
+        self.widget.field = self.field
+        self.widget.pattern = "example"
+
     def test_base_widget(self):
-        from plone.app.z3cform.widgets.base import PatternFormElement
-        from z3c.form.widget import Widget
-
-        class TestBaseWidget(PatternFormElement, Widget):
-            pass
-
-        widget = TestBaseWidget(self.request)
-        widget.field = self.field
-
-        self.assertIsNone(widget.pattern)
-
-        widget.pattern = "example"
         self.assertEqual(
             ("example", {"required": "required", "data-pat-example": ""}),
-            (widget.pattern, widget.attributes),
+            (self.widget.pattern, self.widget.attributes),
+        )
+
+    def test_pattern_options_adapter(self):
+        custom_options = {
+            "customOption": "you should see me",
+        }
+
+        class CustomPatternOptionsAdapter:
+            def __init__(self, context, request, form, field, widget):
+                self.context = context
+                self.request = request
+                self.form = form
+                self.field = field
+                self.widget = widget
+
+            def get(self):
+                # return custom "pattern_options"
+                return custom_options
+
+        # not customized before adapting
+        self.assertEqual(self.widget.attributes.get("data-pat-example"), "")
+
+        base.registerAdapter(
+            CustomPatternOptionsAdapter,
+            (Interface, Interface, Interface, Interface, ITestBaseWidget),
+            IValue,
+            name="pattern_options",
+        )
+
+        # customized after adapting
+        self.assertEqual(
+            self.widget.attributes.get("data-pat-example"),
+            json.dumps(custom_options),
         )
 
 

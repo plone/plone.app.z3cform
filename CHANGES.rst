@@ -8,6 +8,18 @@ Changelog
 
 .. towncrier release notes start
 
+4.4.1 (2024-02-27)
+------------------
+
+Bug fixes:
+
+
+- Add missing ``pattern_options`` multiadapter to new PatternFormElement base class.
+  [petschki] (#190)
+- Implement missing PasswordWidget adapter.
+  [petschki] (#193)
+
+
 4.4.0 (2023-10-18)
 ------------------
 

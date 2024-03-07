@@ -223,7 +223,7 @@
 
   <!-- relateditems -->
 
-  <adapter
+  <!-- <adapter
       factory=".widgets.relateditems.RelatedItemsFieldWidget"
       for="z3c.relationfield.interfaces.IRelationChoice
            plone.app.z3cform.interfaces.IPloneFormLayer"
@@ -240,10 +240,38 @@
       for="zope.schema.interfaces.IChoice
            plone.app.vocabularies.catalog.CatalogSource
            plone.app.z3cform.interfaces.IPloneFormLayer"
-      />
+      /> -->
 
   <z3c:widgetTemplate
       widget=".interfaces.IRelatedItemsWidget"
+      template="templates/relateditems_display.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="display"
+      />
+
+  <!-- contentbrowser -->
+
+  <adapter
+      factory=".widgets.contentbrowser.ContentBrowserFieldWidget"
+      for="z3c.relationfield.interfaces.IRelationChoice
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter
+      factory=".widgets.contentbrowser.ContentBrowserFieldWidget"
+      for="z3c.relationfield.interfaces.IRelationList
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter
+      factory=".widgets.contentbrowser.ContentBrowserFieldWidget"
+      for="zope.schema.interfaces.IChoice
+           plone.app.vocabularies.catalog.CatalogSource
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <z3c:widgetTemplate
+      widget=".interfaces.IContentBrowserWidget"
       template="templates/relateditems_display.pt"
       layer=".interfaces.IPloneFormLayer"
       mode="display"

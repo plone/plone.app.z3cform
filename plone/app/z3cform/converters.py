@@ -3,11 +3,11 @@ from datetime import datetime
 from datetime import time
 from plone.app.z3cform import utils
 from plone.app.z3cform.interfaces import IAjaxSelectWidget
+from plone.app.z3cform.interfaces import IContentBrowserWidget
 from plone.app.z3cform.interfaces import IDatetimeWidget
 from plone.app.z3cform.interfaces import IDateWidget
 from plone.app.z3cform.interfaces import ILinkWidget
 from plone.app.z3cform.interfaces import IQueryStringWidget
-from plone.app.z3cform.interfaces import IRelatedItemsWidget
 from plone.app.z3cform.interfaces import ISelectWidget
 from plone.app.z3cform.interfaces import ISingleCheckBoxBoolWidget
 from plone.app.z3cform.interfaces import ITimeWidget
@@ -304,9 +304,9 @@ class AjaxSelectWidgetConverter(BaseDataConverter):
         return collectionType(untokenized_value)
 
 
-@adapter(IRelation, IRelatedItemsWidget)
-class RelationChoiceRelatedItemsWidgetConverter(BaseDataConverter):
-    """Data converter for RelationChoice fields using the RelatedItemsWidget."""
+@adapter(IRelation, IContentBrowserWidget)
+class RelationChoiceContentBrowserWidgetConverter(BaseDataConverter):
+    """Data converter for RelationChoice fields using the ContentBrowserWidget."""
 
     def toWidgetValue(self, value):
         if not value:
@@ -328,8 +328,15 @@ class RelationChoiceRelatedItemsWidgetConverter(BaseDataConverter):
             return self.field.missing_value
 
 
+# BBB
+class RelationChoiceRelatedItemsWidgetConverter(
+    RelationChoiceContentBrowserWidgetConverter
+):
+    """backwards compatibility"""
+
+
 @adapter(IRelation, ISequenceWidget)
-class RelationChoiceSelectWidgetConverter(RelationChoiceRelatedItemsWidgetConverter):
+class RelationChoiceSelectWidgetConverter(RelationChoiceContentBrowserWidgetConverter):
     """Data converter for RelationChoice fields using with SequenceWidgets,
     which expect sequence values.
     """
@@ -341,9 +348,9 @@ class RelationChoiceSelectWidgetConverter(RelationChoiceRelatedItemsWidgetConver
         return [IUUID(value)]
 
 
-@adapter(ICollection, IRelatedItemsWidget)
-class RelatedItemsDataConverter(BaseDataConverter):
-    """Data converter for ICollection fields using the RelatedItemsWidget."""
+@adapter(ICollection, IContentBrowserWidget)
+class ContentBrowserDataConverter(BaseDataConverter):
+    """Data converter for ICollection fields using the ContentBrowserWidget."""
 
     def toWidgetValue(self, value):
         """Converts from field value to widget.
@@ -405,8 +412,13 @@ class RelatedItemsDataConverter(BaseDataConverter):
             return collectionType(valueType(v) for v in value)
 
 
+# BBB
+class RelatedItemsDataConverter(ContentBrowserDataConverter):
+    """backwards compatibility"""
+
+
 @adapter(IRelationList, ISequenceWidget)
-class RelationListSelectWidgetDataConverter(RelatedItemsDataConverter):
+class RelationListSelectWidgetDataConverter(ContentBrowserDataConverter):
     """Data converter for RelationChoice fields using with SequenceWidgets,
     which expect sequence values.
     """

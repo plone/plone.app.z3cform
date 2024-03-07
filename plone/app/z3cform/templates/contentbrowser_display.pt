@@ -1,4 +1,4 @@
-<div class="relateditems-widget ${python:normalizeString(view.field.__class__.__name__)}-field"
+<div class="contentbrowser-widget ${python:normalizeString(view.field.__class__.__name__)}-field"
      id="form-widgets-${python:view.__name__}"
      tal:define="
        plone_view nocall:context/@@plone;

@@ -90,6 +90,7 @@
 
   <input class="form-control ${python:view.error and 'is-invalid' or ''}"
          id="${view/id}-input"
+         accept="${view/accept}"
          disabled="${view/disabled}"
          maxlength="${view/maxlength}"
          name="${view/name}"

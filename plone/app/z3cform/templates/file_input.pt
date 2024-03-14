@@ -133,6 +133,7 @@
   </tal:block>
 
   <input class="form-control"
+         accept="${view/accept}"
          type="file"
          tal:define="
            is_invalid python:view.error and 'is-invalid' or '';

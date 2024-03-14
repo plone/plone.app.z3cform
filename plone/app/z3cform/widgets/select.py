@@ -34,14 +34,16 @@ class SelectWidget(HTMLSelectWidget, SelectWidgetBase):
 
 
 @implementer(IFieldWidget)
-def SelectFieldWidget(field, source, request):
+def SelectFieldWidget(field, request, extra=None):
+    if extra is not None:
+        request = extra
     return FieldWidget(field, SelectWidget(request))
 
 
 @implementer(IFieldWidget)
 def CollectionChoiceSelectFieldWidget(field, value_type, request):
     """IFieldWidget factory for SelectWidget."""
-    return SelectFieldWidget(field, None, request)
+    return SelectFieldWidget(field, request)
 
 
 @implementer_only(ISelect2Widget)

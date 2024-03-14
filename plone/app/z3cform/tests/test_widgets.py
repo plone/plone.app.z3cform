@@ -571,17 +571,19 @@ class SelectWidgetTests(unittest.TestCase):
         self.request = self.layer["request"]
 
     def test_select_widget(self):
+        from plone.app.z3cform.widgets.select import SelectFieldWidget
         from plone.app.z3cform.widgets.select import SelectWidget
 
-        widget = SelectWidget(self.request)
-        widget.id = "test-widget"
-        widget.name = "selectfield-widget"
-        widget.field = Choice(
+        field = Choice(
             __name__="selectfield",
             values=["one", "two", "three"],
+            required=True,
         )
-        widget.terms = widget.field.vocabulary
-        widget.field.required = True
+        widget = SelectFieldWidget(field, self.request)
+        widget.id = "test-widget"
+        widget.name = "selectfield-widget"
+        widget.terms = field.vocabulary
+        self.assertTrue(isinstance(widget, SelectWidget))
         self.assertEqual(
             {
                 "pattern_options": {},

@@ -63,7 +63,7 @@ setup(
         "plone.base",
         "plone.app.contentlisting",
         "plone.dexterity",
-        "plone.formwidget.namedfile>3.0.3",
+        "plone.formwidget.namedfile>=3.1.0",
         "plone.i18n",
         "plone.protect",
         "plone.registry",

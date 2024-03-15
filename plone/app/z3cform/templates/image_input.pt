@@ -139,6 +139,7 @@
   </tal:block>
 
   <input class="form-control"
+         accept="${view/accept|nothing}"
          type="file"
          tal:attributes="
            id string:${view/id}-input;
@@ -149,6 +150,13 @@
            maxlength view/maxlength;
          "
   />
+  <div class="form-text"
+       tal:condition="view/accept|nothing"
+       i18n:translate="namedfile_accepted_types"
+  >
+    Allowed types:
+    <tal:i18n i18n:name="accepted_types">${view/accept}</tal:i18n>.
+  </div>
 
   <script type="text/javascript"
           tal:condition="python:allow_nochange and action != 'replace'"

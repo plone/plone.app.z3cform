@@ -133,6 +133,7 @@
   </tal:block>
 
   <input class="form-control"
+         accept="${view/accept|nothing}"
          type="file"
          tal:define="
            is_invalid python:view.error and 'is-invalid' or '';
@@ -147,6 +148,13 @@
            class string:form-control $is_invalid;
          "
   />
+  <div class="form-text"
+       tal:condition="view/accept|nothing"
+       i18n:translate="namedfile_accepted_types"
+  >
+    Allowed types:
+    <tal:i18n i18n:name="accepted_types">${view/accept}</tal:i18n>.
+  </div>
 
   <script type="text/javascript"
           tal:condition="python:allow_nochange and action != 'replace'"

@@ -62,7 +62,7 @@ setup(
         "plone.app.textfield>=1.3.6",
         "plone.base",
         "plone.app.contentlisting",
-        "plone.formwidget.namedfile>3.0.3",
+        "plone.formwidget.namedfile>=3.1.0",
         "plone.i18n",
         "plone.protect",
         "plone.registry",

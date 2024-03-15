@@ -90,6 +90,7 @@
 
   <input class="form-control ${python:view.error and 'is-invalid' or ''}"
          id="${view/id}-input"
+         accept="${view/accept|nothing}"
          disabled="${view/disabled}"
          maxlength="${view/maxlength}"
          name="${view/name}"
@@ -97,6 +98,13 @@
          size="${view/size}"
          type="file"
   />
+  <div class="form-text"
+       tal:condition="view/accept|nothing"
+       i18n:translate="namedfile_accepted_types"
+  >
+      Allowed types:
+    <tal:i18n i18n:name="accepted_types">${view/accept}</tal:i18n>.
+  </div>
 
   <script type="text/javascript"
           tal:condition="python:allow_nochange and action != 'replace'"

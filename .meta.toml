@@ -6,7 +6,7 @@ template = "default"
 commit-id = "d85a300a"
 
 [pyproject]
-dependencies_ignores = "['lxml', 'plone.app.vocabularies']"
+dependencies_ignores = "['lxml', 'plone.app.vocabularies', 'plone.formwidget.namedfile']"
 codespell_ignores = "iterms"
 
 [gitignore]

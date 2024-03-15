@@ -151,7 +151,7 @@
          "
   />
   <div class="form-text"
-       tal:condition="view/accept"
+       tal:condition="view/accept|nothing"
        i18n:translate="namedfile_accepted_types"
   >
     Allowed types:

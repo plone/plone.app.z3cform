@@ -139,7 +139,7 @@
   </tal:block>
 
   <input class="form-control"
-         accept="${view/accept}"
+         accept="${view/accept|nothing}"
          type="file"
          tal:attributes="
            id string:${view/id}-input;

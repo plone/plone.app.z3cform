@@ -1,9 +1,9 @@
 # Generated from:
-# https://github.com/plone/meta/tree/master/config/default
+# https://github.com/plone/meta/tree/main/config/default
 # See the inline comments on how to expand/tweak this configuration file
 [meta]
 template = "default"
-commit-id = "b3ba013b"
+commit-id = "d85a300a"
 
 [pyproject]
 dependencies_ignores = "['lxml', 'plone.app.vocabularies']"

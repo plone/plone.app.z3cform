@@ -8,6 +8,28 @@ Changelog
 
 .. towncrier release notes start
 
+4.3.1 (2024-03-22)
+------------------
+
+New features:
+
+
+- Add support for the "accept" attribute on file inputs.
+
+  If the widget's field - if there is one - has the "accept" attribute set (the
+  `NamedImage` field has `image/*` set by default) then this is rendered as an
+  `accept` attribute on the file input.
+
+  This would restrict the allowed file types before uploading while still being
+  checked on the server side.
+
+  Fixes: https://github.com/plone/plone.formwidget.namedfile/issues/66
+  Depends on:
+  - https://github.com/plone/plone.namedfile/pull/158
+  - https://github.com/plone/plone.formwidget.namedfile/pull/67
+  [thet] (#198)
+
+
 4.3.0 (2023-07-14)
 ------------------
 

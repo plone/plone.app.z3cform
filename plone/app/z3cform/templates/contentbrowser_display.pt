@@ -1,0 +1,46 @@
+<span class="contentbrowser-widget ${python:normalizeString(view.field.__class__.__name__)}-field"
+      id="form-widgets-${python:view.__name__}"
+      tal:define="
+        plone_view nocall:context/@@plone;
+        normalizeString python:plone_view.normalizeString;
+        items python: view.items();
+      "
+      tal:condition="items"
+      i18n:domain="plone"
+>
+  <div>
+    <ul>
+      <li tal:repeat="item items">
+        <span title="${item_type}"
+              tal:define="
+                item_type           python:item.portal_type;
+                item_type_class     python:item.ContentTypeClass();
+                item_wf_state_class python:item.ReviewStateClass();
+                appendViewAction    python:item.appendViewAction();
+                item_url            python:item.getURL();
+                item_url            python:item_url+'/view' if appendViewAction else item_url;
+              "
+        >
+
+          <a href="${item_url}">
+            <img class="mime-icon"
+                 src="${python:item.MimeTypeIcon()}"
+                 tal:condition="python:item_type =='File'"
+            />
+
+            <span class="${item_type_class} ${item_wf_state_class} url"
+                  tal:content="python:item.Title()"
+            >
+                    Title
+            </span>
+            <span class="discreet"
+                  tal:content="python:item.Description()"
+            >
+                    Description
+            </span>
+          </a>
+        </span>
+      </li>
+    </ul>
+  </div>
+</span>

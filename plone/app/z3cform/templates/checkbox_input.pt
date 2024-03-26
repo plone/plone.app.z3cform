@@ -97,7 +97,7 @@
                onselect view/onselect;
              "
       />
-      <label class="form-check-label"
+      <label class="form-check-label ${python:getattr(view, 'label_css_class', False)}"
              for=""
              tal:attributes="
                for item/id;

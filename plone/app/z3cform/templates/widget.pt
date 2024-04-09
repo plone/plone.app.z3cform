@@ -1,4 +1,4 @@
-<div class="mb-3 field fieldname-${python:widget.name} widget-mode-${python:widget.mode}${error_class}${empty_class} ${python:getattr(widget, 'wrapper_css_class', False) or ''}"
+<div class="mb-3 field fieldname-${python:widget.name} widget-mode-${python:widget.mode}${error_class}${empty_class} ${python: getattr(widget, 'wrapper_css_class', '')}"
      id="formfield-${python:widget.id}"
      metal:define-macro="widget-wrapper"
      data-fieldname="${widget/name}"

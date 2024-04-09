@@ -33,9 +33,8 @@
                id item/id;
              "
       />
-      <label class="form-check-label ${python:getattr(view, 'label_css_class', False)}"
-             for="${item/id}"
-      >
+      <label class="form-check-label ${python:getattr(view, 'label_css_class', '')}"
+             for="${item/id}">
         <span class="label">${item/label}</span>
       </label>
     </div>

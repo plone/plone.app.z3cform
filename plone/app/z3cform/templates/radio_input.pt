@@ -8,7 +8,7 @@
     <input class="form-check-input"
            tal:replace="structure python:view.renderForValue(item['value'])"
     />
-    <label class="form-check-label ${python:getattr(view, 'label_css_class', False) or False}"
+    <label class="form-check-label ${python:getattr(view, 'label_css_class', '')}"
            tal:content="item/label"
            tal:attributes="
              for item/id;

@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+4.3.2 (2024-04-16)
+------------------
+
+New features:
+
+
+- Use label_css_class attribute from widget if available in checkbox_input & radio_input
+  [MrTango] (#201)
+
+
 4.3.1 (2024-03-22)
 ------------------
 

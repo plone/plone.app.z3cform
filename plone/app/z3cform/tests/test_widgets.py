@@ -22,6 +22,7 @@ from unittest import mock
 from unittest.mock import Mock
 from z3c.form.form import EditForm
 from z3c.form.form import Form
+from z3c.form.interfaces import IDataConverter
 from z3c.form.interfaces import IValue
 from z3c.form.interfaces import IWidget
 from z3c.form.widget import FieldWidget
@@ -265,10 +266,14 @@ class DateWidgetTests(unittest.TestCase):
         pattern_options = self.widget.get_pattern_options()
         self.assertEqual(pattern_options["clear"], False)
 
-    def test_data_converter(self):
-        from plone.app.z3cform.widgets.datetime import DateWidgetConverter
+    def test_datewidget_data_converter_adaption(self):
+        from plone.app.z3cform.converters import DateWidgetConverter
 
-        converter = DateWidgetConverter(self.field, self.widget)
+        converter = getMultiAdapter((self.field, self.widget), IDataConverter)
+        self.assertEqual(DateWidgetConverter, converter.__class__)
+
+    def test_data_converter(self):
+        converter = getMultiAdapter((self.field, self.widget), IDataConverter)
 
         self.assertEqual(
             converter.field.missing_value,
@@ -375,10 +380,14 @@ class DatetimeWidgetTests(unittest.TestCase):
         pattern_options = self.widget.get_pattern_options()
         self.assertEqual(pattern_options["clear"], False)
 
-    def test_data_converter(self):
-        from plone.app.z3cform.widgets.datetime import DatetimeWidgetConverter
+    def test_datetimewidget_data_converter_adaption(self):
+        from plone.app.z3cform.converters import DatetimeWidgetConverter
 
-        converter = DatetimeWidgetConverter(self.field, self.widget)
+        converter = getMultiAdapter((self.field, self.widget), IDataConverter)
+        self.assertEqual(DatetimeWidgetConverter, converter.__class__)
+
+    def test_data_converter(self):
+        converter = getMultiAdapter((self.field, self.widget), IDataConverter)
 
         self.assertEqual(
             converter.toFieldValue(""),
@@ -412,8 +421,6 @@ class DatetimeWidgetTests(unittest.TestCase):
 
     def test_data_converter__no_timezone(self):
         """When no timezone is set, don't apply one."""
-        from plone.app.z3cform.widgets.datetime import DatetimeWidgetConverter
-
         context = Mock()
 
         dt = datetime(2013, 11, 13, 10, 20)
@@ -421,7 +428,7 @@ class DatetimeWidgetTests(unittest.TestCase):
         self.widget.context = context
         self.widget.default_timezone = None
 
-        converter = DatetimeWidgetConverter(self.field, self.widget)
+        converter = getMultiAdapter((self.field, self.widget), IDataConverter)
         self.assertEqual(
             converter.toFieldValue("2013-11-13T10:20"),
             datetime(2013, 11, 13, 10, 20),
@@ -433,8 +440,6 @@ class DatetimeWidgetTests(unittest.TestCase):
 
     def test_data_converter__timezone_id(self):
         """When a (pytz) timezone id is set, use that."""
-        from plone.app.z3cform.widgets.datetime import DatetimeWidgetConverter
-
         context = Mock()
 
         dt = datetime(2013, 11, 13, 10, 20)
@@ -443,7 +448,7 @@ class DatetimeWidgetTests(unittest.TestCase):
         self.widget.default_timezone = "Europe/Amsterdam"
         tz = pytz.timezone("Europe/Amsterdam")
 
-        converter = DatetimeWidgetConverter(self.field, self.widget)
+        converter = getMultiAdapter((self.field, self.widget), IDataConverter)
         self.assertEqual(
             converter.toFieldValue("2013-11-13T10:20"),
             tz.localize(datetime(2013, 11, 13, 10, 20)),
@@ -457,8 +462,6 @@ class DatetimeWidgetTests(unittest.TestCase):
         """When a timezone callback is set, returning a (pytz) timezone id,
         use that.
         """
-        from plone.app.z3cform.widgets.datetime import DatetimeWidgetConverter
-
         context = Mock()
 
         dt = datetime(2013, 11, 13, 10, 20)
@@ -467,7 +470,7 @@ class DatetimeWidgetTests(unittest.TestCase):
         self.widget.default_timezone = lambda context: "Europe/Amsterdam"
         tz = pytz.timezone("Europe/Amsterdam")
 
-        converter = DatetimeWidgetConverter(self.field, self.widget)
+        converter = getMultiAdapter((self.field, self.widget), IDataConverter)
         self.assertEqual(
             converter.toFieldValue("2013-11-13T10:20"),
             tz.localize(datetime(2013, 11, 13, 10, 20)),

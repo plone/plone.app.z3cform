@@ -1,0 +1,4 @@
+Date/time widget: Fix data converter adaption.
+Get the data converter for the date and datetime widgets via adaption and remove the _converter attribute hack.
+This aligns the code to z3c.form standards and allows to override the data converter which was previously not easily possible.
+[thet]

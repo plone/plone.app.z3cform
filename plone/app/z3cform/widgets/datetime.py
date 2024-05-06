@@ -1,14 +1,14 @@
-from plone.app.z3cform.converters import DatetimeWidgetConverter
-from plone.app.z3cform.converters import DateWidgetConverter
 from plone.app.z3cform.interfaces import IDatetimeWidget
 from plone.app.z3cform.interfaces import IDateWidget
 from plone.app.z3cform.interfaces import ITimeWidget
 from plone.app.z3cform.utils import dict_merge
 from plone.app.z3cform.widgets.base import HTMLTextInputWidget
 from plone.base import PloneMessageFactory as _
+from z3c.form.interfaces import IDataConverter
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.widget import FieldWidget
 from z3c.form.widget import Widget
+from zope.component import getMultiAdapter
 from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface import implementer_only
@@ -27,7 +27,6 @@ def get_date_options(request):
 
 class DateTimeWidgetBase(HTMLTextInputWidget, Widget):
     _input_type = ""
-    _converter = None
     _formater = ""
     _formater_length = ""
 
@@ -63,10 +62,12 @@ class DateTimeWidgetBase(HTMLTextInputWidget, Widget):
         if not self.value:
             return ""
 
-        if not self._converter:
+        converter = getMultiAdapter((self.field, self), IDataConverter)
+
+        if not converter:
             return self.value
 
-        field_value = self._converter(self.field, self).toFieldValue(self.value)
+        field_value = converter.toFieldValue(self.value)
         if field_value is self.field.missing_value:
             return ""
 
@@ -82,7 +83,6 @@ class DateWidget(DateTimeWidgetBase):
     """Date widget for z3c.form."""
 
     _input_type = "date"
-    _converter = DateWidgetConverter
     _formater = "date"
     _formater_length = "short"
 
@@ -100,7 +100,6 @@ class DatetimeWidget(DateTimeWidgetBase):
     """Datetime widget for z3c.form."""
 
     _input_type = "datetime-local"
-    _converter = DatetimeWidgetConverter
     _formater = "dateTime"
     _formater_length = "short"
 

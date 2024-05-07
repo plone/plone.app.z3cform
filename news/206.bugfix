@@ -1,0 +1,1 @@
+Bugfix: We do not want a `:list` for single selects like a `zope.schema.Choice`. [@jensens]

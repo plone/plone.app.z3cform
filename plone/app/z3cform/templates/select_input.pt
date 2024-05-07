@@ -8,7 +8,7 @@
        This behavior hopefully will be gone soon when "pat-select2"
        is upgraded to Select2 >= 4.x -->
   <select id="${view/id}"
-          name="${view/name}${python:':list' if view.pattern != 'select2' else ''}"
+          name="${view/name}${python:':list' if (view.multiple and view.pattern != 'select2') else ''}"
           tal:define="
             items view/items;
             is_tree python:isinstance(items, dict);

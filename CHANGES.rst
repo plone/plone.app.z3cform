@@ -8,6 +8,18 @@ Changelog
 
 .. towncrier release notes start
 
+4.6.1 (2024-05-30)
+------------------
+
+Internal:
+
+
+- Date/time widget: Fix data converter adaption.
+  Get the data converter for the date and datetime widgets via adaption and remove the _converter attribute hack.
+  This aligns the code to z3c.form standards and allows to override the data converter which was previously not easily possible.
+  [thet] (#204)
+
+
 4.6.0 (2024-04-22)
 ------------------
 

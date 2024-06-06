@@ -8,8 +8,8 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.z3cform.tests.layer import PAZ3CForm_INTEGRATION_TESTING
 from plone.app.z3cform.widgets.base import PatternFormElement
+from plone.app.z3cform.widgets.contentbrowser import ContentBrowserWidget
 from plone.app.z3cform.widgets.datetime import DateWidget
-from plone.app.z3cform.widgets.relateditems import RelatedItemsWidget
 from plone.app.z3cform.widgets.text import TextFieldWidget
 from plone.autoform.directives import widget
 from plone.autoform.form import AutoExtensibleForm
@@ -1407,7 +1407,7 @@ class IRelationsType(Interface):
     multiple = RelationList(title="Multiple (Relations field)", required=False)
 
 
-class RelatedItemsWidgetTemplateIntegrationTests(unittest.TestCase):
+class ContentBrowserWidgetTemplateIntegrationTests(unittest.TestCase):
     layer = PAZ3CForm_INTEGRATION_TESTING
 
     def setUp(self):
@@ -1444,7 +1444,7 @@ class RelatedItemsWidgetTemplateIntegrationTests(unittest.TestCase):
         default_view.update()
 
         single = default_view.w["single"]
-        self.assertIsInstance(single, RelatedItemsWidget)
+        self.assertIsInstance(single, ContentBrowserWidget)
         self.assertTrue(single.value, target.UID())
         items = single.items()
         self.assertIsInstance(items, ContentListing)
@@ -1463,7 +1463,7 @@ class RelatedItemsWidgetTemplateIntegrationTests(unittest.TestCase):
         )
 
         multiple = default_view.w["multiple"]
-        self.assertIsInstance(multiple, RelatedItemsWidget)
+        self.assertIsInstance(multiple, ContentBrowserWidget)
         self.assertTrue(multiple.value, ";".join([target.UID(), doc.UID()]))
         items = multiple.items()
         self.assertIsInstance(items, ContentListing)
@@ -1645,6 +1645,168 @@ class RelatedItemsWidgetTests(unittest.TestCase):
         request = Mock()
         widget = RelatedItemsFieldWidget(field, vocabulary, request)
         self.assertTrue(isinstance(widget, RelatedItemsWidget))
+        self.assertIs(widget.field, field)
+        self.assertIs(widget.request, request)
+
+
+class ContentBrowserWidgetTests(unittest.TestCase):
+    layer = PAZ3CForm_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer["portal"]
+        self.request = self.layer["request"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+
+    def test_single_selection(self):
+        """The pattern_options value for maximumSelectionSize should
+        be 1 when the field only allows a single selection."""
+        from plone.app.z3cform.widgets.contentbrowser import ContentBrowserFieldWidget
+
+        field = Choice(
+            __name__="selectfield",
+            values=["one", "two", "three"],
+        )
+        widget = ContentBrowserFieldWidget(field, self.request)
+        widget.context = self.portal
+        widget.update()
+        pattern_options = widget.get_pattern_options()
+        self.assertEqual(pattern_options.get("maximumSelectionSize", 0), 1)
+
+    def test_multiple_selection(self):
+        """The pattern_options key maximumSelectionSize shouldn't be
+        set when the field allows multiple selections"""
+        from plone.app.z3cform.widgets.contentbrowser import ContentBrowserFieldWidget
+        from Zope2.App.schema import Zope2VocabularyRegistry
+        from zope.schema.interfaces import ISource
+
+        field = List(
+            __name__="selectfield",
+            value_type=Choice(vocabulary="foobar"),
+        )
+        widget = ContentBrowserFieldWidget(field, self.request)
+        widget.context = self.portal
+
+        vocab = Mock()
+        alsoProvides(vocab, ISource)
+        with mock.patch.object(Zope2VocabularyRegistry, "get", return_value=vocab):
+            widget.update()
+            patterns_options = widget.get_pattern_options()
+        self.assertFalse("maximumSelectionSize" in patterns_options)
+        self.assertEqual(
+            patterns_options["vocabularyUrl"],
+            "http://nohost/plone/@@getVocabulary?name=foobar&field=selectfield",
+        )
+
+    def test_converter_RelationChoice(self):
+        from plone.app.z3cform.converters import (
+            RelationChoiceContentBrowserWidgetConverter,
+        )
+
+        brain = Mock(getObject=Mock(return_value="obj"))
+        portal_catalog = Mock(return_value=[brain])
+        widget = Mock()
+        converter = RelationChoiceContentBrowserWidgetConverter(
+            TextLine(),
+            widget,
+        )
+
+        with mock.patch(
+            "plone.app.z3cform.converters.IUUID",
+            return_value="id",
+        ):
+            self.assertEqual(converter.toWidgetValue("obj"), "id")
+        self.assertEqual(converter.toWidgetValue(None), None)
+
+        with mock.patch(
+            "plone.app.z3cform.converters.getToolByName",
+            return_value=portal_catalog,
+        ):
+            self.assertEqual(converter.toFieldValue("id"), "obj")
+        self.assertEqual(converter.toFieldValue(None), None)
+
+    def test_converter_RelationList(self):
+        from plone.app.z3cform.converters import ContentBrowserDataConverter
+        from z3c.relationfield.interfaces import IRelationList
+
+        field = List()
+        alsoProvides(field, IRelationList)
+        brain1 = Mock(getObject=Mock(return_value="obj1"), UID="id1")
+        brain2 = Mock(getObject=Mock(return_value="obj2"), UID="id2")
+        portal_catalog = Mock(return_value=[brain1, brain2])
+        widget = Mock(separator=";")
+        converter = ContentBrowserDataConverter(field, widget)
+
+        self.assertEqual(converter.toWidgetValue(None), None)
+        with mock.patch(
+            "plone.app.z3cform.converters.IUUID",
+            side_effect=["id1", "id2"],
+        ):
+            self.assertEqual(
+                converter.toWidgetValue(["obj1", "obj2"]),
+                "id1;id2",
+            )
+
+        self.assertEqual(converter.toFieldValue(None), None)
+        with mock.patch(
+            "plone.app.z3cform.converters.getToolByName",
+            return_value=portal_catalog,
+        ):
+            self.assertEqual(
+                converter.toFieldValue("id1;id2"),
+                ["obj1", "obj2"],
+            )
+
+    def test_converter_List_of_Choice(self):
+        from plone.app.z3cform.converters import ContentBrowserDataConverter
+
+        fields = (
+            List(),
+            List(value_type=TextLine()),
+            List(value_type=BytesLine()),
+            List(value_type=Choice(values=["one", "two", "three"])),
+        )
+        for field in fields:
+            expected_value_type = getattr(
+                field.value_type,
+                "_type",
+                str,
+            )
+            if expected_value_type is None:
+                expected_value_type = str
+            widget = Mock(separator=";")
+            converter = ContentBrowserDataConverter(field, widget)
+
+            self.assertEqual(converter.toWidgetValue(None), None)
+            self.assertEqual(
+                converter.toWidgetValue(["id1", "id2"]),
+                "id1;id2",
+            )
+
+            self.assertEqual(converter.toFieldValue(None), None)
+            if expected_value_type == bytes:
+                expected = [b"id1", b"id2"]
+            else:
+                expected = ["id1", "id2"]
+            self.assertEqual(
+                converter.toFieldValue("id1;id2"),
+                expected,
+            )
+
+            self.assertEqual(converter.toFieldValue(None), None)
+            self.assertEqual(
+                type(converter.toFieldValue("id1;id2")[0]),
+                expected_value_type,
+            )
+
+    def test_fieldwidget(self):
+        from plone.app.z3cform.widgets.contentbrowser import ContentBrowserFieldWidget
+        from plone.app.z3cform.widgets.contentbrowser import ContentBrowserWidget
+
+        field = Mock(__name__="field", title="", required=True)
+        vocabulary = Mock()
+        request = Mock()
+        widget = ContentBrowserFieldWidget(field, vocabulary, request)
+        self.assertTrue(isinstance(widget, ContentBrowserWidget))
         self.assertIs(widget.field, field)
         self.assertIs(widget.request, request)
 

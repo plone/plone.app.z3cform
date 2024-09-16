@@ -8,6 +8,7 @@ from plone.app.z3cform.interfaces import IDatetimeWidget
 from plone.app.z3cform.interfaces import IDateWidget
 from plone.app.z3cform.interfaces import ILinkWidget
 from plone.app.z3cform.interfaces import IQueryStringWidget
+from plone.app.z3cform.interfaces import IRelatedItemsWidget
 from plone.app.z3cform.interfaces import ISelectWidget
 from plone.app.z3cform.interfaces import ISingleCheckBoxBoolWidget
 from plone.app.z3cform.interfaces import ITimeWidget
@@ -329,6 +330,7 @@ class RelationChoiceContentBrowserWidgetConverter(BaseDataConverter):
 
 
 # BBB
+@adapter(IRelation, IRelatedItemsWidget)
 class RelationChoiceRelatedItemsWidgetConverter(
     RelationChoiceContentBrowserWidgetConverter
 ):
@@ -413,6 +415,7 @@ class ContentBrowserDataConverter(BaseDataConverter):
 
 
 # BBB
+@adapter(ICollection, IRelatedItemsWidget)
 class RelatedItemsDataConverter(ContentBrowserDataConverter):
     """backwards compatibility"""
 

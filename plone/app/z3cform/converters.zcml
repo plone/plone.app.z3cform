@@ -23,4 +23,8 @@
       />
   <adapter factory=".converters.RelationListSelectWidgetDataConverter" />
   <adapter factory=".converters.LinkWidgetDataConverter" />
+
+  <!-- BBB -->
+  <adapter factory=".converters.RelationChoiceRelatedItemsWidgetConverter" />
+  <adapter factory=".converters.RelatedItemsDataConverter" />
 </configure>

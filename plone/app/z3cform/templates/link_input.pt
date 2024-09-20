@@ -25,11 +25,11 @@
         <div>
           <div class="mb-3 main">
             <!-- this gives the name to the "linkType" -->
-            <input class="pat-relateditems"
+            <input class="pat-contentbrowser"
                    name="${view/name}.internal"
                    type="text"
                    value="${value}"
-                   data-pat-relateditems="${view/pattern_data}"
+                   data-pat-contentbrowser="${view/pattern_data}"
             />
           </div>
         </div>

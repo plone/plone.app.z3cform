@@ -91,6 +91,10 @@ class IRelatedItemsWidget(ITextWidget):
     """Marker interface for the RelatedItemsWidget."""
 
 
+class IContentBrowserWidget(ITextWidget):
+    """Marker interface for the RelatedItemsWidget."""
+
+
 class IRichTextWidget(patextfield_IRichTextWidget):
     """Marker interface for the TinyMCEWidget."""
 

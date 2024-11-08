@@ -22,12 +22,13 @@ class LinkWidget(HTMLTextInputWidget, Widget):
     """
 
     def pattern_data(self):
+        context = self.context or getSite()
         pattern_data = {
             "vocabularyUrl": "{}/@@getVocabulary?name=plone.app.vocabularies.Catalog".format(  # noqa
                 getSite().absolute_url(0),
             ),
             "rootPath": "/".join(getSite().getPhysicalPath()),
-            "basePath": "/".join(self.context.getPhysicalPath()),
+            "basePath": "/".join(context.getPhysicalPath()),
             "maximumSelectionSize": 1,
         }
         return json.dumps(pattern_data)

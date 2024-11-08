@@ -26,6 +26,8 @@ class LinkWidget(HTMLTextInputWidget, Widget):
             "vocabularyUrl": "{}/@@getVocabulary?name=plone.app.vocabularies.Catalog".format(  # noqa
                 getSite().absolute_url(0),
             ),
+            "rootPath": "/".join(getSite().getPhysicalPath()),
+            "basePath": "/".join(self.context.getPhysicalPath()),
             "maximumSelectionSize": 1,
         }
         return json.dumps(pattern_data)

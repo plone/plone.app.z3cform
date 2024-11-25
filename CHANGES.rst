@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+4.7.1 (2024-11-25)
+------------------
+
+Bug fixes:
+
+
+- Fix pattern options for `LinkWidget`.
+  [petschki] (#213)
+
+
 4.7.0 (2024-09-24)
 ------------------
 

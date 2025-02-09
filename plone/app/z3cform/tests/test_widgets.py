@@ -1920,7 +1920,7 @@ class RichTextWidgetTests(unittest.TestCase):
         widget = FieldWidget(self.field, RichTextWidget(self.request))
         # set the context so we can get tinymce settings
         widget.context = self.portal
-        widget.value = RichTextValue("Lorem \u0000 ip\u001Fsum\n\u0002 dolorem\r\t")
+        widget.value = RichTextValue("Lorem \u0000 ip\u001fsum\n\u0002 dolorem\r\t")
         widget.mode = "input"
         self.assertIn(
             ">Lorem  ipsum\n dolorem\r\t</textarea>",

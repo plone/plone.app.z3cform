@@ -162,7 +162,7 @@
                           "
                           tal:attributes="
                             id string:fieldset-${fieldset_name};
-                            class string:kssattr-fieldset-${fieldset_name};
+                            class string:kssattr-fieldset-${fieldset_name} form-group;
                             data-fieldset fieldset_name;
                           "
                 >
@@ -172,6 +172,7 @@
                           tal:attributes="
                             id string:fieldsetlegend-${fieldset_name};
                           "
+                          class="col-form-label"
                           i18n:translate=""
                   >Form name</legend>
 
@@ -181,6 +182,7 @@
                      tal:condition="group_description"
                      tal:content="structure group_description"
                      i18n:translate=""
+                     class="form-text text-muted"
                   >
                                           Description
                   </p>

@@ -28,7 +28,7 @@ def get_tinymce_options(context, field, request):
     options = {}
     try:
         pattern_options = getMultiAdapter(
-            (context, request, field), name="plone_settings"
+            (context, request, field), name="pattern_settings"
         ).tinymce()["data-pat-tinymce"]
         options = json.loads(pattern_options)
     except (ComponentLookupError, AttributeError):

@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+4.7.3 (2025-03-11)
+------------------
+
+Bug fixes:
+
+
+- Fix deprecated `plone_settings` adapter.
+  [petschki] (#219)
+
+
 4.7.2 (2025-01-24)
 ------------------
 

@@ -97,13 +97,20 @@ class PatternFormElementTest(unittest.TestCase):
         self.maxDiff = 999999
 
         self.widget = TestBaseWidget(self.request)
-        self.widget.field = self.field
         self.widget.pattern = "example"
 
     def test_base_widget(self):
         self.assertEqual(
-            ("example", {"required": "required", "data-pat-example": ""}),
+            ("example", {"data-pat-example": ""}),
             (self.widget.pattern, self.widget.attributes),
+        )
+
+    def test_field_widget(self):
+        # required state is set from field
+        field_widget = FieldWidget(self.field, self.widget)
+        self.assertEqual(
+            {"required": "required", "id": "textlinefield", "data-pat-example": ""},
+            field_widget.attributes,
         )
 
     def test_pattern_options_adapter(self):

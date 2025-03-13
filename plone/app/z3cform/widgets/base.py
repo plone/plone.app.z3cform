@@ -89,7 +89,7 @@ class PatternFormElement(widget.HTMLFormElement):
 
         attributes = super().attributes
 
-        if self.field.required:
+        if self.required:
             attributes["required"] = "required"
 
         if self.pattern:

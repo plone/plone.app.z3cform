@@ -8,6 +8,18 @@ Changelog
 
 .. towncrier release notes start
 
+4.7.4 (2025-03-17)
+------------------
+
+Bug fixes:
+
+
+- Check for `required` on widget instead on field.
+  This makes it possible to override it in `updateWidgets` if you have
+  complex widgets inside fields.
+  [petschki] (#221)
+
+
 4.7.3 (2025-03-11)
 ------------------
 

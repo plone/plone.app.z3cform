@@ -1,4 +1,0 @@
-Check for `required` on widget instead on field.
-This makes it possible to override it in `updateWidgets` if you have
-complex widgets inside fields.
-[petschki]

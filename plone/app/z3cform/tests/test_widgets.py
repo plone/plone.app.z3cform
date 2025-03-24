@@ -573,6 +573,29 @@ class TimeWidgetTests(unittest.TestCase):
         self.assertIs(widget.field, field)
         self.assertIs(widget.request, request)
 
+    def test_timeformatter(self):
+        self.widget.value = "12:00"
+        self.assertIn(' value="12:00" ', self.widget.render())
+
+        self.widget.mode = "display"
+        self.assertEqual("12:00 PM", self.widget.render())
+
+        self.widget._formater_length = "medium"
+        self.assertEqual("12:00:00 PM", self.widget.render())
+
+        self.widget._formater_length = "long"
+        self.assertEqual("12:00:00 PM +000", self.widget.render())
+
+        self.widget._formater_length = "full"
+        self.assertEqual(
+            "12:00:00 PM +000", self.widget.render()
+        )
+
+        # unknown formatter length
+        self.widget._formater_length = "foo"
+        with self.assertRaises(ValueError):
+            self.widget.render()
+
 
 class SelectWidgetTests(unittest.TestCase):
     layer = PAZ3CForm_INTEGRATION_TESTING

@@ -587,9 +587,7 @@ class TimeWidgetTests(unittest.TestCase):
         self.assertEqual("12:00:00 PM +000", self.widget.render())
 
         self.widget._formater_length = "full"
-        self.assertEqual(
-            "12:00:00 PM +000", self.widget.render()
-        )
+        self.assertEqual("12:00:00 PM +000", self.widget.render())
 
         # unknown formatter length
         self.widget._formater_length = "foo"

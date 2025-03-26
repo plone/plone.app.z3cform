@@ -117,6 +117,8 @@ class TimeWidget(DateTimeWidgetBase):
     """TimeWidget for z3c.form."""
 
     _input_type = "time"
+    _formater = "time"
+    _formater_length = "short"
     klass = "time-widget"
 
     # no pattern set for time input

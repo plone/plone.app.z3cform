@@ -253,7 +253,7 @@
 
   <z3c:widgetTemplate
       widget=".interfaces.IContentBrowserWidget"
-      template="templates/relateditems_display.pt"
+      template="templates/contentbrowser_display.pt"
       layer=".interfaces.IPloneFormLayer"
       mode="display"
       />

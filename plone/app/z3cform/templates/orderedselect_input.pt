@@ -7,11 +7,9 @@
           type="text/javascript"
   ></script>
 
-  <table class="ordered-selection-field table table-borderless"
-         id="${view/id}"
-  >
-    <tr>
-      <td>
+  <div class="ordered-selection-field row"
+       id="${view/id}">
+    <div class="col-5">
         <select name="${view/name}.from"
                 tal:attributes="
                   view/attributes;
@@ -24,8 +22,8 @@
                   i18n:translate=""
           >${nocall:entry/content}</option>
         </select>
-      </td>
-      <td>
+      </div>
+      <div class="col-1 text-center">
         <button class="btn btn-sm btn-outline-secondary"
                 name="from2toButton"
                 onclick="javascript:from2to('${view/id}')"
@@ -39,8 +37,8 @@
                 type="button"
                 value="&larr;"
         >&larr;</button>
-      </td>
-      <td>
+      </div>
+      <div class="col-5">
         <select name="${view/name}.to"
                 tal:attributes="
                   view/attributes;
@@ -65,8 +63,8 @@
           // initial copying of field "field.to" --> "field"
           </script>
         </span>
-      </td>
-      <td>
+      </div>
+      <div class="col-1">
         <button class="btn btn-sm btn-outline-secondary"
                 name="upButton"
                 onclick="javascript:moveUp('${view/id}')"
@@ -80,7 +78,6 @@
                 type="button"
                 value="&darr;"
         >&darr;</button>
-      </td>
-    </tr>
-  </table>
+      </div>
+    </div>
 </html>

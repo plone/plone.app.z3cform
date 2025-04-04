@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+4.7.5 (2025-04-04)
+------------------
+
+Bug fixes:
+
+
+- Fix missing `_formater` value for `TimeWidget`.  @petschki (#222)
+
+
 4.7.4 (2025-03-17)
 ------------------
 

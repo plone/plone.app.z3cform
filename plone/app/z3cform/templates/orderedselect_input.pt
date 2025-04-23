@@ -8,76 +8,77 @@
   ></script>
 
   <div class="ordered-selection-field row"
-       id="${view/id}">
+       id="${view/id}"
+  >
     <div class="col-5">
-        <select name="${view/name}.from"
-                tal:attributes="
-                  view/attributes;
-                  id string:${view/id}-from;
-                  required nothing;
-                "
-        >
-          <option value="${entry/value}"
-                  tal:repeat="entry view/notselectedItems"
-                  i18n:translate=""
-          >${nocall:entry/content}</option>
-        </select>
-      </div>
-      <div class="col-1 text-center">
-        <button class="btn btn-sm btn-outline-secondary"
-                name="from2toButton"
-                onclick="javascript:from2to('${view/id}')"
-                type="button"
-                value="&rarr;"
-        >&rarr;</button>
-        <br />
-        <button class="btn btn-sm btn-outline-secondary"
-                name="to2fromButton"
-                onclick="javascript:to2from('${view/id}')"
-                type="button"
-                value="&larr;"
-        >&larr;</button>
-      </div>
-      <div class="col-5">
-        <select name="${view/name}.to"
-                tal:attributes="
-                  view/attributes;
-                  id string:${view/id}-to;
-                "
-        >
-          <option selected="selected"
-                  value="${entry/value}"
-                  tal:repeat="entry view/selectedItems"
-                  i18n:translate=""
-          >${nocall:entry/content}</option>
-        </select>
-        <input name="${view/name}-empty-marker"
-               type="hidden"
-        />
-        <span id="${view/id}-toDataContainer"
-              style="display: none"
-        >
-          <script type="text/javascript"
-                  tal:content="string:copyDataForSubmit('${view/id}');"
-          >
-          // initial copying of field "field.to" --> "field"
-          </script>
-        </span>
-      </div>
-      <div class="col-1">
-        <button class="btn btn-sm btn-outline-secondary"
-                name="upButton"
-                onclick="javascript:moveUp('${view/id}')"
-                type="button"
-                value="&uarr;"
-        >&uarr;</button>
-        <br />
-        <button class="btn btn-sm btn-outline-secondary"
-                name="downButton"
-                onclick="javascript:moveDown('${view/id}')"
-                type="button"
-                value="&darr;"
-        >&darr;</button>
-      </div>
+      <select name="${view/name}.from"
+              tal:attributes="
+                view/attributes;
+                id string:${view/id}-from;
+                required nothing;
+              "
+      >
+        <option value="${entry/value}"
+                tal:repeat="entry view/notselectedItems"
+                i18n:translate=""
+        >${nocall:entry/content}</option>
+      </select>
     </div>
+    <div class="col-1 text-center">
+      <button class="btn btn-sm btn-outline-secondary"
+              name="from2toButton"
+              onclick="javascript:from2to('${view/id}')"
+              type="button"
+              value="&rarr;"
+      >&rarr;</button>
+      <br />
+      <button class="btn btn-sm btn-outline-secondary"
+              name="to2fromButton"
+              onclick="javascript:to2from('${view/id}')"
+              type="button"
+              value="&larr;"
+      >&larr;</button>
+    </div>
+    <div class="col-5">
+      <select name="${view/name}.to"
+              tal:attributes="
+                view/attributes;
+                id string:${view/id}-to;
+              "
+      >
+        <option selected="selected"
+                value="${entry/value}"
+                tal:repeat="entry view/selectedItems"
+                i18n:translate=""
+        >${nocall:entry/content}</option>
+      </select>
+      <input name="${view/name}-empty-marker"
+             type="hidden"
+      />
+      <span id="${view/id}-toDataContainer"
+            style="display: none"
+      >
+        <script type="text/javascript"
+                tal:content="string:copyDataForSubmit('${view/id}');"
+        >
+          // initial copying of field "field.to" --> "field"
+        </script>
+      </span>
+    </div>
+    <div class="col-1">
+      <button class="btn btn-sm btn-outline-secondary"
+              name="upButton"
+              onclick="javascript:moveUp('${view/id}')"
+              type="button"
+              value="&uarr;"
+      >&uarr;</button>
+      <br />
+      <button class="btn btn-sm btn-outline-secondary"
+              name="downButton"
+              onclick="javascript:moveDown('${view/id}')"
+              type="button"
+              value="&darr;"
+      >&darr;</button>
+    </div>
+  </div>
 </html>

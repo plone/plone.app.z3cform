@@ -23,6 +23,8 @@ class LinkWidget(HTMLTextInputWidget, Widget):
 
     def pattern_data(self):
         context = self.context or getSite()
+        if not(hasattr(context, 'getPhysicalPath') and callable(context.getPhysicalPath)):
+            context = getSite()
         pattern_data = {
             "vocabularyUrl": "{}/@@getVocabulary?name=plone.app.vocabularies.Catalog".format(  # noqa
                 getSite().absolute_url(0),

@@ -1483,7 +1483,7 @@ class ContentBrowserWidgetTemplateIntegrationTests(unittest.TestCase):
             IPageTemplate,
             name=single.mode,
         )
-        self.assertTrue(template.filename.endswith("relateditems_display.pt"))
+        self.assertTrue(template.filename.endswith("contentbrowser_display.pt"))
         html = template(single)
         self.assertIn(
             '<span class="contenttype-relationstype state-missing-value url" >A Target</span>',
@@ -1503,7 +1503,7 @@ class ContentBrowserWidgetTemplateIntegrationTests(unittest.TestCase):
             IPageTemplate,
             name=multiple.mode,
         )
-        self.assertTrue(template.filename.endswith("relateditems_display.pt"))
+        self.assertTrue(template.filename.endswith("contentbrowser_display.pt"))
         html = template(multiple)
         self.assertIn(
             '<span class="contenttype-relationstype state-missing-value url" >A Target</span>',

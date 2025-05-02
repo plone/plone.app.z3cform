@@ -8,6 +8,17 @@ Changelog
 
 .. towncrier release notes start
 
+4.7.6 (2025-05-02)
+------------------
+
+Bug fixes:
+
+
+- Fix display template for contentbrowser and fix columns for orderedselect widget. @petschki (#223)
+- Check if the context can provide a path in LinkWidget pattern_data. @yurj (#226) (#226)
+- Fix the boolean widget in hidden mode (#228)
+
+
 4.7.5 (2025-04-04)
 ------------------
 

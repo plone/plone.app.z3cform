@@ -4,6 +4,7 @@ from plone.base.navigationroot import get_navigation_root_object
 from Products.CMFCore.interfaces import IContentish
 from Products.CMFCore.interfaces import IFolderish
 from Products.CMFCore.interfaces import ISiteRoot
+from z3c.form.browser.object import ObjectWidget
 from z3c.form.interfaces import IForm
 from zope.component import providedBy
 from zope.component.hooks import getSite
@@ -143,6 +144,11 @@ def dict_merge(dict_a, dict_b):
 
 def get_widget_form(widget):
     form = getattr(widget, "form", None)
+    if isinstance(form, ObjectWidget):
+        # ObjectWidget are container widgets,
+        # the proper form is the one they belong to
+        return get_widget_form(form)
+
     if getattr(aq_base(form), "parentForm", None) is not None:
         form = form.parentForm
     return form

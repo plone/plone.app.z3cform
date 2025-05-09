@@ -1,0 +1,1 @@
+Allow the ContentBrowserWidget to be used inside an object widget

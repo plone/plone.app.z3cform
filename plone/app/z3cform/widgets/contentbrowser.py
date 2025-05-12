@@ -12,6 +12,7 @@ from plone.base import PloneMessageFactory as _
 from plone.base.navigationroot import get_navigation_root_object
 from plone.base.utils import get_top_site_from_url
 from Products.CMFCore.utils import getToolByName
+from z3c.form.browser.object import ObjectWidget
 from z3c.form.interfaces import IEditForm
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.interfaces import IForm
@@ -152,9 +153,12 @@ class ContentBrowserWidget(HTMLInputWidget, Widget):
         view_context = get_widget_form(self)
         # For EditForms and non-Forms (in tests), the vocabulary is looked
         # up on the context, otherwise on the view
+
         if IEditForm.providedBy(view_context):
             if self.is_subform_widget():
                 view_context = self.form.parentForm.context
+            elif isinstance(self.form, ObjectWidget):
+                view_context = self.form.form.context
             elif not ISimpleItem.providedBy(context):
                 view_context = self.form.context
             else:

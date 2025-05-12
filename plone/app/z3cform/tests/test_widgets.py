@@ -42,6 +42,7 @@ from zope.interface.declarations import implementer_only
 from zope.intid.interfaces import IIntIds
 from zope.pagetemplate.interfaces import IPageTemplate
 from zope.publisher.browser import TestRequest
+from zope.schema import Bool
 from zope.schema import BytesLine
 from zope.schema import Choice
 from zope.schema import Date
@@ -1299,6 +1300,82 @@ def mock_querystring_options(context, querystring_view):
         "patternAjaxSelectOptions": {"separator": ";"},
         "patternRelateditemsOptions": None,
     }
+
+
+class CheckBoxWidgetTests(unittest.TestCase):
+    layer = PAZ3CForm_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.request = self.layer["request"]
+
+    def test_checkbox_widget(self):
+        from plone.app.z3cform.widgets.checkbox import CheckBoxFieldWidget
+        from plone.app.z3cform.widgets.checkbox import CheckBoxWidget
+
+        field = Choice(
+            __name__="checkboxes",
+            values=["one", "two", "three"],
+            required=True,
+        )
+        widget = CheckBoxFieldWidget(field, self.request)
+        widget.id = "test-widget"
+        widget.name = "checkboxfield-widget"
+        widget.terms = field.vocabulary
+        self.assertTrue(isinstance(widget, CheckBoxWidget))
+        self.assertEqual(
+            {
+                "pattern_options": {},
+                "pattern": None,
+            },
+            {
+                "pattern_options": widget.get_pattern_options(),
+                "pattern": widget.pattern,
+            },
+        )
+        widget.update()
+        self.assertIn("checkbox-widget", widget.klass)
+        self.assertIn("form-check-input", widget.klass)
+        # there should no required attribute set
+        widget_markup = widget.render()
+        self.assertNotIn("required=\"required", widget_markup)
+        # there should be 4 <input /> fields (including empty marker)
+        self.assertEqual(widget_markup.count("<input"), 4)
+
+    def test_singlecheckbox_widget(self):
+        from plone.app.z3cform.widgets.singlecheckbox import (
+            SingleCheckBoxBoolFieldWidget,
+        )
+        from plone.app.z3cform.widgets.singlecheckbox import SingleCheckBoxBoolWidget
+
+        field = Bool(
+            __name__="boolean_check",
+            default=True,
+            required=False,
+        )
+
+        widget = SingleCheckBoxBoolFieldWidget(field, self.request)
+        widget.id = "test-widget"
+        widget.name = "boolfield-widget"
+        self.assertTrue(isinstance(widget, SingleCheckBoxBoolWidget))
+        self.assertEqual(
+            {
+                "pattern_options": {},
+                "pattern": None,
+            },
+            {
+                "pattern_options": widget.get_pattern_options(),
+                "pattern": widget.pattern,
+            },
+        )
+        widget.update()
+        self.assertIn("single-checkbox-bool-widget", widget.klass)
+        self.assertIn("form-check-input", widget.klass)
+        # there should no required attribute set
+        widget_markup = widget.render()
+        # check default=True value
+        self.assertIn("checked=\"checked", widget_markup)
+        # there should be 2 <input /> fields (including empty marker)
+        self.assertEqual(widget_markup.count("<input"), 2)
 
 
 class QueryStringWidgetTests(unittest.TestCase):

@@ -1377,6 +1377,12 @@ class CheckBoxWidgetTests(unittest.TestCase):
         # there should be 2 <input /> fields (including empty marker)
         self.assertEqual(widget_markup.count("<input"), 2)
 
+        # check required attribute
+        field.required = True
+        widget = SingleCheckBoxBoolFieldWidget(field, self.request)
+        widget.update()
+        self.assertIn('required="required', widget.render())
+
 
 class QueryStringWidgetTests(unittest.TestCase):
     def setUp(self):

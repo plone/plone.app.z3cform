@@ -21,6 +21,9 @@
              name="${item/name}"
              type="checkbox"
              value="${item/value}"
+             tal:attributes="
+               view/attributes;
+             "
       />
       <label class="form-check-label"
              for="${item/id}"

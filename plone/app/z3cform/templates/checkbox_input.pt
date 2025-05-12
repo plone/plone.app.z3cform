@@ -22,7 +22,11 @@
            class here in the template.
            When all imports are refactored to
            "plone.app.z3cform.widgets.checkbox.CheckBoxFieldWidget"
-           this can be cleaned up. -->
+           this can be cleaned up.
+           NOTE #2:
+           We set "required" to nothing otherwise required choice fields
+           needs to have ALL checkboxes checked ... the required input is
+           validated in the backend anyways -->
       <input checked="${python:'checked' if item['checked'] else None}"
              name="${item/name}"
              type="checkbox"
@@ -31,6 +35,7 @@
                view/attributes;
                class string:${view/attributes/class} form-check-input;
                id item/id;
+               required nothing;
              "
       />
       <label class="form-check-label ${python:getattr(view, 'label_css_class', '')}"

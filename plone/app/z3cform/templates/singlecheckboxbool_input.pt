@@ -16,11 +16,14 @@
          tal:repeat="item items"
     >
       <input class="${view/klass}"
-             id="${item/id}"
              checked="${python:'checked' if item['checked'] else None}"
              name="${item/name}"
              type="checkbox"
              value="${item/value}"
+             tal:attributes="
+               view/attributes;
+               id item/id;
+             "
       />
       <label class="form-check-label"
              for="${item/id}"

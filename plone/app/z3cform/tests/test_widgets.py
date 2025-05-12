@@ -1384,6 +1384,79 @@ class CheckBoxWidgetTests(unittest.TestCase):
         self.assertIn('required="required', widget.render())
 
 
+class RadioWidgetTests(unittest.TestCase):
+    layer = PAZ3CForm_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.request = self.layer["request"]
+
+    def test_radio_widget(self):
+        from plone.app.z3cform.widgets.radio import RadioFieldWidget
+        from plone.app.z3cform.widgets.radio import RadioWidget
+
+        field = Choice(
+            __name__="radiobuttons",
+            values=["one", "two", "three"],
+            required=True,
+        )
+        widget = RadioFieldWidget(field, self.request)
+        widget.id = "test-widget"
+        widget.name = "radiofield-widget"
+        widget.terms = field.vocabulary
+        self.assertTrue(isinstance(widget, RadioWidget))
+        self.assertEqual(
+            {
+                "pattern_options": {},
+                "pattern": None,
+            },
+            {
+                "pattern_options": widget.get_pattern_options(),
+                "pattern": widget.pattern,
+            },
+        )
+        widget.update()
+        self.assertIn("radio-widget", widget.klass)
+        self.assertIn("form-check-input", widget.klass)
+        widget_markup = widget.render()
+        self.assertIn('type="radio', widget_markup)
+        # there should be required attribute set on every radio input
+        self.assertEqual(widget_markup.count('required="required'), 3)
+        # there should be 4 <input /> fields (including empty marker)
+        self.assertEqual(widget_markup.count("<input"), 4)
+
+    def test_single_radio_widget(self):
+        from plone.app.z3cform.widgets.radio import RadioFieldWidget
+        from plone.app.z3cform.widgets.radio import RadioWidget
+
+        field = Bool(
+            __name__="boolean_radio",
+            required=True,
+        )
+        widget = RadioFieldWidget(field, self.request)
+        widget.id = "test-widget"
+        widget.name = "radiofield-widget"
+        self.assertTrue(isinstance(widget, RadioWidget))
+        self.assertEqual(
+            {
+                "pattern_options": {},
+                "pattern": None,
+            },
+            {
+                "pattern_options": widget.get_pattern_options(),
+                "pattern": widget.pattern,
+            },
+        )
+        widget.update()
+        self.assertIn("radio-widget", widget.klass)
+        self.assertIn("form-check-input", widget.klass)
+        widget_markup = widget.render()
+        self.assertIn('type="radio', widget_markup)
+        # there should be required attributes set on every radio input
+        self.assertEqual(widget_markup.count('required="required'), 2)
+        # there should be 2 <input /> fields (yes/no and empty marker)
+        self.assertEqual(widget_markup.count("<input"), 3)
+
+
 class QueryStringWidgetTests(unittest.TestCase):
     def setUp(self):
         self.request = TestRequest(environ={"HTTP_ACCEPT_LANGUAGE": "en"})

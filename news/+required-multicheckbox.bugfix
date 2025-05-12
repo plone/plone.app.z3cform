@@ -1,1 +1,1 @@
-Fix for required multiple choice fields with checkboxes. @petschki
+Fix for required single boolean and multiple choice fields with checkboxes. @petschki

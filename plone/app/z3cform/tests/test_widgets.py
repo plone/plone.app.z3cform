@@ -1337,7 +1337,7 @@ class CheckBoxWidgetTests(unittest.TestCase):
         self.assertIn("form-check-input", widget.klass)
         # there should no required attribute set
         widget_markup = widget.render()
-        self.assertNotIn("required=\"required", widget_markup)
+        self.assertNotIn('required="required', widget_markup)
         # there should be 4 <input /> fields (including empty marker)
         self.assertEqual(widget_markup.count("<input"), 4)
 
@@ -1373,7 +1373,7 @@ class CheckBoxWidgetTests(unittest.TestCase):
         # there should no required attribute set
         widget_markup = widget.render()
         # check default=True value
-        self.assertIn("checked=\"checked", widget_markup)
+        self.assertIn('checked="checked', widget_markup)
         # there should be 2 <input /> fields (including empty marker)
         self.assertEqual(widget_markup.count("<input"), 2)
 

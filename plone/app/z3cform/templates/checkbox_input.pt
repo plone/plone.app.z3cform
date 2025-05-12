@@ -25,7 +25,7 @@
            this can be cleaned up.
            NOTE #2:
            We set "required" to nothing otherwise required choice fields
-           needs to have ALL checkoxes checked ... the required input is
+           needs to have ALL checkboxes checked ... the required input is
            validated in the backend anyways -->
       <input checked="${python:'checked' if item['checked'] else None}"
              name="${item/name}"

@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+4.7.7 (2025-05-16)
+------------------
+
+Bug fixes:
+
+
+- Allow the ContentBrowserWidget to be used inside an object widget (#230)
+- Fix for required single boolean and multiple choice fields with checkboxes. @petschki
+
+
 4.7.6 (2025-05-02)
 ------------------
 

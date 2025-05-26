@@ -673,7 +673,7 @@ class SelectWidgetTests(unittest.TestCase):
             "Top level vocab item rendered as <option...>",
         )
         # required select must not allow novalue option
-        self.assertNotIn("select2-test-widget-novalue", html)
+        self.assertNotIn("select-test-widget-novalue", html)
         self.assertIn(
             '<optgroup label="Foo Group"',
             html,
@@ -689,6 +689,7 @@ class SelectWidgetTests(unittest.TestCase):
         # test selected value
         widget.value = ("grault_group",)
         html = widget.render()
+        self.assertIn('selected="selected" value="grault_group"', html)
 
 
 class Select2WidgetTests(unittest.TestCase):
@@ -1036,6 +1037,7 @@ class Select2WidgetTests(unittest.TestCase):
         # test selected value
         widget.value = ("grault_group",)
         html = widget.render()
+        self.assertIn('selected="selected" value="grault_group"', html)
 
 
 class AjaxSelectWidgetTests(unittest.TestCase):

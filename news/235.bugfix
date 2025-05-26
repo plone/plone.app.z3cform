@@ -1,0 +1,1 @@
+Fix TreeVocabulary implementation. This now also works for "standard" SelectWidget and Select2Widget. @petschki

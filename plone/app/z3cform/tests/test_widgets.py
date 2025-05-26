@@ -687,7 +687,7 @@ class SelectWidgetTests(unittest.TestCase):
         self.assertEqual(html.count("select-test-widget-novalue"), 1)
 
         # test selected value
-        widget.value = ("grault_group", )
+        widget.value = ("grault_group",)
         html = widget.render()
 
 
@@ -1034,7 +1034,7 @@ class Select2WidgetTests(unittest.TestCase):
         self.assertEqual(html.count("select2-test-widget-novalue"), 1)
 
         # test selected value
-        widget.value = ("grault_group", )
+        widget.value = ("grault_group",)
         html = widget.render()
 
 

@@ -16,7 +16,10 @@
           tal:attributes="
             view/attributes;
           "
-  ><tal:block repeat="item items"><optgroup label="${item}"
+  ><option tal:condition="python: is_tree and not view.field.required"
+           id="${view/id}-novalue"
+           value=""></option
+      ><tal:block repeat="item items"><optgroup label="${item}"
                 tal:condition="is_tree"
       ><option id="${group_item/id}"
                 selected="${python:'selected' if group_item['selected'] else None}"

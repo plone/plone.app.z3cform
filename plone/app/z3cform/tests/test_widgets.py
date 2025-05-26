@@ -630,6 +630,66 @@ class SelectWidgetTests(unittest.TestCase):
         self.assertIn("select-widget", widget.klass)
         self.assertIn("form-select", widget.klass)
 
+    def test_select_widget_optgroup(self):
+        """
+        If the widget vocabulary is a mapping <optgroup>'s are rendered.
+        """
+        from plone.app.z3cform.widgets.select import SelectWidget
+        from z3c.form import term
+
+        widget = SelectWidget(self.request)
+        widget.id = "select-test-widget"
+        widget.field = Choice(
+            __name__="selectfield",
+            vocabulary=vocabulary.TreeVocabulary.fromDict(
+                {
+                    ("foo_group", "Foo Group"): {
+                        ("bar_group", "bar_group", "Bar Group"): {},
+                        ("qux_group", "qux_group", "Qux Group"): {},
+                    },
+                    ("corge_group", "Corge Group"): {
+                        ("grault_group", "grault_group", "Grault Group"): {},
+                        ("garply_group", "garply_group", "Garply Group"): {},
+                    },
+                }
+            ),
+        )
+        widget.name = widget.field.__name__
+        # Use term.CollectionTermsVocabulary to simulate a named vocabulary
+        # factory lookup
+        widget.terms = term.CollectionTermsVocabulary(
+            context=None,
+            request=self.request,
+            form=None,
+            field=None,
+            widget=widget,
+            vocabulary=widget.field.vocabulary,
+        )
+        widget.update()
+        html = widget.render()
+        self.assertNotIn(
+            '<option value="foo_group"',
+            html,
+            "Top level vocab item rendered as <option...>",
+        )
+        # required select must not allow novalue option
+        self.assertNotIn("select2-test-widget-novalue", html)
+        self.assertIn(
+            '<optgroup label="Foo Group"',
+            html,
+            "Rendered select widget missing an <optgroup...>",
+        )
+
+        # not-required check
+        widget.field.required = False
+        html = widget.render()
+        # make sure we only have one novalue selector outside the groups
+        self.assertEqual(html.count("select-test-widget-novalue"), 1)
+
+        # test selected value
+        widget.value = ("grault_group", )
+        html = widget.render()
+
 
 class Select2WidgetTests(unittest.TestCase):
     layer = PAZ3CForm_INTEGRATION_TESTING
@@ -930,12 +990,12 @@ class Select2WidgetTests(unittest.TestCase):
             vocabulary=vocabulary.TreeVocabulary.fromDict(
                 {
                     ("foo_group", "Foo Group"): {
-                        ("bar_group", "Bar Group"): {},
-                        ("qux_group", "Qux Group"): {},
+                        ("bar_group", "bar_group", "Bar Group"): {},
+                        ("qux_group", "qux_group", "Qux Group"): {},
                     },
                     ("corge_group", "Corge Group"): {
-                        ("grault_group", "Grault Group"): {},
-                        ("garply_group", "Garply Group"): {},
+                        ("grault_group", "grault_group", "Grault Group"): {},
+                        ("garply_group", "garply_group", "Garply Group"): {},
                     },
                 }
             ),
@@ -958,11 +1018,24 @@ class Select2WidgetTests(unittest.TestCase):
             html,
             "Top level vocab item rendered as <option...>",
         )
+        # required select must not allow novalue option
+        self.assertNotIn("select2-test-widget-novalue", html)
         self.assertIn(
             '<optgroup label="Foo Group"',
             html,
             "Rendered select widget missing an <optgroup...>",
         )
+
+        # not-required check
+        widget.field.required = False
+        html = widget.render()
+        self.assertIn('data-pat-select2="{&quot;allowClear&quot;: true}"', html)
+        # make sure we only have one novalue selector outside the groups
+        self.assertEqual(html.count("select2-test-widget-novalue"), 1)
+
+        # test selected value
+        widget.value = ("grault_group", )
+        html = widget.render()
 
 
 class AjaxSelectWidgetTests(unittest.TestCase):
@@ -1240,11 +1313,17 @@ class AjaxSelectWidgetTests(unittest.TestCase):
         from plone.app.z3cform.widgets.select import AjaxSelectWidget
 
         field = Mock(__name__="field", title="", required=True)
-        request = Mock()
-        widget = AjaxSelectFieldWidget(field, request)
+        widget = AjaxSelectFieldWidget(field, self.request)
         self.assertTrue(isinstance(widget, AjaxSelectWidget))
         self.assertIs(widget.field, field)
-        self.assertIs(widget.request, request)
+        self.assertIs(widget.request, self.request)
+
+        # display mode
+        widget.mode = "display"
+        widget.value = "foo;bar"
+        self.assertIn('data-token="foo"', widget.render())
+        self.assertIn('data-token="bar"', widget.render())
+        self.assertNotIn("pat-select2", widget.render())
 
     def test_fieldwidget_sequence(self):
         from plone.app.z3cform.widgets.select import AjaxSelectFieldWidget

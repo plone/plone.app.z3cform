@@ -83,22 +83,25 @@
                 form_class view/css_class | string:;
                 default_fieldset_label view/default_fieldset_label | form_name;
                 enable_form_tabbing view/enable_form_tabbing | python:True;
+                enable_form_stacking view/enable_form_stacking | python:True;
                 enable_unload_protection view/enable_unload_protection|python:True;
                 unload_protection python:enable_unload_protection and 'pat-formunloadalert';
                 enable_autofocus view/enable_autofocus|python:True;
                 autofocus python:enable_autofocus and 'pat-formautofocus';
                 validation python:'pat-validation' if not view.ignoreRequiredOnExtract else '';
                 has_groups python:bool(groups);
+                form_stacking python:(has_groups and enable_form_stacking) and 'enableFormStacking accordion' or '';
                 form_tabbing python:(has_groups and enable_form_tabbing) and 'enableFormTabbing pat-autotoc' or '';
                 show_default_label python:has_groups and default_fieldset_label and len(view.widgets);
                 form_view_name_raw python:view.__name__ or request.getURL().split('/')[-1];
                 form_view_name python:'-'.join(['view', 'name'] + [x for x in form_view_name_raw.split('++') if x]);
+                id view/id;
               "
               tal:attributes="
                 action view/action|request/getURL;
                 enctype view/enctype;
-                class string:rowlike $unload_protection $autofocus $validation $form_tabbing $form_class $form_view_name_raw $form_view_name;
-                id view/id;
+                class string:rowlike $unload_protection $autofocus $validation $form_tabbing $form_stacking $form_class $form_view_name_raw $form_view_name;
+                id id;
                 name form_name;
                 method view/method|string:post;
               "
@@ -128,24 +131,60 @@
 
               <fieldset id="fieldset-default"
                         tal:omit-tag="not:show_default_label"
+                        tal:attributes="
+                          class python:'accordion-item' if enable_form_stacking else '';
+                "
               >
-
                 <legend tal:condition="show_default_label"
-                        tal:content="default_fieldset_label"
                         tal:attributes="
                           id string:fieldsetlegend-default;
+                          class python:'accordion-header' if enable_form_stacking else '';
                         "
-                >Form name</legend>
+                >
+                  <button
+                    tal:condition="python: enable_form_stacking"
+                    tal:content="default_fieldset_label"
+                    tal:attributes="
+                      class string:accordion-button collapsed;
+                      type string:button;
+                      data-bs-toggle string:collapse;
+                      data-bs-target string:#default;
+                      aria-expanded string:true;
+                      aria-controls string:default;
+                    "
+                  >
+                    FORM NAME
+                  </button>
+                  <span
+                    tal:content="default_fieldset_label"
+                    tal:condition="python: not enable_form_stacking">
+                    FORM NAME
+                  </span>
+                </legend>
+
 
                 <metal:define define-macro="widget_rendering">
-                  <div class="row">
-                    <tal:widgets repeat="widget python:view.widgets.values()">
-                      <metal:field-slot define-slot="field">
-                        <metal:field define-macro="field">
-                          <tal:widget tal:replace="structure widget/@@ploneform-render-widget" />
-                        </metal:field>
-                      </metal:field-slot>
-                    </tal:widgets>
+                  <div
+                    tal:attributes="
+                      class python:'row accordion-collapse collapse' if enable_form_stacking else 'row';
+                      id fieldset_name | string:default;
+                      data-bs-parent id;
+                      data-parent id;
+                    "
+                  >
+                    <div
+                      tal:attributes="
+                        class python:'accordion-body' if enable_form_stacking else '';
+                      "
+                    >
+                      <tal:widgets repeat="widget python:view.widgets.values()">
+                        <metal:field-slot define-slot="field">
+                          <metal:field define-macro="field">
+                            <tal:widget tal:replace="structure widget/@@ploneform-render-widget" />
+                          </metal:field>
+                        </metal:field-slot>
+                      </tal:widgets>
+                    </div>
                   </div>
                 </metal:define>
               </fieldset>
@@ -162,18 +201,42 @@
                           "
                           tal:attributes="
                             id string:fieldset-${fieldset_name};
-                            class string:kssattr-fieldset-${fieldset_name};
+                            class python:'kssattr-fieldset-${fieldset_name} accordion-item' if enable_form_stacking else 'kssattr-fieldset-${fieldset_name} ';
                             data-fieldset fieldset_name;
                           "
                 >
 
                   <legend tal:condition="fieldset_label"
-                          tal:content="fieldset_label"
                           tal:attributes="
                             id string:fieldsetlegend-${fieldset_name};
+                            class python:'accordion-header' if enable_form_stacking else '';
                           "
                           i18n:translate=""
-                  >Form name</legend>
+                  >
+                    <button
+                      tal:condition="python: enable_form_stacking"
+                      tal:content="fieldset_label"
+                      tal:attributes="
+                          class string:accordion-button collapsed;
+                          type string:button;
+                          data-bs-toggle string:collapse;
+                          data-bs-target string:#${fieldset_name};
+                          aria-expanded string:true;
+                          aria-controls fieldset_name;
+                        "
+                      >
+                      FORM NAME
+                    </button>
+                    <span
+                      tal:condition="python: not enable_form_stacking"
+                      tal:content="fieldset_label"
+                      tal:attributes="
+                        id string:fieldsetlegend-${fieldset_name};
+                      "
+                      i18n:translate="">
+                                            FORM NAME
+                    </span>
+                  </legend>
 
                   <p tal:define="
                        group_description group/description|nothing;

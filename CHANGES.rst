@@ -8,6 +8,17 @@ Changelog
 
 .. towncrier release notes start
 
+4.7.8 (2025-05-28)
+------------------
+
+Bug fixes:
+
+
+- Fix view template for AjaxSelectWidget. @petschki (#225)
+- Fix TreeVocabulary implementation. This now also works for "standard" SelectWidget and Select2Widget. @petschki (#235)
+- add login to the list of button names that showbmit button @erral (#4180)
+
+
 4.7.7 (2025-05-16)
 ------------------
 

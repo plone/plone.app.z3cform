@@ -26,11 +26,42 @@ from zope.schema.interfaces import ICollection
 from zope.schema.interfaces import ISequence
 from zope.schema.interfaces import ITreeVocabulary
 from zope.schema.interfaces import IVocabularyFactory
+from zope.schema.vocabulary import SimpleVocabulary
 
 
 @implementer_only(ISelectWidget)
 class SelectWidget(HTMLSelectWidget, SelectWidgetBase):
     klass = "select-widget"
+
+    @property
+    def items(self):
+        """
+        Optionally handle ITreeVocabulary vocabs as dicts.
+        """
+        terms = self.terms
+        if ITerms.providedBy(terms):
+            terms = terms.terms
+
+        if ITreeVocabulary.providedBy(terms):
+            # NOTE: group widget required is set to True to skip
+            # the "novalue" option for each optgroup.
+            # the general novalue option for non-required TreeVocabulary
+            # widget is set in templates/select_input.pt
+            groups = {}
+            for group_term, option_terms in terms.items():
+                group_widget = type(self)(self.request)
+                group_widget.required = True
+                group_widget.value = self.value
+                # we have to convert the TreeVocabulary OrderedDict to a SimpleVocabulary
+                # XXX: this assumes that terms.terms_factory is a dict like object
+                # with SimpleTerm as keys (default zope.schema.vocabulary.TreeVocabulary behavior)
+                group_widget.terms = SimpleVocabulary(list(option_terms.keys()))
+                group_widget.id = f"{self.id}-{group_term.token}"
+                group_label = group_term.title or group_term.value or group_term.token
+                groups[group_label] = super(SelectWidget, group_widget).items
+            return groups
+        else:
+            return super().items
 
 
 @implementer(IFieldWidget)
@@ -47,7 +78,7 @@ def CollectionChoiceSelectFieldWidget(field, value_type, request):
 
 
 @implementer_only(ISelect2Widget)
-class Select2Widget(HTMLSelectWidget, SelectWidgetBase):
+class Select2Widget(SelectWidget):
     """Select widget for z3c.form."""
 
     pattern = "select2"
@@ -55,27 +86,6 @@ class Select2Widget(HTMLSelectWidget, SelectWidgetBase):
     noValueToken = ""
     noValueMessage = ""
     orderable = False
-
-    @property
-    def items(self):
-        """
-        Optionally handle ITreeVocabulary vocabs as dicts.
-        """
-        terms = self.terms
-        if ITerms.providedBy(terms):
-            terms = terms.terms
-
-        if ITreeVocabulary.providedBy(terms):
-            groups = {}
-            for group_term, option_terms in terms.items():
-                group_widget = type(self)(self.request)
-                group_widget.terms = option_terms
-                group_widget.id = self.id
-                group_label = group_term.title or group_term.value or group_term.token
-                groups[group_label] = super(Select2Widget, group_widget).items
-            return groups
-        else:
-            return super().items
 
     def get_pattern_options(self):
         pattern_options = {}

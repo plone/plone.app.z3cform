@@ -143,9 +143,8 @@
                 >
                   <button
                     tal:condition="python: enable_form_stacking"
-                    tal:content="default_fieldset_label"
                     tal:attributes="
-                      class string:accordion-button collapsed;
+                      class string:accordion-button;
                       type string:button;
                       data-bs-toggle string:collapse;
                       data-bs-target string:#default;
@@ -153,7 +152,10 @@
                       aria-controls string:default;
                     "
                   >
-                    FORM NAME
+                    <span
+                      tal:content="default_fieldset_label">
+                      FORM NAME
+                    </span>
                   </button>
                   <span
                     tal:content="default_fieldset_label"
@@ -166,7 +168,7 @@
                 <metal:define define-macro="widget_rendering">
                   <div
                     tal:attributes="
-                      class python:'row accordion-collapse collapse' if enable_form_stacking else 'row';
+                      class python:'row accordion-collapse collapse show no-js' if enable_form_stacking else 'row';
                       id fieldset_name | string:default;
                       data-bs-parent id;
                       data-parent id;
@@ -215,9 +217,8 @@
                   >
                     <button
                       tal:condition="python: enable_form_stacking"
-                      tal:content="fieldset_label"
                       tal:attributes="
-                          class string:accordion-button collapsed;
+                          class string:accordion-button;
                           type string:button;
                           data-bs-toggle string:collapse;
                           data-bs-target string:#${fieldset_name};
@@ -225,7 +226,14 @@
                           aria-controls fieldset_name;
                         "
                       >
-                      FORM NAME
+                      <span
+                        tal:content="fieldset_label"
+                        tal:attributes="
+                          id string:fieldsetlegend-${fieldset_name};
+                        "
+                        i18n:translate="">
+                                              FORM NAME
+                      </span>
                     </button>
                     <span
                       tal:condition="python: not enable_form_stacking"

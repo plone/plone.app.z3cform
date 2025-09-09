@@ -7,7 +7,7 @@ version = "4.7.9.dev0"
 
 long_description = (
     f"{Path('README.rst').read_text()}\n"
-    f"{(Path('plone') / 'app' / 'z3cform' / 'inline_validation.rst').read_text()}\n"
+    f"{(Path('src') / 'plone' / 'app' / 'z3cform' / 'inline_validation.rst').read_text()}\n"
     f"{Path('CHANGES.rst').read_text()}"
 )
 
@@ -53,7 +53,8 @@ setup(
     author_email="plone-developers@lists.sourceforge.net",
     url="https://pypi.org/project/plone.app.z3cform",
     license="GPL",
-    packages=find_packages(),
+    packages=find_packages("src"),
+    package_dir={"": "src"},
     namespace_packages=["plone", "plone.app"],
     include_package_data=True,
     zip_safe=False,

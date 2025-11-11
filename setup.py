@@ -66,7 +66,6 @@ setup(
         "plone.z3cform",
         "Products.GenericSetup",
         "pytz",
-        "setuptools",
         "z3c.form >= 5.1",
         "z3c.relationfield",
         "zope.deprecation",

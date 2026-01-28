@@ -288,14 +288,6 @@
            plone.app.z3cform.interfaces.IPloneFormLayer"
       />
 
-  <z3c:widgetTemplate
-      widget=".interfaces.IEmailWidget"
-      template="templates/email_input.pt"
-      layer=".interfaces.IPloneFormLayer"
-      mode="input"
-      />
-
-
   <!-- password -->
   <adapter
       factory=".widgets.password.PasswordFieldWidget"

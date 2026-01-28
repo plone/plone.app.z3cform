@@ -12,6 +12,14 @@ class EmailWidget(TextWidget):
 
     klass = "email-widget"
 
+    @property
+    def attributes(self):
+        attributes = super().attributes
+        # NOTE: we're setting the "type='email'" attribute here
+        # which overrides 'type="text"' in templates/text_input.pt
+        attributes["type"] = "email"
+        return attributes
+
 
 @implementer(IFieldWidget)
 def EmailFieldWidget(field, request):

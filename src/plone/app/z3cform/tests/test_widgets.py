@@ -16,6 +16,7 @@ from plone.autoform.form import AutoExtensibleForm
 from plone.base.interfaces import IMarkupSchema
 from plone.dexterity.fti import DexterityFTI
 from plone.registry.interfaces import IRegistry
+from plone.schema import Email
 from plone.supermodel.model import Schema
 from plone.uuid.interfaces import IUUID
 from unittest import mock
@@ -52,6 +53,7 @@ from zope.schema import Set
 from zope.schema import TextLine
 from zope.schema import Time
 from zope.schema import Tuple
+from zope.schema import URI
 from zope.schema import vocabulary
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
@@ -2446,6 +2448,80 @@ class LinkWidgetIntegrationTests(unittest.TestCase):
             converter.toWidgetValue("mailto:me?subject=jep")["email_subject"],
             "jep",
         )
+
+
+class EmailWidgetTests(unittest.TestCase):
+    layer = PAZ3CForm_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.request = self.layer["request"]
+
+    def test_email_widget(self):
+        from plone.app.z3cform.widgets.email import EmailFieldWidget
+        from plone.app.z3cform.widgets.email import EmailWidget
+
+        field = Email(
+            __name__="email",
+            required=True,
+        )
+        widget = EmailFieldWidget(field, self.request)
+        widget.id = "test-widget"
+        widget.name = "email-widget"
+        self.assertTrue(isinstance(widget, EmailWidget))
+        self.assertEqual(
+            {
+                "pattern_options": {},
+                "pattern": None,
+            },
+            {
+                "pattern_options": widget.get_pattern_options(),
+                "pattern": widget.pattern,
+            },
+        )
+        widget.update()
+        self.assertIn("email-widget", widget.klass)
+        self.assertIn("form-control", widget.klass)
+        widget_markup = widget.render()
+        self.assertIn('type="email', widget_markup)
+        # there should be required attribute set on email input
+        self.assertIn('required="required', widget_markup)
+
+
+class UriWidgetTests(unittest.TestCase):
+    layer = PAZ3CForm_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.request = self.layer["request"]
+
+    def test_email_widget(self):
+        from plone.app.z3cform.widgets.uri import UriFieldWidget
+        from plone.app.z3cform.widgets.uri import UriWidget
+
+        field = URI(
+            __name__="URL",
+            required=True,
+        )
+        widget = UriFieldWidget(field, self.request)
+        widget.id = "test-widget"
+        widget.name = "uri-widget"
+        self.assertTrue(isinstance(widget, UriWidget))
+        self.assertEqual(
+            {
+                "pattern_options": {},
+                "pattern": None,
+            },
+            {
+                "pattern_options": widget.get_pattern_options(),
+                "pattern": widget.pattern,
+            },
+        )
+        widget.update()
+        self.assertIn("uri-widget", widget.klass)
+        self.assertIn("form-control", widget.klass)
+        widget_markup = widget.render()
+        self.assertIn('type="url', widget_markup)
+        # there should be required attribute set on url input
+        self.assertIn('required="required', widget_markup)
 
 
 class WidgetCustomizingIntegrationTests(unittest.TestCase):

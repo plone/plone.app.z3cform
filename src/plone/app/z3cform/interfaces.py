@@ -92,7 +92,7 @@ class IRelatedItemsWidget(ITextWidget):
 
 
 class IContentBrowserWidget(ITextWidget):
-    """Marker interface for the RelatedItemsWidget."""
+    """Marker interface for the ContentBrowserWidget."""
 
 
 class IRichTextWidget(patextfield_IRichTextWidget):

@@ -107,6 +107,10 @@ class IEmailWidget(ITextWidget):
     """Marker interface for the dumb email widget."""
 
 
+class IUriWidget(ITextWidget):
+    """Marker interface for the URI widget."""
+
+
 class IPasswordWidget(ITextWidget):
     """Marker interface for the password widget."""
 

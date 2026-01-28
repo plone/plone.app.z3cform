@@ -55,12 +55,6 @@
            plone.app.z3cform.interfaces.IPloneFormLayer"
       />
 
-  <adapter
-      factory=".widgets.text.TextFieldWidget"
-      for="zope.schema.interfaces.IURI
-           plone.app.z3cform.interfaces.IPloneFormLayer"
-      />
-
   <z3c:widgetTemplate
       widget=".interfaces.ITextWidget"
       template="templates/text_input.pt"
@@ -285,6 +279,13 @@
   <adapter
       factory=".widgets.email.EmailFieldWidget"
       for="plone.schema.email.IEmail
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <!-- URI -->
+  <adapter
+      factory=".widgets.uri.UriFieldWidget"
+      for="zope.schema.interfaces.IURI
            plone.app.z3cform.interfaces.IPloneFormLayer"
       />
 

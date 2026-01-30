@@ -92,7 +92,7 @@ class IRelatedItemsWidget(ITextWidget):
 
 
 class IContentBrowserWidget(ITextWidget):
-    """Marker interface for the RelatedItemsWidget."""
+    """Marker interface for the ContentBrowserWidget."""
 
 
 class IRichTextWidget(patextfield_IRichTextWidget):
@@ -105,6 +105,10 @@ class ILinkWidget(ITextWidget):
 
 class IEmailWidget(ITextWidget):
     """Marker interface for the dumb email widget."""
+
+
+class IUriWidget(ITextWidget):
+    """Marker interface for the URI widget."""
 
 
 class IPasswordWidget(ITextWidget):

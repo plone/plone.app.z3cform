@@ -7,7 +7,6 @@ import doctest
 import unittest
 import zope.component.testing
 
-
 ROBOT_TEST_LEVEL = 5
 
 

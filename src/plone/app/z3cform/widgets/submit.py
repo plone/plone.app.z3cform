@@ -7,7 +7,6 @@ from z3c.form.widget import Widget
 from zope.interface import implementer
 from zope.interface import implementer_only
 
-
 PRIMARY_BUTTON_NAMES = ("add", "save", "login")
 
 

@@ -1,6 +1,5 @@
 from zope.deferredimport import deprecated as deprecated_import
 
-
 deprecated_import(
     "Import from plone.app.z3cform.converters instead (will be removed in Plone 7)",
     DatetimeWidgetConverter="plone.app.z3cform.converters:DatetimeWidgetConverter",

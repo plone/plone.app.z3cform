@@ -8,7 +8,7 @@ from zope.interface import implementer
 from zope.interface import implementer_only
 
 
-PRIMARY_BUTTON_NAMES = ("add", "save", "login")
+PRIMARY_BUTTON_NAMES = ("add", "save", "login", "comment")
 
 
 @implementer_only(ISubmitWidget)

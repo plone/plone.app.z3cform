@@ -33,11 +33,6 @@
     >label</span>
   </b>
 
-  <input metal:define-slot="widget"
-         type="text"
-         tal:replace="structure python:widget.render()"
-  />
-
   <div class="form-text"
        tal:define="
          description python: getattr(widget, 'description', widget.field.description);
@@ -48,6 +43,11 @@
   >
       help text
   </div>
+
+  <input metal:define-slot="widget"
+         type="text"
+         tal:replace="structure python:widget.render()"
+  />
 
   <div tal:condition="error"
        tal:replace="structure python:error.render() or False"

@@ -8,6 +8,34 @@ Changelog
 
 .. towncrier release notes start
 
+5.0.0a2 (2026-02-23)
+--------------------
+
+Breaking changes:
+
+
+- Remove EmailWidget template and use generic attributes instead.  @petschki
+
+
+New features:
+
+
+- Implement URI widget for 'type="url"' inputs.  @petschki
+
+
+Bug fixes:
+
+
+- Add comment to the list of buttons where only btn-primary should be set @erral (#254)
+
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs]
+
+
 5.0.0a1 (2025-11-19)
 --------------------
 

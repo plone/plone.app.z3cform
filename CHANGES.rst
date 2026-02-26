@@ -8,6 +8,22 @@ Changelog
 
 .. towncrier release notes start
 
+4.7.10 (2026-02-26)
+-------------------
+
+Bug fixes:
+
+
+- Add comment to the list of buttons where only btn-primary should be set @erral (#254)
+
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs]
+
+
 4.7.9 (2025-09-11)
 ------------------
 

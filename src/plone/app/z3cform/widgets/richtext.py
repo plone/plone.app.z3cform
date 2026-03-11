@@ -16,7 +16,6 @@ from zope.interface import implementer_only
 import json
 import logging
 
-
 logger = logging.getLogger(__name__)
 
 

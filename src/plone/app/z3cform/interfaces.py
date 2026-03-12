@@ -12,7 +12,6 @@ from z3c.form.interfaces import ITextWidget as ITextWidgetBase
 from zope.deferredimport import deprecated
 from zope.interface import Interface
 
-
 # this should not be used anymore
 
 deprecated(

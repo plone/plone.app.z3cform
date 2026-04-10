@@ -1339,7 +1339,7 @@ Fixes:
   [optilude]
 
 - Make the ?fieldset.current query string variable work. Set it to the id
-  of a fieldset other than default to pre-select a different fieldset, e.g.
+  of a fieldset other than default to preselect a different fieldset, e.g.
   .../@@formview?fieldset.current=3
   [optilude]
 

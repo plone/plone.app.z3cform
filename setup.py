@@ -56,11 +56,13 @@ setup(
     zip_safe=False,
     python_requires=">=3.10",
     install_requires=[
+        "plone.api",
         "plone.app.textfield>=1.3.6",
         "plone.base",
         "plone.app.contentlisting",
         "plone.formwidget.namedfile>=3.1.0",
         "plone.i18n",
+        "plone.namedfile",
         "plone.protect",
         "plone.registry",
         "plone.schema",

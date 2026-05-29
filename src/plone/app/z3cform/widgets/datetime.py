@@ -1,3 +1,4 @@
+from plone.app.event.base import default_timezone
 from plone.app.z3cform.interfaces import IDatetimeWidget
 from plone.app.z3cform.interfaces import IDateWidget
 from plone.app.z3cform.interfaces import ITimeWidget
@@ -105,6 +106,29 @@ class DatetimeWidget(DateTimeWidgetBase):
 
     pattern = "datetime-picker"
     klass = "datetime-widget"
+
+    @property
+    def timezone(self):
+        """Get the timezone for the datetime field or return the default
+        timezone as timezone identifier string.
+
+        :returns: Timezone identifier string.
+        :rtype: string
+        """
+        try:
+            # Case "Edit": Return the timezone of the original field's
+            # datetime value, if available.
+            original_value = self.field.get(self.context)
+
+            if tzinfo := getattr(original_value, "tzinfo", None):
+                return tzinfo.zone
+
+        except AttributeError:
+            # Case "Add" - no content object available yet.
+            pass
+
+        # Fall back the the portals or users timezone.
+        return default_timezone()
 
 
 @implementer(IFieldWidget)

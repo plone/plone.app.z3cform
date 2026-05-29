@@ -1,6 +1,7 @@
 from datetime import date
 from datetime import datetime
 from datetime import time
+from plone.app.event.base import default_timezone
 from plone.app.z3cform import utils
 from plone.app.z3cform.interfaces import IAjaxSelectWidget
 from plone.app.z3cform.interfaces import IContentBrowserWidget
@@ -113,14 +114,14 @@ class DatetimeWidgetConverter(BaseDataConverter):
             )
             value += default_time.split(":")
 
-        # TODO: respect the selected zone from the widget and just fall back
-        # to default_zone
-        default_zone = self.widget.default_timezone
-        zone = (
-            default_zone(self.widget.context)
-            if safe_callable(default_zone)
-            else default_zone
-        )
+        # Get the user-set timezone from the form
+        request = self.widget.form.request
+        zone: str = request.get(f"{self.widget.name}-timezone")
+
+        # Fall back to the default timezone
+        if not zone:
+            zone: str = default_timezone()
+
         ret = datetime(*map(int, value))
         if zone:
             tzinfo = pytz.timezone(zone)

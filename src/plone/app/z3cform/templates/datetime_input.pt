@@ -1,0 +1,17 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      tal:omit-tag=""
+>
+  <input name="${view/name}"
+         type="datetime-local"
+         value="${view/value}"
+         tal:attributes="
+           view/attributes;
+         "
+  />
+
+  <input name="${view/name}-timezone"
+         type="text"
+         value="${view/timezone}"
+  />
+</html>

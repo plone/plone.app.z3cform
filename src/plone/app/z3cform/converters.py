@@ -115,12 +115,19 @@ class DatetimeWidgetConverter(BaseDataConverter):
             value += default_time.split(":")
 
         # Get the user-set timezone from the form
-        request = self.widget.form.request
-        zone: str = request.get(f"{self.widget.name}-timezone")
+        request = getattr(getattr(self.widget, "form", None), "request", None)
+        zone: str | None = (
+            request.get(f"{self.widget.name}-timezone") if request else None
+        )
 
         # Fall back to the default timezone
         if not zone:
-            zone: str = default_timezone()
+            default_zone: = self.widget.default_timezone or default_timezone
+            zone = (
+                default_zone(self.widget.context)
+                if safe_callable(default_zone)
+                else default_zone
+            )
 
         ret = datetime(*map(int, value))
         if zone:

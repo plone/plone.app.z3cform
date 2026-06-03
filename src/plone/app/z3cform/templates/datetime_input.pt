@@ -19,8 +19,6 @@
            allowNewItems: false;
            vocabularyUrl: ${view/timezone_vocabulary_url};
          "
-/>
-
-
   />
+
 </html>

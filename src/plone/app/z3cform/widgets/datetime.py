@@ -133,7 +133,7 @@ class DatetimeWidget(DateTimeWidgetBase):
 
     @property
     def timezone_vocabulary_url(self):
-        return f"{getSite()}@@getVocabulary?name=plone.app.vocabularies.Timezones"
+        return f"{getSite().absolute_url()}/@@getVocabulary?name=plone.app.vocabularies.Timezones"
 
 
 @implementer(IFieldWidget)

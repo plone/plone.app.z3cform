@@ -10,8 +10,8 @@
          "
   />
 
-  <input name="${view/name}-timezone"
-         class="timezone-selector pat-select2"
+  <input class="timezone-selector pat-select2"
+         name="${view/name}-timezone"
          type="text"
          value="${view/timezone}"
          data-pat-select2="

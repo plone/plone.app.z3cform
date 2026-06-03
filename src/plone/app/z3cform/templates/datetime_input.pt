@@ -1,6 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       tal:omit-tag=""
+      tal:define="icons nocall: view/context/@@iconresolver"
 >
   <input name="${view/name}"
          type="datetime-local"
@@ -10,15 +11,22 @@
          "
   />
 
-  <input class="timezone-selector pat-select2"
-         name="${view/name}-timezone"
-         type="text"
-         value="${view/timezone}"
-         data-pat-select2="
-           multiple: false;
-           allowNewItems: false;
-           vocabularyUrl: ${view/timezone_vocabulary_url};
-         "
-  />
+  <details class="timezone-selector">
+    <summary>
+      <!--!tal:icon replace="structure icons/clock" /-->
+      <tal:icon replace="structure python:icons.tag('clock', tag_alt='timezone')" />
+      ${view/timezone}
+    </summary>
+    <input class="timezone-selector pat-select2"
+          name="${view/name}-timezone"
+          type="text"
+          value="${view/timezone}"
+          data-pat-select2="
+            multiple: false;
+            allowNewItems: false;
+            vocabularyUrl: ${view/timezone_vocabulary_url};
+          "
+    />
+  </details>
 
 </html>

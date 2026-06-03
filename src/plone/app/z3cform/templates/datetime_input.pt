@@ -11,7 +11,16 @@
   />
 
   <input name="${view/name}-timezone"
+         class="timezone-selector pat-select2"
          type="text"
          value="${view/timezone}"
+         data-pat-select2="
+           multiple: false;
+           allowNewItems: false;
+           vocabularyUrl: ${view/timezone_vocabulary_url};
+         "
+/>
+
+
   />
 </html>

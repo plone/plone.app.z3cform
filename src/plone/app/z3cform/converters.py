@@ -122,7 +122,7 @@ class DatetimeWidgetConverter(BaseDataConverter):
 
         # Fall back to the default timezone
         if not zone:
-            default_zone: = self.widget.default_timezone or default_timezone
+            default_zone = self.widget.default_timezone or default_timezone
             zone = (
                 default_zone(self.widget.context)
                 if safe_callable(default_zone)

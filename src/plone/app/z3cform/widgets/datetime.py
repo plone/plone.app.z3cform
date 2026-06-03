@@ -10,6 +10,7 @@ from z3c.form.interfaces import IFieldWidget
 from z3c.form.widget import FieldWidget
 from z3c.form.widget import Widget
 from zope.component import getMultiAdapter
+from zope.component.hooks import getSite
 from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface import implementer_only
@@ -129,6 +130,10 @@ class DatetimeWidget(DateTimeWidgetBase):
 
         # Fall back the the portals or users timezone.
         return default_timezone()
+
+    @property
+    def timezone_vocabulary_url(self):
+        return f"{getSite()}@@getVocabulary?name=plone.app.vocabularies.Timezones"
 
 
 @implementer(IFieldWidget)

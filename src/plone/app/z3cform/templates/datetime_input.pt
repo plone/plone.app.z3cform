@@ -17,15 +17,16 @@
       <tal:icon replace="structure python:icons.tag('clock', tag_alt='timezone')" />
       ${view/timezone}
     </summary>
+    <!--! NOTE: the mixture of native boolean and string below is due to a pat-select2 bug. -->
     <input class="timezone-selector pat-select2"
-          name="${view/name}-timezone"
-          type="text"
-          value="${view/timezone}"
-          data-pat-select2="
-            multiple: false;
-            allowNewItems: false;
-            vocabularyUrl: ${view/timezone_vocabulary_url};
-          "
+           name="${view/name}-timezone"
+           type="text"
+           value="${view/timezone}"
+           data-pat-select2='{
+               "multiple": false,
+               "allowNewItems": "false",
+               "vocabularyUrl": "${view/timezone_vocabulary_url}"
+           }'
     />
   </details>
 

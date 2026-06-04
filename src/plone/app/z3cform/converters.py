@@ -116,22 +116,22 @@ class DatetimeWidgetConverter(BaseDataConverter):
 
         # Get the user-set timezone from the form
         request = getattr(getattr(self.widget, "form", None), "request", None)
-        zone: str | None = (
+        timezone_id: str | None = (
             request.get(f"{self.widget.name}-timezone") if request else None
         )
 
         # Fall back to the default timezone
-        if not zone:
+        if not timezone_id:
             default_zone = self.widget.default_timezone or default_timezone
-            zone = (
+            timezone_id = (
                 default_zone(self.widget.context)
                 if safe_callable(default_zone)
                 else default_zone
             )
 
         ret = datetime(*map(int, value))
-        if zone:
-            tzinfo = pytz.timezone(zone)
+        if timezone_id:
+            tzinfo = pytz.timezone(timezone_id)
             ret = tzinfo.localize(ret)
         return ret
 

@@ -5,6 +5,7 @@ from plone.app.z3cform.interfaces import ITimeWidget
 from plone.app.z3cform.utils import dict_merge
 from plone.app.z3cform.widgets.base import HTMLTextInputWidget
 from plone.base import PloneMessageFactory as _
+from plone.base.utils import safe_callable
 from z3c.form.interfaces import IDataConverter
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.widget import FieldWidget
@@ -128,8 +129,12 @@ class DatetimeWidget(DateTimeWidgetBase):
             # Case "Add" - no content object available yet.
             pass
 
-        # Fall back the the portals or users timezone.
-        return default_timezone()
+        # Fall back the the widget, portals or users timezone.
+        default_zone = self.default_timezone or default_timezone
+        timezone_id: str = (
+            default_zone(self.context) if safe_callable(default_zone) else default_zone
+        )
+        return timezone_id
 
     @property
     def timezone_vocabulary_url(self):

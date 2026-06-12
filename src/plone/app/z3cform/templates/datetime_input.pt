@@ -15,19 +15,36 @@
     <summary>
       <!--!tal:icon replace="structure icons/clock" /-->
       <tal:icon replace="structure python:icons.tag('clock', tag_alt='timezone')" />
-      ${view/timezone}
+      <span class="pat-bind"
+            data-pat-bind="
+                key: ${view/name}-timezone;
+                value: ::text;
+            "
+      >
+        ${view/timezone}
+      </span>
     </summary>
-    <!--! NOTE: the mixture of native boolean and string below is due to a pat-select2 bug. -->
-    <input class="timezone-selector pat-select2"
-           name="${view/name}-timezone"
-           type="text"
-           value="${view/timezone}"
-           data-pat-select2='{
-               "multiple": false,
-               "allowNewItems": "false",
-               "vocabularyUrl": "${view/timezone_vocabulary_url}"
-           }'
-    />
+    <div>
+      <!--! NOTE: the mixture of native boolean and string below is due to a
+      pat-select2 bug. -->
+      <input class="
+                 timezone-selector
+                 pat-select2
+                 pat-bind
+             "
+             name="${view/name}-timezone"
+             value="${view/timezone}"
+             data-pat-select2='{
+                 "multiple": false,
+                 "allowNewItems": "false",
+                 "vocabularyUrl": "${view/timezone_vocabulary_url}"
+             }'
+             data-pat-bind="
+                 key: ${view/name}-timezone;
+                 value: [value];
+             "
+      />
+    </div>
   </details>
 
 </html>

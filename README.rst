@@ -131,7 +131,7 @@ You can disable this behavior for your form::
 Form validation
 ---------------
 
-Forms rely on the ``pat-validation`` pattern to present custom messages to the HTML native JavaScript Contraint Validation API.
+Forms rely on the ``pat-validation`` pattern to present custom messages to the HTML native JavaScript Constraint Validation API.
 
 We allow the form to provide custom validation messages for scenarios where the developer wants to override native browser messages or wants to provide translated messages for browser which do not handle some languages.
 

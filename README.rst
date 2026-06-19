@@ -131,11 +131,11 @@ You can disable this behavior for your form::
 Form validation
 ---------------
 
-Forms rely on the `pat-validation` pattern to present custom messages to the HTML native JavaScript Contraint Validation API.
+Forms rely on the ``pat-validation`` pattern to present custom messages to the HTML native JavaScript Contraint Validation API.
 
 We allow the form to provide custom validation messages for scenarios where the developer wants to override native browser messages or wants to provide translated messages for browser which do not handle some languages.
 
-To do so, the form can implement an attribute called `validation_messages` and provide a dict with the messages.
+To do so, the form can implement an attribute called ``validation_messages`` and provide a dict with the messages.
 
 ```python
 class MyFormView(form.Form):
@@ -150,7 +150,7 @@ class MyFormView(form.Form):
 
 ```
 
-The attribute can also be a `@property`:
+The attribute can also be a ``@property``:
 
 ```python
 class MyFormView(form.Form):
@@ -168,6 +168,8 @@ class MyFormView(form.Form):
         }
 
 ```
+
+The list of options that can be modified is kept in the `pat-validation documentation`_
 
 
 CSRF Protection
@@ -460,3 +462,4 @@ You probably forgot to include plone.app.z3cform in your product's configuration
 .. _z3c.form: http://pypi.python.org/pypi/z3c.form
 .. _Plone: http://plone.org
 .. _plone.z3cform: http://pypi.python.org/pypi/plone.z3cform
+.. _`pat-validation documentation`: https://github.com/Patternslib/Patterns/blob/master/src/pat/validation/documentation.md#options-reference

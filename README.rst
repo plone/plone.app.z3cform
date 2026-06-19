@@ -135,39 +135,39 @@ Forms rely on the ``pat-validation`` pattern to present custom messages to the H
 
 We allow the form to provide custom validation messages for scenarios where the developer wants to override native browser messages or wants to provide translated messages for browser which do not handle some languages.
 
-To do so, the form can implement an attribute called ``validation_messages`` and provide a dict with the messages.
+To do so, the form can implement an attribute called ``validation_messages`` and provide a dict with the messages::
 
-```python
-class MyFormView(form.Form):
-    ignoreContext = True
-    method = "post"
 
-    fields = field.Fields(IMyFormView)
+    class MyFormView(form.Form):
+        ignoreContext = True
+        method = "post"
 
-    validation_messages = {
-        'message-required': 'This is my custom error message for required field'
-    }
+        fields = field.Fields(IMyFormView)
 
-```
-
-The attribute can also be a ``@property``:
-
-```python
-class MyFormView(form.Form):
-    ignoreContext = True
-    method = "post"
-
-    fields = field.Fields(IMyFormView)
-
-    @property
-    def validation_messages(self):
-        return {
-            "message-required": translate(
-                _("This is my custom error message for required field"), context=getRequest()
-            ),
+        validation_messages = {
+            'message-required': 'This is my custom error message for required field'
         }
 
-```
+
+
+The attribute can also be a ``@property``::
+
+
+    class MyFormView(form.Form):
+        ignoreContext = True
+        method = "post"
+
+        fields = field.Fields(IMyFormView)
+
+        @property
+        def validation_messages(self):
+            return {
+                "message-required": translate(
+                    _("This is my custom error message for required field"), context=getRequest()
+                ),
+            }
+
+
 
 The list of options that can be modified is kept in the `pat-validation documentation`_
 

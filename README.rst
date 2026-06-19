@@ -13,7 +13,7 @@ Introduction
 
 This Plone package is aimed for developers who want to create forms in Python code.
 
-Please read the documentation for `z3c.form`_, which contains important information about using z3c.form in Zope 2 in general. 
+Please read the documentation for `z3c.form`_, which contains important information about using z3c.form in Zope 2 in general.
 For the most part, that package contains the "active" parts that you need to know about, and this package provides "passive" overrides that make the forms integrate with Plone.
 
 Features
@@ -38,10 +38,10 @@ The form and widget templates are applied in the following order
 
 *plone.app.z3cform* package overrides the ``@@ploneform-macros`` view from `plone.z3cform`_, using standard Plone markup for form fields, fieldsets, etc.
 
-All the macros described in `plone.z3cform`_ are still available. 
+All the macros described in `plone.z3cform`_ are still available.
 In addition, you can use the ``widget_rendering`` macro to render all the default widgets, but none of the fieldsets (groups) or the fieldset headers (which would be rendered with the ``fields`` macro).
 
-Each widget is rendered using the ``@@ploneform-render-widget`` view, which by default includes the widget's label, required indicator, description, errors, and the result of ``widget.render()``.  
+Each widget is rendered using the ``@@ploneform-render-widget`` view, which by default includes the widget's label, required indicator, description, errors, and the result of ``widget.render()``.
 This view may be overridden for particular widget types in order to customize this widget chrome.
 
 Customizing form behavior
@@ -50,8 +50,8 @@ Customizing form behavior
 Form method
 -----------
 
-If your form instance defines a property called ``method`` it allows you to set whether form is HTTP POST or HTTP GET. 
-The default is POST. 
+If your form instance defines a property called ``method`` it allows you to set whether form is HTTP POST or HTTP GET.
+The default is POST.
 This translates to ``<form method="post">`` attribute.
 
 Example::
@@ -67,7 +67,7 @@ Example::
 Form action
 -----------
 
-Form ``action`` property defines HTTP target where the form is posted. 
+Form ``action`` property defines HTTP target where the form is posted.
 The default is the same page where the form was rendered, ``request.getURL()``.
 
 Example::
@@ -93,7 +93,7 @@ Fieldsets and tabs
 ------------------
 
 You can fieldsets to your form if you subclass the form from z3c.form.group.GroupForm.
-The default behavior of Plone is to turn these fieldsets to tabs 
+The default behavior of Plone is to turn these fieldsets to tabs
 (as seen on any *Edit* view of content item).
 
 You can disable this behavior for your form::
@@ -128,6 +128,47 @@ You can disable this behavior for your form::
         enable_autofocus = False
 
 
+Form validation
+---------------
+
+Forms rely on the `pat-validation` pattern to present custom messages to the HTML native JavaScript Contraint Validation API.
+
+We allow the form to provide custom validation messages for scenarios where the developer wants to override native browser messages or wants to provide translated messages for browser which do not handle some languages.
+
+To do so, the form can implement an attribute called `validation_messages` and provide a dict with the messages.
+
+```python
+class MyFormView(form.Form):
+    ignoreContext = True
+    method = "post"
+
+    fields = field.Fields(IMyFormView)
+
+    validation_messages = {
+        'message-required': 'This is my custom error message for required field'
+    }
+
+```
+
+The attribute can also be a `@property`:
+
+```python
+class MyFormView(form.Form):
+    ignoreContext = True
+    method = "post"
+
+    fields = field.Fields(IMyFormView)
+
+    @property
+    def validation_messages(self):
+        return {
+            "message-required": translate(
+                _("This is my custom error message for required field"), context=getRequest()
+            ),
+        }
+
+```
+
 
 CSRF Protection
 ===============
@@ -147,8 +188,8 @@ Example::
 Form main template override
 ===========================
 
-Forms are framed by *FormWrapper* views. 
-It places rendered form inside Plone page frame. 
+Forms are framed by *FormWrapper* views.
+It places rendered form inside Plone page frame.
 The default *FormWrapper* is supplied automatically, but you can override it.
 
 Below is a placeholder example with few `<select>` inputs.
@@ -316,7 +357,7 @@ Then apply this marker interface to all of your widgets in ``form.update()``
 Hide fields that have no value
 ==============================
 
-The ``.empty`` css class marks the fields that have no value. 
+The ``.empty`` css class marks the fields that have no value.
 If you don't want to display these fields in view mode, add the following css in your theme.
 
 ::
@@ -329,7 +370,7 @@ If you don't want to display these fields in view mode, add the following css in
 Add additional parameters to widgets
 ====================================
 
-You can add additional parameters to widgets defined in this package via the `plone.autoform.widgets.ParameterizedWidget`. 
+You can add additional parameters to widgets defined in this package via the `plone.autoform.widgets.ParameterizedWidget`.
 
 ::
 
@@ -337,7 +378,7 @@ You can add additional parameters to widgets defined in this package via the `pl
   MyDateWidget = ParameterizedWidget(DateWidget, wrapper_css_class='event_start')
 
 
-or via directives 
+or via directives
 
 ::
 
@@ -412,7 +453,7 @@ ComponentLookupError in updateWidgets()
           Module zope.component._api, line 103, in getMultiAdapter
         ComponentLookupError: ((<getpaid.expercash.browser.views.CheckoutForm object at 0xdb052ac>, <HTTPRequest, URL=http://localhost:8080/test/@@getpaid-checkout-wizard>, <PloneSite at /test>), <InterfaceClass z3c.form.interfaces.IWidgets>, u'')
 
-plone.app.z3cform layers are not in place (configuration ZCML is not read). 
+plone.app.z3cform layers are not in place (configuration ZCML is not read).
 You probably forgot to include plone.app.z3cform in your product's configuration.zcml. See *Installation* above.
 
 

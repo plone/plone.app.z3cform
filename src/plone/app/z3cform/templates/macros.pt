@@ -93,6 +93,7 @@
                 show_default_label python:has_groups and default_fieldset_label and len(view.widgets);
                 form_view_name_raw python:view.__name__ or request.getURL().split('/')[-1];
                 form_view_name python:'-'.join(['view', 'name'] + [x for x in form_view_name_raw.split('++') if x]);
+                validation_messages python:';;'.join(['{key}: {value}'.format(key=key, value=value) for key, value in (getattr(view, 'validation_messages', {}) or {}).items()]);
               "
               tal:attributes="
                 action view/action|request/getURL;
@@ -101,6 +102,7 @@
                 id view/id;
                 name form_name;
                 method view/method|string:post;
+                data-pat-validation validation_messages;
               "
         >
 

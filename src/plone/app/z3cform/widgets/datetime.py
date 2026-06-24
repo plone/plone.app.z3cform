@@ -1,14 +1,17 @@
+from plone.app.event.base import default_timezone
 from plone.app.z3cform.interfaces import IDatetimeWidget
 from plone.app.z3cform.interfaces import IDateWidget
 from plone.app.z3cform.interfaces import ITimeWidget
 from plone.app.z3cform.utils import dict_merge
 from plone.app.z3cform.widgets.base import HTMLTextInputWidget
 from plone.base import PloneMessageFactory as _
+from plone.base.utils import safe_callable
 from z3c.form.interfaces import IDataConverter
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.widget import FieldWidget
 from z3c.form.widget import Widget
 from zope.component import getMultiAdapter
+from zope.component.hooks import getSite
 from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface import implementer_only
@@ -105,6 +108,37 @@ class DatetimeWidget(DateTimeWidgetBase):
 
     pattern = "datetime-picker"
     klass = "datetime-widget"
+
+    @property
+    def timezone(self):
+        """Get the timezone for the datetime field or return the default
+        timezone as timezone identifier string.
+
+        :returns: Timezone identifier string.
+        :rtype: string
+        """
+        try:
+            # Case "Edit": Return the timezone of the original field's
+            # datetime value, if available.
+            original_value = self.field.get(self.context)
+
+            if tzinfo := getattr(original_value, "tzinfo", None):
+                return tzinfo.zone
+
+        except AttributeError:
+            # Case "Add" - no content object available yet.
+            pass
+
+        # Fall back the the widget, portals or users timezone.
+        default_zone = self.default_timezone or default_timezone
+        timezone_id: str = (
+            default_zone(self.context) if safe_callable(default_zone) else default_zone
+        )
+        return timezone_id
+
+    @property
+    def timezone_vocabulary_url(self):
+        return f"{getSite().absolute_url()}/@@getVocabulary?name=plone.app.vocabularies.Timezones"
 
 
 @implementer(IFieldWidget)

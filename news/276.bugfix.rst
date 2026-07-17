@@ -1,0 +1,3 @@
+Use navigation root instead of site root in content browser widget.
+Otherwise the widget may fail when used within a navigation root (like in a multilingual site).
+[maurits]

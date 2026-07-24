@@ -1,4 +1,5 @@
 from Acquisition import aq_base
+from copy import deepcopy
 from plone.app.z3cform.utils import call_callables
 from plone.app.z3cform.utils import dict_merge
 from z3c.form.browser import widget
@@ -81,7 +82,7 @@ class PatternFormElement(widget.HTMLFormElement):
         """override this factory to inject the pattern options as
         "data-<self._klass_prefix><self.pattern>" attribute
         """
-        return self.pattern_options
+        return deepcopy(self.pattern_options or {})
 
     @property
     def attributes(self):

@@ -137,7 +137,7 @@ class ContentBrowserWidget(HTMLInputWidget, Widget):
 
     def get_pattern_options(self):
         field = None
-        pattern_options = {}
+        pattern_options = super().get_pattern_options()
 
         if IChoice.providedBy(self.field):
             pattern_options["maximumSelectionSize"] = 1

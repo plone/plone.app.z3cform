@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+5.0.1 (2026-07-27)
+------------------
+
+Bug fixes:
+
+
+- Fix the pattern_options for the content browser widget.
+  @ale-rt (#278)
+
+
 5.0.0 (2026-05-16)
 ------------------
 

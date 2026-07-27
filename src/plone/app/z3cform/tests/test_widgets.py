@@ -1937,7 +1937,47 @@ class ContentBrowserWidgetTests(unittest.TestCase):
         widget.context = self.portal
         widget.update()
         pattern_options = widget.get_pattern_options()
-        self.assertEqual(pattern_options.get("maximumSelectionSize", 0), 1)
+        self.assertDictEqual(
+            pattern_options,
+            {
+                "basePath": "/plone",
+                "contextPath": "/plone",
+                "maximumSelectionSize": 1,
+                "recentlyUsed": False,
+                "recentlyUsedKey": "contentbrowser_recentlyused_selectfield_test_user_1_",
+                "rootPath": "/plone",
+                "rootUrl": "http://nohost/plone",
+                "separator": ";",
+                "vocabularyUrl": "http://nohost/++widget++selectfield/@@getSource",
+            },
+        )
+
+    def test_base_path_set(self):
+        from plone.app.z3cform.widgets.contentbrowser import ContentBrowserFieldWidget
+
+        field = Choice(
+            __name__="selectfield",
+            values=["one", "two", "three"],
+        )
+        widget = ContentBrowserFieldWidget(field, self.request)
+        widget.context = self.portal
+        widget.pattern_options = {"basePath": "/plone/foo"}
+        widget.update()
+        pattern_options = widget.get_pattern_options()
+        self.assertDictEqual(
+            pattern_options,
+            {
+                "basePath": "/plone/foo",
+                "contextPath": "/plone",
+                "maximumSelectionSize": 1,
+                "recentlyUsed": False,
+                "recentlyUsedKey": "contentbrowser_recentlyused_selectfield_test_user_1_",
+                "rootPath": "/plone",
+                "rootUrl": "http://nohost/plone",
+                "separator": ";",
+                "vocabularyUrl": "http://nohost/++widget++selectfield/@@getSource",
+            },
+        )
 
     def test_multiple_selection(self):
         """The pattern_options key maximumSelectionSize shouldn't be

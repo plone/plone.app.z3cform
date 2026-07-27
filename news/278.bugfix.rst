@@ -1,0 +1,2 @@
+Fix the pattern_options for the content browser widget.
+@ale-rt

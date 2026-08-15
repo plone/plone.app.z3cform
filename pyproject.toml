@@ -4,7 +4,99 @@
 [build-system]
 requires = ["setuptools>=68.2,<83", "wheel"]
 
+# START-MARKER-MANUAL-CONFIG
+# Anything from here until END-MARKER-MANUAL-CONFIG
+# will be kept by plone.meta
 
+[project]
+name = "plone.app.z3cform"
+version = "5.0.2.dev0"
+description = "A collection of widgets, templates and other components for use with z3c.form and Plone"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Framework :: Plone",
+    "Framework :: Plone :: 6.2",
+    "Framework :: Plone :: Core",
+    "Framework :: Zope :: 5",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+license = "GPL-2.0-only"
+dynamic = ["readme"]
+requires-python = ">=3.10"
+authors = [
+    {name = "Plone Foundation",email = "plone-developers@lists.sourceforge.net"},
+]
+maintainers = [
+    {name = "Plone Foundation and contributors",email = "plone-developers@lists.sourceforge.net"},
+]
+dependencies = [
+    "Products.GenericSetup",
+    "Zope",
+    "plone.app.contentlisting",
+    "plone.app.textfield>=1.3.6",
+    "plone.base",
+    "plone.formwidget.namedfile>=3.1.0",
+    "plone.i18n",
+    "plone.protect",
+    "plone.registry",
+    "plone.schema",
+    "plone.uuid",
+    "plone.z3cform",
+    "pytz",
+    "z3c.form >= 5.1",
+    "z3c.relationfield",
+    "zope.deprecation",
+    "zope.globalrequest",
+]
+keywords = [
+    "zope",
+    "plone",
+    "form",
+    "widget",
+    "template",
+]
+
+[project.optional-dependencies]
+test = [
+    "plone.app.contenttypes[test]",
+    "plone.app.testing",
+    "plone.autoform",
+    "plone.browserlayer",
+    "plone.dexterity",
+    "plone.supermodel",
+    "plone.testing",
+    "zope.annotation",
+    "zope.intid",
+    "zope.publisher",
+]
+tests = [
+    "plone.app.contenttypes[test]",
+    "plone.app.testing",
+    "plone.autoform",
+    "plone.browserlayer",
+    "plone.dexterity",
+    "plone.supermodel",
+    "plone.testing",
+    "zope.annotation",
+    "zope.intid",
+    "zope.publisher",
+]
+
+[project.urls]
+Source = "https://github.com/plone/plone.app.z3cform"
+Issues = "https://github.com/plone/Products.CMFPlone/issues"
+Changelog = "https://github.com/plone/plone.app.z3cform/blob/master/CHANGES.rst"
+
+[tool.setuptools.dynamic]
+readme = {file = ["README.rst", "src/plone/app/z3cform/inline_validation.rst", "CHANGES.rst"]}
+# END-MARKER-MANUAL-CONFIG
 
 [tool.towncrier]
 directory = "news/"

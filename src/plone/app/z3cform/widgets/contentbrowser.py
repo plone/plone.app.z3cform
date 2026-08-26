@@ -79,11 +79,11 @@ def get_contentbrowser_options(
     options["basePath"] = "/".join(base_path_context.getPhysicalPath())
 
     # rootPath - Only display breadcrumb elements deeper than this path.
-    options["rootPath"] = "/".join(site.getPhysicalPath()) if site else "/"
+    options["rootPath"] = "/".join(nav_root.getPhysicalPath()) if nav_root else "/"
 
     # rootUrl: Visible URL up to the rootPath. This is prepended to the
     # currentPath to generate submission URLs.
-    options["rootUrl"] = site.absolute_url() if site else ""
+    options["rootUrl"] = nav_root.absolute_url() if nav_root else ""
 
     # contextPath - current edited object. Will not be available to select.
     options["contextPath"] = "/".join(context.getPhysicalPath())

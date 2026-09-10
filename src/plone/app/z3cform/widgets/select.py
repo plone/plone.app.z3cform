@@ -222,7 +222,7 @@ class AjaxSelectWidget(HTMLInputWidget, Widget):
 
         pattern_options = dict_merge(self._ajaxselect_options(), pattern_options)
 
-        if field and getattr(field, "vocabulary", None):
+        if field and getattr(field, "vocabulary", None) is not None:
             form_url = self.request.getURL()
             source_url = "{:s}/++widget++{:s}/@@getSource".format(
                 form_url,

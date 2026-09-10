@@ -186,7 +186,7 @@ class RelatedItemsWidget(HTMLInputWidget, Widget):
         if (
             not self.vocabulary_override
             and field
-            and getattr(field, "vocabulary", None)
+            and getattr(field, "vocabulary", None) is not None
         ):
             # widget vocab takes precedence over field
             form_url = self.request.getURL()

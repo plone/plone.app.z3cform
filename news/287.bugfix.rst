@@ -1,2 +1,0 @@
-Fix the computation of the AJAX url for some widgets.
-@ale-rt

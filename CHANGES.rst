@@ -8,6 +8,23 @@ Changelog
 
 .. towncrier release notes start
 
+5.0.2 (2026-09-10)
+------------------
+
+Bug fixes:
+
+
+- Fix the computation of the AJAX url for some widgets.
+  @ale-rt (#287)
+
+
+Internal:
+
+
+- Move package metadata from ``setup.py`` to ``pyproject.toml``.
+  [plone devs]
+
+
 5.0.1 (2026-07-27)
 ------------------
 

@@ -73,13 +73,13 @@
       template="templates/uri_display.pt"
       layer="plone.schema.interfaces.IFormLayer"
       mode="display"
-    />
+      />
 
   <z3c:widgetTemplate
       widget="plone.schema.browser.email.IEmailWidget"
       template="templates/email_display.pt"
       layer="plone.schema.interfaces.IFormLayer"
       mode="display"
-    />
+      />
 
 </configure>

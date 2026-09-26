@@ -17,6 +17,9 @@ from plone.base.interfaces import IMarkupSchema
 from plone.dexterity.fti import DexterityFTI
 from plone.registry.interfaces import IRegistry
 from plone.schema import Email
+from plone.schema.browser.email import EmailFieldWidget as SchemaEmailFieldWidget
+from plone.schema.browser.uri import URIFieldWidget as SchemaURIFieldWidget
+from plone.schema.interfaces import IFormLayer
 from plone.supermodel.model import Schema
 from plone.uuid.interfaces import IUUID
 from unittest import mock
@@ -2488,6 +2491,54 @@ class LinkWidgetIntegrationTests(unittest.TestCase):
             converter.toWidgetValue("mailto:me?subject=jep")["email_subject"],
             "jep",
         )
+
+
+class SchemaDisplayWidgetTests(unittest.TestCase):
+    layer = PAZ3CForm_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.request = TestRequest()
+        alsoProvides(self.request, IFormLayer)
+
+    def test_uri_display(self):
+        widget = SchemaURIFieldWidget(URI(__name__="uri"), self.request)
+        widget.mode = "display"
+        widget.update()
+        widget.value = "https://example.org/?a=1&b=2"
+
+        markup = html.fromstring(widget.render())
+        links = markup.xpath(".//a")
+        self.assertEqual(len(links), 1)
+        self.assertEqual(links[0].get("href"), widget.value)
+        self.assertEqual(links[0].text_content(), widget.value)
+
+    def test_email_display(self):
+        widget = SchemaEmailFieldWidget(Email(__name__="email"), self.request)
+        widget.mode = "display"
+        widget.update()
+        widget.value = "user@example.org"
+
+        markup = html.fromstring(widget.render())
+        links = markup.xpath(".//a")
+        self.assertEqual(len(links), 1)
+        self.assertEqual(links[0].get("href"), "mailto:user@example.org")
+        self.assertEqual(links[0].text_content(), widget.value)
+
+    def test_empty_display(self):
+        for factory, field in (
+            (SchemaURIFieldWidget, URI(__name__="uri")),
+            (SchemaEmailFieldWidget, Email(__name__="email")),
+        ):
+            for value in (None, ""):
+                with self.subTest(field=field.__name__, value=value):
+                    widget = factory(field, self.request)
+                    widget.mode = "display"
+                    widget.update()
+                    widget.value = value
+
+                    markup = html.fromstring(widget.render())
+                    self.assertEqual(markup.xpath(".//a"), [])
+                    self.assertEqual(markup.text_content().strip(), "")
 
 
 class EmailWidgetTests(unittest.TestCase):

@@ -1,0 +1,1 @@
+Move Classic-UI email and URI display templates to plone.app.z3cform.

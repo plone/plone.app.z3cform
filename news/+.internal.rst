@@ -1,0 +1,2 @@
+Added Classic-UI email and URI display templates to plone.app.z3cform,
+including their widget configuration, jbot deprecation mappings and tests.

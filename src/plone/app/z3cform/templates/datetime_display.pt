@@ -1,0 +1,10 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      tal:condition="view/value"
+      tal:omit-tag=""
+>
+  <span tal:attributes="
+          view/attributes;
+        ">${view/value}</span>
+  <span class="timezone">${view/timezone}</span>
+</html>

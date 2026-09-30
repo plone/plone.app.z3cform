@@ -1,0 +1,3 @@
+Add timezone support for datetime widgets.
+Ref PLIP 4115: https://github.com/plone/Products.CMFPlone/issues/4115
+@thet

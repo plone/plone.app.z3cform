@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      tal:omit-tag=""
+      tal:define="icons nocall: view/context/@@iconresolver"
+>
+  <input name="${view/name}"
+         type="datetime-local"
+         value="${view/value}"
+         tal:attributes="
+           view/attributes;
+         "
+  />
+
+  <details class="timezone-selector">
+    <summary>
+      <!--!tal:icon replace="structure icons/clock" /-->
+      <tal:icon replace="structure python:icons.tag('clock', tag_alt='timezone')" />
+      <span class="pat-bind"
+            data-pat-bind="
+                key: ${view/name}-timezone;
+                value: ::text;
+            "
+      >
+        ${view/timezone}
+      </span>
+    </summary>
+    <div>
+      <!--! NOTE: the mixture of native boolean and string below is due to a
+      pat-select2 bug. -->
+      <input class="
+                 timezone-selector
+                 pat-select2
+                 pat-bind
+             "
+             name="${view/name}-timezone"
+             value="${view/timezone}"
+             data-pat-select2='{
+                 "multiple": false,
+                 "allowNewItems": "false",
+                 "vocabularyUrl": "${view/timezone_vocabulary_url}"
+             }'
+             data-pat-bind="
+                 key: ${view/name}-timezone;
+                 value: [value];
+             "
+      />
+    </div>
+  </details>
+
+</html>

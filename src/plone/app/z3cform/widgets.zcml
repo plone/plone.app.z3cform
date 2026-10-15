@@ -208,6 +208,20 @@
            plone.app.z3cform.interfaces.IPloneFormLayer"
       />
 
+  <z3c:widgetTemplate
+      widget=".interfaces.IDatetimeWidget"
+      template="templates/datetime_display.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="display"
+      />
+
+  <z3c:widgetTemplate
+      widget=".interfaces.IDatetimeWidget"
+      template="templates/datetime_input.pt"
+      layer=".interfaces.IPloneFormLayer"
+      mode="input"
+      />
+
   <!-- time -->
   <adapter
       factory=".widgets.datetime.TimeFieldWidget"

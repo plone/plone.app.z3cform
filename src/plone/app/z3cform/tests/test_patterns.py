@@ -54,6 +54,35 @@ class TestQueryStringOptions(unittest.TestCase):
         self.assertEqual(options["patternRelateditemsOptions"]["basePath"], "/plone")
         self.assertTrue("recentlyUsed" not in options["patternRelateditemsOptions"])
 
+    def test__query_string_options_on_subfolder(self):
+        """Test query string options on subfolder:
+        All URLs equal the context url, the navigation root can be several
+        levels up and the index options are the ones of the context.
+        """
+
+        portal = self.layer["portal"]
+        portal.invokeFactory("Folder", "sub")
+        sub = portal.sub
+        options = get_querystring_options(sub, "@@qsOptions")
+
+        self.assertEqual(
+            options["indexOptionsUrl"],
+            "http://nohost/plone/sub/@@qsOptions",
+        )
+
+        self.assertEqual(
+            options["previewCountURL"],
+            "http://nohost/plone/sub/@@querybuildernumberofresults",
+        )
+
+        self.assertEqual(
+            options["previewURL"],
+            "http://nohost/plone/sub/@@querybuilder_html_results",
+        )
+
+        # The related items widget stays on the navigation root
+        self.assertEqual(options["patternRelateditemsOptions"]["rootPath"], "/plone")
+
 
 class TestRelatedItemsOptions(unittest.TestCase):
     layer = PAZ3CForm_INTEGRATION_TESTING

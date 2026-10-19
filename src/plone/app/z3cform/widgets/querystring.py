@@ -19,7 +19,7 @@ def get_querystring_options(context, querystring_view):
     except AttributeError:
         base_url = portal_url
     return {
-        "indexOptionsUrl": f"{portal_url}/{querystring_view}",
+        "indexOptionsUrl": f"{base_url}/{querystring_view}",
         "previewURL": "%s/@@querybuilder_html_results" % base_url,
         "previewCountURL": "%s/@@querybuildernumberofresults" % base_url,
         "patternDateOptions": get_date_options(getRequest()),

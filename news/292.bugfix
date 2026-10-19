@@ -1,0 +1,2 @@
+Build the ``indexOptionsUrl`` of the querystring widget from the context instead of the navigation root, so that the criteria vocabularies are permission checked where the user is working. Depends on ``plone.app.content`` registering ``@@qsOptions`` for any ``IContentish`` object.
+[szakitibi]
